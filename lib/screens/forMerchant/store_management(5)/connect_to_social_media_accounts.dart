@@ -128,7 +128,7 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
                                       color: Color(0xFF212128),
                                     ), // Replace with your desired icon
                                     onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>StoreManagement(tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal, storeDescriptionVal,[])));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>StoreManagement(tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal, storeDescriptionVal,[],[], false, false, false)));
                                     },
                                     // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                                   ),

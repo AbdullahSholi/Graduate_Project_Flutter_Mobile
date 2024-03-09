@@ -160,7 +160,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                                         textAlign: TextAlign.center,
                                       ),
                                       onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[])));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[],[],false,false,false)));
                       
                                       },
                                     ),

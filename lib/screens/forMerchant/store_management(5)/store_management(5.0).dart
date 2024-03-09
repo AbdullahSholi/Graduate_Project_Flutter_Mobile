@@ -14,6 +14,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/store_m
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
@@ -31,8 +32,12 @@ class StoreManagement extends StatefulWidget {
   final String storeCategoryVal;
   final String storeDescriptionVal;
   final List<String> specificStoreCategoriesVal;
+  final List<dynamic> storeCartsVal;
+  final bool sliderVisibility;
+  final bool categoryVisibility;
+  final bool cartsVisibility;
 
-  StoreManagement(this.token,this.email,this.imageUrl, this.storeNameVal, this.storeCategoryVal, this.storeDescriptionVal,this.specificStoreCategoriesVal);
+  StoreManagement(this.token,this.email,this.imageUrl, this.storeNameVal, this.storeCategoryVal, this.storeDescriptionVal,this.specificStoreCategoriesVal,this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility);
 
   @override
   State<StoreManagement> createState() => _StoreManagementState();
@@ -46,7 +51,11 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   String storeCategoryVal = "";
   String storeDescriptionVal = "";
   List<String> specificStoreCategoriesVal = [];
+  List<dynamic> storeCartsVal =[];
   late Future<Merchant> userData;
+  late bool sliderVisibilityVal ;
+  late bool categoryVisibilityVal;
+  late bool cartsVisibilityVal ;
 
   @override
   void initState() {
@@ -59,6 +68,10 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
     storeCategoryVal = widget.storeCategoryVal;
     storeDescriptionVal = widget.storeDescriptionVal;
     specificStoreCategoriesVal = widget.specificStoreCategoriesVal;
+    storeCartsVal = widget.storeCartsVal;
+    sliderVisibilityVal = widget.sliderVisibility;
+    categoryVisibilityVal = widget.categoryVisibility;
+    cartsVisibilityVal = widget.cartsVisibility;
     userData = getUserByName();
 
   }
@@ -74,6 +87,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
     if(userFuture.statusCode == 200){
       // print("${userFuture.body}");
       print(Merchant.fromJson(json.decode(userFuture.body)));
+      getSpecificStoreCart();
 
 
       return Merchant.fromJson(json.decode(userFuture.body));
@@ -82,7 +96,27 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
       throw Exception("Error");
     }
   }
+  Future<List<dynamic>> getSpecificStoreCart() async {
+    print("--------------------------");
+    print(emailVal);
 
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+    );
+    print(userFuture.body);
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
+
+
+    setState(() {
+      storeCartsVal = GetCartContentModel
+          .fromJson(json.decode(userFuture.body))
+          .type.toList();
+      print("vvvvvvvvvvvv $storeCartsVal");
+    });
+    return GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
+
+  }
 
 
   @override
@@ -172,6 +206,11 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                 storeNameVal = snapshot.data!.storeName;
                                 storeCategoryVal = snapshot.data!.storeCategory;
                                 storeDescriptionVal = snapshot.data!.storeDescription;
+                                sliderVisibilityVal = snapshot.data!.activateSlider;
+                                categoryVisibilityVal = snapshot.data!.activateCategory;
+                                cartsVisibilityVal = snapshot.data!.activateCarts;
+
+                                print(storeCartsVal);
                                 return Container(
                                   height: MediaQuery
                                       .of(context)
@@ -283,7 +322,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditYourStoreDesign(
-                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal)));
+                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
                                             },
                                           ),
                                         ),
@@ -381,7 +420,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditYourStoreDesign(
-                                                              "", "",specificStoreCategoriesVal,storeNameVal)));
+                                                              "", "",specificStoreCategoriesVal,storeNameVal,storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
                                             },
                                           ),
                                         ),

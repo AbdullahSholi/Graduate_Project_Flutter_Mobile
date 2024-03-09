@@ -11,12 +11,15 @@ import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
+import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/imageplaceholder.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
@@ -26,7 +29,13 @@ class EditYourStoreDesign extends StatefulWidget {
   final String email;
   final List<String> specificStoreCategories;
   final String storeName;
-  const EditYourStoreDesign(this.token, this.email, this.specificStoreCategories, this.storeName, {super.key});
+  final List<dynamic> storeCartsVal;
+  final bool sliderVisibility;
+  final bool categoryVisibility;
+  final bool cartsVisibility;
+  const EditYourStoreDesign(
+      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility,
+      {super.key});
   @override
   State<EditYourStoreDesign> createState() => _EditYourStoreDesignState();
 }
@@ -36,17 +45,22 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   String emailVal = "";
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
-  String storeNameVal="";
+  List<dynamic> storeCartsVal= [];
+  String storeNameVal = "";
+  late bool sliderVisibilityVal ;
+  late bool categoryVisibilityVal ;
+  late bool cartsVisibilityVal ;
 
   late Future<User> userData;
   late Future<List> sliderImages;
   late Future<List> specificStoreCategories;
+  late Future<List> getCartContent;
   // late indexVal="";
 
   // for Images Slider
   List<String> imageUrls = [];
 
-
+  double tempSearchBoxHeight = 0;
   late File _image;
   final Dio _dio = Dio();
   Future<void> _pickAndUploadImage() async {
@@ -89,49 +103,96 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       }
     }
   }
+  Future<void> _pickAndUploadImageForCart(index) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  Future<void> insertSpecificStoreCategory() async {
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/specific-store-categories/$emailVal';
+      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-primary-image';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
-
-      // Create a map with your data
-      Map<String, dynamic> requestData = {
-        'specificStoreCategories': specificStoreCategoriesTextEditingController.text,
-        "email": emailVal,
-      };
+      String fileName = _image.path.split('/').last;
 
       FormData formData = FormData.fromMap({
-        'specificStoreCategories': specificStoreCategoriesTextEditingController.text,
+        'avatar': await MultipartFile.fromFile(_image.path, filename: fileName),
         "email": emailVal,
+        "index":index,
       });
       Options options = Options(
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           // Add any other headers if needed
         },
       );
 
       // Make the POST request using dio
       Response response =
-      await _dio.post(url, data: requestData, options: options);
+      await _dio.post(url, data: formData, options: options);
       // Check the response status
       if (response.statusCode == 200) {
-        print('New category inserted successfully!!');
-        getSliderImages();
+        print('Image uploaded successfully');
+        setState(() {
+          getSpecificStoreCart();
+        });
+
 
         // print(imageSliderVal);
       } else {
-        print('Failed to insert category. Status code: ${response.statusCode}');
+        print('Failed to upload image. Status code: ${response.statusCode}');
       }
     }
+  }
+
+
+  Future<void> insertSpecificStoreCategory() async {
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/specific-store-categories/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'specificStoreCategories':
+          specificStoreCategoriesTextEditingController.text,
+      "email": emailVal,
+    };
+
+    FormData formData = FormData.fromMap({
+      'specificStoreCategories':
+          specificStoreCategoriesTextEditingController.text,
+      "email": emailVal,
+    });
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+      },
+    );
+
+    // Make the POST request using dio
+    Response response =
+        await _dio.post(url, data: requestData, options: options);
+    // Check the response status
+    if (response.statusCode == 200) {
+      print('New category inserted successfully!!');
+      getSliderImages();
+
+      // print(imageSliderVal);
+    } else {
+      print('Failed to insert category. Status code: ${response.statusCode}');
+    }
+  }
 
   Future<void> deleteSpecificStoreCategory(indexVal) async {
-
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(indexVal);
@@ -150,7 +211,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.delete(url, data: requestData, options: options);
+        await _dio.delete(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
@@ -163,9 +224,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   }
 
   Future<void> deleteImageFromSlider(urlVal) async {
-
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-image-from-store-slider/$emailVal';
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-image-from-store-slider/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -184,7 +245,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.delete(url, data: requestData, options: options);
+        await _dio.delete(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
@@ -197,10 +258,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   }
 
   // updateSpecificStoreCategory
-  Future<void> updateSpecificStoreCategory(indexVal,specificCategoryName) async {
-
+  Future<void> updateSpecificStoreCategory(
+      indexVal, specificCategoryName) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/update-specific-store-categories/$emailVal';
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/update-specific-store-categories/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(indexVal);
@@ -208,7 +270,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Map<String, dynamic> requestData = {
       'index': indexVal,
       "email": emailVal,
-      "specificCategoryName":specificCategoryName,
+      "specificCategoryName": specificCategoryName,
     };
 
     Options options = Options(
@@ -220,7 +282,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.patch(url, data: requestData, options: options);
+        await _dio.patch(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
@@ -231,7 +293,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       print('Failed to delete category. Status code: ${response.statusCode}');
     }
   }
-
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -247,11 +308,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           .storeSliderImages
           .toList());
 
-      final List<dynamic> data =MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
-          .storeSliderImages
-          .toList();
-      final List<String> urls =
-      data.map((item) => item.toString()).toList();
+      final List<dynamic> data =
+          MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
+              .storeSliderImages
+              .toList();
+      final List<String> urls = data.map((item) => item.toString()).toList();
       print("wwwwwwwwwwwwwwwwww $urls ");
       setState(() {
         imageUrls = urls;
@@ -280,16 +341,15 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           .specificStoreCategories
           .toList());
 
-      final List<dynamic> data =MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
-          .specificStoreCategories
-          .toList();
-      final List<String> urls =
-      data.map((item) => item.toString()).toList();
+      final List<dynamic> data =
+          MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
+              .specificStoreCategories
+              .toList();
+      final List<String> urls = data.map((item) => item.toString()).toList();
       print("ooooooooooooooo $urls ");
       setState(() {
         specificStoreCategoriesVal = urls;
       });
-
 
       return MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
           .specificStoreCategories
@@ -300,43 +360,140 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     }
   }
 
+  //////////////////////////
 
-  // Future<List> getSpecificStoreCategories() async {
-  //   print("$emailVal tttttttttt");
-  //   http.Response userFuture = await http.get(
-  //     Uri.parse(
-  //         "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
-  //   );
-  //   // print(userFuture.body);
-  //
-  //   if (userFuture.statusCode == 200) {
-  //     // print("${userFuture.body}");
-  //     print(MerchantSpecificStoreCategories.fromJson(json.decode(userFuture.body))
-  //         .specificStoreCategories
-  //         .toList());
-  //
-  //     final List<dynamic> data =MerchantSpecificStoreCategories.fromJson(json.decode(userFuture.body))
-  //         .specificStoreCategories
-  //         .toList();
-  //     final List<String> urls =
-  //     data.map((item) => item.toString()).toList();
-  //     print("wwwwwwwwwwwwwwwwww $urls ");
-  //     setState(() {
-  //       imageUrls = urls;
-  //     });
-  //
-  //     return MerchantSpecificStoreCategories.fromJson(json.decode(userFuture.body))
-  //         .specificStoreCategories
-  //         .toList();
-  //   } else {
-  //     print("error");
-  //     throw Exception("Error");
-  //   }
-  // }
+  Future<List<dynamic>> getSpecificStoreCart() async {
+    print("--------------------------");
+    print(emailVal);
 
-  /////////////////////
+      http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      );
+      print(userFuture.body);
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
 
-  // Search
+
+      setState(() {
+        storeCartsVal = GetCartContentModel
+            .fromJson(json.decode(userFuture.body))
+            .type.toList();
+        print("vvvvvvvvvvvv $storeCartsVal");
+      });
+      return GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
+
+  }
+
+  Future<void> activateStoreSlider() async {
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-slider/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+    print(sliderVisibilityVal);
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'activateSlider': sliderVisibilityVal,
+      "email": emailVal,
+    };
+
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+      },
+    );
+
+    // Make the POST request using dio
+    Response response =
+    await _dio.patch(url, data: requestData, options: options);
+    // Check the response status
+    if (response.statusCode == 200) {
+      print('Slider Activate');
+      // getSliderImages();
+      setState(() {
+
+      });
+
+      // print(imageSliderVal);
+    } else {
+      print('Failed to insert category. Status code: ${response.statusCode}');
+    }
+  }
+  Future<void> activateStoreCategory() async {
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-category/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'activateCategory': categoryVisibilityVal,
+      "email": emailVal,
+    };
+
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+      },
+    );
+
+    // Make the POST request using dio
+    Response response =
+    await _dio.patch(url, data: requestData, options: options);
+    // Check the response status
+    if (response.statusCode == 200) {
+      print('Category Activate');
+      // getSliderImages();
+      setState(() {
+
+      });
+
+      // print(imageSliderVal);
+    } else {
+      print('Failed to insert category. Status code: ${response.statusCode}');
+    }
+  }
+  Future<void> activateStoreCarts() async {
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-carts/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+    print(cartsVisibilityVal);
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'activateCarts': cartsVisibilityVal,
+      "email": emailVal,
+    };
+
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+      },
+    );
+
+    // Make the POST request using dio
+    Response response =
+    await _dio.patch(url, data: requestData, options: options);
+    // Check the response status
+    if (response.statusCode == 200) {
+      print('Slider Activate');
+      // getSliderImages();
+      setState(() {
+
+      });
+
+      // print(imageSliderVal);
+    } else {
+      print('Failed to insert category. Status code: ${response.statusCode}');
+    }
+  }
+
+
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
 
@@ -344,10 +501,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
   /////
   // Visibility
-  bool sliderVisibility = true;
+  // bool sliderVisibility = true;
   bool customizeVisibility = false;
-  bool categoryVisibility = true;
-  bool cartsVisibility = true;
+  // bool categoryVisibility = true;
+  // bool cartsVisibility = true;
 
   ////
 
@@ -362,7 +519,25 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
   ////////
   // Specific Category
-  TextEditingController specificStoreCategoriesTextEditingController = TextEditingController();
+  TextEditingController specificStoreCategoriesTextEditingController =
+      TextEditingController();
+
+  // Specific Cart
+
+  TextEditingController cartNameTextEditingController = TextEditingController();
+  TextEditingController cartPriceTextEditingController =
+      TextEditingController();
+  bool cartDiscountBool = false;
+  bool cartLikedBool = false;
+  bool cartFavouriteBool = false;
+  TextEditingController cartPriceAfterDiscountTextEditingController =
+      TextEditingController();
+  TextEditingController cartDescriptionTextEditingController =
+      TextEditingController();
+  TextEditingController cartCategoryTextEditing = TextEditingController();
+
+  late String dropdownValue= 'All Products' ;
+
 
   ////////
 
@@ -375,16 +550,23 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     emailVal = widget.email;
     specificStoreCategoriesVal = widget.specificStoreCategories;
     storeNameVal = widget.storeName;
+    storeCartsVal = widget.storeCartsVal.toList();
     print(emailVal);
     // userData = getUserByName();
     sliderImages = getSliderImages();
     specificStoreCategories = getSpecificStoreCategories();
+    getCartContent = getSpecificStoreCart();
+    sliderVisibilityVal = widget.sliderVisibility;
+    categoryVisibilityVal = widget.categoryVisibility;
+    cartsVisibilityVal = widget.cartsVisibility;
+
 
 
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       // appBar: AppBar(
       //   leading: Builder(
@@ -427,7 +609,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                           // color:Colors.blue,
                           child: IconButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, "", storeNameVal, "", "", specificStoreCategoriesVal, storeCartsVal, sliderVisibilityVal, categoryVisibilityVal, cartsVisibilityVal)));
                             },
                             icon: Icon(
                               Icons.arrow_back,
@@ -450,7 +632,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               onPressed: () {
                                 setState(() {
                                   _isSearching = !_isSearching;
+                                  if(_isSearching){
+                                    tempSearchBoxHeight = 40;
+                                  }else{
+                                    tempSearchBoxHeight = 0;
+                                  }
+
                                   if (!_isSearching) {
+
                                     _searchController.clear();
                                   }
                                 });
@@ -464,16 +653,18 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       ],
                     ),
                   ),
-                  Visibility(
-                    visible: _isSearching,
-                    child: Container(
+                  AnimatedOpacity(
+                    opacity: _isSearching ? 1 : 0,
+                    duration: Duration(milliseconds: 700),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 700),
                       padding: EdgeInsets.fromLTRB(10, 20, 0, 2),
                       decoration: BoxDecoration(
                         color: Color(0xFF212128),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      height: 40,
+                      height: tempSearchBoxHeight,
                       child: _isSearching
                           ? TextField(
                               cursorColor: Colors.white,
@@ -507,7 +698,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                             child: Column(
                               children: [
                                 Visibility(
-                                  visible: sliderVisibility,
+                                  visible: sliderVisibilityVal,
                                   child: Column(children: [
                                     SizedBox(
                                       height: 5,
@@ -515,7 +706,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     Container(
                                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Text(
                                             "Slider",
@@ -543,14 +735,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     FutureBuilder<List>(
                                       future: sliderImages,
                                       builder: (BuildContext context,
                                           AsyncSnapshot<List> snapshot) {
-              
                                         return Container(
-              
                                           child: CarouselSlider(
                                             options: CarouselOptions(
                                               // clipBehavior: ,
@@ -558,49 +750,91 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               height: 200.0,
                                               aspectRatio: 5,
                                               enlargeCenterPage: true,
-
                                             ),
                                             items: imageUrls.map((url) {
                                               return Builder(
-                                                builder: (BuildContext context) {
+                                                builder:
+                                                    (BuildContext context) {
                                                   return Container(
-                                                    width: MediaQuery.of(context).size.width,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
                                                     child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(10),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
                                                       child: InkWell(
-                                                        onTap: (){
-                                                          showDialog(context: context, builder: (context)=>AlertDialog(
-                                                            backgroundColor: Color(0xFF212128),
-                                                            title: Text("Delete image ",style: TextStyle(color: Colors.white),),
-                                                            content: Container(
-                                                              height:MediaQuery.of(context).size.height/18,
-                                                              child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Text("Delete this image from slider",style: TextStyle(color: Colors.white),),
-                                                                  SizedBox(height: 20,),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: [
-                                                              TextButton(onPressed: () async {
-                                                                print(111111111);
-                                                                print("$url ytytytyty");
-                                                                print(33333333333);
-                                                                await deleteImageFromSlider(url);
-                                                                await getSliderImages();
-                                                              }, child: Text("Delete",style: TextStyle(color: Colors.white),)),
-                                                              SizedBox(width: 20,),
-                                                              TextButton(onPressed: (){
-                                                                Navigator.pop(context);
-                                                              }, child: Text("Cancel",style: TextStyle(color: Colors.white),))
-                                                            ],
-                                                          ));
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) =>
+                                                                      AlertDialog(
+                                                                        backgroundColor:
+                                                                            Color(0xFF212128),
+                                                                        title:
+                                                                            Text(
+                                                                          "Delete image ",
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                        ),
+                                                                        content:
+                                                                            Container(
+                                                                          height:
+                                                                              MediaQuery.of(context).size.height / 18,
+                                                                          child:
+                                                                              Column(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
+                                                                              Text(
+                                                                                "Delete this image from slider",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 20,
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        actions: [
+                                                                          TextButton(
+                                                                              onPressed: () async {
+                                                                                print(111111111);
+                                                                                print("$url ytytytyty");
+                                                                                print(33333333333);
+                                                                                await deleteImageFromSlider(url);
+                                                                                await getSliderImages();
+                                                                              },
+                                                                              child: Text(
+                                                                                "Delete",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              )),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                20,
+                                                                          ),
+                                                                          TextButton(
+                                                                              onPressed: () {
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              child: Text(
+                                                                                "Cancel",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ))
+                                                                        ],
+                                                                      ));
                                                         },
-                                                        child: CachedNetworkImage(
+                                                        child:
+                                                            CachedNetworkImage(
                                                           imageUrl: url,
-                                                          placeholder: (context, url) => CircularProgressIndicator(),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              CircularProgressIndicator(),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Icon(Icons.error),
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
@@ -611,15 +845,15 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             }).toList(),
                                           ),
                                         );
-              
                                       },
                                     ),
-              
                                   ]),
                                 ),
-                                SizedBox(height: 15,),
+                                SizedBox(
+                                  height: 15,
+                                ),
                                 Visibility(
-                                  visible: categoryVisibility,
+                                  visible: categoryVisibilityVal,
                                   child: Column(children: [
                                     Container(
                                       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -641,7 +875,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             radius: 18,
                                             backgroundColor: Color(0xFF3B3B47),
                                             child: IconButton(
-                                              onPressed: defaultCategoryContainer,
+                                              onPressed:
+                                                  defaultCategoryContainer,
                                               icon: Icon(
                                                 Icons.add,
                                                 color: Colors.white,
@@ -658,123 +893,189 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     ),
                                     FutureBuilder<List>(
                                       future: specificStoreCategories,
-                                      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-                                        // print(snapshot.data);
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<List> snapshot) {
+
                                         return Container(
-                                          width: MediaQuery.of(context).size.width /
+
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
                                               1.13,
                                           height: 50,
+
                                           child: ListView.separated(
                                             scrollDirection: Axis.horizontal,
-                                            itemCount: specificStoreCategoriesVal.length,
-                                            itemBuilder: (context, index) => Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  color: Color(0xFF212128),
-                                                ),
-                                                width: 120,
-                                                child: TextButton(
-                                                    onPressed: () {
-                                                      print(index);
-                                                      showDialog(context: context, builder: (context){
-                                                        return AlertDialog(
-                                                          title: Text("Edit your category",style: TextStyle(color: Colors.white),),
-                                                          backgroundColor:Color(0xff212128),
-                                                          content: Container(
-                                                            height: MediaQuery.of(context).size.height/9,
-                                                            child: Column(
-                                                              children: [
-                                                                SizedBox(height: 20,),
-                                                                TextFormField(
-                                                                  cursorColor: Colors.white,
-                                                                  style: TextStyle(color: Colors.white),
-                                                                  controller: specificStoreCategoriesTextEditingController,
-                                                                  //Making keyboard just for Email
-                                                                  keyboardType: TextInputType.emailAddress,
-                                                                  validator: (value){
-                                                                    if(value!.isEmpty){
-                                                                      return 'Category is required';
-                                                                    }
-                                                                  },
-                                                                  decoration: InputDecoration(
-                                                                      labelText: 'Category name',
-                                                                      labelStyle: TextStyle(color: Colors.white),
-                                                                      prefixIcon: Icon(
-                                                                        Icons.category_outlined,color: Colors.white,
-                                                                      ),
-                                                                      border: OutlineInputBorder(
-                                                                          borderSide: BorderSide(color: Colors.white, )
-                                                                      ),
-                                                                      focusedBorder: OutlineInputBorder(
-                                                                          borderSide: BorderSide(color: Colors.white, )
-                                                                      )
+                                            itemCount:
+                                                specificStoreCategoriesVal
+                                                    .length,
+                                            itemBuilder: (context, index) =>
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: Color(0xFF212128),
+                                                    ),
+                                                    width: 120,
+                                                    child: TextButton(
+                                                        onPressed: () {
+                                                          print(index);
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return AlertDialog(
+                                                                  title: Text(
+                                                                    "Edit your category",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          actions:  [
-                                                            TextButton(onPressed: () async {
-                                                                await updateSpecificStoreCategory(index,specificStoreCategoriesTextEditingController.text);
-                                                                await getSpecificStoreCategories();
-
-                                                            }, child: Text("Update",style: TextStyle(color: Colors.white),)),
-                                                            TextButton(onPressed: () async {
-                                                              await deleteSpecificStoreCategory(index);
-                                                              await getSpecificStoreCategories();
-
-                                                            }, child: Text("Delete",style: TextStyle(color: Colors.white),)),
-
-                                                          ],
-
-                                                        );
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      specificStoreCategoriesVal[index],
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15),
-                                                    ))),
-                                            separatorBuilder: (context, index) =>
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
+                                                                  backgroundColor:
+                                                                      Color(
+                                                                          0xff212128),
+                                                                  content:
+                                                                      Container(
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height /
+                                                                        9,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          height:
+                                                                              20,
+                                                                        ),
+                                                                        TextFormField(
+                                                                          cursorColor:
+                                                                              Colors.white,
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                          controller:
+                                                                              specificStoreCategoriesTextEditingController,
+                                                                          //Making keyboard just for Email
+                                                                          keyboardType:
+                                                                              TextInputType.emailAddress,
+                                                                          validator:
+                                                                              (value) {
+                                                                            if (value!.isEmpty) {
+                                                                              return 'Category is required';
+                                                                            }
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                              labelText: 'Category name',
+                                                                              labelStyle: TextStyle(color: Colors.white),
+                                                                              prefixIcon: Icon(
+                                                                                Icons.category_outlined,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              border: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                color: Colors.white,
+                                                                              )),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                color: Colors.white,
+                                                                              ))),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await updateSpecificStoreCategory(
+                                                                              index,
+                                                                              specificStoreCategoriesTextEditingController.text);
+                                                                          await getSpecificStoreCategories();
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Update",
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                        )),
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          print(specificStoreCategoriesVal[index]);
+                                                                          if(specificStoreCategoriesVal[index]!="All Products") {
+                                                                            await deleteSpecificStoreCategory(
+                                                                                index);
+                                                                            await getSpecificStoreCategories();
+                                                                          } else{
+                                                                            showDialog(context: context, builder: (context)=>AlertDialog(
+                                                                              backgroundColor: Color(0xFF212128),
+                                                                              title: Text("Failed",style: TextStyle(color: Colors.white),),
+                                                                              content: Container(
+                                                                                  width: MediaQuery.of(context).size.width,
+                                                                                  height: MediaQuery.of(context).size.height/15,
+                                                                                  child: Text("Failed to Delete 'All products' category",style: TextStyle(color: Colors.white),)),
+                                                                            ));
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "Delete",
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                        )),
+                                                                  ],
+                                                                );
+                                                              });
+                                                        },
+                                                        child: Text(
+                                                          specificStoreCategoriesVal[
+                                                              index],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15),
+                                                        ))),
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                              width: 5,
+                                            ),
                                           ),
                                         );
                                       },
-
                                     )
                                   ]),
                                 ),
                                 Column(
                                   children: [
-              
                                     Visibility(
-                                      visible: cartsVisibility,
+                                      visible: cartsVisibilityVal,
                                       child: Column(
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                            margin: EdgeInsets.fromLTRB(
+                                                20, 10, 20, 0),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "Carts",
                                                   style: TextStyle(
                                                       color: Color(0xFF212128),
                                                       fontSize: 24,
-                                                      fontWeight: FontWeight.bold),
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 SizedBox(
                                                   width: 10,
                                                 ),
                                                 CircleAvatar(
                                                   radius: 18,
-                                                  backgroundColor: Color(0xFF3B3B47),
+                                                  backgroundColor:
+                                                      Color(0xFF3B3B47),
                                                   child: IconButton(
-                                                    onPressed: defaultCartContainer,
+                                                    onPressed:
+                                                        defaultCartContainer,
                                                     icon: Icon(
                                                       Icons.add,
                                                       color: Colors.white,
@@ -786,30 +1087,181 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               ],
                                             ),
                                           ),
-                                          Container(
-                                            width: MediaQuery.of(context).size.width,
-                                            height:
-                                                MediaQuery.of(context).size.height /
+                                          FutureBuilder<List>(
+
+                                            future: getCartContent,
+                                            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                              // print("zzzzz ${storeCartsVal[0]["cartName"]}");
+                                              return Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
                                                     1,
-                                            child: GridView.builder(
-                                              scrollDirection: Axis.vertical,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              gridDelegate:
+                                                child: GridView.builder(
+                                                  scrollDirection: Axis.vertical,
+                                                  physics:
+                                                  NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  gridDelegate:
                                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount:
+                                                    crossAxisCount:
                                                     2, // Set the number of columns
-                                                childAspectRatio:
+                                                    childAspectRatio:
                                                     0.75, // Customize the aspect ratio (width/height) of each tile
-                                                mainAxisSpacing:
+                                                    mainAxisSpacing:
                                                     4.0, // Spacing between rows
-                                                crossAxisSpacing:
+                                                    crossAxisSpacing:
                                                     2.0, // Spacing between columns
-                                              ),
-                                              itemBuilder: (context, index) =>
-                                                  containersCarts[index],
-                                              itemCount: containersCarts.length,
-                                            ),
+                                                  ),
+                                                  // storeCartsVal[index]
+                                                  itemBuilder: (context, index) => Container(
+                                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                    padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                                    child: Stack(
+                                                      children: [
+                                                        Stack(
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets.all(1),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.only(
+                                                                  topRight: Radius.circular(20),
+                                                                  topLeft: Radius.circular(20),
+                                                                ),
+                                                                color: Color(0xF2222128),
+                                                              ),
+                                                              child: InkWell(
+                                                                onTap: (){
+                                                                  print(index);
+                                                                  _pickAndUploadImageForCart(index);
+                                                                },
+                                                                child: ClipRRect(
+                                                                  borderRadius: BorderRadius.only(
+                                                                    topRight: Radius.circular(20),
+                                                                    topLeft: Radius.circular(20),
+                                                                  ),
+                                                                  child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
+                                                                    "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
+                                                                    fit: BoxFit.cover,
+                                                                    width: double.infinity,
+                                                                    height: 120,
+                                                                  ): Image.network(
+                                                                     storeCartsVal[index]["cartPrimaryImage"].toString(),
+                                                                    fit: BoxFit.cover,
+                                                                    width: double.infinity,
+                                                                    height: 120,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              bottom: 0,
+                                                              left: 0,
+                                                              child: storeCartsVal[index]["cartDiscount"].toString() == "true" ? Container(
+                                                                margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(3),
+                                                                  color: Colors.red,
+                                                                ),
+
+                                                                width: 60,
+                                                                height: 20,
+                                                                child: Container(
+
+                                                                  padding: const EdgeInsets.all(2.0),
+                                                                  child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
+                                                                ),
+                                                              ) : Container(),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Positioned(
+                                                            bottom: 0,
+                                                            left: 0,
+                                                            right: 0,
+                                                            child: Container(
+                                                              height: 120,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.only(
+                                                                  bottomRight: Radius.circular(20),
+                                                                  bottomLeft: Radius.circular(20),
+                                                                ),
+                                                                color: Color(0xF2222128),
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                                                    child: Text("${storeCartsVal[index]["cartName"].toString()}",
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        maxLines: 1,
+                                                                        style: TextStyle(
+                                                                          fontSize: 22,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          color: Colors.white,
+                                                                        )),
+                                                                  ),
+                                                                  Container(
+                                                                    padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
+                                                                    child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        maxLines: 2,
+                                                                        style: TextStyle(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.bold,
+                                                                          color: Colors.white,
+                                                                        )),
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                                                    textBaseline: TextBaseline.alphabetic,
+                                                                    children: [
+                                                                      Container(
+                                                                        padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
+                                                                        child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                            maxLines: 1,
+                                                                            style: TextStyle(
+                                                                              fontSize: 13,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: Colors.white,
+                                                                            )),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 5,
+                                                                      ),
+                                                                      Container(
+                                                                        // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                        child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                            maxLines: 1,
+                                                                            style: TextStyle(
+                                                                              fontSize: 11,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              decoration: TextDecoration.lineThrough,
+                                                                              decorationThickness: 3,
+                                                                              color: Colors.white,
+                                                                            )),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                  ,
+                                                  itemCount: storeCartsVal.length,
+                                                ),
+                                              );
+                                            },
+
                                           ),
                                         ],
                                       ),
@@ -917,7 +1369,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      sliderVisibility = true;
+                                                      sliderVisibilityVal = true;
+                                                      activateStoreSlider();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -937,7 +1390,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      sliderVisibility = false;
+                                                      sliderVisibilityVal = false;
+                                                      activateStoreSlider();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -972,7 +1426,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      categoryVisibility = true;
+                                                      categoryVisibilityVal = true;
+                                                      activateStoreCategory();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -992,8 +1447,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      categoryVisibility =
+                                                      categoryVisibilityVal =
                                                           false;
+                                                      activateStoreCategory();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -1028,7 +1484,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      cartsVisibility = true;
+                                                      cartsVisibilityVal = true;
+                                                      activateStoreCarts();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -1048,7 +1505,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      cartsVisibility = false;
+                                                      cartsVisibilityVal = false;
+                                                      activateStoreCarts();
                                                     });
                                                   },
                                                   icon: Icon(
@@ -1132,203 +1590,491 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
   void defaultCategoryContainer() {
     setState(() {
-
-      showDialog(context: context, builder: (context)=>AlertDialog(
-        backgroundColor: Color(0xFF212128),
-        title: Text("Category name",style: TextStyle(color: Colors.white),),
-        content: Container(
-
-          height: MediaQuery.of(context).size.height / 6,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Enter Your Store Categories ",textAlign: TextAlign.left,style: TextStyle(color: Colors.white),),
-              SizedBox(height: 30,),
-              Container(
-                width: MediaQuery.of(context).size.width/1.3,
-                child: TextFormField(
-                  cursorColor: Colors.white,
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                backgroundColor: Color(0xFF212128),
+                title: Text(
+                  "Category name",
                   style: TextStyle(color: Colors.white),
-                  controller: specificStoreCategoriesTextEditingController,
-                  //Making keyboard just for Email
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return 'Category is required';
-                    }
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Category name',
-                      labelStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(
-                        Icons.category_outlined,color: Colors.white,
+                ),
+                content: Container(
+                  height: MediaQuery.of(context).size.height / 6,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Enter Your Store Categories ",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Colors.white),
                       ),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, )
+                      SizedBox(
+                        height: 30,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, )
-                      )
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        child: TextFormField(
+                          cursorColor: Colors.white,
+                          style: TextStyle(color: Colors.white),
+                          controller:
+                              specificStoreCategoriesTextEditingController,
+                          //Making keyboard just for Email
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Category is required';
+                            }
+                          },
+                          decoration: InputDecoration(
+                              labelText: 'Category name',
+                              labelStyle: TextStyle(color: Colors.white),
+                              prefixIcon: Icon(
+                                Icons.category_outlined,
+                                color: Colors.white,
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Colors.white,
+                              )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Colors.white,
+                              ))),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-
-        ),
-        actions: [
-          TextButton(onPressed: (){
-            Navigator.pop(context);
-          }, child: Text("Cancel",style: TextStyle(color: Colors.white),)),
-          TextButton(
-            onPressed: () async {
-              setState(() async {
-                await insertSpecificStoreCategory();
-                await getSpecificStoreCategories();
-                showDialog(context: context, builder: (context)=> AlertDialog(
-                  backgroundColor: Color(0xFF212128),
-                  icon: Icon(Icons.info,color: Colors.green,size: 15,),
-                  title: Text("Information Message",style: TextStyle(color: Colors.white),),
-                  content: Text("Category added Successfully!!",style: TextStyle(color: Colors.white),),
-                  actions: [
-                    TextButton(onPressed: (){
-                      Navigator.pop(context);
-                    }, child: Text("OK",style: TextStyle(color: Colors.white),))
-                  ],
-                ));
-                specificStoreCategoriesTextEditingController.clear();
-              });
-            },
-            child: Text("OK", style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ));
-
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  TextButton(
+                    onPressed: () async {
+                      setState(() async {
+                        await insertSpecificStoreCategory();
+                        await getSpecificStoreCategories();
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  backgroundColor: Color(0xFF212128),
+                                  icon: Icon(
+                                    Icons.info,
+                                    color: Colors.green,
+                                    size: 15,
+                                  ),
+                                  title: Text(
+                                    "Information Message",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  content: Text(
+                                    "Category added Successfully!!",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "OK",
+                                          style: TextStyle(color: Colors.white),
+                                        ))
+                                  ],
+                                ));
+                        specificStoreCategoriesTextEditingController.clear();
+                      });
+                    },
+                    child: Text("OK", style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ));
     });
   }
 
   void defaultCartContainer() {
     setState(() {
-      containersCarts.add(Container(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-        child: Stack(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(1),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                    ),
-                    color: Color(0xF2222128),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                    ),
-                    child: Image.network(
-                      "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 120,
-                    ),
-                  ),
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                backgroundColor: Color(0xFF212128),
+                title: Text(
+                  "Cart content",
+                  style: TextStyle(color: Colors.white),
                 ),
-                // Positioned(
-                //   bottom: 0,
-                //   left: 0,
-                //   child: Container(
-                //     margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(3),
-                //       color: Colors.red,
-                //     ),
-                //
-                //     width: 60,
-                //     height: 20,
-                //     child: Container(
-                //
-                //       padding: const EdgeInsets.all(2.0),
-                //       child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                    color: Color(0xF2222128),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(10, 8, 10, 6),
-                        child: Text("",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
-                      ),
-                      Row(
+                content: StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      print("bbbbbbb $specificStoreCategoriesVal");
+                  return Container(
+                    child: SingleChildScrollView(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                            child: Text("",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                )),
+                          Text(
+                            "Enter Your Store Carts ",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(color: Colors.white),
                           ),
                           SizedBox(
-                            width: 5,
+                            height: 30,
                           ),
-                          Container(
-                            // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Text("",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationThickness: 3,
-                                  color: Colors.white,
-                                )),
+                          Column(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                child: FutureBuilder<List>(
+                                  future: sliderImages,
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<List> snapshot) {
+
+                                    return Container(
+                                      child: CarouselSlider(
+                                        options: CarouselOptions(
+                                          // clipBehavior: ,
+                                          autoPlay: true,
+                                          height: 200.0,
+                                          aspectRatio: 5,
+                                          enlargeCenterPage: true,
+                                        ),
+                                        items: imageUrls.map((url) {
+                                          return Builder(
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: url,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }).toList(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.3,
+                                child: TextFormField(
+                                  cursorColor: Colors.white,
+                                  style: TextStyle(color: Colors.white),
+                                  controller: cartNameTextEditingController,
+                                  //Making keyboard just for Email
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Cart Name is required';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'Cart name',
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                      prefixIcon: Icon(
+                                        Icons.category_outlined,
+                                        color: Colors.white,
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ))),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.3,
+                                child: TextFormField(
+                                  cursorColor: Colors.white,
+                                  style: TextStyle(color: Colors.white),
+                                  controller: cartPriceTextEditingController,
+                                  //Making keyboard just for Email
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Cart Price is required';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'Cart price',
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                      prefixIcon: Icon(
+                                        Icons.price_change,
+                                        color: Colors.white,
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ))),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 1.3,
+                                child: TextFormField(
+                                  cursorColor: Colors.white,
+                                  style: TextStyle(color: Colors.white),
+                                  controller:
+                                      cartDescriptionTextEditingController,
+                                  //Making keyboard just for Email
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Cart Descrption is required';
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'Cart description',
+                                      labelStyle:
+                                          TextStyle(color: Colors.white),
+                                      prefixIcon: Icon(
+                                        Icons.description,
+                                        color: Colors.white,
+                                      ),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ))),
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                    child: DropdownButton<String>(
+                                      value: dropdownValue ,
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue!;
+
+                                        });
+                                      },
+                                      items: specificStoreCategoriesVal.map<DropdownMenuItem<String>>((String value) {
+                                        return DropdownMenuItem<String>(
+
+                                          value: value,
+                                          child: Text(value,style: TextStyle(color: Colors.white,),),
+                                        );
+                                      }).toList(),
+                                      dropdownColor: Color(0xFF212128),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      child: Text(
+                                        'Activate Discount',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      value: cartDiscountBool,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          cartDiscountBool = value!;
+                                          print(cartDiscountBool);
+                                        });
+                                      },
+                                      checkColor: Colors.blue,
+                                      activeColor: Colors.blue,
+                                      // Color when checked
+                                      fillColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      child: Text(
+                                        'Activate Like',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      value: cartLikedBool,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          cartLikedBool = value!;
+                                          print(cartLikedBool);
+                                        });
+                                      },
+                                      checkColor: Colors.blue,
+                                      activeColor: Colors.blue,
+                                      // Color when checked
+                                      fillColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      child: Text(
+                                        'Activate Favourite',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      value: cartFavouriteBool,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          cartFavouriteBool = value!;
+                                          print(cartFavouriteBool);
+                                        });
+                                      },
+                                      checkColor: Colors.blue,
+                                      activeColor: Colors.blue,
+                                      // Color when checked
+                                      fillColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: TextButton(
+                                  onPressed: () async {
+                                    try {
+
+                                      http.Response userFuture =
+                                          await http.post(
+                                        Uri.parse(
+                                            "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
+                                        headers: {
+                                          "Content-Type": "application/json"
+                                        },
+                                        body: jsonEncode(
+                                          {
+                                            "email": emailVal,
+                                            "cartName":
+                                                cartNameTextEditingController
+                                                    .text,
+                                            "cartPrice":
+                                                cartPriceTextEditingController
+                                                    .text,
+                                            "cartDiscount": cartDiscountBool,
+                                            "cartLiked": cartLikedBool,
+                                            "cartFavourite": cartFavouriteBool,
+                                            "cartDescription":
+                                                cartDescriptionTextEditingController
+                                                    .text,
+                                            "cartCategory":dropdownValue.toString(),
+                                          },
+                                        ),
+                                        encoding: Encoding.getByName("utf-8"),
+                                      );
+                                      print(userFuture.body);
+                                      var temp = CartContentModel.fromJson(
+                                          json.decode(userFuture.body));
+                                      print(temp.message);
+                                      setState(() async {
+                                        // storeCartsVal = await getSpecificStoreCart();
+                                        await getSpecificStoreCart();
+                                      });
+
+                                      // print(temp?.email);
+                                    } catch (error) {}
+                                  },
+                                  child: Text(
+                                    "Add Cart",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Color(0xFF212128)),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                )),
-          ],
-        ),
-      ));
+                    ),
+                  );
+                }),
+              ));
+
     });
   }
-
-
 }

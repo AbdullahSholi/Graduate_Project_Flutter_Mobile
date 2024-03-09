@@ -180,7 +180,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                 color: Color(0xFF212128),
                               ), // Replace with your desired icon
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, imageUrlVal,"","","",[])));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, imageUrlVal,"","","",[],[],false,false,false)));
                               },
                               // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                             ),
