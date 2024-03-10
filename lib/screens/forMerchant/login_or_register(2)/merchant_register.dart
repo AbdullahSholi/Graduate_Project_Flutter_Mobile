@@ -472,6 +472,7 @@ class _MerchantRegisterState extends State<MerchantRegister> with TickerProvider
 
 
 
+
                           ],
                         ),
                       ),

@@ -37,6 +37,7 @@ class StoreManagement extends StatefulWidget {
   final bool categoryVisibility;
   final bool cartsVisibility;
 
+
   StoreManagement(this.token,this.email,this.imageUrl, this.storeNameVal, this.storeCategoryVal, this.storeDescriptionVal,this.specificStoreCategoriesVal,this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility);
 
   @override
@@ -56,6 +57,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   late bool sliderVisibilityVal ;
   late bool categoryVisibilityVal;
   late bool cartsVisibilityVal ;
+
 
   @override
   void initState() {
