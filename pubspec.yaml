@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.2.5
   carousel_slider: ^4.2.1
   cached_network_image: ^3.3.1
+  simple_circular_progress_bar: ^1.0.2
 
 dev_dependencies:
   flutter_test:

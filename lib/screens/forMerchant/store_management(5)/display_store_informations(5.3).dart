@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/rabish/
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:social_media_flutter/widgets/icons.dart';
 import 'package:social_media_flutter/widgets/text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -208,10 +210,16 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                         .height / 4,
                                     child: CircleAvatar(
                                       radius: 20,
-                                      child: ClipOval(child: Image.network(snapshot.data!.storeAvatar,
-                                      width: double.infinity,
-                                        height: double.infinity,
-                                      )),
+                                      child: ClipOval(child: CachedNetworkImage(
+                                        imageUrl:snapshot.data!.storeAvatar,
+                                        placeholder: (context, url) => SimpleCircularProgressBar(
+                                          mergeMode: true,
+                                          animationDuration: 1,
+                                        ),
+                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                        fit: BoxFit.cover,
+
+                                      ),),
                                     ),
                                   ),
                                   SizedBox(height: 20,),

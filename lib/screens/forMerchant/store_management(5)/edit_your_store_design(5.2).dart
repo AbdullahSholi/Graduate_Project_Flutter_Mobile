@@ -18,11 +18,14 @@ import 'package:graduate_project/screens/imageplaceholder.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
+import '../merchant_home_page(3)/merchant_home_page.dart';
+import 'display_store_informations(5.3).dart';
 
 class EditYourStoreDesign extends StatefulWidget {
   final String token;
@@ -34,7 +37,14 @@ class EditYourStoreDesign extends StatefulWidget {
   final bool categoryVisibility;
   final bool cartsVisibility;
   const EditYourStoreDesign(
-      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility,
+      this.token,
+      this.email,
+      this.specificStoreCategories,
+      this.storeName,
+      this.storeCartsVal,
+      this.sliderVisibility,
+      this.categoryVisibility,
+      this.cartsVisibility,
       {super.key});
   @override
   State<EditYourStoreDesign> createState() => _EditYourStoreDesignState();
@@ -45,11 +55,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   String emailVal = "";
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
-  List<dynamic> storeCartsVal= [];
+  List<dynamic> storeCartsVal = [];
   String storeNameVal = "";
-  late bool sliderVisibilityVal ;
-  late bool categoryVisibilityVal ;
-  late bool cartsVisibilityVal ;
+  late bool sliderVisibilityVal;
+  late bool categoryVisibilityVal;
+  late bool cartsVisibilityVal;
 
   late Future<User> userData;
   late Future<List> sliderImages;
@@ -104,6 +114,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       }
     }
   }
+
   Future<void> _pickAndUploadImageForCart(index) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -114,7 +125,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-primary-image';
+      final url =
+          'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-primary-image';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -122,7 +134,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       FormData formData = FormData.fromMap({
         'avatar': await MultipartFile.fromFile(_image.path, filename: fileName),
         "email": emailVal,
-        "index":index,
+        "index": index,
       });
       Options options = Options(
         headers: {
@@ -133,7 +145,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
       // Make the POST request using dio
       Response response =
-      await _dio.post(url, data: formData, options: options);
+          await _dio.post(url, data: formData, options: options);
       // Check the response status
       if (response.statusCode == 200) {
         print('Image uploaded successfully');
@@ -141,13 +153,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           getSpecificStoreCart();
         });
 
-
         // print(imageSliderVal);
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
       }
     }
   }
+
   Future<void> _pickAndUploadImageForCartSlider(index) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -158,7 +170,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-secondary-images';
+      final url =
+          'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-secondary-images';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -166,7 +179,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       FormData formData = FormData.fromMap({
         'avatar': await MultipartFile.fromFile(_image.path, filename: fileName),
         "email": emailVal,
-        "index":index,
+        "index": index,
       });
       Options options = Options(
         headers: {
@@ -177,11 +190,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
       // Make the POST request using dio
       Response response =
-      await _dio.post(url, data: formData, options: options);
+          await _dio.post(url, data: formData, options: options);
       // Check the response status
       if (response.statusCode == 200) {
         print('Image uploaded successfully');
-          await getSpecificStoreCartSliderImages();
+        await getSpecificStoreCartSliderImages();
 
         // print(imageSliderVal);
       } else {
@@ -189,7 +202,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       }
     }
   }
-
 
   Future<void> insertSpecificStoreCategory() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
@@ -250,26 +262,26 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
         // Add any other headers if needed
       },
     );
-    int counter = 0;
-    for(int i = 0 ; i < storeCartsVal.length; i++){
-      if(storeCartsVal[i]["cartCategory"] == specificStoreCategoriesVal[indexVal]){
-        ++counter;
-      }
 
-    }
-    if(counter==0){
       // Make the POST request using dio
       Response response =
-      await _dio.delete(url, data: requestData, options: options);
+          await _dio.delete(url, data: requestData, options: options);
       // Check the response status
       if (response.statusCode == 200) {
         print('Category Deleted Successfully!!');
-        showDialog(context: context, builder: (context)=>const AlertDialog(
-          backgroundColor: Color(0xFF212128),
-          title: Text("Success",style: TextStyle(color: Colors.white),),
-          content: Text("Category Deleted Successfully!!",
-            style: TextStyle(color: Colors.white),),
-        ));
+        showDialog(
+            context: context,
+            builder: (context) => const AlertDialog(
+                  backgroundColor: Color(0xFF212128),
+                  title: Text(
+                    "Success",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  content: Text(
+                    "Category Deleted Successfully!!",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ));
 
         // getSliderImages();
 
@@ -277,15 +289,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       } else {
         print('Failed to delete category. Status code: ${response.statusCode}');
       }
-    }
-    else {
-      showDialog(context: context, builder: (context)=>const AlertDialog(
-        backgroundColor: Color(0xFF212128),
-        title: Text("Failed",style: TextStyle(color: Colors.white),),
-        content: Text("Unable to Delete This category because it's connected with differen carts",
-        style: TextStyle(color: Colors.white),),
-      ));
-    }
 
   }
 
@@ -322,7 +325,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       print('Failed to delete category. Status code: ${response.statusCode}');
     }
   }
-  Future<void> deleteImageFromCartImagesSlider(urlVal,index) async {
+
+  Future<void> deleteImageFromCartImagesSlider(urlVal, index) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
         'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-image-from-cart-image-slider/$emailVal';
@@ -333,7 +337,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Map<String, dynamic> requestData = {
       'url': urlVal,
       "email": emailVal,
-      "index":index
+      "index": index
     };
 
     Options options = Options(
@@ -345,7 +349,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.delete(url, data: requestData, options: options);
+        await _dio.delete(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
@@ -357,7 +361,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       print('Failed to delete category. Status code: ${response.statusCode}');
     }
   }
-
 
   // updateSpecificStoreCategory
   Future<void> updateSpecificStoreCategory(
@@ -418,7 +421,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       print("wwwwwwwwwwwwwwwwww $urls ");
       setState(() {
         imageUrls = urls;
-
       });
 
       return MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
@@ -469,22 +471,24 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     print("--------------------------");
     print(emailVal);
 
-      http.Response userFuture = await http.get(
-        Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
-      );
-      print(userFuture.body);
-    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+    );
+    print(userFuture.body);
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
 
-
-      setState(() {
-        storeCartsVal = GetCartContentModel
-            .fromJson(json.decode(userFuture.body))
-            .type.toList();
-        print("vvvvvvvvvvvv $storeCartsVal");
-      });
-      return GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
-
+    setState(() {
+      storeCartsVal = GetCartContentModel.fromJson(json.decode(userFuture.body))
+          .type
+          .toList();
+      print("vvvvvvvvvvvv $storeCartsVal");
+    });
+    return GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
   }
 
   Future<void> activateStoreSlider() async {
@@ -509,20 +513,19 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.patch(url, data: requestData, options: options);
+        await _dio.patch(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Slider Activate');
       // getSliderImages();
-      setState(() {
-
-      });
+      setState(() {});
 
       // print(imageSliderVal);
     } else {
       print('Failed to insert category. Status code: ${response.statusCode}');
     }
   }
+
   Future<void> activateStoreCategory() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
@@ -545,20 +548,19 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.patch(url, data: requestData, options: options);
+        await _dio.patch(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Activate');
       // getSliderImages();
-      setState(() {
-
-      });
+      setState(() {});
 
       // print(imageSliderVal);
     } else {
       print('Failed to insert category. Status code: ${response.statusCode}');
     }
   }
+
   Future<void> activateStoreCarts() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
@@ -581,14 +583,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.patch(url, data: requestData, options: options);
+        await _dio.patch(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Slider Activate');
       // getSliderImages();
-      setState(() {
-
-      });
+      setState(() {});
 
       // print(imageSliderVal);
     } else {
@@ -605,23 +605,22 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
     );
     print(userFuture.body);
-    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
-
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
 
     setState(() {
-      storeCartsVal = GetCartContentModel
-          .fromJson(json.decode(userFuture.body))
-          .type.toList();
+      storeCartsVal = GetCartContentModel.fromJson(json.decode(userFuture.body))
+          .type
+          .toList();
       print("vvvvvvvvvvvv $storeCartsVal");
     });
     return storeCartsVal;
-
   }
 
   Future<void> deleteCart(index) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/delete-cart/$emailVal';
+    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-cart/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -641,7 +640,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.delete(url, data: requestData, options: options);
+        await _dio.delete(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
@@ -653,6 +652,55 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       // print(imageSliderVal);
     } else {
       print('Failed to delete category. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> deleteCategoryConnectedToCarts(index) async {
+    print(index);
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-category-connected-to-cart/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+    // print(url);
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'index': index,
+      "email": emailVal,
+    };
+
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        // Add any other headers if needed
+        // Add any other headers if needed
+      },
+    );
+
+    if(storeCartsVal.length != 0) {
+      // Make the POST request using dio
+      Response response =
+      await _dio.delete(url, data: requestData, options: options);
+      // Check the response status
+      if (response.statusCode == 200) {
+        print('Category Deleted Successfully!!');
+        // getSliderImages();
+        setState(() async {
+          // storeCartsVal = await getSpecificStoreCart();
+
+          await deleteSpecificStoreCategory(index);
+          await getSpecificStoreCategories();
+          await getSpecificStoreCart();
+        });
+        // print(imageSliderVal);
+      } else {
+        print('Failed to delete category. Status code: ${response.statusCode}');
+      }
+    } else{
+      await deleteSpecificStoreCategory(index);
+      // showDialog(context: context, builder: (context)=>AlertDialog(
+      //   title: Text("Information Message"),
+      //   content: Text("No any Cart exist"),
+      // ));
     }
   }
 
@@ -697,10 +745,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   TextEditingController cartDescriptionTextEditingController =
       TextEditingController();
   TextEditingController cartCategoryTextEditing = TextEditingController();
-  TextEditingController cartQuantitiesTextEditingController = TextEditingController();
+  TextEditingController cartQuantitiesTextEditingController =
+      TextEditingController();
 
-  late String dropdownValue= 'All Products' ;
-
+  late String dropdownValue = 'All Products';
 
   ////////
 
@@ -722,14 +770,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     sliderVisibilityVal = widget.sliderVisibility;
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
-
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // appBar: AppBar(
       //   leading: Builder(
@@ -772,7 +816,21 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                           // color:Colors.blue,
                           child: IconButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, "", storeNameVal, "", "", specificStoreCategoriesVal, storeCartsVal, sliderVisibilityVal, categoryVisibilityVal, cartsVisibilityVal)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StoreManagement(
+                                          tokenVal,
+                                          emailVal,
+                                          "",
+                                          storeNameVal,
+                                          "",
+                                          "",
+                                          specificStoreCategoriesVal,
+                                          storeCartsVal,
+                                          sliderVisibilityVal,
+                                          categoryVisibilityVal,
+                                          cartsVisibilityVal)));
                             },
                             icon: Icon(
                               Icons.arrow_back,
@@ -795,14 +853,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               onPressed: () {
                                 setState(() {
                                   _isSearching = !_isSearching;
-                                  if(_isSearching){
+                                  if (_isSearching) {
                                     tempSearchBoxHeight = 40;
-                                  }else{
+                                  } else {
                                     tempSearchBoxHeight = 0;
                                   }
 
                                   if (!_isSearching) {
-
                                     _searchController.clear();
                                   }
                                 });
@@ -994,7 +1051,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           imageUrl: url,
                                                           placeholder: (context,
                                                                   url) =>
-                                                              CircularProgressIndicator(),
+                                                              SimpleCircularProgressBar(
+                                                            mergeMode: true,
+                                                            animationDuration:
+                                                                1,
+                                                          ),
                                                           errorWidget: (context,
                                                                   url, error) =>
                                                               Icon(Icons.error),
@@ -1058,15 +1119,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       future: specificStoreCategories,
                                       builder: (BuildContext context,
                                           AsyncSnapshot<List> snapshot) {
-
                                         return Container(
-
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
                                               1.13,
                                           height: 50,
-
                                           child: ListView.separated(
                                             scrollDirection: Axis.horizontal,
                                             itemCount:
@@ -1164,20 +1222,51 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
-                                                                          print(specificStoreCategoriesVal[index]);
-                                                                          if(specificStoreCategoriesVal[index]!="All Products") {
-                                                                            await deleteSpecificStoreCategory(
-                                                                                index);
-                                                                            await getSpecificStoreCategories();
-                                                                          } else{
+                                                                          print(
+                                                                              specificStoreCategoriesVal[index]);
+                                                                          if (specificStoreCategoriesVal[index] !=
+                                                                              "All Products") {
                                                                             showDialog(context: context, builder: (context)=>AlertDialog(
-                                                                              backgroundColor: Color(0xFF212128),
-                                                                              title: Text("Failed",style: TextStyle(color: Colors.white),),
+                                                                              title: Text("Information Message"),
                                                                               content: Container(
-                                                                                  width: MediaQuery.of(context).size.width,
-                                                                                  height: MediaQuery.of(context).size.height/15,
-                                                                                  child: Text("Failed to Delete 'All products' category",style: TextStyle(color: Colors.white),)),
+                                                                                height: MediaQuery.of(context).size.height/18,
+                                                                                child: Column(
+                                                                                  children: [
+                                                                                    Text("This action will delete all carts connected with this category"),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              actions: [
+                                                                                TextButton(onPressed: (){
+                                                                                  Navigator.pop(context);
+                                                                                }, child: Text("Cancel")),
+                                                                                TextButton(onPressed: () async{
+
+                                                                                  await deleteCategoryConnectedToCarts(index);
+                                                                                  // await deleteSpecificStoreCategory(index);
+                                                                                  await getSpecificStoreCategories();
+                                                                                }, child: Text("Delete any way")),
+
+                                                                              ],
                                                                             ));
+
+                                                                          } else {
+                                                                            showDialog(
+                                                                                context: context,
+                                                                                builder: (context) => AlertDialog(
+                                                                                      backgroundColor: Color(0xFF212128),
+                                                                                      title: Text(
+                                                                                        "Failed",
+                                                                                        style: TextStyle(color: Colors.white),
+                                                                                      ),
+                                                                                      content: Container(
+                                                                                          width: MediaQuery.of(context).size.width,
+                                                                                          height: MediaQuery.of(context).size.height / 15,
+                                                                                          child: Text(
+                                                                                            "Failed to Delete 'All products' category",
+                                                                                            style: TextStyle(color: Colors.white),
+                                                                                          )),
+                                                                                    ));
                                                                           }
                                                                         },
                                                                         child:
@@ -1251,94 +1340,168 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             ),
                                           ),
                                           FutureBuilder<List>(
-
                                             future: getCartContent,
-                                            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<List<dynamic>>
+                                                    snapshot) {
                                               // print("zzzzz ${storeCartsVal[0]["cartName"]}");
                                               return Container(
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
                                                 height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
+                                                        .size
+                                                        .height /
                                                     1,
                                                 child: GridView.builder(
-                                                  scrollDirection: Axis.vertical,
+                                                  scrollDirection:
+                                                      Axis.vertical,
                                                   physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                      NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
                                                   gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount:
-                                                    2, // Set the number of columns
+                                                        2, // Set the number of columns
                                                     childAspectRatio:
-                                                    0.75, // Customize the aspect ratio (width/height) of each tile
+                                                        0.75, // Customize the aspect ratio (width/height) of each tile
                                                     mainAxisSpacing:
-                                                    4.0, // Spacing between rows
+                                                        4.0, // Spacing between rows
                                                     crossAxisSpacing:
-                                                    2.0, // Spacing between columns
+                                                        2.0, // Spacing between columns
                                                   ),
                                                   // storeCartsVal[index]
-                                                  itemBuilder: (context, index) => Container(
-                                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                    padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          Container(
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        10, 0, 10, 0),
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            5, 0, 5, 10),
                                                     child: Stack(
                                                       children: [
                                                         Stack(
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets.all(1),
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.only(
-                                                                  topRight: Radius.circular(20),
-                                                                  topLeft: Radius.circular(20),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(1),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          20),
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          20),
                                                                 ),
-                                                                color: Color(0xF2222128),
+                                                                color: Color(
+                                                                    0xF2222128),
                                                               ),
                                                               child: InkWell(
-                                                                onTap: (){
-
+                                                                onTap: () {
                                                                   print(index);
-                                                                  _pickAndUploadImageForCart(index);
+                                                                  _pickAndUploadImageForCart(
+                                                                      index);
                                                                 },
-                                                                child: ClipRRect(
-                                                                  borderRadius: BorderRadius.only(
-                                                                    topRight: Radius.circular(20),
-                                                                    topLeft: Radius.circular(20),
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            20),
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            20),
                                                                   ),
-                                                                  child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
-                                                                    "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
-                                                                    fit: BoxFit.cover,
-                                                                    width: double.infinity,
+                                                                  child: (storeCartsVal[index]["cartPrimaryImage"].toString() ==
+                                                                              "null" ||
+                                                                          storeCartsVal[index]["cartPrimaryImage"].toString() ==
+                                                                              "")
+                                                                      // https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0
+                                                                      ? CachedNetworkImage(
+                                                                          imageUrl:
+                                                                              "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
+                                                                          placeholder: (context, url) =>
+                                                                              SimpleCircularProgressBar(
+                                                                            mergeMode:
+                                                                                true,
+                                                                            animationDuration:
+                                                                                1,
+                                                                          ),
+                                                                          errorWidget: (context, url, error) =>
+                                                                              Icon(Icons.error),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        )
+                                                                  // storeCartsVal[index]["cartPrimaryImage"]
+                                                                      : CachedNetworkImage(
+                                                                    imageUrl:
+                                                                    storeCartsVal[index]["cartPrimaryImage"],
+                                                                    placeholder: (context, url) =>
+                                                                        SimpleCircularProgressBar(
+                                                                          mergeMode:
+                                                                          true,
+                                                                          animationDuration:
+                                                                          1,
+                                                                        ),
+                                                                    errorWidget: (context, url, error) =>
+                                                                        Icon(Icons.error),
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                     height: 120,
-                                                                  ): Image.network(
-                                                                     storeCartsVal[index]["cartPrimaryImage"].toString(),
-                                                                    fit: BoxFit.cover,
                                                                     width: double.infinity,
-                                                                    height: 120,
-                                                                  ),
+                                                                  )
                                                                 ),
                                                               ),
                                                             ),
                                                             Positioned(
                                                               bottom: 0,
                                                               left: 0,
-                                                              child: storeCartsVal[index]["cartDiscount"].toString() == "true" ? Container(
-                                                                margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(3),
-                                                                  color: Colors.red,
-                                                                ),
-
-                                                                width: 60,
-                                                                height: 20,
-                                                                child: Container(
-
-                                                                  padding: const EdgeInsets.all(2.0),
-                                                                  child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
-                                                                ),
-                                                              ) : Container(),
+                                                              child: storeCartsVal[index]
+                                                                              [
+                                                                              "cartDiscount"]
+                                                                          .toString() ==
+                                                                      "true"
+                                                                  ? Container(
+                                                                      margin: EdgeInsets
+                                                                          .fromLTRB(
+                                                                              4,
+                                                                              0,
+                                                                              0,
+                                                                              10),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(3),
+                                                                        color: Colors
+                                                                            .red,
+                                                                      ),
+                                                                      width: 60,
+                                                                      height:
+                                                                          20,
+                                                                      child:
+                                                                          Container(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            2.0),
+                                                                        child:
+                                                                            Text(
+                                                                          "DISCOUNT",
+                                                                          style: TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 11,
+                                                                              fontWeight: FontWeight.bold),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  : Container(),
                                                             ),
                                                           ],
                                                         ),
@@ -1347,565 +1510,608 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             left: 0,
                                                             right: 0,
                                                             child: InkWell(
-                                                              onTap: (){
-                                                                showDialog(context: context, builder: (context)=>AlertDialog(
-                                                                  backgroundColor: Color(0xFF212128),
-                                                                  title: Text("Edit Cart ",style: TextStyle(color: Colors.white),),
-                                                                  content: StatefulBuilder(
-                                                                      builder: (BuildContext context, StateSetter setState) {
-                                                                        return Container(
-                                                                          child: SingleChildScrollView(
-                                                                            child: Column(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text(
-                                                                                  "Edit Your Store Carts ",
-                                                                                  textAlign: TextAlign.left,
-                                                                                  style: TextStyle(color: Colors.white),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  height: 15,
-                                                                                ),
-                                                                                Column(
-                                                                                  children: [
-                                                                                    Row(
+                                                              onTap: () {
+                                                                showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) =>
+                                                                            AlertDialog(
+                                                                              backgroundColor: Color(0xFF212128),
+                                                                              title: Text(
+                                                                                "Edit Cart ",
+                                                                                style: TextStyle(color: Colors.white),
+                                                                              ),
+                                                                              content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                                                                                return Container(
+                                                                                  child: SingleChildScrollView(
+                                                                                    child: Column(
+                                                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                                                       children: [
-                                                                                        Text("Add Images Slider",style: TextStyle(color: Colors.white),),
-                                                                                        SizedBox(width: 10,),
-                                                                                        CircleAvatar(
-                                                                                          radius: 20,
-                                                                                          backgroundColor: Colors.white,
-                                                                                          child: IconButton(onPressed: () async{
-                                                                                              await _pickAndUploadImageForCartSlider(index);
-
-                                                                                            setState(()   {
-                                                                                               getSpecificStoreCartSliderImages();
-                                                                                            });
-                                                                                          },
-                                                                                              icon: Icon(Icons.add, color: Color(0xFF212128),)
-                                                                                          ),
-
+                                                                                        Text(
+                                                                                          "Edit Your Store Carts ",
+                                                                                          textAlign: TextAlign.left,
+                                                                                          style: TextStyle(color: Colors.white),
                                                                                         ),
+                                                                                        SizedBox(
+                                                                                          height: 15,
+                                                                                        ),
+                                                                                        Column(
+                                                                                          children: [
+                                                                                            Row(
+                                                                                              children: [
+                                                                                                Text(
+                                                                                                  "Add Images Slider",
+                                                                                                  style: TextStyle(color: Colors.white),
+                                                                                                ),
+                                                                                                SizedBox(
+                                                                                                  width: 10,
+                                                                                                ),
+                                                                                                CircleAvatar(
+                                                                                                  radius: 20,
+                                                                                                  backgroundColor: Colors.white,
+                                                                                                  child: IconButton(
+                                                                                                      onPressed: () async {
+                                                                                                        await _pickAndUploadImageForCartSlider(index);
 
-                                                                                      ],
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 20,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      width: MediaQuery.of(context).size.width / 1.5,
-
-                                                                                          child: Container(
-                                                                                            child: CarouselSlider(
-                                                                                              options: CarouselOptions(
-                                                                                                // clipBehavior: ,
-                                                                                                autoPlay: true,
-                                                                                                height: 200.0,
-                                                                                                aspectRatio: 5,
-                                                                                                enlargeCenterPage: true,
-                                                                                              ),
-                                                                                              items: (storeCartsVal[index]["cartSecondaryImagesSlider"] as List<dynamic> ).map<Widget>((url) {
-                                                                                                print("aaaaaaa $url");
-                                                                                                // setState(() {
-                                                                                                //   print(storeCartsVal[index]["cartSecondaryImagesSlider"]);
-                                                                                                // });
-                                                                                                return Builder(
-                                                                                                  builder: (BuildContext context) {
-                                                                                                    return InkWell(
-                                                                                                      onTap: () {
-                                                                                                        showDialog(
-                                                                                                            context: context,
-                                                                                                            builder:
-                                                                                                                (context) =>
-                                                                                                                AlertDialog(
-                                                                                                                  backgroundColor:
-                                                                                                                  Color(0xFF212128),
-                                                                                                                  title:
-                                                                                                                  Text(
-                                                                                                                    "Delete image ",
-                                                                                                                    style:
-                                                                                                                    TextStyle(color: Colors.white),
-                                                                                                                  ),
-                                                                                                                  content:
-                                                                                                                  Container(
-                                                                                                                    height:
-                                                                                                                    MediaQuery.of(context).size.height / 18,
-                                                                                                                    child:
-                                                                                                                    Column(
-                                                                                                                      crossAxisAlignment:
-                                                                                                                      CrossAxisAlignment.start,
-                                                                                                                      children: [
-                                                                                                                        Text(
-                                                                                                                          "Delete this image from slider",
-                                                                                                                          style: TextStyle(color: Colors.white),
-                                                                                                                        ),
-                                                                                                                        SizedBox(
-                                                                                                                          height: 20,
-                                                                                                                        ),
-                                                                                                                      ],
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                  actions: [
-                                                                                                                    TextButton(
-                                                                                                                        onPressed: () async {
-                                                                                                                          print(111111111);
-                                                                                                                          print("$url ytytytyty");
-                                                                                                                          print(33333333333);
-                                                                                                                          await deleteImageFromCartImagesSlider(url, index);
-                                                                                                                          setState((){
-                                                                                                                            getSpecificStoreCartSliderImages();
-                                                                                                                          });
-
-                                                                                                                        },
-                                                                                                                        child: Text(
-                                                                                                                          "Delete",
-                                                                                                                          style: TextStyle(color: Colors.white),
-                                                                                                                        )),
-                                                                                                                    SizedBox(
-                                                                                                                      width:
-                                                                                                                      20,
-                                                                                                                    ),
-                                                                                                                    TextButton(
-                                                                                                                        onPressed: () {
-                                                                                                                          Navigator.pop(context);
-                                                                                                                        },
-                                                                                                                        child: Text(
-                                                                                                                          "Cancel",
-                                                                                                                          style: TextStyle(color: Colors.white),
-                                                                                                                        ))
-                                                                                                                  ],
-                                                                                                                ));
+                                                                                                        setState(() {
+                                                                                                          getSpecificStoreCartSliderImages();
+                                                                                                        });
                                                                                                       },
-                                                                                                      child: Container(
-                                                                                                        width: MediaQuery.of(context)
-                                                                                                            .size
-                                                                                                            .width,
-                                                                                                        child: ClipRRect(
-                                                                                                          borderRadius:
-                                                                                                          BorderRadius.circular(10),
-                                                                                                          child: CachedNetworkImage(
-                                                                                                            imageUrl: url,
-                                                                                                            placeholder: (context,
-                                                                                                                url) =>
-                                                                                                                CircularProgressIndicator(),
-                                                                                                            errorWidget:
-                                                                                                                (context, url, error) =>
-                                                                                                                Icon(Icons.error),
-                                                                                                            fit: BoxFit.cover,
+                                                                                                      icon: Icon(
+                                                                                                        Icons.add,
+                                                                                                        color: Color(0xFF212128),
+                                                                                                      )),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Container(
+                                                                                                width: MediaQuery.of(context).size.width / 1.5,
+                                                                                                child: Container(
+                                                                                                  child: CarouselSlider(
+                                                                                                    options: CarouselOptions(
+                                                                                                      // clipBehavior: ,
+                                                                                                      autoPlay: true,
+                                                                                                      height: 200.0,
+                                                                                                      aspectRatio: 5,
+                                                                                                      enlargeCenterPage: true,
+                                                                                                    ),
+                                                                                                    items: (storeCartsVal[index]["cartSecondaryImagesSlider"] as List<dynamic>).map<Widget>((url) {
+                                                                                                      print("aaaaaaa $url");
+                                                                                                      // setState(() {
+                                                                                                      //   print(storeCartsVal[index]["cartSecondaryImagesSlider"]);
+                                                                                                      // });
+                                                                                                      return Builder(
+                                                                                                        builder: (BuildContext context) {
+                                                                                                          return InkWell(
+                                                                                                            onTap: () {
+                                                                                                              showDialog(
+                                                                                                                  context: context,
+                                                                                                                  builder: (context) => AlertDialog(
+                                                                                                                        backgroundColor: Color(0xFF212128),
+                                                                                                                        title: Text(
+                                                                                                                          "Delete image ",
+                                                                                                                          style: TextStyle(color: Colors.white),
+                                                                                                                        ),
+                                                                                                                        content: Container(
+                                                                                                                          height: MediaQuery.of(context).size.height / 18,
+                                                                                                                          child: Column(
+                                                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                                            children: [
+                                                                                                                              Text(
+                                                                                                                                "Delete this image from slider",
+                                                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                                              ),
+                                                                                                                              SizedBox(
+                                                                                                                                height: 20,
+                                                                                                                              ),
+                                                                                                                            ],
+                                                                                                                          ),
+                                                                                                                        ),
+                                                                                                                        actions: [
+                                                                                                                          TextButton(
+                                                                                                                              onPressed: () async {
+                                                                                                                                print(111111111);
+                                                                                                                                print("$url ytytytyty");
+                                                                                                                                print(33333333333);
+                                                                                                                                await deleteImageFromCartImagesSlider(url, index);
+                                                                                                                                setState(() {
+                                                                                                                                  getSpecificStoreCartSliderImages();
+                                                                                                                                });
+                                                                                                                              },
+                                                                                                                              child: Text(
+                                                                                                                                "Delete",
+                                                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                                              )),
+                                                                                                                          SizedBox(
+                                                                                                                            width: 20,
+                                                                                                                          ),
+                                                                                                                          TextButton(
+                                                                                                                              onPressed: () {
+                                                                                                                                Navigator.pop(context);
+                                                                                                                              },
+                                                                                                                              child: Text(
+                                                                                                                                "Cancel",
+                                                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                                              ))
+                                                                                                                        ],
+                                                                                                                      ));
+                                                                                                            },
+                                                                                                            child: Container(
+                                                                                                              width: MediaQuery.of(context).size.width,
+                                                                                                              child: ClipRRect(
+                                                                                                                borderRadius: BorderRadius.circular(10),
+                                                                                                                child: CachedNetworkImage(
+                                                                                                                  imageUrl: url,
+                                                                                                                  placeholder: (context, url) => SimpleCircularProgressBar(
+                                                                                                                    mergeMode: true,
+                                                                                                                    animationDuration: 1,
+                                                                                                                  ),
+                                                                                                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                                                  fit: BoxFit.cover,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          );
+                                                                                                        },
+                                                                                                      );
+                                                                                                    }).toList(),
+                                                                                                  ),
+                                                                                                )),
+                                                                                            SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Container(
+                                                                                              width: MediaQuery.of(context).size.width / 1.3,
+                                                                                              child: TextFormField(
+                                                                                                cursorColor: Colors.white,
+                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                controller: cartNameTextEditingController,
+                                                                                                //Making keyboard just for Email
+                                                                                                keyboardType: TextInputType.emailAddress,
+                                                                                                validator: (value) {
+                                                                                                  if (value!.isEmpty) {
+                                                                                                    return 'Cart Name is required';
+                                                                                                  }
+                                                                                                },
+                                                                                                decoration: InputDecoration(
+                                                                                                    labelText: 'Cart name',
+                                                                                                    labelStyle: TextStyle(color: Colors.white),
+                                                                                                    prefixIcon: Icon(
+                                                                                                      Icons.category_outlined,
+                                                                                                      color: Colors.white,
+                                                                                                    ),
+                                                                                                    border: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    )),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    ))),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Container(
+                                                                                              width: MediaQuery.of(context).size.width / 1.3,
+                                                                                              child: TextFormField(
+                                                                                                cursorColor: Colors.white,
+                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                controller: cartPriceTextEditingController,
+                                                                                                //Making keyboard just for Email
+                                                                                                keyboardType: TextInputType.text,
+                                                                                                validator: (value) {
+                                                                                                  if (value!.isEmpty) {
+                                                                                                    return 'Cart Price is required';
+                                                                                                  }
+                                                                                                },
+                                                                                                decoration: InputDecoration(
+                                                                                                    labelText: 'Cart price',
+                                                                                                    labelStyle: TextStyle(color: Colors.white),
+                                                                                                    prefixIcon: Icon(
+                                                                                                      Icons.price_change,
+                                                                                                      color: Colors.white,
+                                                                                                    ),
+                                                                                                    border: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    )),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    ))),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Container(
+                                                                                              width: MediaQuery.of(context).size.width / 1.3,
+                                                                                              child: TextFormField(
+                                                                                                cursorColor: Colors.white,
+                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                controller: cartQuantitiesTextEditingController,
+                                                                                                //Making keyboard just for Email
+                                                                                                keyboardType: TextInputType.text,
+                                                                                                validator: (value) {
+                                                                                                  if (value!.isEmpty) {
+                                                                                                    return 'Cart Quantities is required';
+                                                                                                  }
+                                                                                                },
+                                                                                                decoration: InputDecoration(
+                                                                                                    labelText: 'Cart Quantities',
+                                                                                                    labelStyle: TextStyle(color: Colors.white),
+                                                                                                    prefixIcon: Icon(
+                                                                                                      Icons.production_quantity_limits,
+                                                                                                      color: Colors.white,
+                                                                                                    ),
+                                                                                                    border: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    )),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    ))),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 20,
+                                                                                            ),
+                                                                                            Container(
+                                                                                              width: MediaQuery.of(context).size.width / 1.3,
+                                                                                              child: TextFormField(
+                                                                                                cursorColor: Colors.white,
+                                                                                                style: TextStyle(color: Colors.white),
+                                                                                                controller: cartDescriptionTextEditingController,
+                                                                                                //Making keyboard just for Email
+                                                                                                keyboardType: TextInputType.emailAddress,
+                                                                                                validator: (value) {
+                                                                                                  if (value!.isEmpty) {
+                                                                                                    return 'Cart Descrption is required';
+                                                                                                  }
+                                                                                                },
+                                                                                                decoration: InputDecoration(
+                                                                                                    labelText: 'Cart description',
+                                                                                                    labelStyle: TextStyle(color: Colors.white),
+                                                                                                    prefixIcon: Icon(
+                                                                                                      Icons.description,
+                                                                                                      color: Colors.white,
+                                                                                                    ),
+                                                                                                    border: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    )),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                        borderSide: BorderSide(
+                                                                                                      color: Colors.white,
+                                                                                                    ))),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 10,
+                                                                                            ),
+                                                                                            Row(
+                                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                                              children: [
+                                                                                                Padding(
+                                                                                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                                                                                  child: DropdownButton<String>(
+                                                                                                    value: dropdownValue,
+                                                                                                    onChanged: (String? newValue) {
+                                                                                                      setState(() {
+                                                                                                        dropdownValue = newValue!;
+                                                                                                      });
+                                                                                                    },
+                                                                                                    items: specificStoreCategoriesVal.map<DropdownMenuItem<String>>((String value) {
+                                                                                                      return DropdownMenuItem<String>(
+                                                                                                        value: value,
+                                                                                                        child: Text(
+                                                                                                          value,
+                                                                                                          style: TextStyle(
+                                                                                                            color: Colors.white,
                                                                                                           ),
                                                                                                         ),
-                                                                                                      ),
-                                                                                                    );
-                                                                                                  },
-                                                                                                );
-                                                                                              }).toList(),
-                                                                                            ),
-                                                                                          )),
-
-
-
-                                                                                    SizedBox(
-                                                                                      height: 20,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      width: MediaQuery.of(context).size.width / 1.3,
-                                                                                      child: TextFormField(
-                                                                                        cursorColor: Colors.white,
-                                                                                        style: TextStyle(color: Colors.white),
-                                                                                        controller: cartNameTextEditingController,
-                                                                                        //Making keyboard just for Email
-                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                        validator: (value) {
-                                                                                          if (value!.isEmpty) {
-                                                                                            return 'Cart Name is required';
-                                                                                          }
-                                                                                        },
-                                                                                        decoration: InputDecoration(
-                                                                                            labelText: 'Cart name',
-                                                                                            labelStyle:
-                                                                                            TextStyle(color: Colors.white),
-                                                                                            prefixIcon: Icon(
-                                                                                              Icons.category_outlined,
-                                                                                              color: Colors.white,
-                                                                                            ),
-                                                                                            border: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                )),
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                ))),
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 20,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      width: MediaQuery.of(context).size.width / 1.3,
-                                                                                      child: TextFormField(
-                                                                                        cursorColor: Colors.white,
-                                                                                        style: TextStyle(color: Colors.white),
-                                                                                        controller: cartPriceTextEditingController,
-                                                                                        //Making keyboard just for Email
-                                                                                        keyboardType: TextInputType.text,
-                                                                                        validator: (value) {
-                                                                                          if (value!.isEmpty) {
-                                                                                            return 'Cart Price is required';
-                                                                                          }
-                                                                                        },
-                                                                                        decoration: InputDecoration(
-                                                                                            labelText: 'Cart price',
-                                                                                            labelStyle:
-                                                                                            TextStyle(color: Colors.white),
-                                                                                            prefixIcon: Icon(
-                                                                                              Icons.price_change,
-                                                                                              color: Colors.white,
-                                                                                            ),
-                                                                                            border: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                )),
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                ))),
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 20,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      width: MediaQuery.of(context).size.width / 1.3,
-                                                                                      child: TextFormField(
-                                                                                        cursorColor: Colors.white,
-                                                                                        style: TextStyle(color: Colors.white),
-                                                                                        controller: cartQuantitiesTextEditingController,
-                                                                                        //Making keyboard just for Email
-                                                                                        keyboardType: TextInputType.text,
-                                                                                        validator: (value) {
-                                                                                          if (value!.isEmpty) {
-                                                                                            return 'Cart Quantities is required';
-                                                                                          }
-                                                                                        },
-                                                                                        decoration: InputDecoration(
-                                                                                            labelText: 'Cart Quantities',
-                                                                                            labelStyle:
-                                                                                            TextStyle(color: Colors.white),
-                                                                                            prefixIcon: Icon(
-                                                                                              Icons.production_quantity_limits,
-                                                                                              color: Colors.white,
-                                                                                            ),
-                                                                                            border: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                )),
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                ))),
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 20,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      width: MediaQuery.of(context).size.width / 1.3,
-                                                                                      child: TextFormField(
-                                                                                        cursorColor: Colors.white,
-                                                                                        style: TextStyle(color: Colors.white),
-                                                                                        controller:
-                                                                                        cartDescriptionTextEditingController,
-                                                                                        //Making keyboard just for Email
-                                                                                        keyboardType: TextInputType.emailAddress,
-                                                                                        validator: (value) {
-                                                                                          if (value!.isEmpty) {
-                                                                                            return 'Cart Descrption is required';
-                                                                                          }
-                                                                                        },
-                                                                                        decoration: InputDecoration(
-                                                                                            labelText: 'Cart description',
-                                                                                            labelStyle:
-                                                                                            TextStyle(color: Colors.white),
-                                                                                            prefixIcon: Icon(
-                                                                                              Icons.description,
-                                                                                              color: Colors.white,
-                                                                                            ),
-                                                                                            border: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                )),
-                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                ))),
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(height: 10,),
-                                                                                    Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                                      children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                                                                          child: DropdownButton<String>(
-                                                                                            value: dropdownValue ,
-                                                                                            onChanged: (String? newValue) {
-                                                                                              setState(() {
-                                                                                                dropdownValue = newValue!;
-
-                                                                                              });
-                                                                                            },
-                                                                                            items: specificStoreCategoriesVal.map<DropdownMenuItem<String>>((String value) {
-                                                                                              return DropdownMenuItem<String>(
-
-                                                                                                value: value,
-                                                                                                child: Text(value,style: TextStyle(color: Colors.white,),),
-                                                                                              );
-                                                                                            }).toList(),
-                                                                                            dropdownColor: Color(0xFF212128),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                                                                      child: Row(
-                                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                                        children: [
-                                                                                          Container(
-                                                                                            width: MediaQuery.of(context).size.width /
-                                                                                                2.5,
-                                                                                            child: Text(
-                                                                                              'Activate Discount',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 16.0,
-                                                                                                  color: Colors.white),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Checkbox(
-                                                                                            value: cartDiscountBool,
-                                                                                            onChanged: (bool? value) {
-                                                                                              setState(() {
-                                                                                                cartDiscountBool = value!;
-                                                                                                print(cartDiscountBool);
-                                                                                              });
-                                                                                            },
-                                                                                            checkColor: Colors.blue,
-                                                                                            activeColor: Colors.blue,
-                                                                                            // Color when checked
-                                                                                            fillColor:
-                                                                                            MaterialStateProperty.all<Color>(
-                                                                                                Colors.white),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 0,
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                                                                      child: Row(
-                                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                                        children: [
-                                                                                          Container(
-                                                                                            width: MediaQuery.of(context).size.width /
-                                                                                                2.5,
-                                                                                            child: Text(
-                                                                                              'Activate Like',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 16.0,
-                                                                                                  color: Colors.white),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Checkbox(
-                                                                                            value: cartLikedBool,
-                                                                                            onChanged: (bool? value) {
-                                                                                              setState(() {
-                                                                                                cartLikedBool = value!;
-                                                                                                print(cartLikedBool);
-                                                                                              });
-                                                                                            },
-                                                                                            checkColor: Colors.blue,
-                                                                                            activeColor: Colors.blue,
-                                                                                            // Color when checked
-                                                                                            fillColor:
-                                                                                            MaterialStateProperty.all<Color>(
-                                                                                                Colors.white),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 0,
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                                                                                      child: Row(
-                                                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                                                        children: [
-                                                                                          Container(
-                                                                                            width: MediaQuery.of(context).size.width /
-                                                                                                2.5,
-                                                                                            child: Text(
-                                                                                              'Activate Favourite',
-                                                                                              style: TextStyle(
-                                                                                                  fontSize: 16.0,
-                                                                                                  color: Colors.white),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Checkbox(
-                                                                                            value: cartFavouriteBool,
-                                                                                            onChanged: (bool? value) {
-                                                                                              setState(() {
-                                                                                                cartFavouriteBool = value!;
-                                                                                                print(cartFavouriteBool);
-                                                                                              });
-                                                                                            },
-                                                                                            checkColor: Colors.blue,
-                                                                                            activeColor: Colors.blue,
-                                                                                            // Color when checked
-                                                                                            fillColor:
-                                                                                            MaterialStateProperty.all<Color>(
-                                                                                                Colors.white),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ),
-                                                                                    SizedBox(
-                                                                                      height: 10,
-                                                                                    ),
-                                                                                    Row(
-                                                                                      children: [
-                                                                                        Container(
-                                                                                          width: MediaQuery.of(context).size.width / 3,
-                                                                                          child: TextButton(
-                                                                                            onPressed: () async {
-
-                                                                                                print(emailVal);
-                                                                                                print(index);
-                                                                                                http.Response userFuture =
-                                                                                                await http.patch(
-                                                                                                  Uri.parse(
-                                                                                                      "http://10.0.2.2:3000/matjarcom/api/v1/test-update-specific-cart/$emailVal"),
-                                                                                                  headers: {
-                                                                                                    "Content-Type": "application/json"
-                                                                                                  },
-                                                                                                  body: jsonEncode(
-                                                                                                    {
-                                                                                                      "index":index,
-                                                                                                      "email": emailVal,
-                                                                                                      "cartName":
-                                                                                                      cartNameTextEditingController
-                                                                                                          .text,
-                                                                                                      "cartPrice":
-                                                                                                      cartPriceTextEditingController
-                                                                                                          .text,
-                                                                                                      "cartDiscount": cartDiscountBool,
-                                                                                                      "cartLiked": cartLikedBool,
-                                                                                                      "cartFavourite": cartFavouriteBool,
-                                                                                                      "cartDescription":
-                                                                                                      cartDescriptionTextEditingController
-                                                                                                          .text,
-                                                                                                      "cartCategory":dropdownValue.toString(),
-                                                                                                      "cartQuantities":cartQuantitiesTextEditingController.text,
-                                                                                                    },
+                                                                                                      );
+                                                                                                    }).toList(),
+                                                                                                    dropdownColor: Color(0xFF212128),
                                                                                                   ),
-                                                                                                  encoding: Encoding.getByName("utf-8"),
-                                                                                                );
-                                                                                                  setState((){
-                                                                                                    getSpecificStoreCart();
-                                                                                                  });
-
-
-                                                                                                // print(temp?.email);
-
-                                                                                            },
-                                                                                            child: Text(
-                                                                                              "Update Cart",
-                                                                                              style: TextStyle(color: Colors.white),
+                                                                                                ),
+                                                                                              ],
                                                                                             ),
-                                                                                            style: ButtonStyle(
-                                                                                              backgroundColor:
-                                                                                              MaterialStateProperty.all<Color>(
-                                                                                                  Color(0xFF212128)),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                        SizedBox(width: 15,),
-                                                                                        Expanded(
-                                                                                          child: Container(
-                                                                                            width: MediaQuery.of(context).size.width / 4,
-                                                                                            child: TextButton(
-                                                                                              onPressed: () async{
-                                                                                                deleteCart(index);
-                                                                                              },
-                                                                                              child: Text(
-                                                                                                "Delete Cart",
-                                                                                                style: TextStyle(color: Colors.white),
-                                                                                              ),
-                                                                                              style: ButtonStyle(
-                                                                                                backgroundColor:
-                                                                                                MaterialStateProperty.all<Color>(
-                                                                                                    Color(0xFF212128)),
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    width: MediaQuery.of(context).size.width / 2.5,
+                                                                                                    child: Text(
+                                                                                                      'Activate Discount',
+                                                                                                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Checkbox(
+                                                                                                    value: cartDiscountBool,
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      setState(() {
+                                                                                                        cartDiscountBool = value!;
+                                                                                                        print(cartDiscountBool);
+                                                                                                      });
+                                                                                                    },
+                                                                                                    checkColor: Colors.blue,
+                                                                                                    activeColor: Colors.blue,
+                                                                                                    // Color when checked
+                                                                                                    fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                                                  ),
+                                                                                                ],
                                                                                               ),
                                                                                             ),
-                                                                                          ),
+                                                                                            SizedBox(
+                                                                                              height: 0,
+                                                                                            ),
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    width: MediaQuery.of(context).size.width / 2.5,
+                                                                                                    child: Text(
+                                                                                                      'Activate Like',
+                                                                                                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Checkbox(
+                                                                                                    value: cartLikedBool,
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      setState(() {
+                                                                                                        cartLikedBool = value!;
+                                                                                                        print(cartLikedBool);
+                                                                                                      });
+                                                                                                    },
+                                                                                                    checkColor: Colors.blue,
+                                                                                                    activeColor: Colors.blue,
+                                                                                                    // Color when checked
+                                                                                                    fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 0,
+                                                                                            ),
+                                                                                            Padding(
+                                                                                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                                                                                              child: Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Container(
+                                                                                                    width: MediaQuery.of(context).size.width / 2.5,
+                                                                                                    child: Text(
+                                                                                                      'Activate Favourite',
+                                                                                                      style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Checkbox(
+                                                                                                    value: cartFavouriteBool,
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      setState(() {
+                                                                                                        cartFavouriteBool = value!;
+                                                                                                        print(cartFavouriteBool);
+                                                                                                      });
+                                                                                                    },
+                                                                                                    checkColor: Colors.blue,
+                                                                                                    activeColor: Colors.blue,
+                                                                                                    // Color when checked
+                                                                                                    fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              height: 10,
+                                                                                            ),
+                                                                                            Row(
+                                                                                              children: [
+                                                                                                Container(
+                                                                                                  width: MediaQuery.of(context).size.width / 3,
+                                                                                                  child: TextButton(
+                                                                                                    onPressed: () async {
+                                                                                                      int counter2 = 0;
+                                                                                                      for (int i = 0; i < storeCartsVal.length; i++) {
+                                                                                                        if (storeCartsVal[i]["cartName"].toString() == cartNameTextEditingController.text.toString()) {
+                                                                                                          counter2++;
+                                                                                                        }
+                                                                                                      }
+                                                                                                      print(counter2);
+
+                                                                                                      if (counter2 == 0) {
+                                                                                                        if ((cartPriceTextEditingController.text.trim().isEmpty || isNumeric(cartPriceTextEditingController.text.trim())) && (cartQuantitiesTextEditingController.text.trim().isEmpty || isNumeric(cartQuantitiesTextEditingController.text.trim())) && (cartDescriptionTextEditingController.text.trim().isEmpty || isString(cartDescriptionTextEditingController.text.trim())) && (cartNameTextEditingController.text.trim().isEmpty || isString(cartNameTextEditingController.text.trim()))) {
+                                                                                                          print(emailVal);
+                                                                                                          print(index);
+                                                                                                          http.Response userFuture = await http.patch(
+                                                                                                            Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/test-update-specific-cart/$emailVal"),
+                                                                                                            headers: {
+                                                                                                              "Content-Type": "application/json"
+                                                                                                            },
+                                                                                                            body: jsonEncode(
+                                                                                                              {
+                                                                                                                "index": index,
+                                                                                                                "email": emailVal,
+                                                                                                                "cartName": cartNameTextEditingController.text,
+                                                                                                                "cartPrice": cartPriceTextEditingController.text,
+                                                                                                                "cartDiscount": cartDiscountBool,
+                                                                                                                "cartLiked": cartLikedBool,
+                                                                                                                "cartFavourite": cartFavouriteBool,
+                                                                                                                "cartDescription": cartDescriptionTextEditingController.text,
+                                                                                                                "cartCategory": dropdownValue.toString(),
+                                                                                                                "cartQuantities": cartQuantitiesTextEditingController.text,
+                                                                                                              },
+                                                                                                            ),
+                                                                                                            encoding: Encoding.getByName("utf-8"),
+                                                                                                          );
+                                                                                                          storeCartsVal[index]["cartDiscount"] = cartDiscountBool;
+                                                                                                          print("KKKKKKKKKK ${storeCartsVal[index]["cartDiscount"]}");
+                                                                                                          setState(() {
+                                                                                                            cartNameTextEditingController.clear();
+                                                                                                            cartPriceTextEditingController.clear();
+                                                                                                            cartQuantitiesTextEditingController.clear();
+                                                                                                            cartDescriptionTextEditingController.clear();
+                                                                                                            getSpecificStoreCart();
+                                                                                                          });
+
+                                                                                                          // print(temp?.email);
+                                                                                                        } else {
+                                                                                                          showDialog(
+                                                                                                              context: context,
+                                                                                                              builder: (context) => AlertDialog(
+                                                                                                                    title: Text("Failed"),
+                                                                                                                    content: Text("Something go wrong !!"),
+                                                                                                                  ));
+                                                                                                        }
+                                                                                                      } else {
+                                                                                                        showDialog(
+                                                                                                            context: context,
+                                                                                                            builder: (context) => AlertDialog(
+                                                                                                                  title: Text("Failed"),
+                                                                                                                  content: Text("Failed: inserted data not suitable with it's field!"),
+                                                                                                                ));
+                                                                                                      }
+                                                                                                    },
+                                                                                                    child: Text(
+                                                                                                      "Update Cart",
+                                                                                                      style: TextStyle(color: Colors.white),
+                                                                                                    ),
+                                                                                                    style: ButtonStyle(
+                                                                                                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF212128)),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                SizedBox(
+                                                                                                  width: 15,
+                                                                                                ),
+                                                                                                Expanded(
+                                                                                                  child: Container(
+                                                                                                    width: MediaQuery.of(context).size.width / 4,
+                                                                                                    child: TextButton(
+                                                                                                      onPressed: () async {
+                                                                                                        deleteCart(index);
+                                                                                                      },
+                                                                                                      child: Text(
+                                                                                                        "Delete Cart",
+                                                                                                        style: TextStyle(color: Colors.white),
+                                                                                                      ),
+                                                                                                      style: ButtonStyle(
+                                                                                                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF212128)),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            )
+                                                                                          ],
                                                                                         ),
                                                                                       ],
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      }),
-                                                                ));
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              }),
+                                                                            ));
                                                               },
                                                               child: Container(
                                                                 height: 120,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.only(
-                                                                    bottomRight: Radius.circular(20),
-                                                                    bottomLeft: Radius.circular(20),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .only(
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            20),
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            20),
                                                                   ),
-                                                                  color: Color(0xF2222128),
+                                                                  color: Color(
+                                                                      0xF2222128),
                                                                 ),
                                                                 child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
                                                                   children: [
                                                                     Container(
-                                                                      padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
-                                                                      child: Text("${storeCartsVal[index]["cartName"].toString()}",
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          maxLines: 1,
-                                                                          style: TextStyle(
-                                                                            fontSize: 22,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.white,
+                                                                      padding: EdgeInsets
+                                                                          .fromLTRB(
+                                                                              10,
+                                                                              8,
+                                                                              10,
+                                                                              0),
+                                                                      child: Text(
+                                                                          "${storeCartsVal[index]["cartName"].toString()}",
+                                                                          overflow: TextOverflow
+                                                                              .ellipsis,
+                                                                          maxLines:
+                                                                              1,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                22,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color:
+                                                                                Colors.white,
                                                                           )),
                                                                     ),
                                                                     Container(
-                                                                      padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
-                                                                      child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          maxLines: 2,
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.white,
+                                                                      padding: EdgeInsets
+                                                                          .fromLTRB(
+                                                                              10,
+                                                                              8,
+                                                                              10,
+                                                                              3),
+                                                                      child: Text(
+                                                                          "${storeCartsVal[index]["cartDescription"].toString()}",
+                                                                          overflow: TextOverflow
+                                                                              .ellipsis,
+                                                                          maxLines:
+                                                                              2,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color:
+                                                                                Colors.white,
                                                                           )),
                                                                     ),
                                                                     Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                                                                      textBaseline: TextBaseline.alphabetic,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .baseline,
+                                                                      textBaseline:
+                                                                          TextBaseline
+                                                                              .alphabetic,
                                                                       children: [
                                                                         Container(
-                                                                          padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                                                                          child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
+                                                                          padding: EdgeInsets.fromLTRB(
+                                                                              10,
+                                                                              0,
+                                                                              2,
+                                                                              0),
+                                                                          child: Text(
+                                                                              "${storeCartsVal[index]["cartPrice"].toString()}",
                                                                               overflow: TextOverflow.ellipsis,
                                                                               maxLines: 1,
                                                                               style: TextStyle(
@@ -1915,20 +2121,23 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                               )),
                                                                         ),
                                                                         SizedBox(
-                                                                          width: 5,
+                                                                          width:
+                                                                              5,
                                                                         ),
                                                                         Container(
                                                                           // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                          child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              maxLines: 1,
-                                                                              style: TextStyle(
-                                                                                fontSize: 11,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                decoration: TextDecoration.lineThrough,
-                                                                                decorationThickness: 3,
-                                                                                color: Colors.white,
-                                                                              )),
+                                                                          child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" == "null"
+                                                                              ? Text("")
+                                                                              : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  maxLines: 1,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 11,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    decoration: TextDecoration.lineThrough,
+                                                                                    decorationThickness: 3,
+                                                                                    color: Colors.white,
+                                                                                  )),
                                                                         ),
                                                                       ],
                                                                     ),
@@ -1938,13 +2147,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             )),
                                                       ],
                                                     ),
-                                                  )
-                                                  ,
-                                                  itemCount: storeCartsVal.length,
+                                                  ),
+                                                  itemCount:
+                                                      storeCartsVal.length,
                                                 ),
                                               );
                                             },
-
                                           ),
                                         ],
                                       ),
@@ -1973,7 +2181,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                   onTap: (index) {
                     print(index);
                     if (index == 0) {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MerchantHome(tokenVal, emailVal)));
                     } else if (index == 1) {
                       setState(() {
                         showDialog(
@@ -2052,7 +2264,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      sliderVisibilityVal = true;
+                                                      sliderVisibilityVal =
+                                                          true;
                                                       activateStoreSlider();
                                                     });
                                                   },
@@ -2073,7 +2286,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      sliderVisibilityVal = false;
+                                                      sliderVisibilityVal =
+                                                          false;
                                                       activateStoreSlider();
                                                     });
                                                   },
@@ -2109,7 +2323,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      categoryVisibilityVal = true;
+                                                      categoryVisibilityVal =
+                                                          true;
                                                       activateStoreCategory();
                                                     });
                                                   },
@@ -2188,7 +2403,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               child: IconButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      cartsVisibilityVal = false;
+                                                      cartsVisibilityVal =
+                                                          false;
                                                       activateStoreCarts();
                                                     });
                                                   },
@@ -2205,7 +2421,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 ));
                       });
                     } else if (index == 2) {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProfilePage(tokenVal, emailVal)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DisplayStoreInformations(
+                                  tokenVal, emailVal)));
                     }
                   },
                   items: [
@@ -2340,38 +2560,53 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       )),
                   TextButton(
                     onPressed: () async {
+                      int counterCat=0;
                       setState(() async {
-                        await insertSpecificStoreCategory();
-                        await getSpecificStoreCategories();
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  backgroundColor: Color(0xFF212128),
-                                  icon: Icon(
-                                    Icons.info,
-                                    color: Colors.green,
-                                    size: 15,
-                                  ),
-                                  title: Text(
-                                    "Information Message",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  content: Text(
-                                    "Category added Successfully!!",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "OK",
-                                          style: TextStyle(color: Colors.white),
-                                        ))
-                                  ],
-                                ));
-                        specificStoreCategoriesTextEditingController.clear();
+                        for(int i = 0; i<specificStoreCategoriesVal.length; i++){
+                          if(specificStoreCategoriesVal[i].toString() == specificStoreCategoriesTextEditingController.text){
+                            counterCat++;
+                          }
+                        }
+                        if(counterCat != 0){
+                          showDialog(context: context, builder: (context)=>AlertDialog(
+                            title: Text("Failed"),
+                            content: Text("Failed: Duplicate category name"),
+                          ));
+                        }else {
+                          await insertSpecificStoreCategory();
+                          await getSpecificStoreCategories();
+                          showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertDialog(
+                                    backgroundColor: Color(0xFF212128),
+                                    icon: Icon(
+                                      Icons.info,
+                                      color: Colors.green,
+                                      size: 15,
+                                    ),
+                                    title: Text(
+                                      "Information Message",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    content: Text(
+                                      "Category added Successfully!!",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "OK",
+                                            style: TextStyle(
+                                                color: Colors.white),
+                                          ))
+                                    ],
+                                  ));
+                          specificStoreCategoriesTextEditingController.clear();
+                        }
                       });
                     },
                     child: Text("OK", style: TextStyle(color: Colors.white)),
@@ -2393,7 +2628,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                 ),
                 content: StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
-                      print("bbbbbbb $specificStoreCategoriesVal");
+                  print("bbbbbbb $specificStoreCategoriesVal");
                   return Container(
                     child: SingleChildScrollView(
                       child: Column(
@@ -2410,7 +2645,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                           ),
                           Column(
                             children: [
-
                               Container(
                                 width: MediaQuery.of(context).size.width / 1.3,
                                 child: TextFormField(
@@ -2484,7 +2718,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 child: TextFormField(
                                   cursorColor: Colors.white,
                                   style: TextStyle(color: Colors.white),
-                                  controller: cartQuantitiesTextEditingController,
+                                  controller:
+                                      cartQuantitiesTextEditingController,
                                   //Making keyboard just for Email
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
@@ -2495,19 +2730,19 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   decoration: InputDecoration(
                                       labelText: 'Cart Quantities',
                                       labelStyle:
-                                      TextStyle(color: Colors.white),
+                                          TextStyle(color: Colors.white),
                                       prefixIcon: Icon(
                                         Icons.production_quantity_limits,
                                         color: Colors.white,
                                       ),
                                       border: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Colors.white,
-                                          )),
+                                        color: Colors.white,
+                                      )),
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Colors.white,
-                                          ))),
+                                        color: Colors.white,
+                                      ))),
                                 ),
                               ),
                               SizedBox(
@@ -2545,25 +2780,33 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       ))),
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                     child: DropdownButton<String>(
-                                      value: dropdownValue ,
+                                      value: dropdownValue,
                                       onChanged: (String? newValue) {
                                         setState(() {
                                           dropdownValue = newValue!;
-
                                         });
                                       },
-                                      items: specificStoreCategoriesVal.map<DropdownMenuItem<String>>((String value) {
+                                      items: specificStoreCategoriesVal
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
-
                                           value: value,
-                                          child: Text(value,style: TextStyle(color: Colors.white,),),
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         );
                                       }).toList(),
                                       dropdownColor: Color(0xFF212128),
@@ -2591,7 +2834,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       onChanged: (bool? value) {
                                         setState(() {
                                           cartDiscountBool = value!;
-                                          print(cartDiscountBool);
+                                          getSpecificStoreCart();
                                         });
                                       },
                                       checkColor: Colors.blue,
@@ -2684,43 +2927,118 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 child: TextButton(
                                   onPressed: () async {
                                     try {
+                                      int counter1 = 0;
+                                      for (int i = 0;
+                                          i < storeCartsVal.length;
+                                          i++) {
+                                        if (storeCartsVal[i]["cartName"]
+                                                .toString() ==
+                                            cartNameTextEditingController.text
+                                                .toString()) {
+                                          counter1++;
+                                        }
+                                      }
 
-                                      http.Response userFuture =
-                                          await http.post(
-                                        Uri.parse(
-                                            "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
-                                        headers: {
-                                          "Content-Type": "application/json"
-                                        },
-                                        body: jsonEncode(
-                                          {
-                                            "email": emailVal,
-                                            "cartName":
-                                                cartNameTextEditingController
-                                                    .text,
-                                            "cartPrice":
-                                                cartPriceTextEditingController
-                                                    .text,
-                                            "cartDiscount": cartDiscountBool,
-                                            "cartLiked": cartLikedBool,
-                                            "cartFavourite": cartFavouriteBool,
-                                            "cartDescription":
-                                                cartDescriptionTextEditingController
-                                                    .text,
-                                            "cartCategory":dropdownValue.toString(),
-                                            "cartQuantities":cartQuantitiesTextEditingController.text
-                                          },
-                                        ),
-                                        encoding: Encoding.getByName("utf-8"),
-                                      );
-                                      print(userFuture.body);
-                                      var temp = CartContentModel.fromJson(
-                                          json.decode(userFuture.body));
-                                      print(temp.message);
-                                      setState(() async {
-                                        // storeCartsVal = await getSpecificStoreCart();
-                                        await getSpecificStoreCart();
-                                      });
+                                      if (counter1 != 0) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: Text("Failed!!"),
+                                                  content: Text(
+                                                      "Failed: There is another cart with same name "),
+                                                ));
+                                      } else {
+                                        if ((cartPriceTextEditingController
+                                                    .text
+                                                    .trim()
+                                                    .isNotEmpty &&
+                                                isNumeric(
+                                                    cartPriceTextEditingController
+                                                        .text
+                                                        .trim())) &&
+                                            (cartQuantitiesTextEditingController
+                                                    .text
+                                                    .trim()
+                                                    .isNotEmpty &&
+                                                isNumeric(
+                                                    cartQuantitiesTextEditingController
+                                                        .text
+                                                        .trim())) &&
+                                            (cartDescriptionTextEditingController
+                                                    .text
+                                                    .trim()
+                                                    .isNotEmpty &&
+                                                isString(
+                                                    cartDescriptionTextEditingController
+                                                        .text
+                                                        .trim())) &&
+                                            (cartNameTextEditingController.text
+                                                    .trim()
+                                                    .isNotEmpty &&
+                                                isString(
+                                                    cartNameTextEditingController
+                                                        .text
+                                                        .trim()))) {
+                                          http.Response userFuture =
+                                              await http.post(
+                                            Uri.parse(
+                                                "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
+                                            headers: {
+                                              "Content-Type": "application/json"
+                                            },
+                                            body: jsonEncode(
+                                              {
+                                                "email": emailVal,
+                                                "cartName":
+                                                    cartNameTextEditingController
+                                                        .text,
+                                                "cartPrice":
+                                                    cartPriceTextEditingController
+                                                        .text,
+                                                "cartDiscount":
+                                                    cartDiscountBool,
+                                                "cartLiked": cartLikedBool,
+                                                "cartFavourite":
+                                                    cartFavouriteBool,
+                                                "cartDescription":
+                                                    cartDescriptionTextEditingController
+                                                        .text,
+                                                "cartCategory":
+                                                    dropdownValue.toString(),
+                                                "cartQuantities":
+                                                    cartQuantitiesTextEditingController
+                                                        .text
+                                              },
+                                            ),
+                                            encoding:
+                                                Encoding.getByName("utf-8"),
+                                          );
+                                          print(userFuture.body);
+                                          var temp = CartContentModel.fromJson(
+                                              json.decode(userFuture.body));
+                                          print(temp.message);
+                                          setState(() async {
+                                            // storeCartsVal = await getSpecificStoreCart();
+                                            cartNameTextEditingController
+                                                .clear();
+                                            cartPriceTextEditingController
+                                                .clear();
+                                            cartQuantitiesTextEditingController
+                                                .clear();
+                                            cartDescriptionTextEditingController
+                                                .clear();
+                                            await getSpecificStoreCart();
+                                          });
+                                        } else {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                    title: Text("Failed"),
+                                                    content: Text(
+                                                        "Failed: inserted data not suitable with it's field!"),
+                                                  ));
+                                        }
+                                      }
 
                                       // print(temp?.email);
                                     } catch (error) {}
@@ -2744,7 +3062,25 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                   );
                 }),
               ));
-
     });
+  }
+
+  bool isNumeric(String value) {
+    if (value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
+
+  bool isString(String input) {
+    try {
+      // Try parsing the input as an integer
+      int.parse(input);
+      // If parsing succeeds, it's an integer
+      return false;
+    } catch (e) {
+      // If an exception occurs, it's not an integer (assumed to be a string)
+      return true;
+    }
   }
 }

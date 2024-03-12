@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/store_m
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/merchant_profile.dart';
 
@@ -243,10 +245,14 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                     child: Stack(
                                         children:[
                                           ClipOval(
-                                            child: Image.network(
-                                              imageUrlVal,
-                                              width: double.infinity,
-                                              height: double.infinity,
+                                            child: CachedNetworkImage(
+                                              imageUrl:imageUrlVal,
+                                              placeholder: (context, url) => SimpleCircularProgressBar(
+                                                mergeMode: true,
+                                                animationDuration: 1,
+                                              ),
+                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              fit: BoxFit.cover,
 
                                             ),
                                           ),

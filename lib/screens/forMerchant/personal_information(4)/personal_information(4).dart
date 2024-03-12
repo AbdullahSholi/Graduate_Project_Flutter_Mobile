@@ -183,41 +183,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                           ))),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 30.0,
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.3,
-                                    child: TextFormField(
-                                      cursorColor: Colors.white,
-                                      style: TextStyle(color: Colors.white),
-                                      controller: emailTextEditingController,
-                                      //Making keyboard just for Email
-                                      keyboardType: TextInputType.emailAddress,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Your email is required';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: 'email',
-                                          labelStyle:
-                                              TextStyle(color: Colors.white),
-                                          prefixIcon: Icon(
-                                            Icons.email,
-                                            color: Colors.white,
-                                          ),
-                                          border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                            color: Colors.white,
-                                          )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                            color: Colors.white,
-                                          ))),
-                                    ),
-                                  ),
+
                                   SizedBox(
                                     height: 30.0,
                                   ),
