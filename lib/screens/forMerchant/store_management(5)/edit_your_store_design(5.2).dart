@@ -96,6 +96,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -139,6 +140,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -184,6 +186,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -225,6 +228,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -243,54 +247,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     }
   }
 
-  Future<void> deleteSpecificStoreCategory(indexVal) async {
-    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
-    print("$emailVal ssssssssssssssssss");
-    // Extract the file name from the path
-    print(indexVal);
-    // Create a map with your data
-    Map<String, dynamic> requestData = {
-      'index': indexVal,
-      "email": emailVal,
-    };
 
-    Options options = Options(
-      headers: {
-        'Content-Type': 'application/json',
-        // Add any other headers if needed
-      },
-    );
-
-      // Make the POST request using dio
-      Response response =
-          await _dio.delete(url, data: requestData, options: options);
-      // Check the response status
-      if (response.statusCode == 200) {
-        print('Category Deleted Successfully!!');
-        showDialog(
-            context: context,
-            builder: (context) => const AlertDialog(
-                  backgroundColor: Color(0xFF212128),
-                  title: Text(
-                    "Success",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  content: Text(
-                    "Category Deleted Successfully!!",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ));
-
-        // getSliderImages();
-
-        // print(imageSliderVal);
-      } else {
-        print('Failed to delete category. Status code: ${response.statusCode}');
-      }
-
-  }
 
   Future<void> deleteImageFromSlider(urlVal) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
@@ -308,6 +265,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -343,6 +301,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -381,6 +340,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -404,6 +364,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     // print(userFuture.body);
 
@@ -437,6 +401,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     // print(userFuture.body);
 
@@ -474,6 +441,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -507,6 +477,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
       },
     );
@@ -542,6 +513,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
       },
     );
@@ -577,6 +549,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+
         // Add any other headers if needed
       },
     );
@@ -603,6 +578,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -633,6 +611,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
         // Add any other headers if needed
       },
@@ -671,6 +650,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+
         // Add any other headers if needed
         // Add any other headers if needed
       },
@@ -686,10 +667,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
         // getSliderImages();
         setState(() async {
           // storeCartsVal = await getSpecificStoreCart();
-
-          await deleteSpecificStoreCategory(index);
-          await getSpecificStoreCategories();
-          await getSpecificStoreCart();
+          // await deleteSpecificStoreCategory(index);
+           await getSpecificStoreCategories();
+           getSpecificStoreCart();
         });
         // print(imageSliderVal);
       } else {
@@ -702,6 +682,56 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       //   content: Text("No any Cart exist"),
       // ));
     }
+  }
+
+  Future<void> deleteSpecificStoreCategory(indexVal) async {
+    // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
+    final url =
+        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
+    print("$emailVal ssssssssssssssssss");
+    // Extract the file name from the path
+    print(indexVal);
+    // Create a map with your data
+    Map<String, dynamic> requestData = {
+      'index': indexVal,
+      "email": emailVal,
+    };
+
+    Options options = Options(
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
+        // Add any other headers if needed
+      },
+    );
+
+    // Make the POST request using dio
+    Response response =
+    await _dio.delete(url, data: requestData, options: options);
+    // Check the response status
+    if (response.statusCode == 200) {
+      print('Category Deleted Successfully!!');
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+            backgroundColor: Color(0xFF212128),
+            title: Text(
+              "Success",
+              style: TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              "Category Deleted Successfully!!",
+              style: TextStyle(color: Colors.white),
+            ),
+          ));
+
+      // getSliderImages();
+
+      // print(imageSliderVal);
+    } else {
+      print('Failed to delete category. Status code: ${response.statusCode}');
+    }
+
   }
 
   bool _isSearching = false;
@@ -1939,7 +1969,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                           http.Response userFuture = await http.patch(
                                                                                                             Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/test-update-specific-cart/$emailVal"),
                                                                                                             headers: {
-                                                                                                              "Content-Type": "application/json"
+                                                                                                              "Content-Type": "application/json",
+                                                                                                              "Authorization": "Bearer $tokenVal",
                                                                                                             },
                                                                                                             body: jsonEncode(
                                                                                                               {
@@ -2984,7 +3015,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             Uri.parse(
                                                 "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
                                             headers: {
-                                              "Content-Type": "application/json"
+                                              "Content-Type": "application/json",
+                                              "Authorization": "Bearer $tokenVal",
                                             },
                                             body: jsonEncode(
                                               {

@@ -81,6 +81,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
         Options options = Options(
           headers: {
             'Content-Type': 'multipart/form-data',
+            "Authorization": "Bearer $tokenVal",
             // Add any other headers if needed
           },
 
@@ -128,6 +129,9 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
 
     // print(userFuture.body[1]);
@@ -395,7 +399,9 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       http.Response userFuture = await http.patch(
                                         Uri.parse(
                                             "http://10.0.2.2:3000/matjarcom/api/v1/update-store-informations/${emailVal}"),
-                                        headers: { "Content-Type": "application/json"},
+                                        headers: { "Content-Type": "application/json",
+                                          "Authorization": "Bearer $tokenVal",
+                                        },
                                         body: jsonEncode(
                                           {
                                             "storeName":storeName,

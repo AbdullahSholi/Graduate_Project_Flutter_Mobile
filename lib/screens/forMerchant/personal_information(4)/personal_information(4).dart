@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forMerchant/merchant_home_page(3)/merchant_home_page.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
@@ -87,7 +88,8 @@ class _PersonalInformationState extends State<PersonalInformation>
                                       color: Color(0xFF212128),
                                     ), // Replace with your desired icon
                                     onPressed: () {
-                                      Navigator.pop(context);
+
+                                      Navigator.push(context, (MaterialPageRoute(builder: (context)=> MerchantHome(tokenVal, emailVal))));
                                     },
                                     // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                                   ),
@@ -336,7 +338,8 @@ class _PersonalInformationState extends State<PersonalInformation>
                                       Uri.parse(
                                           "http://10.0.2.2:3000/matjarcom/api/v1/merchant-update/${emailVal}"),
                                       headers: {
-                                        "Content-Type": "application/json"
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer $tokenVal",
                                       },
                                       body: jsonEncode(
                                         {

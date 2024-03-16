@@ -61,6 +61,9 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
 
     // print(userFuture.body[1]);
@@ -81,6 +84,9 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
 
     // print(userFuture.body[1]);

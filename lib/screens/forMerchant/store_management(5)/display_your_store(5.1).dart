@@ -91,6 +91,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -132,6 +133,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -176,6 +178,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
       Options options = Options(
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": "Bearer $tokenVal",
           // Add any other headers if needed
         },
       );
@@ -218,6 +221,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -252,6 +256,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -310,6 +315,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -344,6 +350,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -383,6 +390,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -406,6 +414,9 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     // print(userFuture.body);
 
@@ -440,6 +451,9 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     // print(userFuture.body);
 
@@ -477,6 +491,9 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
@@ -508,6 +525,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
       },
     );
@@ -544,6 +562,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -580,6 +599,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $tokenVal",
         // Add any other headers if needed
       },
     );
@@ -608,6 +628,9 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
@@ -639,6 +662,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
         // Add any other headers if needed
       },
@@ -1708,7 +1732,8 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                         Uri.parse(
                                             "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
                                         headers: {
-                                          "Content-Type": "application/json"
+                                          "Content-Type": "application/json",
+                                          "Authorization": "Bearer $tokenVal",
                                         },
                                         body: jsonEncode(
                                           {

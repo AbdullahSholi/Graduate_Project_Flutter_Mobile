@@ -84,6 +84,9 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
         Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
 
     // print(userFuture.body[1]);
@@ -107,6 +110,9 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
     http.Response userFuture = await http.get(
       Uri.parse(
           "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
