@@ -38,8 +38,9 @@ class DisplayYourStore extends StatefulWidget {
   final bool sliderVisibility;
   final bool categoryVisibility;
   final bool cartsVisibility;
+  final Map<String, dynamic> objectData;
   const DisplayYourStore(
-      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility,
+      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData,
       {super.key});
   @override
   State<DisplayYourStore> createState() => _DisplayYourStoreState();
@@ -51,10 +52,12 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
   List<dynamic> storeCartsVal= [];
+  late Map<String, dynamic> objectDataVal;
   String storeNameVal = "";
   late bool sliderVisibilityVal ;
   late bool categoryVisibilityVal ;
   late bool cartsVisibilityVal ;
+
 
   late Future<User> userData;
   late Future<List> sliderImages;
@@ -743,6 +746,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
     specificStoreCategoriesVal = widget.specificStoreCategories;
     storeNameVal = widget.storeName;
     storeCartsVal = widget.storeCartsVal.toList();
+    objectDataVal = widget.objectData;
     print(emailVal);
     // userData = getUserByName();
     sliderImages = getSliderImages();
@@ -1245,7 +1249,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                     if (index == 0) {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantHome(tokenVal, emailVal)));
                     } else if (index == 1) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> EditYourStoreDesign(tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> EditYourStoreDesign(tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectDataVal)));
                     } else if (index == 2) {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> DisplayStoreInformations(tokenVal, emailVal)));
                     }

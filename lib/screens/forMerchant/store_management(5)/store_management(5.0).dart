@@ -16,6 +16,7 @@ import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
+import '../../../models/merchant/all_stores_model.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
@@ -54,12 +55,33 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   String storeCategoryVal = "";
   String storeDescriptionVal = "";
   List<String> specificStoreCategoriesVal = [];
+  late Map<String, dynamic> objectData ={};
+
+  List<dynamic> storeSliderImagesVal =[];
+
+  String merchantnameVal ="";
+  String phoneVal="";
+  String countryVal = "";
+  String AvatarVal = "";
+
+  List<dynamic> storeProductImagesVal=[];
+  List<dynamic> storeSocialMediaAccounts =[];
+
+
+  List<dynamic> specificStoreCatVal = [];
+
   List<dynamic> storeCartsVal =[];
   late Future<Merchant> userData;
+  late Future<AllStore> storeData;
   late bool sliderVisibilityVal ;
   late bool categoryVisibilityVal;
   late bool cartsVisibilityVal ;
 
+  late bool activateSliderVal;
+  late bool activateCategoryVal;
+  late bool activateCartsVal;
+
+  late List<dynamic> typeVal;
 
   @override
   void initState() {
@@ -77,7 +99,28 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
     userData = getUserByName();
+    storeData = getAllStoreData();
 
+  }
+
+  Future<AllStore> getAllStoreData() async{
+    print("$emailVal tttttttttt");
+    http.Response userFuture = await http.get(
+      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+    print(userFuture.statusCode);
+    if(userFuture.statusCode == 200){
+      // print("${userFuture.body}");
+      print(AllStore.fromJson(json.decode(userFuture.body)));
+
+      return AllStore.fromJson(json.decode(userFuture.body));
+    }
+    else{
+      throw Exception("Error");
+    }
   }
 
   Future<Merchant> getUserByName() async{
@@ -208,9 +251,9 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                             color: Colors.white,
                           ),
 
-                          FutureBuilder<Merchant>(
-                            future: userData,
-                            builder: (BuildContext context, AsyncSnapshot<Merchant> snapshot) {
+                          FutureBuilder<AllStore>(
+                            future: storeData,
+                            builder: (BuildContext context, AsyncSnapshot<AllStore> snapshot) {
                               try {
                                 imageUrlVal = snapshot.data!.storeAvatar;
                                 storeNameVal = snapshot.data!.storeName;
@@ -220,6 +263,47 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                 categoryVisibilityVal = snapshot.data!.activateCategory;
                                 cartsVisibilityVal = snapshot.data!.activateCarts;
 
+                                specificStoreCatVal = snapshot.data!.specificStoreCategories;
+                                List<String> stringList = specificStoreCatVal.map((element) => element.toString()).toList();
+                                specificStoreCategoriesVal = stringList;
+                                typeVal = snapshot.data!.type;
+                                List<String> tempTypeVal = typeVal.map((element) => element.toString()).toList();
+                                print("xxxxxxxxxx");
+                                print(tempTypeVal);
+                                print("xxxxxxxxxx");
+
+                                storeSliderImagesVal = snapshot.data!.storeSliderImages;
+                                storeProductImagesVal = snapshot.data!.storeProductImages;
+                                storeSocialMediaAccounts = snapshot.data!.socialMediaAccounts;
+                                merchantnameVal = snapshot.data!.merchantname;
+                                phoneVal = snapshot.data!.phone;
+                                countryVal = snapshot.data!.country;
+                                AvatarVal = snapshot.data!.Avatar;
+                                objectData = {
+                                  "merchantname":merchantnameVal,
+                                  "email":emailVal,
+                                  "phone":phoneVal,
+                                  "country":countryVal,
+                                  "Avatar":AvatarVal,
+                                  "storeName":storeNameVal,
+                                  "storeAvatar":snapshot.data?.storeAvatar,
+                                  "storeCategory":storeCategoryVal,
+                                  "storeSliderImages":storeSliderImagesVal,
+                                  "storeProductImages":storeProductImagesVal,
+                                  "storeDescription":storeDescriptionVal,
+                                  "storeSocialMediaAccounts":storeSocialMediaAccounts,
+                                  "activateSlider":sliderVisibilityVal,
+                                  "activateCategory":categoryVisibilityVal,
+                                  "activateCarts":cartsVisibilityVal ,
+                                  "specificStoreCategories":specificStoreCategoriesVal,
+                                  // "type":tempTypeVal,
+
+
+                                };
+
+                                print("%%%%%%%%%%%%%%%%%%%%%");
+                                print(objectData);
+                                print("%%%%%%%%%%%%%%%%%%%%%");
                                 print(storeCartsVal);
                                 return Container(
                                   height: MediaQuery
@@ -305,7 +389,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           DisplayYourStore(
-                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
+                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
                                             },
                                           ),
                                         ),
@@ -338,7 +422,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditYourStoreDesign(
-                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
+                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
                                             },
                                           ),
                                         ),
@@ -436,7 +520,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           EditYourStoreDesign(
-                                                              "", "",specificStoreCategoriesVal,storeNameVal,storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal)));
+                                                              tokenVal, emailVal,specificStoreCategoriesVal,storeNameVal,storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
                                             },
                                           ),
                                         ),

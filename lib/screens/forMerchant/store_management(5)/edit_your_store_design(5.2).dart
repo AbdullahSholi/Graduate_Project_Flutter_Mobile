@@ -36,6 +36,7 @@ class EditYourStoreDesign extends StatefulWidget {
   final bool sliderVisibility;
   final bool categoryVisibility;
   final bool cartsVisibility;
+  final Map<String, dynamic> objectData;
   const EditYourStoreDesign(
       this.token,
       this.email,
@@ -44,7 +45,7 @@ class EditYourStoreDesign extends StatefulWidget {
       this.storeCartsVal,
       this.sliderVisibility,
       this.categoryVisibility,
-      this.cartsVisibility,
+      this.cartsVisibility, this.objectData,
       {super.key});
   @override
   State<EditYourStoreDesign> createState() => _EditYourStoreDesignState();
@@ -60,6 +61,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   late bool sliderVisibilityVal;
   late bool categoryVisibilityVal;
   late bool cartsVisibilityVal;
+  late Map<String, dynamic> objectDataVal;
 
   late Future<User> userData;
   late Future<List> sliderImages;
@@ -74,6 +76,48 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   double tempSearchBoxHeight = 0;
   late File _image;
   final Dio _dio = Dio();
+
+  Future<void> addStoreToDatabase() async {
+    print("XPPPPPPPPPPPPX");
+    print(sliderVisibilityVal);
+    print(categoryVisibilityVal);
+    print(cartsVisibilityVal);
+    print("PPPPPPPPPPPP");
+    setState(() {
+      objectDataVal["activateSlider"]=sliderVisibilityVal;
+      objectDataVal["activateCategory"]=categoryVisibilityVal;
+      objectDataVal["activateCarts"]=cartsVisibilityVal;
+      objectDataVal["specificStoreCategories"]=specificStoreCategoriesVal;
+      // objectDataVal["type"] = storeCartsVal;
+
+    });
+    print(objectDataVal);
+    print("PPPPPPPPPPPP");
+    print("PPPPPPPPPPPP");
+
+
+    var storeDataToAddVal = objectDataVal;
+    print(storeDataToAddVal);
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "stores": storeDataToAddVal
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+
+  }
+
   Future<void> _pickAndUploadImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -489,7 +533,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     if (response.statusCode == 200) {
       print('Slider Activate');
       // getSliderImages();
-      setState(() {});
+      setState(() {
+
+      });
 
       // print(imageSliderVal);
     } else {
@@ -800,6 +846,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     sliderVisibilityVal = widget.sliderVisibility;
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
+    objectDataVal = widget.objectData;
   }
 
   @override
@@ -2452,11 +2499,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 ));
                       });
                     } else if (index == 2) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DisplayStoreInformations(
-                                  tokenVal, emailVal)));
+                      addStoreToDatabase();
                     }
                   },
                   items: [
@@ -2476,10 +2519,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.person,
+                        Icons.save,
                         color: Colors.white,
                       ),
-                      label: 'Profile',
+                      label: 'Save',
                     ),
                   ],
                   selectedItemColor: Colors.white,
