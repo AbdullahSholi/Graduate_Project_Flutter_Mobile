@@ -164,6 +164,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                     .size
                                     .height / 1.2,
 
+
                                 child: SingleChildScrollView(
                                   child:   Column(
                                     children: [
@@ -175,6 +176,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                             .width /
                                             1.13,
                                         height: 50,
+
                                         child: ListView.separated(
                                           scrollDirection: Axis.horizontal,
                                           itemCount:
@@ -205,6 +207,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                             .size
                                             .height /
                                             1,
+
                                         child: GridView.builder(
                                           scrollDirection:
                                           Axis.vertical,
@@ -224,6 +227,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                           // storeCartsVal[index]
                                           itemBuilder:
                                               (context, index) =>Container(
+
                                                 margin: EdgeInsets.fromLTRB(20,0,20,15),
                                                 width: MediaQuery
                                                     .of(context)
@@ -235,7 +239,8 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                     .height / 4,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(20),
-                                                    border: Border.all(width: 1)
+                                                    border: Border.all(width: 1),
+                                                  color: Color(0xFF212139),
                                                 ),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +255,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                       ),
                                                       child: Image.network(snapshot.data![index].storeAvatar),
                                                     ),
-                                                    SizedBox(width: 10,),
+                                                    SizedBox(width: 20,),
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       crossAxisAlignment: CrossAxisAlignment.start,

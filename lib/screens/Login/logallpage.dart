@@ -70,7 +70,11 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      return false;
+    },
+      child:Scaffold(
 
       body: AnimatedBackground(
         behaviour: RandomParticleBehaviour(
@@ -154,6 +158,6 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
           ),
         ),
       ),
-    );
+    ));
   }
 }

@@ -178,9 +178,32 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                               );
                               print(userFuture.body);
                               print(emailVal);
+                              if(userFuture.body.toString().trim()=="Too many login attempts, please try again after 60 seconds"){
+                                showDialog(context: context, builder: (context)=>AlertDialog(
+                                    title: Row(
+                                                children: [
+                                                  Icon(Icons.error_outline,color: Colors.red,weight: 30,),
+                                                  SizedBox(width: 10,),
+                                                  Text("Error Occurs!",style: TextStyle(color: Colors.white),),
+                                                ],
+                                              ),
+                                  backgroundColor: Color(0xFF101720),
+                                  content: Container(
+                                    height: MediaQuery.of(context).size.height/20,
+                                    child: Text("${userFuture.body}",style: TextStyle(color: Colors.white),),
+                                  ),
+                                actions: [
+                                  TextButton(onPressed: (){
+                                    Navigator.pop(context);
+                                  }, child: Text("OK",style: TextStyle(color: Colors.white),))
+                                ],
+                                ),
+                                );
+                              }
+
                               var temp = LoginPageMerchant.fromJson(
                                   json.decode(userFuture.body));
-                              print(temp);
+
                               print(temp?.token );
                               print(temp?.email);
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantHome(temp.token,temp.email)));
