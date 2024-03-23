@@ -4,7 +4,7 @@ import 'dart:ffi';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_project/screens/forGuest/guest_main_page.dart';
+import 'package:graduate_project/screens/forGuest/guest_main_page(1)/guest_main_page.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/register.dart';
 import 'package:http/http.dart' as http;
@@ -61,6 +61,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
   }
 
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -70,11 +71,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-      return false;
-    },
-      child:Scaffold(
+    return Scaffold(
 
       body: AnimatedBackground(
         behaviour: RandomParticleBehaviour(
@@ -114,13 +111,20 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                       child: Column(
                         children: [
 
-                          InkWell(onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage()));
-                          }, child: Text("Continue as Guest",style: GoogleFonts.fredoka(
-                              textStyle: TextStyle(color: Colors.white),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24
-                          ),)),
+                          FutureBuilder<List<dynamic>>(
+                            future: getStoreData,
+                            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                              print("RRRR ${snapshot.data}");
+                              return InkWell(onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage(snapshot.data)));
+                              }, child: Text("Continue as Guest",style: GoogleFonts.fredoka(
+                                  textStyle: TextStyle(color: Colors.white),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24
+                              ),));
+                            },
+
+                          ),
 
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
@@ -158,6 +162,6 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
           ),
         ),
       ),
-    ));
+    );
   }
 }
