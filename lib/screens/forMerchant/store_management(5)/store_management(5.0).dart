@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/connect_to_social_media_accounts.dart';
-import 'package:graduate_project/screens/forMerchant/store_management(5)/delete_merchant_with_carts_and_store.dart';
+
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';

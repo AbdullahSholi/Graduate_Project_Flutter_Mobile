@@ -6,9 +6,11 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
@@ -730,7 +732,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
   TextEditingController();
   TextEditingController cartCategoryTextEditing = TextEditingController();
   TextEditingController cartQuantitiesTextEditingController = TextEditingController();
-
+  double rateVal = 3;
   late String dropdownValue= 'All Products' ;
 
 
@@ -764,26 +766,6 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: Builder(
-      //     builder: (BuildContext context) {
-      //       return IconButton(
-      //         icon: const Icon(Icons.menu,color: Colors.white,), // Replace with your desired icon
-      //         onPressed: () {
-      //           Scaffold.of(context).openDrawer(); // Opens the drawer
-      //         },
-      //         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //       );
-      //     },
-      //   ),
-      //   backgroundColor: Color(0xFF212128),
-      //   title: Text("ElectroHub",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-      //   centerTitle: true,
-      //   actions: [
-      //     Icon(Icons.search,size: 30,color: Colors.white,),
-      //     SizedBox(width: 10,),
-      //   ],
-      // ),
 
       body: Stack(
         children: [
@@ -799,21 +781,8 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                         color: Color(0xFF212128),
                         borderRadius: BorderRadius.circular(20)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          // color:Colors.blue,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, "", storeNameVal, "", "", specificStoreCategoriesVal, storeCartsVal, sliderVisibilityVal, categoryVisibilityVal, cartsVisibilityVal)));
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                        ),
                         Center(
                             child: Text(
                               storeNameVal,
@@ -822,69 +791,17 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 30),
                             )),
-                        Container(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isSearching = !_isSearching;
-                                  if(_isSearching){
-                                    tempSearchBoxHeight = 40;
-                                  }else{
-                                    tempSearchBoxHeight = 0;
-                                  }
-
-                                  if (!_isSearching) {
-
-                                    _searchController.clear();
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.search,
-                                size: 30,
-                                color: Colors.white,
-                              )),
-                        )
                       ],
                     ),
                   ),
-                  AnimatedOpacity(
-                    opacity: _isSearching ? 1 : 0,
-                    duration: Duration(milliseconds: 700),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 700),
-                      padding: EdgeInsets.fromLTRB(10, 20, 0, 2),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF212128),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      height: tempSearchBoxHeight,
-                      child: _isSearching
-                          ? TextField(
-                        cursorColor: Colors.white,
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: 'Search...',
-                          hintStyle: TextStyle(color: Colors.white),
-                          border: InputBorder.none,
-                        ),
-                        style: TextStyle(color: Colors.white),
-                        onChanged: (query) {
-                          // Handle search query changes
-                        },
-                      )
-                          : null,
-                    ),
-                  ),
+
                   FutureBuilder<List>(
                       future: sliderImages,
                       builder:
                           (BuildContext context, AsyncSnapshot<List> snapshot) {
                         return Container(
                           // color: Colors.blue,
-                          height: MediaQuery.of(context).size.height / 1.235,
+                          height: MediaQuery.of(context).size.height / 1.15,
                           margin: EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -1056,13 +973,11 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                             builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                                               // print("zzzzz ${storeCartsVal[0]["cartName"]}");
                                               return Container(
+                                                padding: EdgeInsets.fromLTRB(0, 0, 0, 70),
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                    1,
+                                                
                                                 child: GridView.builder(
                                                   scrollDirection: Axis.vertical,
                                                   physics:
@@ -1073,7 +988,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                                     crossAxisCount:
                                                     2, // Set the number of columns
                                                     childAspectRatio:
-                                                    0.75, // Customize the aspect ratio (width/height) of each tile
+                                                    0.77, // Customize the aspect ratio (width/height) of each tile
                                                     mainAxisSpacing:
                                                     4.0, // Spacing between rows
                                                     crossAxisSpacing:
@@ -1133,6 +1048,19 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                                                 ),
                                                               ) : Container(),
                                                             ),
+                                                            Visibility(
+                                                              visible: storeCartsVal[index]["cartFavourite"],
+                                                              child: Positioned(
+                                                                  top: 5,
+                                                                  right: 5,
+                                                                  child: FavoriteButton(
+                                                                      iconDisabledColor: Color(0xFF212128),
+                                                                      iconSize: 40,
+                                                                      iconColor: Colors.white,
+                                                                      valueChanged: (_isFavorite){
+                                                                        print('Is Favorite $_isFavorite');
+                                                                      })),
+                                                            )
                                                           ],
                                                         ),
                                                         Positioned(
@@ -1166,7 +1094,7 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                                                     padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
                                                                     child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
                                                                         overflow: TextOverflow.ellipsis,
-                                                                        maxLines: 2,
+                                                                        maxLines: 1,
                                                                         style: TextStyle(
                                                                           fontSize: 14,
                                                                           fontWeight: FontWeight.bold,
@@ -1205,7 +1133,35 @@ class _DisplayYourStoreState extends State<DisplayYourStore> {
                                                                               color: Colors.white,
                                                                             )),
                                                                       ),
+
                                                                     ],
+                                                                  ),
+                                                                  Visibility(
+                                                                    visible: storeCartsVal[index]["cartLiked"],
+                                                                    child: Container(
+                                                                      padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                      child: RatingBar.builder(
+                                                                        initialRating: 3,
+                                                                        minRating: 1,
+                                                                        direction: Axis.horizontal,
+                                                                        allowHalfRating: true,
+                                                                        itemCount: 5,
+                                                                        itemSize: 20,
+                                                                        unratedColor: Colors.white,
+                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                        itemBuilder: (context, _) => Icon(
+                                                                          Icons.favorite,
+                                                                          color: Colors.yellow,
+                                                                        ),
+                                                                        onRatingUpdate: (rating) {
+                                                                          setState(() {
+                                                                            rateVal = rating;
+                                                                          });
+
+                                                                          print(rating);
+                                                                        },
+                                                                      ),
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),

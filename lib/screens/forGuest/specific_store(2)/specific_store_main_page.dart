@@ -7,9 +7,11 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
@@ -66,6 +68,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
   late Future<List> specificStoreCategories;
   late Future<List> getCartContent;
   // late indexVal="";
+  double rateVal = 3;
 
   // for Images Slider
   List<String> imageUrls = [];
@@ -324,33 +327,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                 ],
               ),
             ),
-            // AnimatedOpacity(
-            //   opacity: _isSearching ? 1 : 0,
-            //   duration: Duration(milliseconds: 150),
-            //   child: AnimatedContainer(
-            //     duration: Duration(milliseconds: 150),
-            //     padding: EdgeInsets.fromLTRB(10, 20, 0, 2),
-            //     decoration: BoxDecoration(
-            //       color: Color(0xFF212128),
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //     margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-            //     height: tempSearchBoxHeight,
-            //     child: _isSearching
-            //         ? TextField(
-            //       cursorColor: Colors.white,
-            //       controller: _searchController,
-            //       decoration: InputDecoration(
-            //         hintText: 'Search...',
-            //         hintStyle: TextStyle(color: Colors.white),
-            //         border: InputBorder.none,
-            //       ),
-            //       style: TextStyle(color: Colors.white),
-            //
-            //     )
-            //         : null,
-            //   ),
-            // ),
+
             FutureBuilder<List>(
                 future: sliderImages,
                 builder:
@@ -543,7 +520,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                 crossAxisCount:
                                                 2, // Set the number of columns
                                                 childAspectRatio:
-                                                0.75, // Customize the aspect ratio (width/height) of each tile
+                                                0.77, // Customize the aspect ratio (width/height) of each tile
                                                 mainAxisSpacing:
                                                 4.0, // Spacing between rows
                                                 crossAxisSpacing:
@@ -608,6 +585,19 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                               ),
                                                             ) : Container(),
                                                           ),
+                                                          Visibility(
+                                                            visible: storeCartsVal[index]["cartFavourite"],
+                                                            child: Positioned(
+                                                                top: 5,
+                                                                right: 5,
+                                                                child: FavoriteButton(
+                                                                    iconDisabledColor: Color(0xFF212128),
+                                                                    iconSize: 40,
+                                                                    iconColor: Colors.white,
+                                                                    valueChanged: (_isFavorite){
+                                                                      print('Is Favorite $_isFavorite');
+                                                                    })),
+                                                          )
                                                         ],
                                                       ),
                                                       Positioned(
@@ -682,6 +672,33 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                                     ),
                                                                   ],
                                                                 ),
+                                                                Visibility(
+                                                                  visible: storeCartsVal[index]["cartLiked"],
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                    child: RatingBar.builder(
+                                                                      initialRating: 3,
+                                                                      minRating: 1,
+                                                                      direction: Axis.horizontal,
+                                                                      allowHalfRating: true,
+                                                                      itemCount: 5,
+                                                                      itemSize: 20,
+                                                                      unratedColor: Colors.white,
+                                                                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                      itemBuilder: (context, _) => Icon(
+                                                                        Icons.favorite,
+                                                                        color: Colors.yellow,
+                                                                      ),
+                                                                      onRatingUpdate: (rating) {
+                                                                        setState(() {
+                                                                          rateVal = rating;
+                                                                        });
+
+                                                                        print(rating);
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           )),
@@ -712,7 +729,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                             crossAxisCount:
                                             2, // Set the number of columns
                                             childAspectRatio:
-                                            0.75, // Customize the aspect ratio (width/height) of each tile
+                                            0.77, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
                                             4.0, // Spacing between rows
                                             crossAxisSpacing:
