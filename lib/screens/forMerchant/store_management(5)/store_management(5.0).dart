@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/connect_to_social_media_accounts.dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/delete_merchant_with_carts_and_store.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';
@@ -101,6 +102,17 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
     userData = getUserByName();
     storeData = getAllStoreData();
 
+  }
+  Future<http.Response> deleteStore() async {
+    final http.Response response = await http.delete(
+      Uri.parse('http://10.0.2.2:3000/matjarcom/api/v1/delete-store/$emailVal'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": "Bearer $tokenVal",
+
+      },
+    );
+    return response;
   }
 
   Future<AllStore> getAllStoreData() async{
@@ -552,6 +564,54 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ConnectToSocialMediaAccounts(tokenVal, emailVal, imageUrlVal, storeNameVal, storeCategoryVal, storeDescriptionVal)));
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.fromLTRB(
+                                              30, 0, 30, 0),
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                                padding: EdgeInsets.all(15),
+                                                backgroundColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(15)
+                                                )
+                                            ),
+                                            child: Text("Delete Store ",
+                                              style: GoogleFonts.federo(
+                                                color: Color(0xFF212128),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 29,
+
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            onPressed: () {
+                                              showDialog(context: context, builder: (context)=>AlertDialog(
+                                                title: Row(
+                                                  children: [
+                                                    Icon(Icons.warning,color: Colors.red,size: 25,),
+                                                    SizedBox(width: 10,),
+                                                    Text("Information Message"),
+                                                  ],
+                                                ),
+                                                content: Text("This action will delete your store with all it's details!!"),
+                                                actions: [
+                                                  TextButton(onPressed: () {
+                                                      deleteStore();
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
+
+                                                  }, child: Text("Delete anyway")),
+                                                  TextButton(onPressed: (){
+                                                    Navigator.pop(context);
+                                                  }, child: Text("Cancel")),
+
+                                                ],
+                                              ),);
                                             },
                                           ),
                                         ),

@@ -31,7 +31,8 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
   TextEditingController emailTextEditingController = TextEditingController();
 
   TextEditingController passwordTextEditingController = TextEditingController();
-
+////////////////////////////////////////////////////
+  ///////////////////////////////////////////////
 
   late Future<List<dynamic>> getStoreData;
   late List<dynamic> tempStores=[];
@@ -116,7 +117,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                               print("RRRR ${snapshot.data}");
                               return InkWell(onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage(snapshot.data)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage()));
                               }, child: Text("Continue as Guest",style: GoogleFonts.fredoka(
                                   textStyle: TextStyle(color: Colors.white),
                                   fontWeight: FontWeight.bold,

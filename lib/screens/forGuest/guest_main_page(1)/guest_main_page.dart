@@ -27,9 +27,9 @@ import '../../../models/Stores/display-all-stores.dart';
 
 
 class GuestMainPage extends StatefulWidget {
-  late List<dynamic> getStoreData;
+
   // late List<AllStore> storeDataVal;
-  GuestMainPage(this.getStoreData);
+  GuestMainPage();
 
   @override
   State<GuestMainPage> createState() => _GuestMainPageState();
@@ -69,15 +69,48 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
     }
   }
 
+  ///////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////
+  late List<dynamic> getStoreDataVal=[];
+  late List<dynamic> tempStores1=[];
+  Future<void> getMerchantData() async {
+
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
+    );
+    print(userFuture.body);
+    List<dynamic> jsonList = json.decode(userFuture.body);
+    for(int i=0; i<jsonList.length; i++){
+      tempStores1.add(SpecificStore.fromJson(jsonList[i]));
+
+    }
+
+    // print("jsonList: ${jsonList[1]}");
+
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        getStoreDataVal=tempStores1;
+      });
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
 
 
-  late List<dynamic> getStoreDataVal;
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getStoreDataVal = widget.getStoreData;
+
+    // getStoreDataVal = widget.getStoreData;
+    getMerchantData();
 
   }
 
@@ -186,6 +219,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                     onTap: ()async {
                                                       setState(() {
                                                         allStoresVisibility = true;
+
                                                       });
 
                                                     },
