@@ -211,6 +211,13 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
 
 
+
+
+
+
+
+
+
     setState(() {
       storeCartsVal = GetCartContentModel
           .fromJson(json.decode(userFuture.body))
