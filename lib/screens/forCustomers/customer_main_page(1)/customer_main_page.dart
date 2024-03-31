@@ -26,16 +26,16 @@ import '../../../models/Stores/display-all-stores.dart';
 
 
 
-class GuestMainPage extends StatefulWidget {
+class CustomerMainPage extends StatefulWidget {
 
   // late List<AllStore> storeDataVal;
-  GuestMainPage();
+  CustomerMainPage();
 
   @override
-  State<GuestMainPage> createState() => _GuestMainPageState();
+  State<CustomerMainPage> createState() => _CustomerMainPageState();
 }
 
-class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateMixin {
+class _CustomerMainPageState extends State<CustomerMainPage> with TickerProviderStateMixin {
 
   bool allStoresVisibility = true;
   late List<dynamic> tempStores=[];
@@ -44,7 +44,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
     tempStores=[];
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
     );
     // print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);
@@ -77,7 +77,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
     );
     print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);

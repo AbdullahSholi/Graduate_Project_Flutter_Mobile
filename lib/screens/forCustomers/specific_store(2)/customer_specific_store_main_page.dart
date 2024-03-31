@@ -34,7 +34,7 @@ import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 
-class SpecificStoreMainPage extends StatefulWidget {
+class CustomerSpecificStoreMainPage extends StatefulWidget {
   final String token;
   final String email;
   final List<String> specificStoreCategories;
@@ -44,14 +44,14 @@ class SpecificStoreMainPage extends StatefulWidget {
   final bool categoryVisibility;
   final bool cartsVisibility;
   final Map<String, dynamic> objectData;
-  const SpecificStoreMainPage(
+  const CustomerSpecificStoreMainPage(
       this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData,
       {super.key});
   @override
-  State<SpecificStoreMainPage> createState() => _SpecificStoreMainPageState();
+  State<CustomerSpecificStoreMainPage> createState() => _CustomerSpecificStoreMainPageState();
 }
 
-class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
+class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMainPage> {
   String tokenVal = "";
   String emailVal = "";
   String imageSliderVal = "";
@@ -85,7 +85,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -119,7 +119,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
     print("$emailVal ppppp");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -159,7 +159,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
 
     );
     print(userFuture.body);
@@ -180,7 +180,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
     print(emailVal);
 
     http.Response userFuture = await http.get(
-      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
+      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
     );
     print(userFuture.body);
 
@@ -205,7 +205,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();

@@ -14,7 +14,7 @@ import '../../models/Stores/display-all-stores.dart';
 import '../../models/login_model.dart';
 import '../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../forAdmin/admin_main_page.dart';
-import '../forCustomers/customers_main_page.dart';
+import '../forCustomers/customer_main_page(1)/customer_main_page.dart';
 import '../forMerchant/merchants_main_page(1)/merchants_main_page(1).dart';
 
 

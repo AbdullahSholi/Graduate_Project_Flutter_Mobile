@@ -53,6 +53,7 @@ dependencies:
   particles_flutter: "^0.1.1"
   favorite_button: ^0.0.4
   flutter_rating_bar: ^4.0.1
+  flutter_stripe: ^10.1.1
 
 dev_dependencies:
   flutter_test:

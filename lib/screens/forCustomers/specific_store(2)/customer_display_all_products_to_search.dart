@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class DisplayAllProducts extends StatefulWidget {
+class CustomerDisplayAllProducts extends StatefulWidget {
   late List<dynamic> storeCartsVal;
-  DisplayAllProducts(this.storeCartsVal, {super.key});
+  CustomerDisplayAllProducts(this.storeCartsVal, {super.key});
 
   @override
-  State<DisplayAllProducts> createState() => _DisplayAllProductsState();
+  State<CustomerDisplayAllProducts> createState() => _CustomerDisplayAllProductsState();
 }
 
-class _DisplayAllProductsState extends State<DisplayAllProducts> {
+class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts> {
   List<dynamic> filteredProducts = [];
 
   bool _isSearching = false;
