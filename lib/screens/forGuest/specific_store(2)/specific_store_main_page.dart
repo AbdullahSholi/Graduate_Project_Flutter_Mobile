@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+
 // import 'dart:html';
 import 'dart:io';
 
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
@@ -32,6 +34,8 @@ import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import "../../../stripe_payment/payment_manager.dart";
+import '../../../stripe_payment/stripe_keys.dart';
 
 
 class SpecificStoreMainPage extends StatefulWidget {
@@ -80,6 +84,8 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
 
   bool cartsForSpecificCategory = false;
   List<dynamic> filteredData=[];
+
+
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -276,7 +282,60 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
 
   late String dropdownValue= 'All Products' ;
 
+  Future<void> fetchKeysToSetPublishableKey() async {
 
+    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // then parse the JSON and update ApiKeys.
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      ApiKeys.publishableKey = data['publishableKey'];
+
+      Stripe.publishableKey = ApiKeys.publishableKey;
+
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to fetch keys');
+    }
+  }
+  Future<void> fetchKeys() async {
+
+    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+    );
+
+    print("?????????????????????");
+    print(emailVal);
+    print(response.body);
+    print("?????????????????????");
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // then parse the JSON and update ApiKeys.
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+
+      ApiKeys.publishableKey = data['publishableKey'];
+      ApiKeys.secretKey = data['secretKey'];
+      // Stripe.publishableKey = ApiKeys.publishableKey;
+      print("?????????????????????");
+      print('Publishable Key: ${ApiKeys.publishableKey}');
+      print('Secret Key: ${ApiKeys.secretKey}');
+      print("?????????????????????");
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to fetch keys');
+    }
+  }
   ////////
 
   @override
@@ -297,7 +356,9 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
     sliderVisibilityVal = widget.sliderVisibility;
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
-
+    // Stripe.publishableKey="pk_test_51P0BDE1qqwiIHxVLW2VQnKp18Mv56mjqtQTGOw8ZyjkBN8wsDyVo8ohAWlV85JDmvY5lBeql0i1q8dl3IFCjtFw400LCCXSBZ7";
+    fetchKeysToSetPublishableKey();
+    fetchKeys();
 
 
   }
@@ -324,10 +385,10 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                   Center(
                       child: Text(
                         storeNameVal,
-                        style: TextStyle(
+                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,),
+                            fontSize: 30,),),
                         textAlign: TextAlign.center,
                       )),
 
@@ -441,7 +502,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                 borderRadius:
                                                 BorderRadius.circular(
                                                     10),
-                                                color: Color(0xFF212128),
+                                                color: specificStoreCategoriesVal[index] == "All Products" ? Color(0xFFFF2139) : Color(0xFF212128),
                                               ),
                                               width: 120,
                                               child: TextButton(
@@ -469,10 +530,10 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                   child: Text(
                                                     specificStoreCategoriesVal[
                                                     index],
-                                                    style: TextStyle(
+                                                    style: GoogleFonts.lilitaOne(textStyle:TextStyle(
                                                         color:
                                                         Colors.white,
-                                                        fontSize: 15),
+                                                        fontSize: 18),)
                                                   ))),
                                       separatorBuilder:
                                           (context, index) => SizedBox(
@@ -498,8 +559,8 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children:
                                         [
-                                          Text("Products",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),
-                                      InkWell(child: Text("View All",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),
+                                          Text("Products",style:GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 38,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
+                                      InkWell(child: Text("View All",style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
                                         onTap: (){
 
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayAllProducts(storeCartsVal)));
@@ -535,11 +596,11 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                               ),
                                               // storeCartsVal[index]
                                               itemBuilder: (context, index) => InkWell(
-                                                onTap: () async{
+                                                onTap: (){
+                                                  PaymentManager.makePayment(20,"USD");
 
-                                                },
+                                                  },
                                                 child: Container(
-
                                                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                                   padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
                                                   child: Stack(
@@ -555,6 +616,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                               ),
                                                               color: Color(0xF2222128),
                                                             ),
+                                                            height: 120,
                                                             child: ClipRRect(
                                                               borderRadius: BorderRadius.only(
                                                                 topRight: Radius.circular(20),
@@ -562,12 +624,12 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                               ),
                                                               child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
                                                                 "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit.fill,
                                                                 width: double.infinity,
                                                                 height: 120,
                                                               ): Image.network(
                                                                 storeCartsVal[index]["cartPrimaryImage"].toString(),
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit.fill,
                                                                 width: double.infinity,
                                                                 height: 120,
                                                               ),
@@ -628,22 +690,22 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                                   child: Text("${storeCartsVal[index]["cartName"].toString()}",
                                                                       overflow: TextOverflow.ellipsis,
                                                                       maxLines: 1,
-                                                                      style: TextStyle(
+                                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                         fontSize: 22,
                                                                         fontWeight: FontWeight.bold,
                                                                         color: Colors.white,
-                                                                      )),
+                                                                      )),),
                                                                 ),
                                                                 Container(
                                                                   padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
                                                                   child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
                                                                       overflow: TextOverflow.ellipsis,
                                                                       maxLines: 2,
-                                                                      style: TextStyle(
+                                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                         fontSize: 14,
                                                                         fontWeight: FontWeight.bold,
                                                                         color: Colors.white,
-                                                                      )),
+                                                                      )),),
                                                                 ),
                                                                 Row(
                                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -655,11 +717,11 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                                       child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
                                                                           overflow: TextOverflow.ellipsis,
                                                                           maxLines: 1,
-                                                                          style: TextStyle(
+                                                                          style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                             fontSize: 13,
                                                                             fontWeight: FontWeight.bold,
                                                                             color: Colors.white,
-                                                                          )),
+                                                                          )),),
                                                                     ),
                                                                     SizedBox(
                                                                       width: 5,
@@ -669,13 +731,13 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                                       child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
                                                                           overflow: TextOverflow.ellipsis,
                                                                           maxLines: 1,
-                                                                          style: TextStyle(
+                                                                          style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                             fontSize: 11,
                                                                             fontWeight: FontWeight.bold,
                                                                             decoration: TextDecoration.lineThrough,
                                                                             decorationThickness: 3,
                                                                             color: Colors.white,
-                                                                          )),
+                                                                          )), ),
                                                                     ),
                                                                   ],
                                                                 ),

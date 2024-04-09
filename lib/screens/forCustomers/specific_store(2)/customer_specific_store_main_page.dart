@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
@@ -22,6 +23,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/display
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/imageplaceholder.dart';
+import 'package:graduate_project/stripe_payment/payment_manager.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +34,8 @@ import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
+import '../../../stripe_payment/stripe_keys.dart';
 
 
 class CustomerSpecificStoreMainPage extends StatefulWidget {
@@ -268,6 +272,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   TextEditingController cartQuantitiesTextEditingController = TextEditingController();
 
   late String dropdownValue= 'All Products' ;
+
 
 
   ////////
@@ -528,9 +533,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                               ),
                                               // storeCartsVal[index]
                                               itemBuilder: (context, index) => InkWell(
-                                                onTap: () async{
-
-                                                },
+                                                onTap: ()=> PaymentManager.makePayment(20, "USD"),
                                                 child: Container(
 
                                                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),

@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:graduate_project/screens/forGuest/guest_main_page(1)/guest_main_page.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/register.dart';
@@ -13,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../models/Stores/display-all-stores.dart';
 import '../../models/login_model.dart';
 import '../../models/merchant/merchant_connect_store_to_social_media.dart';
+import '../../stripe_payment/stripe_keys.dart';
 import '../forAdmin/admin_main_page.dart';
 import '../forCustomers/customer_main_page(1)/customer_main_page.dart';
 import '../forMerchant/merchants_main_page(1)/merchants_main_page(1).dart';
@@ -68,6 +70,8 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
     // TODO: implement initState
     super.initState();
     getStoreData = getMerchantData();
+
+
   }
 
   @override
@@ -101,7 +105,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                         ),
                         alignment: Alignment.center,
                         padding: const EdgeInsets.all(10),
-                        child: Text("MATJARKOM",style: GoogleFonts.federo(
+                        child: Text("MATJARKOM",style: GoogleFonts.lilitaOne(
                             color: Color(0xFF212128),
                             fontSize: 45,
                             fontWeight: FontWeight.bold
@@ -118,7 +122,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                               print("RRRR ${snapshot.data}");
                               return InkWell(onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage()));
-                              }, child: Text("Continue as Guest",style: GoogleFonts.fredoka(
+                              }, child: Text("Continue as Guest",style: GoogleFonts.lilitaOne(
                                   textStyle: TextStyle(color: Colors.white),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24
@@ -130,7 +134,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMainPage()));
-                          }, child: Text("Continue as User ",style: GoogleFonts.fredoka(
+                          }, child: Text("Continue as User ",style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24
@@ -138,7 +142,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantMainPage()));
-                          }, child: Text("Continue as Merchant",style: GoogleFonts.fredoka(
+                          }, child: Text("Continue as Merchant",style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24
@@ -146,7 +150,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminMainPage()));
-                          }, child: Text("Continue as Admin",style: GoogleFonts.fredoka(
+                          }, child: Text("Continue as Admin",style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24

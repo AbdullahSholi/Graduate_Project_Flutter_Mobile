@@ -4,5 +4,6 @@ import io.flutter.embedding.android.FlutterActivity
 import kotlin.collections.emptyList
 import kotlin.collections.mapOf
 import kotlin.collections.toMap
-class MainActivity: FlutterActivity() {
+import io.flutter.embedding.android.FlutterFragmentActivity
+class MainActivity: FlutterFragmentActivity() {
 }

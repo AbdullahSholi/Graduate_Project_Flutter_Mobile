@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DisplayAllProducts extends StatefulWidget {
   late List<dynamic> storeCartsVal;
@@ -75,11 +76,11 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                           )
                         : Text(
                             "Products",
-                            style: TextStyle(
+                            style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 30),
-                          ),
+                          ),),
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -246,11 +247,11 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                         "${filteredProducts[index]["cartName"].toString()}",
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 1,
-                                                        style: TextStyle(
+                                                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                           fontSize: 22,
                                                           fontWeight: FontWeight.bold,
                                                           color: Colors.white,
-                                                        )),
+                                                        )),),
                                                   ),
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
@@ -259,11 +260,11 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                         "${filteredProducts[index]["cartDescription"].toString()}",
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 2,
-                                                        style: TextStyle(
+                                                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight: FontWeight.bold,
                                                           color: Colors.white,
-                                                        )),
+                                                        )),),
                                                   ),
                                                   Row(
                                                     mainAxisAlignment:
@@ -281,12 +282,12 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                             overflow:
                                                                 TextOverflow.ellipsis,
                                                             maxLines: 1,
-                                                            style: TextStyle(
+                                                            style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight.bold,
                                                               color: Colors.white,
-                                                            )),
+                                                            )),),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
@@ -301,7 +302,7 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                                 overflow: TextOverflow
                                                                     .ellipsis,
                                                                 maxLines: 1,
-                                                                style: TextStyle(
+                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                   fontSize: 11,
                                                                   fontWeight:
                                                                       FontWeight.bold,
@@ -311,7 +312,7 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                                   decorationThickness:
                                                                       3,
                                                                   color: Colors.white,
-                                                                )),
+                                                                )),),
                                                       ),
                                                     ],
                                                   ),
@@ -372,7 +373,7 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                         storeCartsVal[index]
                                                                 ["cartPrimaryImage"]
                                                             .toString(),
-                                                        fit: BoxFit.cover,
+                                                        fit: BoxFit.fill,
                                                         width: double.infinity,
                                                         height: 120,
                                                       ),
@@ -436,11 +437,11 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                         "${storeCartsVal[index]["cartName"].toString()}",
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 1,
-                                                        style: TextStyle(
+                                                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                           fontSize: 22,
                                                           fontWeight: FontWeight.bold,
                                                           color: Colors.white,
-                                                        )),
+                                                        )),),
                                                   ),
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
@@ -449,11 +450,11 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                         "${storeCartsVal[index]["cartDescription"].toString()}",
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 2,
-                                                        style: TextStyle(
+                                                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight: FontWeight.bold,
                                                           color: Colors.white,
-                                                        )),
+                                                        )),),
                                                   ),
                                                   Row(
                                                     mainAxisAlignment:
@@ -471,12 +472,12 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                             overflow:
                                                                 TextOverflow.ellipsis,
                                                             maxLines: 1,
-                                                            style: TextStyle(
+                                                            style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                               fontSize: 13,
                                                               fontWeight:
                                                                   FontWeight.bold,
                                                               color: Colors.white,
-                                                            )),
+                                                            )),),
                                                       ),
                                                       SizedBox(
                                                         width: 5,
@@ -491,7 +492,7 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                                 overflow: TextOverflow
                                                                     .ellipsis,
                                                                 maxLines: 1,
-                                                                style: TextStyle(
+                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                                   fontSize: 11,
                                                                   fontWeight:
                                                                       FontWeight.bold,
@@ -501,7 +502,7 @@ class _DisplayAllProductsState extends State<DisplayAllProducts> {
                                                                   decorationThickness:
                                                                       3,
                                                                   color: Colors.white,
-                                                                )),
+                                                                )),),
                                                       ),
                                                     ],
                                                   ),

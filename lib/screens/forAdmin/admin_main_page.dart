@@ -1,3 +1,5 @@
+import "../../../stripe_payment/payment_manager.dart";
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +10,12 @@ class AdminMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(),
+      body: Container(
+        child: TextButton(onPressed: ()=>PaymentManager.makePayment(20,"USD"),
+          child: Text("Pay!"),
+
+        ),
+      ),
     );
   }
 }

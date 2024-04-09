@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forMerchant/customize_store(6)/merchant_payment_information.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
@@ -162,6 +163,32 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                                       onPressed: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[],[],false,false,false)));
                       
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(height: 20,),
+                                  Container(
+                                    width: double.infinity,
+                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.all(15),
+                                          backgroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15)
+                                          )
+                                      ),
+                                      child: Text("Payment Informations", style: GoogleFonts.federo(
+                                        color: Color(0xFF212128),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 29,
+
+                                      ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantPaymentInformation(tokenVal, emailVal)));
+
                                       },
                                     ),
                                   ),

@@ -177,10 +177,10 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                     child: Center(
                                         child: Text(
                                             "Stores",
-                                            style: GoogleFonts.federo(
+                                            style: GoogleFonts.lilitaOne(
                                                 color: Color(0xFF212128),
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 21
+                                                fontSize: 25
                                             )
                                         )),
                                   ),
@@ -228,11 +228,12 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                         borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                        color: Colors.white,
+                                                        color: Color(0xFFFF2139),
                                                       ),
                                                       width: 120,
                                                       alignment: Alignment.center,
-                                                      child: Text("All Stores",style: TextStyle(color: Color(0xFF212128),fontSize: 20, fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                                                      child: Text("All Stores",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
+
                                                     ),
                                                   ),
                                                 ),
@@ -267,7 +268,7 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                               ),
                                                               width: 120,
                                                             alignment: Alignment.center,
-                                                            child: Text(items[index],style: TextStyle(color: Color(0xFF212128),fontSize: 20, fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                                                            child: Text(items[index],style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128),fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
                                                                ),
                                                         ),
                                                     separatorBuilder:
@@ -354,27 +355,27 @@ class _GuestMainPageState extends State<GuestMainPage> with TickerProviderStateM
                                                             Container(
                                                               width: MediaQuery.of(context).size.width/4,
                                                                 // color: Colors.blue,
-                                                                child: Text("${getStoreDataVal[index].storeName}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                                child: Text("${getStoreDataVal[index].storeName}",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 25, fontWeight: FontWeight.bold,)),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                             SizedBox(height: 5,),
                                                             Container(
                                                                 width: MediaQuery.of(context).size.width/4,
                                                                 // color: Colors.blue,
-                                                                child: Text("${getStoreDataVal[index].storeCategory}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                                child: Text("${getStoreDataVal[index].storeCategory}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 20),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                             SizedBox(height: 5,),
                                                             Container(
                                                                 width: MediaQuery.of(context).size.width/4,
                                                                 // color: Colors.blue,
-                                                                child: Text("Owned by: ${getStoreDataVal[index].merchantname}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                                child: Text("Owned by: ${getStoreDataVal[index].merchantname}", style:GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                             SizedBox(height: 5,),
                                                             Container(
                                                                 width: MediaQuery.of(context).size.width/4,
                                                                 // color: Colors.blue,
-                                                                child: Text("email: ${getStoreDataVal[index].email}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                                child: Text("email: ${getStoreDataVal[index].email}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                             SizedBox(height: 5,),
                                                             Container(
                                                                 width: MediaQuery.of(context).size.width/4,
                                                                 // color: Colors.blue,
-                                                                child: Text("Phone: ${getStoreDataVal[index].phone}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                                child: Text("Phone: ${getStoreDataVal[index].phone}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                           ],
                                                         )
                                                       ],
