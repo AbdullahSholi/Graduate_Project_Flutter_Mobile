@@ -481,7 +481,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                                 child: const Text("OK"),
                                                 onPressed: () {
                                                   print("${tokenVal} --- ${emailVal}");
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal))); // Close the dialog
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal))); // Close the dialog
                                                 },
                                               ),
                                             ],
@@ -556,7 +556,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                   backgroundColor: Color(0xFF212128),
                   onTap: (index){
                     if(index == 0){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
                     }
                     else if(index == 1){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouritesPage(tokenVal,emailVal)));

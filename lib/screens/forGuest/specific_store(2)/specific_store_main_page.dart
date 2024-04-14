@@ -597,7 +597,8 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                               // storeCartsVal[index]
                                               itemBuilder: (context, index) => InkWell(
                                                 onTap: (){
-                                                  PaymentManager.makePayment(20,"USD");
+                                                  // PaymentManager.makePayment(20,"USD");
+                                                  print("111111111111");
 
                                                   },
                                                 child: Container(
@@ -659,13 +660,16 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                             child: Positioned(
                                                                 top: 5,
                                                                 right: 5,
-                                                                child: FavoriteButton(
-                                                                    iconDisabledColor: Color(0xFF212128),
-                                                                    iconSize: 40,
-                                                                    iconColor: Colors.white,
-                                                                    valueChanged: (_isFavorite){
-                                                                      print('Is Favorite $_isFavorite');
-                                                                    })),
+                                                                child: CircleAvatar(
+                                                                  backgroundColor: Colors.red,
+                                                                  child: FavoriteButton(
+                                                                      iconDisabledColor: Color(0xFF212128),
+                                                                      iconSize: 40,
+                                                                      iconColor: Colors.white,
+                                                                      valueChanged: (_isFavorite){
+                                                                        print('Is Favorite $_isFavorite');
+                                                                      }),
+                                                                )),
                                                           )
                                                         ],
                                                       ),
@@ -807,7 +811,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                           // storeCartsVal[index]
                                           itemBuilder: (context, index) => InkWell(
                                             onTap: () async{
-
+                                              print("111111111111");
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -862,6 +866,7 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                           ),
                                                         ) : Container(),
                                                       ),
+
                                                     ],
                                                   ),
                                                   Positioned(
@@ -936,9 +941,53 @@ class _SpecificStoreMainPageState extends State<SpecificStoreMainPage> {
                                                                 ),
                                                               ],
                                                             ),
+                                                            Visibility(
+                                                              visible: storeCartsVal[index]["cartLiked"],
+                                                              child: Container(
+                                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                child: RatingBar.builder(
+                                                                  initialRating: 3,
+                                                                  minRating: 1,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
+                                                                  itemCount: 5,
+                                                                  itemSize: 20,
+                                                                  unratedColor: Colors.white,
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                  itemBuilder: (context, _) => Icon(
+                                                                    Icons.favorite,
+                                                                    color: Colors.yellow,
+                                                                  ),
+                                                                  onRatingUpdate: (rating) {
+                                                                    setState(() {
+                                                                      rateVal = rating;
+                                                                    });
+
+                                                                    print(rating);
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ],
                                                         ),
                                                       )),
+                                                  Visibility(
+                                                    visible: storeCartsVal[index]["cartFavourite"],
+                                                    child: Positioned(
+                                                        top: 5,
+                                                        right: 5,
+                                                        child: CircleAvatar(
+                                                          backgroundColor: Colors.red,
+                                                          child: FavoriteButton(
+                                                              iconDisabledColor: Color(0xFF212128),
+                                                              iconSize: 40,
+                                                              iconColor: Colors.white,
+                                                              valueChanged: (_isFavorite){
+                                                                print('Is Favorite $_isFavorite');
+                                                              }),
+                                                        )),
+                                                  ),
+
                                                 ],
                                               ),
                                             ),

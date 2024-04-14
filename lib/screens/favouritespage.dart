@@ -118,7 +118,7 @@ class _FavouritesPageState extends State<FavouritesPage> with TickerProviderStat
                       backgroundColor: Color(0xFF212128),
                       onTap: (index){
                         if(index == 0){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
                         }
                         else if(index == 1){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouritesPage(tokenVal,emailVal)));

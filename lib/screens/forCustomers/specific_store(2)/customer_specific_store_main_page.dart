@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+
 // import 'dart:html';
 import 'dart:io';
 
@@ -17,13 +18,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
-import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_edit_profile_page.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_favorite_products.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_profile_page.dart';
 import 'package:graduate_project/screens/forGuest/specific_store(2)/display_all_products_to_search.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/imageplaceholder.dart';
-import 'package:graduate_project/stripe_payment/payment_manager.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
@@ -34,8 +37,10 @@ import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-
+import "../../../stripe_payment/payment_manager.dart";
 import '../../../stripe_payment/stripe_keys.dart';
+import 'customer_chat_system.dart';
+import 'customer_support_page.dart';
 
 
 class CustomerSpecificStoreMainPage extends StatefulWidget {
@@ -48,9 +53,11 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
   final bool categoryVisibility;
   final bool cartsVisibility;
   final Map<String, dynamic> objectData;
+  final String customerTokenVal;
+  final String customerEmailVal;
   const CustomerSpecificStoreMainPage(
-      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData,
-      {super.key});
+      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData, this.customerTokenVal, this.customerEmailVal
+      ,{super.key});
   @override
   State<CustomerSpecificStoreMainPage> createState() => _CustomerSpecificStoreMainPageState();
 }
@@ -58,6 +65,8 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
 class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMainPage> {
   String tokenVal = "";
   String emailVal = "";
+  String customerTokenVal="";
+  String customerEmailVal="";
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
   late Map<String, dynamic> objectDataVal;
@@ -85,11 +94,13 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   bool cartsForSpecificCategory = false;
   List<dynamic> filteredData=[];
 
+
+
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -123,7 +134,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
     print("$emailVal ppppp");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -163,7 +174,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
 
     );
     print(userFuture.body);
@@ -184,7 +195,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
     print(emailVal);
 
     http.Response userFuture = await http.get(
-      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
     );
     print(userFuture.body);
 
@@ -195,7 +206,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
     print(jsonList[0]["cartName"]);
 
     setState(() {
-    CartsForOneCategoryVal = jsonList;
+      CartsForOneCategoryVal = jsonList;
 
       print("vvvvvvvvvvvv $CartsForOneCategoryVal");
     });
@@ -209,10 +220,17 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
+
+
+
+
+
+
+
 
 
     setState(() {
@@ -273,10 +291,83 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
 
   late String dropdownValue= 'All Products' ;
 
+  Future<void> fetchKeysToSetPublishableKey() async {
+
+    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // then parse the JSON and update ApiKeys.
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      ApiKeys.publishableKey = data['publishableKey'];
+
+      Stripe.publishableKey = ApiKeys.publishableKey;
+
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to fetch keys');
+    }
+  }
+  Future<void> fetchKeys() async {
+
+    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+
+    final response = await http.get(
+      Uri.parse(apiUrl),
+    );
+
+    print("?????????????????????");
+    print(emailVal);
+    print(response.body);
+    print("?????????????????????");
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // then parse the JSON and update ApiKeys.
+      final Map<String, dynamic> data = jsonDecode(response.body);
 
 
+      ApiKeys.publishableKey = data['publishableKey'];
+      ApiKeys.secretKey = data['secretKey'];
+      // Stripe.publishableKey = ApiKeys.publishableKey;
+      print("?????????????????????");
+      print('Publishable Key: ${ApiKeys.publishableKey}');
+      print('Secret Key: ${ApiKeys.secretKey}');
+      print("?????????????????????");
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to fetch keys');
+    }
+  }
   ////////
+  void getUserByName() async{
+    print("ppppppppppppppppppp");
+    print(emailVal);
+    print("ppppppppppppppppppp");
 
+    http.Response userFuture = await http.get(
+        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"),
+        headers: {"Authorization":"Bearer ${customerTokenVal}"}
+    );
+    if(userFuture.statusCode == 200){
+      print("${userFuture.body}");
+      print(User.fromJson(json.decode(userFuture.body)));
+      // return User.fromJson(json.decode(userFuture.body));
+      setState(() {
+        tempCustomerProfileData = User.fromJson(json.decode(userFuture.body));
+      });
+    }
+    else{
+      throw Exception("Error");
+    }
+  }
+  User tempCustomerProfileData = User("","","","","","")  ;
   @override
   void initState() {
     // TODO: implement initState
@@ -284,6 +375,8 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
 
     tokenVal = widget.token;
     emailVal = widget.email;
+    customerTokenVal = widget.customerTokenVal;
+    customerEmailVal = widget.customerEmailVal;
     specificStoreCategoriesVal = widget.specificStoreCategories;
     storeNameVal = widget.storeName;
     objectDataVal = widget.objectData;
@@ -295,16 +388,232 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
     sliderVisibilityVal = widget.sliderVisibility;
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
+    // Stripe.publishableKey="pk_test_51P0BDE1qqwiIHxVLW2VQnKp18Mv56mjqtQTGOw8ZyjkBN8wsDyVo8ohAWlV85JDmvY5lBeql0i1q8dl3IFCjtFw400LCCXSBZ7";
+    fetchKeysToSetPublishableKey();
+    fetchKeys();
+    getUserByName();
 
 
+  }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
+  Future<void> _refreshData() async {
+    await Future.delayed(Duration(seconds: 2));
+
+    setState(() {
+      // Update your data or state variables
+      // userData = getUserByName();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Drawer(
+        backgroundColor: Color(0xFF1E1F22),
+        width: MediaQuery.of(context).size.width / 1.3,
+        child: RefreshIndicator(
+          onRefresh: _refreshData,
+          child: ListView(
+            children: [
 
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.home,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "My Profile",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Edit Profile",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CustomerEditProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "My Cart",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage()));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "My Favorites",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerFavoriteProducts(storeCartsVal)));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.chat,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Chat System",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerChatSystem()));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.support,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Support",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSupportPage()));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => Login()));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -318,16 +627,28 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-                  Center(
-                      child: Text(
-                        storeNameVal,
-                        style: TextStyle(
+                  IconButton(onPressed: (){
+                    _openDrawer();
+                  } ,icon:Icon(Icons.menu, color: Colors.white,size: 35,)),
+                  SizedBox(width: 20,),
+                  Container(
+                    width: MediaQuery.of(context).size.width/2,
+                    child: Center(
+                        child: Text(
+                          storeNameVal,
+                          style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,),
-                        textAlign: TextAlign.center,
-                      )),
+                            fontSize: 30,),),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+                  ),
+                  SizedBox(width: 20,),
+                  IconButton(onPressed:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerFavoriteProducts(storeCartsVal)));
+                  }, icon:Icon(Icons.favorite_border_outlined, color: Colors.white,size: 35,)),
 
                 ],
               ),
@@ -439,7 +760,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                 borderRadius:
                                                 BorderRadius.circular(
                                                     10),
-                                                color: Color(0xFF212128),
+                                                color: specificStoreCategoriesVal[index] == "All Products" ? Color(0xFFFF2139) : Color(0xFF212128),
                                               ),
                                               width: 120,
                                               child: TextButton(
@@ -465,12 +786,12 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                     }
                                                   },
                                                   child: Text(
-                                                    specificStoreCategoriesVal[
-                                                    index],
-                                                    style: TextStyle(
-                                                        color:
-                                                        Colors.white,
-                                                        fontSize: 15),
+                                                      specificStoreCategoriesVal[
+                                                      index],
+                                                      style: GoogleFonts.lilitaOne(textStyle:TextStyle(
+                                                          color:
+                                                          Colors.white,
+                                                          fontSize: 18),)
                                                   ))),
                                       separatorBuilder:
                                           (context, index) => SizedBox(
@@ -496,223 +817,236 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children:
                                         [
-                                          Text("Products",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),
-                                      InkWell(child: Text("View All",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),
-                                        onTap: (){
+                                          Text("Products",style:GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 38,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
+                                          InkWell(child: Text("View All",style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
+                                            onTap: (){
 
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayAllProducts(storeCartsVal)));
-                                        },
-                                      )
-                                    ],
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayAllProducts(storeCartsVal)));
+                                            },
+                                          )
+                                        ],
                                       ),
                                     ),
                                     Visibility(
                                       visible: !cartsForSpecificCategory,
                                       child: Container(
 
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
+                                        width: MediaQuery.of(context)
+                                            .size
+                                            .width,
 
-                                            child: GridView.builder(
-                                              padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                                              scrollDirection: Axis.vertical,
-                                              physics:
-                                              NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount:
-                                                2, // Set the number of columns
-                                                childAspectRatio:
-                                                0.77, // Customize the aspect ratio (width/height) of each tile
-                                                mainAxisSpacing:
-                                                4.0, // Spacing between rows
-                                                crossAxisSpacing:
-                                                2.0, // Spacing between columns
-                                              ),
-                                              // storeCartsVal[index]
-                                              itemBuilder: (context, index) => InkWell(
-                                                onTap: ()=> PaymentManager.makePayment(20, "USD"),
-                                                child: Container(
+                                        child: GridView.builder(
+                                          padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                          scrollDirection: Axis.vertical,
+                                          physics:
+                                          NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount:
+                                            2, // Set the number of columns
+                                            childAspectRatio:
+                                            0.77, // Customize the aspect ratio (width/height) of each tile
+                                            mainAxisSpacing:
+                                            4.0, // Spacing between rows
+                                            crossAxisSpacing:
+                                            2.0, // Spacing between columns
+                                          ),
+                                          // storeCartsVal[index]
+                                          itemBuilder: (context, index) => InkWell(
+                                            onTap: (){
+                                              // PaymentManager.makePayment(20,"USD");
+                                              showDialog(context: context, builder: (context)=> AlertDialog(
+                                                title: Text("Product", style: TextStyle(color: Colors.white),),
+                                                backgroundColor: Color(0xFF212128),
+                                                content: Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                ),
+                                              ));
 
-                                                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                  padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                                                  child: Stack(
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                              padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                              child: Stack(
+                                                children: [
+                                                  Stack(
                                                     children: [
-                                                      Stack(
-                                                        children: [
-                                                          Container(
-                                                            padding: EdgeInsets.all(1),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.only(
-                                                                topRight: Radius.circular(20),
-                                                                topLeft: Radius.circular(20),
-                                                              ),
-                                                              color: Color(0xF2222128),
-                                                            ),
-                                                            child: ClipRRect(
-                                                              borderRadius: BorderRadius.only(
-                                                                topRight: Radius.circular(20),
-                                                                topLeft: Radius.circular(20),
-                                                              ),
-                                                              child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
-                                                                "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
-                                                                fit: BoxFit.cover,
-                                                                width: double.infinity,
-                                                                height: 120,
-                                                              ): Image.network(
-                                                                storeCartsVal[index]["cartPrimaryImage"].toString(),
-                                                                fit: BoxFit.cover,
-                                                                width: double.infinity,
-                                                                height: 120,
-                                                              ),
-                                                            ),
+                                                      Container(
+                                                        padding: EdgeInsets.all(1),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.only(
+                                                            topRight: Radius.circular(20),
+                                                            topLeft: Radius.circular(20),
                                                           ),
-                                                          Positioned(
-                                                            bottom: 0,
-                                                            left: 0,
-                                                            child: storeCartsVal[index]["cartDiscount"].toString() == "true" ? Container(
-                                                              margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(3),
-                                                                color: Colors.red,
-                                                              ),
-
-                                                              width: 60,
-                                                              height: 20,
-                                                              child: Container(
-
-                                                                padding: const EdgeInsets.all(2.0),
-                                                                child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
-                                                              ),
-                                                            ) : Container(),
+                                                          color: Color(0xF2222128),
+                                                        ),
+                                                        height: 120,
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.only(
+                                                            topRight: Radius.circular(20),
+                                                            topLeft: Radius.circular(20),
                                                           ),
-                                                          Visibility(
-                                                            visible: storeCartsVal[index]["cartFavourite"],
-                                                            child: Positioned(
-                                                                top: 5,
-                                                                right: 5,
-                                                                child: FavoriteButton(
-                                                                    iconDisabledColor: Color(0xFF212128),
-                                                                    iconSize: 40,
-                                                                    iconColor: Colors.white,
-                                                                    valueChanged: (_isFavorite){
-                                                                      print('Is Favorite $_isFavorite');
-                                                                    })),
-                                                          )
-                                                        ],
+                                                          child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
+                                                            "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
+                                                            fit: BoxFit.fill,
+                                                            width: double.infinity,
+                                                            height: 120,
+                                                          ): Image.network(
+                                                            storeCartsVal[index]["cartPrimaryImage"].toString(),
+                                                            fit: BoxFit.fill,
+                                                            width: double.infinity,
+                                                            height: 120,
+                                                          ),
+                                                        ),
                                                       ),
                                                       Positioned(
-                                                          bottom: 0,
-                                                          left: 0,
-                                                          right: 0,
+                                                        bottom: 0,
+                                                        left: 0,
+                                                        child: storeCartsVal[index]["cartDiscount"].toString() == "true" ? Container(
+                                                          margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(3),
+                                                            color: Colors.red,
+                                                          ),
+
+                                                          width: 60,
+                                                          height: 20,
                                                           child: Container(
-                                                            height: 120,
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.only(
-                                                                bottomRight: Radius.circular(20),
-                                                                bottomLeft: Radius.circular(20),
-                                                              ),
-                                                              color: Color(0xF2222128),
+
+                                                            padding: const EdgeInsets.all(2.0),
+                                                            child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
+                                                          ),
+                                                        ) : Container(),
+                                                      ),
+                                                      Visibility(
+                                                        visible: storeCartsVal[index]["cartFavourite"],
+                                                        child: Positioned(
+                                                            top: 5,
+                                                            right: 5,
+                                                            child: CircleAvatar(
+                                                              backgroundColor: Colors.red,
+                                                              child: FavoriteButton(
+                                                                  iconDisabledColor: Color(0xFF212128),
+                                                                  iconSize: 40,
+                                                                  iconColor: Colors.white,
+                                                                  valueChanged: (_isFavorite){
+                                                                    print('Is Favorite $_isFavorite');
+                                                                  }),
+                                                            )),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Positioned(
+                                                      bottom: 0,
+                                                      left: 0,
+                                                      right: 0,
+                                                      child: Container(
+                                                        height: 120,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.only(
+                                                            bottomRight: Radius.circular(20),
+                                                            bottomLeft: Radius.circular(20),
+                                                          ),
+                                                          color: Color(0xF2222128),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
+                                                              child: Text("${storeCartsVal[index]["cartName"].toString()}",
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  color: Colors.white,
+                                                                )),),
                                                             ),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                            Container(
+                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
+                                                              child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
+                                                                overflow: TextOverflow.ellipsis,
+                                                                maxLines: 2,
+                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.bold,
+                                                                  color: Colors.white,
+                                                                )),),
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                                                              textBaseline: TextBaseline.alphabetic,
                                                               children: [
                                                                 Container(
-                                                                  padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
-                                                                  child: Text("${storeCartsVal[index]["cartName"].toString()}",
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      maxLines: 1,
-                                                                      style: TextStyle(
-                                                                        fontSize: 22,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        color: Colors.white,
-                                                                      )),
+                                                                  padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
+                                                                  child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 1,
+                                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                      fontSize: 13,
+                                                                      fontWeight: FontWeight.bold,
+                                                                      color: Colors.white,
+                                                                    )),),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
                                                                 ),
                                                                 Container(
-                                                                  padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
-                                                                  child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      maxLines: 2,
-                                                                      style: TextStyle(
-                                                                        fontSize: 14,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        color: Colors.white,
-                                                                      )),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                                                  textBaseline: TextBaseline.alphabetic,
-                                                                  children: [
-                                                                    Container(
-                                                                      padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                                                                      child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          maxLines: 1,
-                                                                          style: TextStyle(
-                                                                            fontSize: 13,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.white,
-                                                                          )),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 5,
-                                                                    ),
-                                                                    Container(
-                                                                      // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                      child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          maxLines: 1,
-                                                                          style: TextStyle(
-                                                                            fontSize: 11,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            decoration: TextDecoration.lineThrough,
-                                                                            decorationThickness: 3,
-                                                                            color: Colors.white,
-                                                                          )),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Visibility(
-                                                                  visible: storeCartsVal[index]["cartLiked"],
-                                                                  child: Container(
-                                                                    padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                                    child: RatingBar.builder(
-                                                                      initialRating: 3,
-                                                                      minRating: 1,
-                                                                      direction: Axis.horizontal,
-                                                                      allowHalfRating: true,
-                                                                      itemCount: 5,
-                                                                      itemSize: 20,
-                                                                      unratedColor: Colors.white,
-                                                                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                      itemBuilder: (context, _) => Icon(
-                                                                        Icons.favorite,
-                                                                        color: Colors.yellow,
-                                                                      ),
-                                                                      onRatingUpdate: (rating) {
-                                                                        setState(() {
-                                                                          rateVal = rating;
-                                                                        });
-
-                                                                        print(rating);
-                                                                      },
-                                                                    ),
-                                                                  ),
+                                                                  // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                  child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 1,
+                                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                      fontSize: 11,
+                                                                      fontWeight: FontWeight.bold,
+                                                                      decoration: TextDecoration.lineThrough,
+                                                                      decorationThickness: 3,
+                                                                      color: Colors.white,
+                                                                    )), ),
                                                                 ),
                                                               ],
                                                             ),
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                              ,
-                                              itemCount: storeCartsVal.length,
+                                                            Visibility(
+                                                              visible: storeCartsVal[index]["cartLiked"],
+                                                              child: Container(
+                                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                child: RatingBar.builder(
+                                                                  initialRating: 3,
+                                                                  minRating: 1,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
+                                                                  itemCount: 5,
+                                                                  itemSize: 20,
+                                                                  unratedColor: Colors.white,
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                  itemBuilder: (context, _) => Icon(
+                                                                    Icons.favorite,
+                                                                    color: Colors.yellow,
+                                                                  ),
+                                                                  onRatingUpdate: (rating) {
+                                                                    setState(() {
+                                                                      rateVal = rating;
+                                                                    });
+
+                                                                    print(rating);
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )),
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                          )
+                                          ,
+                                          itemCount: storeCartsVal.length,
+                                        ),
+                                      ),
                                     ),
                                     Visibility(
                                       visible: cartsForSpecificCategory,
@@ -740,8 +1074,12 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                           ),
                                           // storeCartsVal[index]
                                           itemBuilder: (context, index) => InkWell(
-                                            onTap: () async{
-
+                                            onTap: () {
+                                              // PaymentManager.makePayment(20,"USD");
+                                              showDialog(context: context, builder: (context)=> AlertDialog(
+                                                title: Text("Cart"),
+                                                content: Container(),
+                                              ));
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -796,6 +1134,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                           ),
                                                         ) : Container(),
                                                       ),
+
                                                     ],
                                                   ),
                                                   Positioned(
@@ -870,9 +1209,53 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                                 ),
                                                               ],
                                                             ),
+                                                            Visibility(
+                                                              visible: storeCartsVal[index]["cartLiked"],
+                                                              child: Container(
+                                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                child: RatingBar.builder(
+                                                                  initialRating: 3,
+                                                                  minRating: 1,
+                                                                  direction: Axis.horizontal,
+                                                                  allowHalfRating: true,
+                                                                  itemCount: 5,
+                                                                  itemSize: 20,
+                                                                  unratedColor: Colors.white,
+                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                  itemBuilder: (context, _) => Icon(
+                                                                    Icons.favorite,
+                                                                    color: Colors.yellow,
+                                                                  ),
+                                                                  onRatingUpdate: (rating) {
+                                                                    setState(() {
+                                                                      rateVal = rating;
+                                                                    });
+
+                                                                    print(rating);
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ],
                                                         ),
                                                       )),
+                                                  Visibility(
+                                                    visible: storeCartsVal[index]["cartFavourite"],
+                                                    child: Positioned(
+                                                        top: 5,
+                                                        right: 5,
+                                                        child: CircleAvatar(
+                                                          backgroundColor: Colors.red,
+                                                          child: FavoriteButton(
+                                                              iconDisabledColor: Color(0xFF212128),
+                                                              iconSize: 40,
+                                                              iconColor: Colors.white,
+                                                              valueChanged: (_isFavorite){
+                                                                print('Is Favorite $_isFavorite');
+                                                              }),
+                                                        )),
+                                                  ),
+
                                                 ],
                                               ),
                                             ),

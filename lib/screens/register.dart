@@ -346,7 +346,7 @@ class _RegisterState extends State<Register> with TickerProviderStateMixin {
                           print(temp);
                           print(temp?.token );
                           print(temp?.email);
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(temp.token,temp.email)));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(temp.token,temp.email)));
                         }
                         catch(error) {
                 

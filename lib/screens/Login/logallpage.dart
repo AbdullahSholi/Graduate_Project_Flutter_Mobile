@@ -16,6 +16,7 @@ import '../../models/login_model.dart';
 import '../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../stripe_payment/stripe_keys.dart';
 import '../forAdmin/admin_main_page.dart';
+import '../forCustomers/customer_login_register/login_or_register(2).dart';
 import '../forCustomers/customer_main_page(1)/customer_main_page.dart';
 import '../forMerchant/merchants_main_page(1)/merchants_main_page(1).dart';
 
@@ -133,7 +134,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
 
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMainPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
                           }, child: Text("Continue as User ",style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,

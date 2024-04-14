@@ -54,6 +54,9 @@ dependencies:
   favorite_button: ^0.0.4
   flutter_rating_bar: ^4.0.1
   flutter_stripe: ^10.1.1
+  flutter_chat_ui: ^1.6.12
+  file_picker: ^8.0.0+1
+  open_filex: ^4.4.0
 
 dev_dependencies:
   flutter_test:

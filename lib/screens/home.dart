@@ -18,7 +18,8 @@ import 'myprofilepage.dart';
 class Home extends StatefulWidget {
   final String token;
   final String email;
-  Home(this.token, this.email);
+  final User tempCustomerProfileData;
+  Home(this.token, this.email, this.tempCustomerProfileData);
   @override
   State<Home> createState() => _HomeState();
 }
@@ -26,6 +27,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String tokenVal = "";
   String emailVal = "";
+  late User tempCustomerProfileData;
+
 
   late Future<User> userData;
 
@@ -55,6 +58,7 @@ class _HomeState extends State<Home> {
       }
     });
   }
+
 
   /////////////////////
 
@@ -257,11 +261,11 @@ class _HomeState extends State<Home> {
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EditProfilePage(tokenVal, emailVal)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             EditProfilePage(tokenVal, emailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -754,7 +758,7 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xFF212128),
                   onTap: (index){
                     if(index == 0){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
                     }
                     else if(index == 1){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouritesPage(tokenVal,emailVal)));

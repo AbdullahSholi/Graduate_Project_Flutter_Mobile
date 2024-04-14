@@ -5,15 +5,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomerDisplayAllProducts extends StatefulWidget {
+class CustomerFavoriteProducts extends StatefulWidget {
   late List<dynamic> storeCartsVal;
-  CustomerDisplayAllProducts(this.storeCartsVal, {super.key});
+  CustomerFavoriteProducts(this.storeCartsVal, {super.key});
 
   @override
-  State<CustomerDisplayAllProducts> createState() => _CustomerDisplayAllProductsState();
+  State<CustomerFavoriteProducts> createState() => _CustomerFavoriteProductsState();
 }
 
-class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts> {
+class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
   List<dynamic> filteredProducts = [];
 
   bool _isSearching = false;
@@ -45,6 +45,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+
                     child: IconButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -74,13 +75,19 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         },
                       ),
                     )
-                        : Text(
-                      "Products",
-                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
-                      ),),
+                        : Container(
+                      width: MediaQuery.of(context).size.width/1.7,
+                          child: Text(
+                             "Favorite Products",
+                             style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30),
+                                                ),
+                                              maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                        ),
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),

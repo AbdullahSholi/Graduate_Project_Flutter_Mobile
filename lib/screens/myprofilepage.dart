@@ -93,7 +93,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                 color: Color(0xFF212128),
                               ), // Replace with your desired icon
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal)));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal)));
                               },
                               // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                             ),
@@ -134,7 +134,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                   color: Color(0xFF212128),
                                 ), // Replace with your desired icon
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  EditProfilePage(tokenVal,emailVal)));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>  EditProfilePage(tokenVal,emailVal)));
                                 },
                                 // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
                               ),
@@ -383,7 +383,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                   backgroundColor: Color(0xFF212128),
                   onTap: (index){
                     if(index == 0){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal,emailVal)));
                     }
                     else if(index == 1){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouritesPage(tokenVal,emailVal)));
