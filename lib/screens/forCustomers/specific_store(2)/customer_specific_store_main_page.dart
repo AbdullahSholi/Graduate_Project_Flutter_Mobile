@@ -12,6 +12,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +21,6 @@ import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_edit_profile_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_favorite_products.dart';
-import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_profile_page.dart';
 import 'package:graduate_project/screens/forGuest/specific_store(2)/display_all_products_to_search.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -39,9 +39,6 @@ import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import "../../../stripe_payment/payment_manager.dart";
 import '../../../stripe_payment/stripe_keys.dart';
-import 'customer_chat_system.dart';
-import 'customer_support_page.dart';
-
 
 class CustomerSpecificStoreMainPage extends StatefulWidget {
   final String token;
@@ -56,25 +53,36 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
   final String customerTokenVal;
   final String customerEmailVal;
   const CustomerSpecificStoreMainPage(
-      this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData, this.customerTokenVal, this.customerEmailVal
-      ,{super.key});
+      this.token,
+      this.email,
+      this.specificStoreCategories,
+      this.storeName,
+      this.storeCartsVal,
+      this.sliderVisibility,
+      this.categoryVisibility,
+      this.cartsVisibility,
+      this.objectData,
+      this.customerTokenVal,
+      this.customerEmailVal,
+      {super.key});
   @override
-  State<CustomerSpecificStoreMainPage> createState() => _CustomerSpecificStoreMainPageState();
+  State<CustomerSpecificStoreMainPage> createState() =>
+      _CustomerSpecificStoreMainPageState();
 }
 
-class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMainPage> {
+class _CustomerSpecificStoreMainPageState
+    extends State<CustomerSpecificStoreMainPage> {
   String tokenVal = "";
   String emailVal = "";
-  String customerTokenVal="";
-  String customerEmailVal="";
+  String customerTokenVal = "";
+  String customerEmailVal = "";
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
   late Map<String, dynamic> objectDataVal;
   String storeNameVal = "";
-  late bool sliderVisibilityVal ;
-  late bool categoryVisibilityVal ;
-  late bool cartsVisibilityVal ;
-
+  late bool sliderVisibilityVal;
+  late bool categoryVisibilityVal;
+  late bool cartsVisibilityVal;
 
   late Future<User> userData;
   late Future<List> sliderImages;
@@ -92,9 +100,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   final Dio _dio = Dio();
 
   bool cartsForSpecificCategory = false;
-  List<dynamic> filteredData=[];
-
-
+  List<dynamic> filteredData = [];
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -111,14 +117,13 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
           .toList());
 
       final List<dynamic> data =
-      MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
-          .storeSliderImages
-          .toList();
+          MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
+              .storeSliderImages
+              .toList();
       final List<String> urls = data.map((item) => item.toString()).toList();
       print("wwwwwwwwwwwwwwwwww $urls ");
       setState(() {
         imageUrls = urls;
-
       });
 
       return MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
@@ -145,9 +150,9 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
           .toList());
 
       final List<dynamic> data =
-      MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
-          .specificStoreCategories
-          .toList();
+          MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
+              .specificStoreCategories
+              .toList();
       final List<String> urls = data.map((item) => item.toString()).toList();
       print("ooooooooooooooo $urls ");
       setState(() {
@@ -165,37 +170,38 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   }
 
   //////////////////////////
-  List<dynamic> storeCartsVal=[];
-  List<dynamic> CartsForOneCategoryVal=[];
+  List<dynamic> storeCartsVal = [];
+  List<dynamic> CartsForOneCategoryVal = [];
   Future<void> getSpecificStoreCart(emailVal) async {
-    storeCartsVal=[];
+    storeCartsVal = [];
     print("--------------------------");
     print(emailVal);
 
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
-
     );
     print(userFuture.body);
-    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
-
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
 
     setState(() {
-      storeCartsVal = GetCartContentModel
-          .fromJson(json.decode(userFuture.body))
-          .type.toList();
+      storeCartsVal = GetCartContentModel.fromJson(json.decode(userFuture.body))
+          .type
+          .toList();
       print("vvvvvvvvvvvv $storeCartsVal");
     });
-
   }
+
   Future<void> getCartsForOneCategory(emailVal, cartCategory) async {
-    CartsForOneCategoryVal=[];
+    CartsForOneCategoryVal = [];
     print("--------------------------");
     print(emailVal);
 
     http.Response userFuture = await http.get(
-      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
     );
     print(userFuture.body);
 
@@ -210,9 +216,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
 
       print("vvvvvvvvvvvv $CartsForOneCategoryVal");
     });
-
   }
-
 
   Future<List<dynamic>> getSpecificStoreCartSliderImages() async {
     print("--------------------------");
@@ -223,28 +227,19 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
-    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body)).type.toList();
-
-
-
-
-
-
-
-
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
 
     setState(() {
-      storeCartsVal = GetCartContentModel
-          .fromJson(json.decode(userFuture.body))
-          .type.toList();
+      storeCartsVal = GetCartContentModel.fromJson(json.decode(userFuture.body))
+          .type
+          .toList();
       print("vvvvvvvvvvvv $storeCartsVal");
     });
 
     return storeCartsVal;
-
   }
-
-
 
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
@@ -272,28 +267,29 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   ////////
   // Specific Category
   TextEditingController specificStoreCategoriesTextEditingController =
-  TextEditingController();
+      TextEditingController();
 
   // Specific Cart
 
   TextEditingController cartNameTextEditingController = TextEditingController();
   TextEditingController cartPriceTextEditingController =
-  TextEditingController();
+      TextEditingController();
   bool cartDiscountBool = false;
   bool cartLikedBool = false;
   bool cartFavouriteBool = false;
   TextEditingController cartPriceAfterDiscountTextEditingController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController cartDescriptionTextEditingController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController cartCategoryTextEditing = TextEditingController();
-  TextEditingController cartQuantitiesTextEditingController = TextEditingController();
+  TextEditingController cartQuantitiesTextEditingController =
+      TextEditingController();
 
-  late String dropdownValue= 'All Products' ;
+  late String dropdownValue = 'All Products';
 
   Future<void> fetchKeysToSetPublishableKey() async {
-
-    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+    final String apiUrl =
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -306,16 +302,16 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
       ApiKeys.publishableKey = data['publishableKey'];
 
       Stripe.publishableKey = ApiKeys.publishableKey;
-
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to fetch keys');
     }
   }
-  Future<void> fetchKeys() async {
 
-    final String apiUrl = "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+  Future<void> fetchKeys() async {
+    final String apiUrl =
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -331,7 +327,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
       // then parse the JSON and update ApiKeys.
       final Map<String, dynamic> data = jsonDecode(response.body);
 
-
       ApiKeys.publishableKey = data['publishableKey'];
       ApiKeys.secretKey = data['secretKey'];
       // Stripe.publishableKey = ApiKeys.publishableKey;
@@ -345,29 +340,30 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
       throw Exception('Failed to fetch keys');
     }
   }
+
   ////////
-  void getUserByName() async{
+  void getUserByName() async {
     print("ppppppppppppppppppp");
     print(emailVal);
     print("ppppppppppppppppppp");
 
     http.Response userFuture = await http.get(
-        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"),
-        headers: {"Authorization":"Bearer ${customerTokenVal}"}
-    );
-    if(userFuture.statusCode == 200){
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
       print("${userFuture.body}");
       print(User.fromJson(json.decode(userFuture.body)));
       // return User.fromJson(json.decode(userFuture.body));
       setState(() {
         tempCustomerProfileData = User.fromJson(json.decode(userFuture.body));
       });
-    }
-    else{
+    } else {
       throw Exception("Error");
     }
   }
-  User tempCustomerProfileData = User("","","","","","")  ;
+
+  User tempCustomerProfileData = User("", "", "", "", "", "");
   @override
   void initState() {
     // TODO: implement initState
@@ -392,8 +388,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
     fetchKeysToSetPublishableKey();
     fetchKeys();
     getUserByName();
-
-
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -403,17 +397,15 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
   }
 
   Future<void> _refreshData() async {
-    await Future.delayed(Duration(seconds: 2));
-
     setState(() {
+      getUserByName();
       // Update your data or state variables
-      // userData = getUserByName();
     });
+    await Future.delayed(Duration(seconds: 2));
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -423,9 +415,74 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
           onRefresh: _refreshData,
           child: ListView(
             children: [
-
               Container(
-                margin: EdgeInsets.all(15),
+                height: 290,
+                child: DrawerHeader(
+                    padding: EdgeInsets.all(0),
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          tempCustomerProfileData.Avatar,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                        Center(
+                          child: Container(
+                              child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 3 ), // Customize the border color
+                                ),
+                                child: CircleAvatar(
+                                    radius: 80,
+                                    child: ClipOval(
+                                        child: Image.network(
+                                      "${tempCustomerProfileData.Avatar}",
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                          fit: BoxFit.cover,
+                                    ))),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                width: double.infinity,
+                                // color: Colors.black,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${tempCustomerProfileData.username}",
+                                      style: TextStyle(color: Colors.white, fontSize: 35),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      "${tempCustomerProfileData.phone}",
+                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                            ],
+                          )),
+                        )
+                      ],
+                    )),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(15, 20, 15, 15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
                     borderRadius: BorderRadius.circular(10),
@@ -442,7 +499,13 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfilePage(
+                                customerTokenVal,
+                                customerEmailVal,
+                                tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -471,8 +534,10 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CustomerEditProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                            builder: (context) => CustomerEditProfilePage(
+                                customerTokenVal,
+                                customerEmailVal,
+                                tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -498,7 +563,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage()));
+                    Navigator.pop(context);
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -524,7 +589,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerFavoriteProducts(storeCartsVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -550,7 +614,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerChatSystem()));
+                    Navigator.pop(context);
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -576,7 +640,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSupportPage()));
+                    Navigator.pop(context);
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -618,7 +682,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
         child: Column(
           children: [
             Container(
-
               margin: EdgeInsets.fromLTRB(
                   20, MediaQuery.of(context).size.height / 20, 20, 0),
               decoration: BoxDecoration(
@@ -627,40 +690,60 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(onPressed: (){
-                    _openDrawer();
-                  } ,icon:Icon(Icons.menu, color: Colors.white,size: 35,)),
-                  SizedBox(width: 20,),
+                  IconButton(
+                      onPressed: () {
+                        _openDrawer();
+                      },
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                        size: 35,
+                      )),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Container(
-                    width: MediaQuery.of(context).size.width/2,
+                    width: MediaQuery.of(context).size.width / 2,
                     child: Center(
                         child: Text(
-                          storeNameVal,
-                          style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,),),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )),
+                      storeNameVal,
+                      style: GoogleFonts.lilitaOne(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
                   ),
-                  SizedBox(width: 20,),
-                  IconButton(onPressed:(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerFavoriteProducts(storeCartsVal)));
-                  }, icon:Icon(Icons.favorite_border_outlined, color: Colors.white,size: 35,)),
-
+                  SizedBox(
+                    width: 20,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CustomerFavoriteProducts(storeCartsVal)));
+                      },
+                      icon: Icon(
+                        Icons.favorite_border_outlined,
+                        color: Colors.white,
+                        size: 35,
+                      )),
                 ],
               ),
             ),
-
             FutureBuilder<List>(
                 future: sliderImages,
-                builder:
-                    (BuildContext context, AsyncSnapshot<List> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   return Container(
                     // color: Colors.blue,
-                    height: MediaQuery.of(context).size.height /1.15 ,
+                    height: MediaQuery.of(context).size.height / 1.15,
                     margin: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
@@ -675,7 +758,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                               SizedBox(
                                 height: 5,
                               ),
-
                               FutureBuilder<List>(
                                 future: sliderImages,
                                 builder: (BuildContext context,
@@ -691,28 +773,24 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                       ),
                                       items: imageUrls.map((url) {
                                         return Builder(
-                                          builder:
-                                              (BuildContext context) {
+                                          builder: (BuildContext context) {
                                             return Container(
-                                              width:
-                                              MediaQuery.of(context)
+                                              width: MediaQuery.of(context)
                                                   .size
                                                   .width,
                                               child: ClipRRect(
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    10),
+                                                    BorderRadius.circular(10),
                                                 child: CachedNetworkImage(
                                                   imageUrl: url,
-                                                  placeholder: (context,
-                                                      url) =>
+                                                  placeholder: (context, url) =>
                                                       SimpleCircularProgressBar(
-                                                        mergeMode: true,
-                                                        animationDuration: 1,
-                                                      ),
-                                                  errorWidget: (context,
-                                                      url, error) =>
-                                                      Icon(Icons.error),
+                                                    mergeMode: true,
+                                                    animationDuration: 1,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -732,7 +810,6 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                           Visibility(
                             visible: categoryVisibilityVal,
                             child: Column(children: [
-
                               SizedBox(
                                 height: 15,
                               ),
@@ -742,43 +819,43 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                     AsyncSnapshot<List> snapshot) {
                                   print(storeCartsVal);
                                   return Container(
-
-                                    width: MediaQuery.of(context)
-                                        .size
-                                        .width /
+                                    width: MediaQuery.of(context).size.width /
                                         1.13,
                                     height: 50,
-
                                     child: ListView.separated(
                                       scrollDirection: Axis.horizontal,
                                       itemCount:
-                                      specificStoreCategoriesVal
-                                          .length,
+                                          specificStoreCategoriesVal.length,
                                       itemBuilder: (context, index) =>
                                           Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    10),
-                                                color: specificStoreCategoriesVal[index] == "All Products" ? Color(0xFFFF2139) : Color(0xFF212128),
+                                                    BorderRadius.circular(10),
+                                                color:
+                                                    specificStoreCategoriesVal[
+                                                                index] ==
+                                                            "All Products"
+                                                        ? Color(0xFFFF2139)
+                                                        : Color(0xFF212128),
                                               ),
                                               width: 120,
                                               child: TextButton(
                                                   onPressed: () async {
-                                                    if (specificStoreCategoriesVal[index] == "All Products") {
+                                                    if (specificStoreCategoriesVal[
+                                                            index] ==
+                                                        "All Products") {
                                                       setState(() {
-                                                        cartsForSpecificCategory=false;
+                                                        cartsForSpecificCategory =
+                                                            false;
                                                       });
-
                                                     } else {
                                                       await getCartsForOneCategory(
                                                           emailVal,
-                                                          specificStoreCategoriesVal[index]);
+                                                          specificStoreCategoriesVal[
+                                                              index]);
                                                       setState(() {
-
                                                         cartsForSpecificCategory =
-                                                        true;
-
+                                                            true;
                                                       });
 
                                                       print(
@@ -787,14 +864,15 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                   },
                                                   child: Text(
                                                       specificStoreCategoriesVal[
-                                                      index],
-                                                      style: GoogleFonts.lilitaOne(textStyle:TextStyle(
-                                                          color:
-                                                          Colors.white,
-                                                          fontSize: 18),)
-                                                  ))),
-                                      separatorBuilder:
-                                          (context, index) => SizedBox(
+                                                          index],
+                                                      style:
+                                                          GoogleFonts.lilitaOne(
+                                                        textStyle: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18),
+                                                      )))),
+                                      separatorBuilder: (context, index) =>
+                                          SizedBox(
                                         width: 5,
                                       ),
                                     ),
@@ -810,18 +888,38 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                 child: Column(
                                   children: [
                                     Container(
-
-                                      padding: EdgeInsets.fromLTRB(13, 20, 20, 0),
-                                      child:
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children:
-                                        [
-                                          Text("Products",style:GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 38,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
-                                          InkWell(child: Text("View All",style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Color(0xFF212128)),),),
-                                            onTap: (){
-
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>DisplayAllProducts(storeCartsVal)));
+                                      padding:
+                                          EdgeInsets.fromLTRB(13, 20, 20, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Products",
+                                            style: GoogleFonts.lilitaOne(
+                                              textStyle: TextStyle(
+                                                  fontSize: 38,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xFF212128)),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            child: Text(
+                                              "View All",
+                                              style: GoogleFonts.lilitaOne(
+                                                textStyle: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(0xFF212128)),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DisplayAllProducts(
+                                                              storeCartsVal)));
                                             },
                                           )
                                         ],
@@ -830,109 +928,192 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                     Visibility(
                                       visible: !cartsForSpecificCategory,
                                       child: Container(
-
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: GridView.builder(
-                                          padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 12, 0, 0),
                                           scrollDirection: Axis.vertical,
                                           physics:
-                                          NeverScrollableScrollPhysics(),
+                                              NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount:
-                                            2, // Set the number of columns
+                                                2, // Set the number of columns
                                             childAspectRatio:
-                                            0.77, // Customize the aspect ratio (width/height) of each tile
+                                                0.77, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
-                                            4.0, // Spacing between rows
+                                                4.0, // Spacing between rows
                                             crossAxisSpacing:
-                                            2.0, // Spacing between columns
+                                                2.0, // Spacing between columns
                                           ),
                                           // storeCartsVal[index]
-                                          itemBuilder: (context, index) => InkWell(
-                                            onTap: (){
+                                          itemBuilder: (context, index) =>
+                                              InkWell(
+                                            onTap: () {
                                               // PaymentManager.makePayment(20,"USD");
-                                              showDialog(context: context, builder: (context)=> AlertDialog(
-                                                title: Text("Product", style: TextStyle(color: Colors.white),),
-                                                backgroundColor: Color(0xFF212128),
-                                                content: Container(
-                                                  width: MediaQuery.of(context).size.width,
-                                                ),
-                                              ));
-
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: Text(
+                                                          "Product",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                        backgroundColor:
+                                                            Color(0xFF212128),
+                                                        content: Container(
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                        ),
+                                                      ));
                                             },
                                             child: Container(
-                                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                              padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 0, 5, 10),
                                               child: Stack(
                                                 children: [
                                                   Stack(
                                                     children: [
                                                       Container(
-                                                        padding: EdgeInsets.all(1),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(20),
-                                                            topLeft: Radius.circular(20),
+                                                        padding:
+                                                            EdgeInsets.all(1),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          color: Color(0xF2222128),
+                                                          color:
+                                                              Color(0xF2222128),
                                                         ),
                                                         height: 120,
                                                         child: ClipRRect(
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(20),
-                                                            topLeft: Radius.circular(20),
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          child: (storeCartsVal[index]["cartPrimaryImage"].toString() == "null" || storeCartsVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
-                                                            "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
-                                                            fit: BoxFit.fill,
-                                                            width: double.infinity,
-                                                            height: 120,
-                                                          ): Image.network(
-                                                            storeCartsVal[index]["cartPrimaryImage"].toString(),
-                                                            fit: BoxFit.fill,
-                                                            width: double.infinity,
-                                                            height: 120,
-                                                          ),
+                                                          child: (storeCartsVal[index]
+                                                                              [
+                                                                              "cartPrimaryImage"]
+                                                                          .toString() ==
+                                                                      "null" ||
+                                                                  storeCartsVal[index]
+                                                                              [
+                                                                              "cartPrimaryImage"]
+                                                                          .toString() ==
+                                                                      "")
+                                                              ? Image.network(
+                                                                  "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 120,
+                                                                )
+                                                              : Image.network(
+                                                                  storeCartsVal[
+                                                                              index]
+                                                                          [
+                                                                          "cartPrimaryImage"]
+                                                                      .toString(),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 120,
+                                                                ),
                                                         ),
                                                       ),
                                                       Positioned(
                                                         bottom: 0,
                                                         left: 0,
-                                                        child: storeCartsVal[index]["cartDiscount"].toString() == "true" ? Container(
-                                                          margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(3),
-                                                            color: Colors.red,
-                                                          ),
-
-                                                          width: 60,
-                                                          height: 20,
-                                                          child: Container(
-
-                                                            padding: const EdgeInsets.all(2.0),
-                                                            child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
-                                                          ),
-                                                        ) : Container(),
+                                                        child: storeCartsVal[
+                                                                            index]
+                                                                        [
+                                                                        "cartDiscount"]
+                                                                    .toString() ==
+                                                                "true"
+                                                            ? Container(
+                                                                margin: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        4,
+                                                                        0,
+                                                                        0,
+                                                                        10),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              3),
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                                width: 60,
+                                                                height: 20,
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          2.0),
+                                                                  child: Text(
+                                                                    "DISCOUNT",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Container(),
                                                       ),
                                                       Visibility(
-                                                        visible: storeCartsVal[index]["cartFavourite"],
+                                                        visible: storeCartsVal[
+                                                                index]
+                                                            ["cartFavourite"],
                                                         child: Positioned(
                                                             top: 5,
                                                             right: 5,
                                                             child: CircleAvatar(
-                                                              backgroundColor: Colors.red,
-                                                              child: FavoriteButton(
-                                                                  iconDisabledColor: Color(0xFF212128),
-                                                                  iconSize: 40,
-                                                                  iconColor: Colors.white,
-                                                                  valueChanged: (_isFavorite){
-                                                                    print('Is Favorite $_isFavorite');
-                                                                  }),
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                              child:
+                                                                  FavoriteButton(
+                                                                      iconDisabledColor:
+                                                                          Color(
+                                                                              0xFF212128),
+                                                                      iconSize:
+                                                                          40,
+                                                                      iconColor:
+                                                                          Colors
+                                                                              .white,
+                                                                      valueChanged:
+                                                                          (_isFavorite) {
+                                                                        print(
+                                                                            'Is Favorite $_isFavorite');
+                                                                      }),
                                                             )),
                                                       )
                                                     ],
@@ -943,95 +1124,199 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                       right: 0,
                                                       child: Container(
                                                         height: 120,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            bottomRight: Radius.circular(20),
-                                                            bottomLeft: Radius.circular(20),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          color: Color(0xF2222128),
+                                                          color:
+                                                              Color(0xF2222128),
                                                         ),
                                                         child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
-                                                              child: Text("${storeCartsVal[index]["cartName"].toString()}",
-                                                                overflow: TextOverflow.ellipsis,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          0),
+                                                              child: Text(
+                                                                "${storeCartsVal[index]["cartName"].toString()}",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 maxLines: 1,
-                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                style: GoogleFonts
+                                                                    .lilitaOne(
+                                                                        textStyle:
+                                                                            TextStyle(
                                                                   fontSize: 22,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: Colors.white,
-                                                                )),),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white,
+                                                                )),
+                                                              ),
                                                             ),
                                                             Container(
-                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
-                                                              child: Text("${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                overflow: TextOverflow.ellipsis,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          3),
+                                                              child: Text(
+                                                                "${storeCartsVal[index]["cartDescription"].toString()}",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 maxLines: 2,
-                                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                                style: GoogleFonts
+                                                                    .lilitaOne(
+                                                                        textStyle:
+                                                                            TextStyle(
                                                                   fontSize: 14,
-                                                                  fontWeight: FontWeight.bold,
-                                                                  color: Colors.white,
-                                                                )),),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                      .white,
+                                                                )),
+                                                              ),
                                                             ),
                                                             Row(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                                                              textBaseline: TextBaseline.alphabetic,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .baseline,
+                                                              textBaseline:
+                                                                  TextBaseline
+                                                                      .alphabetic,
                                                               children: [
                                                                 Container(
-                                                                  padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                                                                  child: Text("${storeCartsVal[index]["cartPrice"].toString()}",
-                                                                    overflow: TextOverflow.ellipsis,
+                                                                  padding: EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          0,
+                                                                          2,
+                                                                          0),
+                                                                  child: Text(
+                                                                    "${storeCartsVal[index]["cartPrice"].toString()}",
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
                                                                     maxLines: 1,
-                                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                                                                      fontSize: 13,
-                                                                      fontWeight: FontWeight.bold,
-                                                                      color: Colors.white,
-                                                                    )),),
+                                                                    style: GoogleFonts
+                                                                        .lilitaOne(
+                                                                            textStyle:
+                                                                                TextStyle(
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    )),
+                                                                  ),
                                                                 ),
                                                                 SizedBox(
                                                                   width: 5,
                                                                 ),
                                                                 Container(
                                                                   // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                  child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 1,
-                                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                                                                      fontSize: 11,
-                                                                      fontWeight: FontWeight.bold,
-                                                                      decoration: TextDecoration.lineThrough,
-                                                                      decorationThickness: 3,
-                                                                      color: Colors.white,
-                                                                    )), ),
+                                                                  child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                          "null"
+                                                                      ? Text("")
+                                                                      : Text(
+                                                                          "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          maxLines:
+                                                                              1,
+                                                                          style: GoogleFonts.lilitaOne(
+                                                                              textStyle: TextStyle(
+                                                                            fontSize:
+                                                                                11,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            decorationThickness:
+                                                                                3,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          )),
+                                                                        ),
                                                                 ),
                                                               ],
                                                             ),
                                                             Visibility(
-                                                              visible: storeCartsVal[index]["cartLiked"],
+                                                              visible:
+                                                                  storeCartsVal[
+                                                                          index]
+                                                                      [
+                                                                      "cartLiked"],
                                                               child: Container(
-                                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                                child: RatingBar.builder(
-                                                                  initialRating: 3,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .fromLTRB(
+                                                                            7,
+                                                                            2,
+                                                                            0,
+                                                                            0),
+                                                                child: RatingBar
+                                                                    .builder(
+                                                                  initialRating:
+                                                                      3,
                                                                   minRating: 1,
-                                                                  direction: Axis.horizontal,
-                                                                  allowHalfRating: true,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
                                                                   itemCount: 5,
                                                                   itemSize: 20,
-                                                                  unratedColor: Colors.white,
-                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                  itemBuilder: (context, _) => Icon(
-                                                                    Icons.favorite,
-                                                                    color: Colors.yellow,
+                                                                  unratedColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              4.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons
+                                                                        .favorite,
+                                                                    color: Colors
+                                                                        .yellow,
                                                                   ),
-                                                                  onRatingUpdate: (rating) {
-                                                                    setState(() {
-                                                                      rateVal = rating;
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    setState(
+                                                                        () {
+                                                                      rateVal =
+                                                                          rating;
                                                                     });
 
-                                                                    print(rating);
+                                                                    print(
+                                                                        rating);
                                                                   },
                                                                 ),
                                                               ),
@@ -1042,8 +1327,7 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                 ],
                                               ),
                                             ),
-                                          )
-                                          ,
+                                          ),
                                           itemCount: storeCartsVal.length,
                                         ),
                                       ),
@@ -1051,90 +1335,154 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                     Visibility(
                                       visible: cartsForSpecificCategory,
                                       child: Container(
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
-
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: GridView.builder(
-                                          padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 12, 0, 0),
                                           scrollDirection: Axis.vertical,
                                           physics:
-                                          NeverScrollableScrollPhysics(),
+                                              NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount:
-                                            2, // Set the number of columns
+                                                2, // Set the number of columns
                                             childAspectRatio:
-                                            0.77, // Customize the aspect ratio (width/height) of each tile
+                                                0.77, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
-                                            4.0, // Spacing between rows
+                                                4.0, // Spacing between rows
                                             crossAxisSpacing:
-                                            2.0, // Spacing between columns
+                                                2.0, // Spacing between columns
                                           ),
                                           // storeCartsVal[index]
-                                          itemBuilder: (context, index) => InkWell(
+                                          itemBuilder: (context, index) =>
+                                              InkWell(
                                             onTap: () {
                                               // PaymentManager.makePayment(20,"USD");
-                                              showDialog(context: context, builder: (context)=> AlertDialog(
-                                                title: Text("Cart"),
-                                                content: Container(),
-                                              ));
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: Text("Cart"),
+                                                        content: Container(),
+                                                      ));
                                             },
                                             child: Container(
-                                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                              padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 0, 5, 10),
                                               child: Stack(
                                                 children: [
                                                   Stack(
                                                     children: [
                                                       Container(
-                                                        padding: EdgeInsets.all(1),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(20),
-                                                            topLeft: Radius.circular(20),
+                                                        padding:
+                                                            EdgeInsets.all(1),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          color: Color(0xF2222128),
+                                                          color:
+                                                              Color(0xF2222128),
                                                         ),
                                                         child: ClipRRect(
-                                                          borderRadius: BorderRadius.only(
-                                                            topRight: Radius.circular(20),
-                                                            topLeft: Radius.circular(20),
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          child: (CartsForOneCategoryVal[index]["cartPrimaryImage"].toString() == "null" || CartsForOneCategoryVal[index]["cartPrimaryImage"].toString() == "") ? Image.network(
-                                                            "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0" ,
-                                                            fit: BoxFit.cover,
-                                                            width: double.infinity,
-                                                            height: 120,
-                                                          ): Image.network(
-                                                            CartsForOneCategoryVal[index]["cartPrimaryImage"].toString(),
-                                                            fit: BoxFit.cover,
-                                                            width: double.infinity,
-                                                            height: 120,
-                                                          ),
+                                                          child: (CartsForOneCategoryVal[index]
+                                                                              [
+                                                                              "cartPrimaryImage"]
+                                                                          .toString() ==
+                                                                      "null" ||
+                                                                  CartsForOneCategoryVal[index]
+                                                                              [
+                                                                              "cartPrimaryImage"]
+                                                                          .toString() ==
+                                                                      "")
+                                                              ? Image.network(
+                                                                  "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 120,
+                                                                )
+                                                              : Image.network(
+                                                                  CartsForOneCategoryVal[
+                                                                              index]
+                                                                          [
+                                                                          "cartPrimaryImage"]
+                                                                      .toString(),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 120,
+                                                                ),
                                                         ),
                                                       ),
                                                       Positioned(
                                                         bottom: 0,
                                                         left: 0,
-                                                        child: CartsForOneCategoryVal[index]["cartDiscount"].toString() == "true" ? Container(
-                                                          margin: EdgeInsets.fromLTRB(4, 0, 0, 10),
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(3),
-                                                            color: Colors.red,
-                                                          ),
-
-                                                          width: 60,
-                                                          height: 20,
-                                                          child: Container(
-
-                                                            padding: const EdgeInsets.all(2.0),
-                                                            child: Text("DISCOUNT",style: TextStyle(color: Colors.white,fontSize: 11,fontWeight: FontWeight.bold),),
-                                                          ),
-                                                        ) : Container(),
+                                                        child: CartsForOneCategoryVal[
+                                                                            index]
+                                                                        [
+                                                                        "cartDiscount"]
+                                                                    .toString() ==
+                                                                "true"
+                                                            ? Container(
+                                                                margin: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        4,
+                                                                        0,
+                                                                        0,
+                                                                        10),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              3),
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                                width: 60,
+                                                                height: 20,
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          2.0),
+                                                                  child: Text(
+                                                                    "DISCOUNT",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Container(),
                                                       ),
-
                                                     ],
                                                   ),
                                                   Positioned(
@@ -1143,52 +1491,108 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                       right: 0,
                                                       child: Container(
                                                         height: 120,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                            bottomRight: Radius.circular(20),
-                                                            bottomLeft: Radius.circular(20),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          color: Color(0xF2222128),
+                                                          color:
+                                                              Color(0xF2222128),
                                                         ),
                                                         child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             Container(
-                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 0),
-                                                              child: Text("${CartsForOneCategoryVal[index]["cartName"].toString()}",
-                                                                  overflow: TextOverflow.ellipsis,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          0),
+                                                              child: Text(
+                                                                  "${CartsForOneCategoryVal[index]["cartName"].toString()}",
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   maxLines: 1,
-                                                                  style: TextStyle(
-                                                                    fontSize: 22,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Colors.white,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        22,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
                                                                   )),
                                                             ),
                                                             Container(
-                                                              padding: EdgeInsets.fromLTRB(10, 8, 10, 3),
-                                                              child: Text("${CartsForOneCategoryVal[index]["cartDescription"].toString()}",
-                                                                  overflow: TextOverflow.ellipsis,
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          3),
+                                                              child: Text(
+                                                                  "${CartsForOneCategoryVal[index]["cartDescription"].toString()}",
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
                                                                   maxLines: 2,
-                                                                  style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.bold,
-                                                                    color: Colors.white,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .white,
                                                                   )),
                                                             ),
                                                             Row(
-                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                                                              textBaseline: TextBaseline.alphabetic,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .baseline,
+                                                              textBaseline:
+                                                                  TextBaseline
+                                                                      .alphabetic,
                                                               children: [
                                                                 Container(
-                                                                  padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                                                                  child: Text("${CartsForOneCategoryVal[index]["cartPrice"].toString()}",
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      maxLines: 1,
-                                                                      style: TextStyle(
-                                                                        fontSize: 13,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        color: Colors.white,
+                                                                  padding: EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10,
+                                                                          0,
+                                                                          2,
+                                                                          0),
+                                                                  child: Text(
+                                                                      "${CartsForOneCategoryVal[index]["cartPrice"].toString()}",
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      maxLines:
+                                                                          1,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            13,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Colors
+                                                                            .white,
                                                                       )),
                                                                 ),
                                                                 SizedBox(
@@ -1196,42 +1600,82 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                                 ),
                                                                 Container(
                                                                   // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                  child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}"=="null" ? Text("") : Text("${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      maxLines: 1,
-                                                                      style: TextStyle(
-                                                                        fontSize: 11,
-                                                                        fontWeight: FontWeight.bold,
-                                                                        decoration: TextDecoration.lineThrough,
-                                                                        decorationThickness: 3,
-                                                                        color: Colors.white,
-                                                                      )),
+                                                                  child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                          "null"
+                                                                      ? Text("")
+                                                                      : Text(
+                                                                          "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                          overflow: TextOverflow
+                                                                              .ellipsis,
+                                                                          maxLines:
+                                                                              1,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                11,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            decorationThickness:
+                                                                                3,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          )),
                                                                 ),
                                                               ],
                                                             ),
                                                             Visibility(
-                                                              visible: storeCartsVal[index]["cartLiked"],
+                                                              visible:
+                                                                  storeCartsVal[
+                                                                          index]
+                                                                      [
+                                                                      "cartLiked"],
                                                               child: Container(
-                                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                                child: RatingBar.builder(
-                                                                  initialRating: 3,
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .fromLTRB(
+                                                                            7,
+                                                                            2,
+                                                                            0,
+                                                                            0),
+                                                                child: RatingBar
+                                                                    .builder(
+                                                                  initialRating:
+                                                                      3,
                                                                   minRating: 1,
-                                                                  direction: Axis.horizontal,
-                                                                  allowHalfRating: true,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                  allowHalfRating:
+                                                                      true,
                                                                   itemCount: 5,
                                                                   itemSize: 20,
-                                                                  unratedColor: Colors.white,
-                                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                  itemBuilder: (context, _) => Icon(
-                                                                    Icons.favorite,
-                                                                    color: Colors.yellow,
+                                                                  unratedColor:
+                                                                      Colors
+                                                                          .white,
+                                                                  itemPadding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              4.0),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                              _) =>
+                                                                          Icon(
+                                                                    Icons
+                                                                        .favorite,
+                                                                    color: Colors
+                                                                        .yellow,
                                                                   ),
-                                                                  onRatingUpdate: (rating) {
-                                                                    setState(() {
-                                                                      rateVal = rating;
+                                                                  onRatingUpdate:
+                                                                      (rating) {
+                                                                    setState(
+                                                                        () {
+                                                                      rateVal =
+                                                                          rating;
                                                                     });
 
-                                                                    print(rating);
+                                                                    print(
+                                                                        rating);
                                                                   },
                                                                 ),
                                                               ),
@@ -1240,32 +1684,38 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
                                                         ),
                                                       )),
                                                   Visibility(
-                                                    visible: storeCartsVal[index]["cartFavourite"],
+                                                    visible:
+                                                        storeCartsVal[index]
+                                                            ["cartFavourite"],
                                                     child: Positioned(
                                                         top: 5,
                                                         right: 5,
                                                         child: CircleAvatar(
-                                                          backgroundColor: Colors.red,
+                                                          backgroundColor:
+                                                              Colors.red,
                                                           child: FavoriteButton(
-                                                              iconDisabledColor: Color(0xFF212128),
+                                                              iconDisabledColor:
+                                                                  Color(
+                                                                      0xFF212128),
                                                               iconSize: 40,
-                                                              iconColor: Colors.white,
-                                                              valueChanged: (_isFavorite){
-                                                                print('Is Favorite $_isFavorite');
+                                                              iconColor:
+                                                                  Colors.white,
+                                                              valueChanged:
+                                                                  (_isFavorite) {
+                                                                print(
+                                                                    'Is Favorite $_isFavorite');
                                                               }),
                                                         )),
                                                   ),
-
                                                 ],
                                               ),
                                             ),
-                                          )
-                                          ,
-                                          itemCount: CartsForOneCategoryVal.length,
+                                          ),
+                                          itemCount:
+                                              CartsForOneCategoryVal.length,
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -1279,21 +1729,12 @@ class _CustomerSpecificStoreMainPageState extends State<CustomerSpecificStoreMai
           ],
         ),
       ),
-
     );
   }
 
+  void defaultCategoryContainer() {}
 
+  void defaultCartContainer() {}
 
-  void defaultCategoryContainer() {
-
-  }
-
-  void defaultCartContainer() {
-
-  }
-
-  void addDataToFilteredData(){
-
-  }
+  void addDataToFilteredData() {}
 }

@@ -226,46 +226,54 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                 children: [
                                   SizedBox(height: 20,),
                                   Center(
-                                    child: CircleAvatar(
-                                        radius: 80,
-                                        child: Stack(
-                                            children:[
-                                              ClipOval(
-                                                child: Image.network(
-                                                  tempCustomerProfileData.Avatar,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: Colors.white, width: 3 ), // Customize the border color
+                                      ),
+                                      child: CircleAvatar(
+                                          radius: 80,
+                                          child: Stack(
+                                              children:[
+                                                ClipOval(
+                                                  child: Image.network(
+                                                    tempCustomerProfileData.Avatar,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
 
+                                                  ),
                                                 ),
-                                              ),
 
 
 
 
-                                              Positioned(
-                                                  bottom: 6,
-                                                  right: 6,
-                                                  child: CircleAvatar(
-                                                    radius: 22,
-                                                    backgroundColor: Color(0xFF212128),
-                                                    child: Center(
+                                                Positioned(
+                                                    bottom: 6,
+                                                    right: 6,
+                                                    child: CircleAvatar(
+                                                      radius: 22,
+                                                      backgroundColor: Color(0xFF212128),
+                                                      child: Center(
 
-                                                        child: IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.white,))),
-                                                  )
-                                              ),
-                                              Positioned(
-                                                  bottom: 8,
-                                                  right: 8,
-                                                  child: CircleAvatar(
-                                                    backgroundColor: Colors.green,
-                                                    child: Center(
-                                                        child: IconButton(
-                                                            onPressed: _pickAndUploadImage
-                                                            , icon: Icon(Icons.edit,color: Colors.white,))),
-                                                  )
-                                              )
-                                            ]
-                                        )
+                                                          child: IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.white,))),
+                                                    )
+                                                ),
+                                                Positioned(
+                                                    bottom: 8,
+                                                    right: 8,
+                                                    child: CircleAvatar(
+                                                      backgroundColor: Colors.green,
+                                                      child: Center(
+                                                          child: IconButton(
+                                                              onPressed: _pickAndUploadImage
+                                                              , icon: Icon(Icons.edit,color: Colors.white, ),
+                                                          )),
+                                                    )
+                                                )
+                                              ]
+                                          )
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 10,),

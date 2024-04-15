@@ -151,13 +151,19 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                   children: [
                                     SizedBox(height: 20,),
                                     Center(
-                                      child: InkWell(
-                                        onTap: (){
-                                          print(tempCustomerProfileData.Avatar);
-                                        },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: Colors.white, width: 3 ), // Customize the border color
+                                        ),
                                         child: CircleAvatar(
                                           radius: 80,
-                                          child: ClipOval(child: Image.network("${tempCustomerProfileData.Avatar}", width: double.infinity, height:  double.infinity,)),
+                                          child: ClipOval(child: Image.network("${tempCustomerProfileData.Avatar}",
+                                            width: double.infinity,
+                                            height:  double.infinity,
+                                            fit: BoxFit.cover,
+                                          )
+                                          ),
 
                                         ),
                                       ),
