@@ -39,6 +39,9 @@ import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import "../../../stripe_payment/payment_manager.dart";
 import '../../../stripe_payment/stripe_keys.dart';
+import 'customer_chat_system.dart';
+import 'customer_my_cart_page.dart';
+import 'customer_support_page.dart';
 
 class CustomerSpecificStoreMainPage extends StatefulWidget {
   final String token;
@@ -404,6 +407,8 @@ class _CustomerSpecificStoreMainPageState
     await Future.delayed(Duration(seconds: 2));
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -482,7 +487,7 @@ class _CustomerSpecificStoreMainPageState
                     )),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(15, 20, 15, 15),
+                margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
                     borderRadius: BorderRadius.circular(10),
@@ -499,13 +504,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyProfilePage(
-                                customerTokenVal,
-                                customerEmailVal,
-                                tempCustomerProfileData)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -534,10 +533,8 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CustomerEditProfilePage(
-                                customerTokenVal,
-                                customerEmailVal,
-                                tempCustomerProfileData)));
+                            builder: (context) =>
+                                CustomerEditProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -563,7 +560,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -589,6 +586,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerFavoriteProducts(customerTokenVal, customerEmailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -614,7 +612,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerChatSystem()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -640,7 +638,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSupportPage()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -728,7 +726,7 @@ class _CustomerSpecificStoreMainPageState
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    CustomerFavoriteProducts(storeCartsVal)));
+                                    CustomerFavoriteProducts(customerTokenVal, customerEmailVal)));
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
@@ -1110,7 +1108,31 @@ class _CustomerSpecificStoreMainPageState
                                                                           Colors
                                                                               .white,
                                                                       valueChanged:
-                                                                          (_isFavorite) {
+                                                                          (_isFavorite) async {
+                                                                        if(_isFavorite){
+                                                                            try {
+                                                                              http.Response userFuture = await http.post(
+                                                                                Uri.parse(
+                                                                                    "http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                                headers: { "Content-Type": "application/json", "Authorization": "Bearer ${customerTokenVal}"},
+                                                                                body: jsonEncode(
+                                                                                  {
+                                                                                    "favouriteList": storeCartsVal[index]
+                                                                                  },
+
+                                                                                ),
+                                                                                encoding: Encoding.getByName("utf-8"),
+                                                                              );
+
+                                                                              print(userFuture.body);
+
+
+                                                                            }
+                                                                            catch(error) {
+
+                                                                            }
+
+                                                                        }
                                                                         print(
                                                                             'Is Favorite $_isFavorite');
                                                                       }),

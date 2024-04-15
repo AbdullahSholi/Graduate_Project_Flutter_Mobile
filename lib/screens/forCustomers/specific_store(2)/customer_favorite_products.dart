@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +8,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../models/merchant/get_cart_content_model.dart';
+
 class CustomerFavoriteProducts extends StatefulWidget {
-  late List<dynamic> storeCartsVal;
-  CustomerFavoriteProducts(this.storeCartsVal, {super.key});
+  String customerTokenVal;
+  String customerEmailVal;
+  CustomerFavoriteProducts( this.customerTokenVal, this.customerEmailVal, {super.key});
 
   @override
   State<CustomerFavoriteProducts> createState() => _CustomerFavoriteProductsState();
@@ -15,18 +21,49 @@ class CustomerFavoriteProducts extends StatefulWidget {
 
 class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
   List<dynamic> filteredProducts = [];
+  String customerTokenVal = "";
+  String customerEmailVal = "";
 
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
   double rateVal = 3;
-  late List<dynamic> storeCartsVal;
+  late List<dynamic> storeCartsVal = [];
+
+
+
+  void getCustomerFavoriteList() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        storeCartsVal = json.decode(userFuture.body);
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    storeCartsVal = widget.storeCartsVal;
+    customerEmailVal = widget.customerEmailVal;
+    customerTokenVal = widget.customerTokenVal;
+    // storeCartsVal = widget.storeCartsVal;
+    getCustomerFavoriteList();
+
+
   }
+
 
   @override
   Widget build(BuildContext context) {
