@@ -169,9 +169,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                                     "http://10.0.2.2:3000/matjarcom/api/v1/merchant-login"),
                                 headers: { "Content-Type": "application/json"},
                                 body: jsonEncode(
-                                  {"email": email, "password": password,
-
-                                  },
+                                  {"email": email, "password": password,},
 
                                 ),
                                 encoding: Encoding.getByName("utf-8"),

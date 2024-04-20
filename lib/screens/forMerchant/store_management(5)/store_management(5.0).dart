@@ -109,7 +109,6 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer $tokenVal",
-
       },
     );
     return response;
@@ -346,7 +345,10 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                           ),
                                         ),
                                         Container(
-
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          border: Border.all(width: 3, color: Colors.white),
+                                        ),
                                           width: MediaQuery
                                               .of(context)
                                               .size
@@ -359,13 +361,16 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             radius: 20,
                                             child: ClipOval(
                                               child: CachedNetworkImage(
+                                                width: double.infinity,
+                                                height:  double.infinity,
+                                                fit: BoxFit.cover,
                                                   imageUrl:snapshot.data!.storeAvatar,
                                                 placeholder: (context, url) => SimpleCircularProgressBar(
                                                   mergeMode: true,
                                                   animationDuration: 1,
                                                 ),
                                                 errorWidget: (context, url, error) => Icon(Icons.error),
-                                                fit: BoxFit.cover,
+
 
                                               ),
 

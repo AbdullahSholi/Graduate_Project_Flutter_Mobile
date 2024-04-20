@@ -248,7 +248,12 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                     radius: 20,
                                     child: Stack(
                                         children:[
-                                          ClipOval(
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(width: 3, color: Colors.white),
+                                            ),
+                                          child: ClipOval(
                                             child: CachedNetworkImage(
                                               imageUrl:imageUrlVal,
                                               placeholder: (context, url) => SimpleCircularProgressBar(
@@ -257,9 +262,12 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                               ),
                                               errorWidget: (context, url, error) => Icon(Icons.error),
                                               fit: BoxFit.cover,
+                                              height: double.infinity,
+                                              width: double.infinity,
 
                                             ),
                                           ),
+                                ),
 
 
                                           Positioned(

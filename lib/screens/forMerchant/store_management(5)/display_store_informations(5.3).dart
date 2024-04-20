@@ -205,7 +205,10 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                     ),
                                   ),
                                   Container(
-                              
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(width: 3, color: Colors.white),
+                                    ),
                                     width: MediaQuery
                                         .of(context)
                                         .size
@@ -223,6 +226,8 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                           animationDuration: 1,
                                         ),
                                         errorWidget: (context, url, error) => Icon(Icons.error),
+                                        width: double.infinity,
+                                        height: double.infinity,
                                         fit: BoxFit.cover,
 
                                       ),),

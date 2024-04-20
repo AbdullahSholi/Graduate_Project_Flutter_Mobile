@@ -134,7 +134,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                                       textAlign: TextAlign.center,
                                       ),
                                       onPressed: (){
-
+                                        print(tokenVal);
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=> PersonalInformation(tokenVal,emailVal)));
                       
                                       },

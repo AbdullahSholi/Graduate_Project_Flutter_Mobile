@@ -88,7 +88,8 @@ class _PersonalInformationState extends State<PersonalInformation>
                                       color: Color(0xFF212128),
                                     ), // Replace with your desired icon
                                     onPressed: () {
-
+                                      print(tokenVal);
+                                      print(emailVal);
                                       Navigator.push(context, (MaterialPageRoute(builder: (context)=> MerchantHome(tokenVal, emailVal))));
                                     },
                                     // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
