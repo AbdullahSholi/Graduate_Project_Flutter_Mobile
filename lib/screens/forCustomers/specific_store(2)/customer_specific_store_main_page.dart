@@ -40,6 +40,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import "../../../stripe_payment/payment_manager.dart";
 import '../../../stripe_payment/stripe_keys.dart';
 import 'customer_chat_system.dart';
+import 'customer_display_all_products_to_search.dart';
 import 'customer_my_cart_page.dart';
 import 'customer_support_page.dart';
 
@@ -407,8 +408,6 @@ class _CustomerSpecificStoreMainPageState
     await Future.delayed(Duration(seconds: 2));
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -442,7 +441,9 @@ class _CustomerSpecificStoreMainPageState
                               Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white, width: 3 ), // Customize the border color
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3), // Customize the border color
                                 ),
                                 child: CircleAvatar(
                                     radius: 80,
@@ -451,7 +452,7 @@ class _CustomerSpecificStoreMainPageState
                                       "${tempCustomerProfileData.Avatar}",
                                       width: double.infinity,
                                       height: double.infinity,
-                                          fit: BoxFit.cover,
+                                      fit: BoxFit.cover,
                                     ))),
                               ),
                               SizedBox(
@@ -466,20 +467,21 @@ class _CustomerSpecificStoreMainPageState
                                   children: [
                                     Text(
                                       "${tempCustomerProfileData.username}",
-                                      style: TextStyle(color: Colors.white, fontSize: 35),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 35),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
                                       "${tempCustomerProfileData.phone}",
-                                      style: TextStyle(color: Colors.white, fontSize: 20),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ],
                                 ),
                               ),
-
                             ],
                           )),
                         )
@@ -504,7 +506,13 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfilePage(
+                                customerTokenVal,
+                                customerEmailVal,
+                                tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -533,8 +541,10 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                CustomerEditProfilePage(customerTokenVal, customerEmailVal, tempCustomerProfileData)));
+                            builder: (context) => CustomerEditProfilePage(
+                                customerTokenVal,
+                                customerEmailVal,
+                                tempCustomerProfileData)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -560,7 +570,10 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerMyCartPage()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -586,7 +599,11 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerFavoriteProducts(customerTokenVal, customerEmailVal)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerFavoriteProducts(
+                                customerTokenVal, customerEmailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -612,7 +629,10 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerChatSystem()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerChatSystem()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -638,7 +658,10 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     print("My Profile");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSupportPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerSupportPage()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -725,8 +748,8 @@ class _CustomerSpecificStoreMainPageState
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    CustomerFavoriteProducts(customerTokenVal, customerEmailVal)));
+                                builder: (context) => CustomerFavoriteProducts(
+                                    customerTokenVal, customerEmailVal)));
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
@@ -916,8 +939,8 @@ class _CustomerSpecificStoreMainPageState
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          DisplayAllProducts(
-                                                              storeCartsVal)));
+                                                          CustomerDisplayAllProducts(
+                                                              storeCartsVal, customerTokenVal, customerEmailVal)));
                                             },
                                           )
                                         ],
@@ -1088,9 +1111,7 @@ class _CustomerSpecificStoreMainPageState
                                                             : Container(),
                                                       ),
                                                       Visibility(
-                                                        visible: storeCartsVal[
-                                                                index]
-                                                            ["cartFavourite"],
+                                                        visible: storeCartsVal[index]["cartFavourite"],
                                                         child: Positioned(
                                                             top: 5,
                                                             right: 5,
@@ -1099,6 +1120,7 @@ class _CustomerSpecificStoreMainPageState
                                                                   Colors.red,
                                                               child:
                                                                   FavoriteButton(
+
                                                                       iconDisabledColor:
                                                                           Color(
                                                                               0xFF212128),
@@ -1109,29 +1131,28 @@ class _CustomerSpecificStoreMainPageState
                                                                               .white,
                                                                       valueChanged:
                                                                           (_isFavorite) async {
-                                                                        if(_isFavorite){
-                                                                            try {
-                                                                              http.Response userFuture = await http.post(
-                                                                                Uri.parse(
-                                                                                    "http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                                                headers: { "Content-Type": "application/json", "Authorization": "Bearer ${customerTokenVal}"},
-                                                                                body: jsonEncode(
-                                                                                  {
-                                                                                    "favouriteList": storeCartsVal[index]
-                                                                                  },
+                                                                        if (_isFavorite) {
+                                                                          try {
 
-                                                                                ),
-                                                                                encoding: Encoding.getByName("utf-8"),
-                                                                              );
+                                                                            storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                                            http.Response
+                                                                                userFuture =
+                                                                                await http.post(
+                                                                              Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                              headers: {
+                                                                                "Content-Type": "application/json",
+                                                                                "Authorization": "Bearer ${customerTokenVal}"
+                                                                              },
+                                                                              body: jsonEncode(
+                                                                                {
+                                                                                  "favouriteList": storeCartsVal[index],
+                                                                                },
+                                                                              ),
+                                                                              encoding: Encoding.getByName("utf-8"),
+                                                                            );
 
-                                                                              print(userFuture.body);
-
-
-                                                                            }
-                                                                            catch(error) {
-
-                                                                            }
-
+                                                                            print(userFuture.body);
+                                                                          } catch (error) {}
                                                                         }
                                                                         print(
                                                                             'Is Favorite $_isFavorite');
@@ -1649,7 +1670,7 @@ class _CustomerSpecificStoreMainPageState
                                                             ),
                                                             Visibility(
                                                               visible:
-                                                                  storeCartsVal[
+                                                              CartsForOneCategoryVal[
                                                                           index]
                                                                       [
                                                                       "cartLiked"],
@@ -1706,9 +1727,7 @@ class _CustomerSpecificStoreMainPageState
                                                         ),
                                                       )),
                                                   Visibility(
-                                                    visible:
-                                                        storeCartsVal[index]
-                                                            ["cartFavourite"],
+                                                    visible: CartsForOneCategoryVal[index]["cartFavourite"],
                                                     child: Positioned(
                                                         top: 5,
                                                         right: 5,
@@ -1723,7 +1742,29 @@ class _CustomerSpecificStoreMainPageState
                                                               iconColor:
                                                                   Colors.white,
                                                               valueChanged:
-                                                                  (_isFavorite) {
+                                                                  (_isFavorite) async {
+                                                                    if (_isFavorite) {
+                                                                      try {
+                                                                        CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
+                                                                        http.Response
+                                                                        userFuture =
+                                                                        await http.post(
+                                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                          headers: {
+                                                                            "Content-Type": "application/json",
+                                                                            "Authorization": "Bearer ${customerTokenVal}"
+                                                                          },
+                                                                          body: jsonEncode(
+                                                                            {
+                                                                              "favouriteList": CartsForOneCategoryVal[index],
+                                                                            },
+                                                                          ),
+                                                                          encoding: Encoding.getByName("utf-8"),
+                                                                        );
+
+                                                                        print(userFuture.body);
+                                                                      } catch (error) {}
+                                                                    }
                                                                 print(
                                                                     'Is Favorite $_isFavorite');
                                                               }),

@@ -41,11 +41,12 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
             "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
     if (userFuture.statusCode == 200) {
-      print("${userFuture.body}");
+      // print("${userFuture.body}");
 
       // return GetCartContentModel.fromJson(json.decode(userFuture.body));
       setState(() {
         storeCartsVal = json.decode(userFuture.body);
+
       });
     } else {
       throw Exception("Error");

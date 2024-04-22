@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +8,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:http/http.dart' as http;
+
 class CustomerDisplayAllProducts extends StatefulWidget {
   late List<dynamic> storeCartsVal;
-  CustomerDisplayAllProducts(this.storeCartsVal, {super.key});
+  late String customerTokenVal;
+  late String customerEmailVal;
+  CustomerDisplayAllProducts(this.storeCartsVal, this.customerTokenVal, this.customerEmailVal, {super.key});
 
   @override
   State<CustomerDisplayAllProducts> createState() => _CustomerDisplayAllProductsState();
@@ -20,12 +27,16 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
   TextEditingController _searchController = TextEditingController();
   double rateVal = 3;
   late List<dynamic> storeCartsVal;
+  String customerTokenVal = "";
+  String customerEmailVal = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     storeCartsVal = widget.storeCartsVal;
+    customerEmailVal = widget.customerEmailVal;
+    customerTokenVal = widget.customerTokenVal;
   }
 
   @override
@@ -219,7 +230,31 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                   iconDisabledColor: Color(0xFF212128),
                                                   iconSize: 40,
                                                   iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite){
+                                                  valueChanged: (_isFavorite) async{
+                                                    if (_isFavorite) {
+                                                      try {
+                                                        storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                        print(customerEmailVal);
+                                                        print(customerTokenVal);
+                                                        http.Response
+                                                        userFuture =
+                                                            await http.post(
+                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                          headers: {
+                                                            "Content-Type": "application/json",
+                                                            "Authorization": "Bearer ${customerTokenVal}"
+                                                          },
+                                                          body: jsonEncode(
+                                                            {
+                                                              "favouriteList": storeCartsVal[index]
+                                                            },
+                                                          ),
+                                                          encoding: Encoding.getByName("utf-8"),
+                                                        );
+
+                                                        print(userFuture.body);
+                                                      } catch (error) {}
+                                                    }
                                                     print('Is Favorite $_isFavorite');
                                                   }),
                                             )),
@@ -425,7 +460,31 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                   iconDisabledColor: Color(0xFF212128),
                                                   iconSize: 40,
                                                   iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite){
+                                                  valueChanged: (_isFavorite) async {
+                                                    if (_isFavorite) {
+                                                      try {
+
+                                                        print(customerEmailVal);
+                                                        print(customerTokenVal);
+                                                        http.Response
+                                                        userFuture =
+                                                            await http.post(
+                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                          headers: {
+                                                            "Content-Type": "application/json",
+                                                            "Authorization": "Bearer ${customerTokenVal}"
+                                                          },
+                                                          body: jsonEncode(
+                                                            {
+                                                              "favouriteList": storeCartsVal[index]
+                                                            },
+                                                          ),
+                                                          encoding: Encoding.getByName("utf-8"),
+                                                        );
+
+                                                        print(userFuture.body);
+                                                      } catch (error) {}
+                                                    }
                                                     print('Is Favorite $_isFavorite');
                                                   }),
                                             )),
