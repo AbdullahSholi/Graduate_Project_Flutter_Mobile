@@ -39,6 +39,7 @@ import '../../../models/singleUser.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import "../../../stripe_payment/payment_manager.dart";
 import '../../../stripe_payment/stripe_keys.dart';
+import '../../../toggle_button.dart';
 import 'customer_chat_system.dart';
 import 'customer_display_all_products_to_search.dart';
 import 'customer_my_cart_page.dart';
@@ -105,6 +106,27 @@ class _CustomerSpecificStoreMainPageState
 
   bool cartsForSpecificCategory = false;
   List<dynamic> filteredData = [];
+  void getCustomerFavoriteList() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
+      // print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        storeCartsVal = json.decode(userFuture.body);
+
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -368,6 +390,8 @@ class _CustomerSpecificStoreMainPageState
   }
 
   User tempCustomerProfileData = User("", "", "", "", "", "");
+
+  Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
   @override
   void initState() {
     // TODO: implement initState
@@ -392,6 +416,7 @@ class _CustomerSpecificStoreMainPageState
     fetchKeysToSetPublishableKey();
     fetchKeys();
     getUserByName();
+    getCustomerFavoriteList();
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -408,6 +433,9 @@ class _CustomerSpecificStoreMainPageState
     await Future.delayed(Duration(seconds: 2));
   }
 
+  bool isPressed = true;
+  bool isPressed2 = true;
+  bool isHighlighted = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1116,47 +1144,59 @@ class _CustomerSpecificStoreMainPageState
                                                             top: 5,
                                                             right: 5,
                                                             child: CircleAvatar(
+                                                              radius: 20,
                                                               backgroundColor:
                                                                   Colors.red,
-                                                              child:
-                                                                  FavoriteButton(
+                                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                                if (_isFavorite) {
+                                                                  try {
 
-                                                                      iconDisabledColor:
-                                                                          Color(
-                                                                              0xFF212128),
-                                                                      iconSize:
-                                                                          40,
-                                                                      iconColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      valueChanged:
-                                                                          (_isFavorite) async {
-                                                                        if (_isFavorite) {
-                                                                          try {
+                                                                    storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                                    http.Response
+                                                                    userFuture =
+                                                                    await http.post(
+                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                      headers: {
+                                                                        "Content-Type": "application/json",
+                                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                                      },
+                                                                      body: jsonEncode(
+                                                                        {
+                                                                          "favouriteList": storeCartsVal[index],
+                                                                        },
+                                                                      ),
+                                                                      encoding: Encoding.getByName("utf-8"),
+                                                                    );
 
-                                                                            storeCartsVal[index]["isFavorite"] = _isFavorite;
-                                                                            http.Response
-                                                                                userFuture =
-                                                                                await http.post(
-                                                                              Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                                              headers: {
-                                                                                "Content-Type": "application/json",
-                                                                                "Authorization": "Bearer ${customerTokenVal}"
-                                                                              },
-                                                                              body: jsonEncode(
-                                                                                {
-                                                                                  "favouriteList": storeCartsVal[index],
-                                                                                },
-                                                                              ),
-                                                                              encoding: Encoding.getByName("utf-8"),
-                                                                            );
+                                                                    print(userFuture.body);
+                                                                  } catch (error) {}
+                                                                } else {
+                                                                  try {
 
-                                                                            print(userFuture.body);
-                                                                          } catch (error) {}
-                                                                        }
-                                                                        print(
-                                                                            'Is Favorite $_isFavorite');
-                                                                      }),
+                                                                    storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                                    http.Response
+                                                                    userFuture =
+                                                                    await http.delete(
+                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                                      headers: {
+                                                                        "Content-Type": "application/json",
+                                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                                      },
+                                                                      body: jsonEncode(
+                                                                        {
+                                                                          "index": index,
+                                                                        },
+                                                                      ),
+                                                                      encoding: Encoding.getByName("utf-8"),
+                                                                    );
+
+                                                                    print(userFuture.body);
+
+                                                                  } catch (error) {}
+                                                                }
+                                                                print(
+                                                                    'Is Favorite $_isFavorite');
+                                                              }),
                                                             )),
                                                       )
                                                     ],
@@ -1392,7 +1432,7 @@ class _CustomerSpecificStoreMainPageState
                                             crossAxisCount:
                                                 2, // Set the number of columns
                                             childAspectRatio:
-                                                0.77, // Customize the aspect ratio (width/height) of each tile
+                                                0.73, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
                                                 4.0, // Spacing between rows
                                             crossAxisSpacing:
@@ -1475,7 +1515,7 @@ class _CustomerSpecificStoreMainPageState
                                                                       .cover,
                                                                   width: double
                                                                       .infinity,
-                                                                  height: 120,
+                                                                  height: 180,
                                                                 ),
                                                         ),
                                                       ),
@@ -1487,7 +1527,7 @@ class _CustomerSpecificStoreMainPageState
                                                                         [
                                                                         "cartDiscount"]
                                                                     .toString() ==
-                                                                "true"
+                                                                "false"
                                                             ? Container(
                                                                 margin: EdgeInsets
                                                                     .fromLTRB(
@@ -1533,7 +1573,7 @@ class _CustomerSpecificStoreMainPageState
                                                       left: 0,
                                                       right: 0,
                                                       child: Container(
-                                                        height: 120,
+                                                        height: 70,
                                                         decoration:
                                                             BoxDecoration(
                                                           borderRadius:
@@ -1578,31 +1618,7 @@ class _CustomerSpecificStoreMainPageState
                                                                         .white,
                                                                   )),
                                                             ),
-                                                            Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          10,
-                                                                          8,
-                                                                          10,
-                                                                          3),
-                                                              child: Text(
-                                                                  "${CartsForOneCategoryVal[index]["cartDescription"].toString()}",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 2,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  )),
-                                                            ),
+
                                                             Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
@@ -1668,12 +1684,9 @@ class _CustomerSpecificStoreMainPageState
                                                                 ),
                                                               ],
                                                             ),
+                                                            
                                                             Visibility(
-                                                              visible:
-                                                              CartsForOneCategoryVal[
-                                                                          index]
-                                                                      [
-                                                                      "cartLiked"],
+                                                              visible: false,
                                                               child: Container(
                                                                 padding:
                                                                     EdgeInsets
@@ -1727,47 +1740,62 @@ class _CustomerSpecificStoreMainPageState
                                                         ),
                                                       )),
                                                   Visibility(
-                                                    visible: CartsForOneCategoryVal[index]["cartFavourite"],
+                                                    visible: false,
                                                     child: Positioned(
                                                         top: 5,
                                                         right: 5,
                                                         child: CircleAvatar(
                                                           backgroundColor:
                                                               Colors.red,
-                                                          child: FavoriteButton(
-                                                              iconDisabledColor:
-                                                                  Color(
-                                                                      0xFF212128),
-                                                              iconSize: 40,
-                                                              iconColor:
-                                                                  Colors.white,
-                                                              valueChanged:
-                                                                  (_isFavorite) async {
-                                                                    if (_isFavorite) {
-                                                                      try {
-                                                                        CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
-                                                                        http.Response
-                                                                        userFuture =
-                                                                        await http.post(
-                                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                                          headers: {
-                                                                            "Content-Type": "application/json",
-                                                                            "Authorization": "Bearer ${customerTokenVal}"
-                                                                          },
-                                                                          body: jsonEncode(
-                                                                            {
-                                                                              "favouriteList": CartsForOneCategoryVal[index],
-                                                                            },
-                                                                          ),
-                                                                          encoding: Encoding.getByName("utf-8"),
-                                                                        );
+                                                          child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                            if (_isFavorite) {
+                                                              try {
+                                                                CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
+                                                                http.Response
+                                                                userFuture =
+                                                                await http.post(
+                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                  headers: {
+                                                                    "Content-Type": "application/json",
+                                                                    "Authorization": "Bearer ${customerTokenVal}"
+                                                                  },
+                                                                  body: jsonEncode(
+                                                                    {
+                                                                      "favouriteList": CartsForOneCategoryVal[index],
+                                                                    },
+                                                                  ),
+                                                                  encoding: Encoding.getByName("utf-8"),
+                                                                );
 
-                                                                        print(userFuture.body);
-                                                                      } catch (error) {}
-                                                                    }
-                                                                print(
-                                                                    'Is Favorite $_isFavorite');
-                                                              }),
+                                                                print(userFuture.body);
+                                                              } catch (error) {}
+                                                            } else {
+                                                              try {
+
+                                                                storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                                http.Response
+                                                                userFuture =
+                                                                await http.delete(
+                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                                  headers: {
+                                                                    "Content-Type": "application/json",
+                                                                    "Authorization": "Bearer ${customerTokenVal}"
+                                                                  },
+                                                                  body: jsonEncode(
+                                                                    {
+                                                                      "index": index,
+                                                                    },
+                                                                  ),
+                                                                  encoding: Encoding.getByName("utf-8"),
+                                                                );
+
+                                                                print(userFuture.body);
+
+                                                              } catch (error) {}
+                                                            }
+                                                            print(
+                                                                'Is Favorite $_isFavorite');
+                                                          }),
                                                         )),
                                                   ),
                                                 ],
@@ -1800,4 +1828,6 @@ class _CustomerSpecificStoreMainPageState
   void defaultCartContainer() {}
 
   void addDataToFilteredData() {}
+
+
 }

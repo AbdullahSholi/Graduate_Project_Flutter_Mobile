@@ -8,7 +8,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../custom_button.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
+import '../../../toggle_button.dart';
 
 class CustomerFavoriteProducts extends StatefulWidget {
   String customerTokenVal;
@@ -258,16 +260,33 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                         child: Positioned(
                                             top: 5,
                                             right: 5,
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              child: FavoriteButton(
-                                                  iconDisabledColor: Color(0xFF212128),
-                                                  iconSize: 40,
-                                                  iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite){
-                                                    print('Is Favorite $_isFavorite');
-                                                  }),
-                                            )),
+                                            child: CustomButton(CustomIcon: Icon(Icons.remove_circle, size: 40, color: Colors.red,),onClick: (_isFavorite) async {
+                                                if(!_isFavorite){
+                                                  try {
+
+                                                    storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                    http.Response
+                                                    userFuture =
+                                                        await http.delete(
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                      headers: {
+                                                        "Content-Type": "application/json",
+                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                      },
+                                                          body: jsonEncode(
+                                                            {
+                                                              "index": index,
+                                                            },
+                                                          ),
+                                                      encoding: Encoding.getByName("utf-8"),
+                                                    );
+
+                                                    print(userFuture.body);
+                                                    getCustomerFavoriteList();
+                                                  } catch (error) {}
+                                                }
+                                                  print('Is Favorite $_isFavorite');
+                                                })),
                                       )
                                     ],
                                   ),
@@ -462,18 +481,35 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                       Visibility(
                                         visible: storeCartsVal[index]["cartFavourite"],
                                         child: Positioned(
-                                            top: 5,
-                                            right: 5,
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              child: FavoriteButton(
-                                                  iconDisabledColor: Color(0xFF212128),
-                                                  iconSize: 40,
-                                                  iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite){
-                                                    print('Is Favorite $_isFavorite');
-                                                  }),
-                                            )),
+                                            top: 0,
+                                            right: 0,
+                                            child: CustomButton(CustomIcon: Icon(Icons.remove_circle, size: 40, color: Colors.red,),onClick: (_isFavorite) async {
+                                                  if(!_isFavorite){
+                                                    try {
+
+                                                      storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                      http.Response
+                                                      userFuture =
+                                                      await http.delete(
+                                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                        headers: {
+                                                          "Content-Type": "application/json",
+                                                          "Authorization": "Bearer ${customerTokenVal}"
+                                                        },
+                                                        body: jsonEncode(
+                                                          {
+                                                            "index": index,
+                                                          },
+                                                        ),
+                                                        encoding: Encoding.getByName("utf-8"),
+                                                      );
+
+                                                      print(userFuture.body);
+                                                      getCustomerFavoriteList();
+                                                    } catch (error) {}
+                                                  }
+                                                  print('Is Favorite $_isFavorite');
+                                                })),
                                       )
                                     ],
                                   ),

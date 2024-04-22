@@ -57,6 +57,9 @@ dependencies:
   flutter_chat_ui: ^1.6.12
   file_picker: ^8.0.0+1
   open_filex: ^4.4.0
+  like_button: ^2.0.5
+  insta_like_button: ^0.1.1
+  switcher_button: ^0.0.4
 
 dev_dependencies:
   flutter_test:

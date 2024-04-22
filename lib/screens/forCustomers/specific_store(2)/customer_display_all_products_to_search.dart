@@ -10,6 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../../toggle_button.dart';
+
 class CustomerDisplayAllProducts extends StatefulWidget {
   late List<dynamic> storeCartsVal;
   late String customerTokenVal;
@@ -39,6 +41,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
     customerTokenVal = widget.customerTokenVal;
   }
 
+  Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,38 +228,59 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                             top: 5,
                                             right: 5,
                                             child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              child: FavoriteButton(
-                                                  iconDisabledColor: Color(0xFF212128),
-                                                  iconSize: 40,
-                                                  iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite) async{
-                                                    if (_isFavorite) {
-                                                      try {
-                                                        storeCartsVal[index]["isFavorite"] = _isFavorite;
-                                                        print(customerEmailVal);
-                                                        print(customerTokenVal);
-                                                        http.Response
-                                                        userFuture =
-                                                            await http.post(
-                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                          headers: {
-                                                            "Content-Type": "application/json",
-                                                            "Authorization": "Bearer ${customerTokenVal}"
-                                                          },
-                                                          body: jsonEncode(
-                                                            {
-                                                              "favouriteList": storeCartsVal[index]
-                                                            },
-                                                          ),
-                                                          encoding: Encoding.getByName("utf-8"),
-                                                        );
+                                              radius: 20,
+                                              backgroundColor:
+                                              Colors.red,
+                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                if (_isFavorite) {
+                                                  try {
 
-                                                        print(userFuture.body);
-                                                      } catch (error) {}
-                                                    }
-                                                    print('Is Favorite $_isFavorite');
-                                                  }),
+                                                    storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                    http.Response
+                                                    userFuture =
+                                                    await http.post(
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                      headers: {
+                                                        "Content-Type": "application/json",
+                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                      },
+                                                      body: jsonEncode(
+                                                        {
+                                                          "favouriteList": storeCartsVal[index],
+                                                        },
+                                                      ),
+                                                      encoding: Encoding.getByName("utf-8"),
+                                                    );
+
+                                                    print(userFuture.body);
+                                                  } catch (error) {}
+                                                } else {
+                                                  try {
+
+                                                    storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                    http.Response
+                                                    userFuture =
+                                                    await http.delete(
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                      headers: {
+                                                        "Content-Type": "application/json",
+                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                      },
+                                                      body: jsonEncode(
+                                                        {
+                                                          "index": index,
+                                                        },
+                                                      ),
+                                                      encoding: Encoding.getByName("utf-8"),
+                                                    );
+
+                                                    print(userFuture.body);
+
+                                                  } catch (error) {}
+                                                }
+                                                print(
+                                                    'Is Favorite $_isFavorite');
+                                              }),
                                             )),
                                       )
                                     ],
@@ -455,38 +479,59 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                             top: 5,
                                             right: 5,
                                             child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              child: FavoriteButton(
-                                                  iconDisabledColor: Color(0xFF212128),
-                                                  iconSize: 40,
-                                                  iconColor: Colors.white,
-                                                  valueChanged: (_isFavorite) async {
-                                                    if (_isFavorite) {
-                                                      try {
+                                              radius: 20,
+                                              backgroundColor:
+                                              Colors.red,
+                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                if (_isFavorite) {
+                                                  try {
 
-                                                        print(customerEmailVal);
-                                                        print(customerTokenVal);
-                                                        http.Response
-                                                        userFuture =
-                                                            await http.post(
-                                                          Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                          headers: {
-                                                            "Content-Type": "application/json",
-                                                            "Authorization": "Bearer ${customerTokenVal}"
-                                                          },
-                                                          body: jsonEncode(
-                                                            {
-                                                              "favouriteList": storeCartsVal[index]
-                                                            },
-                                                          ),
-                                                          encoding: Encoding.getByName("utf-8"),
-                                                        );
+                                                    storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                    http.Response
+                                                    userFuture =
+                                                    await http.post(
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                      headers: {
+                                                        "Content-Type": "application/json",
+                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                      },
+                                                      body: jsonEncode(
+                                                        {
+                                                          "favouriteList": storeCartsVal[index],
+                                                        },
+                                                      ),
+                                                      encoding: Encoding.getByName("utf-8"),
+                                                    );
 
-                                                        print(userFuture.body);
-                                                      } catch (error) {}
-                                                    }
-                                                    print('Is Favorite $_isFavorite');
-                                                  }),
+                                                    print(userFuture.body);
+                                                  } catch (error) {}
+                                                } else {
+                                                  try {
+
+                                                    storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                    http.Response
+                                                    userFuture =
+                                                    await http.delete(
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                      headers: {
+                                                        "Content-Type": "application/json",
+                                                        "Authorization": "Bearer ${customerTokenVal}"
+                                                      },
+                                                      body: jsonEncode(
+                                                        {
+                                                          "index": index,
+                                                        },
+                                                      ),
+                                                      encoding: Encoding.getByName("utf-8"),
+                                                    );
+
+                                                    print(userFuture.body);
+
+                                                  } catch (error) {}
+                                                }
+                                                print(
+                                                    'Is Favorite $_isFavorite');
+                                              }),
                                             )),
                                       )
                                     ],
