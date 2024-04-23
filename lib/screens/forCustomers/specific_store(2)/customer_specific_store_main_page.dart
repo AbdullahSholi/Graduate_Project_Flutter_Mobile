@@ -107,6 +107,14 @@ class _CustomerSpecificStoreMainPageState
   bool cartsForSpecificCategory = false;
   List<dynamic> filteredData = [];
 
+  bool _isChanged = false;
+
+  void rebuildPage() {
+    setState(() {
+      _isChanged = !_isChanged;
+    });
+  }
+
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -196,6 +204,7 @@ class _CustomerSpecificStoreMainPageState
         favoriteList = json.decode(userFuture.body);
 
       });
+
     } else {
       throw Exception("Error");
     }
@@ -247,8 +256,11 @@ class _CustomerSpecificStoreMainPageState
 
     setState(() {
       storeCartsVal = combinedArray;
-      // getCustomerFavoriteList();
+
       print("vvvvvvvvvvvv $storeCartsVal");
+    });
+    setState(() {
+
     });
   }
 
@@ -424,6 +436,8 @@ class _CustomerSpecificStoreMainPageState
   User tempCustomerProfileData = User("", "", "", "", "", "");
 
   Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
+
+  Timer? _timer;
   @override
   void initState() {
     // TODO: implement initState
@@ -450,7 +464,29 @@ class _CustomerSpecificStoreMainPageState
     getUserByName();
     getCustomerFavoriteList();
     getSpecificStoreCart(emailVal);
+
+
   }
+
+  final ValueNotifier<int> _refreshCountNotifier = ValueNotifier<int>(0);
+  @override
+  void dispose() {
+    _startRefresh();
+    super.dispose();
+  }
+  // int _refreshCount = 0;
+  void _startRefresh() async {
+    await Future.delayed(Duration(seconds: 30));
+    setState(() {
+      // _refreshCount++;
+      _refreshCountNotifier.value++;
+      getCustomerFavoriteList();
+      getSpecificStoreCart(emailVal);
+
+    });
+  }
+
+
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -806,6 +842,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   IconButton(
                       onPressed: () {
+                        // _startRefresh();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -996,6 +1033,7 @@ class _CustomerSpecificStoreMainPageState
                                               ),
                                             ),
                                             onTap: () {
+                                              // _startRefresh();
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -1177,13 +1215,14 @@ class _CustomerSpecificStoreMainPageState
                                                             top: 5,
                                                             right: 5,
                                                             child: CircleAvatar(
-                                                              radius: 20,
+                                                              radius: 23,
                                                               backgroundColor:
                                                                   Colors.red,
-                                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
+                                                              child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                                  offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                                  initialValue: storeCartsVal[index]["isFavorite"], onChanged: (_isFavorite) async {
                                                                 if (_isFavorite) {
                                                                   try {
-
                                                                     storeCartsVal[index]["isFavorite"] = _isFavorite;
                                                                     http.Response
                                                                     userFuture =
@@ -1782,9 +1821,12 @@ class _CustomerSpecificStoreMainPageState
                                                         top: 5,
                                                         right: 5,
                                                         child: CircleAvatar(
+                                                          radius: 23,
                                                           backgroundColor:
                                                               Colors.red,
-                                                          child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
+                                                          child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                              offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                              initialValue: storeCartsVal[index]["isFavorite"], onChanged: (_isFavorite) async {
                                                             if (_isFavorite) {
                                                               try {
                                                                 CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
@@ -1869,3 +1911,8 @@ class _CustomerSpecificStoreMainPageState
 
 
 }
+
+
+////////////////////////////////////
+/////////////////////////////////////
+

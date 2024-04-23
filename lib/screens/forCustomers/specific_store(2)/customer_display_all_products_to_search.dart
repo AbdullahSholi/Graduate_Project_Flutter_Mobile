@@ -28,6 +28,7 @@ class CustomerDisplayAllProducts extends StatefulWidget {
 class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts> {
   List<dynamic> filteredProducts = [];
 
+
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
   double rateVal = 3;
@@ -125,6 +126,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
   }
 
+
   Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
   @override
   Widget build(BuildContext context) {
@@ -145,7 +147,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                   Container(
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).pop(true);
                       },
                       icon: Icon(
                         Icons.arrow_back,
@@ -312,10 +314,12 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                             top: 5,
                                             right: 5,
                                             child: CircleAvatar(
-                                              radius: 20,
+                                              radius: 23,
                                               backgroundColor:
                                               Colors.red,
-                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
+                                              child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                  offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                  initialValue: storeCartsVal[index]["isFavorite"], onChanged: (_isFavorite) async {
                                                 if (_isFavorite) {
                                                   try {
 
@@ -567,10 +571,14 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                             top: 5,
                                             right: 5,
                                             child: CircleAvatar(
-                                              radius: 20,
+                                              radius: 23,
                                               backgroundColor:
                                               Colors.red,
-                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
+                                              child: ToggleButton(
+                                                  onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                  offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                  initialValue: storeCartsVal[index]["isFavorite"],
+                                              onChanged: (_isFavorite) async {
                                                 if (_isFavorite) {
                                                   try {
 
@@ -614,6 +622,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                     );
 
                                                     print(userFuture.body);
+
 
                                                   } catch (error) {}
                                                 }
@@ -776,3 +785,6 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
   }
 }
+
+/////////////////////////////////////////////////////
+////////////////////////////////////////////////////
