@@ -10,13 +10,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
 
 class CustomerDisplayAllProducts extends StatefulWidget {
-  late List<dynamic> storeCartsVal;
+
   late String customerTokenVal;
   late String customerEmailVal;
-  CustomerDisplayAllProducts(this.storeCartsVal, this.customerTokenVal, this.customerEmailVal, {super.key});
+  late String tokenVal;
+  late String emailVal;
+  CustomerDisplayAllProducts( this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, {super.key});
 
   @override
   State<CustomerDisplayAllProducts> createState() => _CustomerDisplayAllProductsState();
@@ -28,17 +31,98 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
   double rateVal = 3;
-  late List<dynamic> storeCartsVal;
+  late List<dynamic> storeCartsVal = [];
+  List<dynamic> favoriteList = [];
   String customerTokenVal = "";
   String customerEmailVal = "";
+  String emailVal = "";
+  String tokenVal = "";
+
+  void getCustomerFavoriteList() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
+      // print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        favoriteList = json.decode(userFuture.body);
+
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
+  Future<void> getSpecificStoreCart(emailVal) async {
+    storeCartsVal = [];
+    List<dynamic> commonElement = [] ;
+    List<dynamic> commonElement1 = [] ;
+    List<dynamic> commonElementForFind = [] ;
+
+    print("--------------------------");
+    print(emailVal);
+
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+    );
+    print(userFuture.body);
+    var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
+        .type
+        .toList();
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print("######");
+
+    for(int i = 0; i < favoriteList.length; i++){
+      for(int j = 0; j < temp.length; j++) {
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+          commonElement.add(favoriteList[i]);
+        }
+      }
+    }
+    for(int i = 0; i < favoriteList.length; i++){
+      for(int j = 0; j < temp.length; j++) {
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+          commonElementForFind.add(favoriteList[i]["cartName"]);
+        }
+      }
+    }
+
+    commonElement1 = temp.where((element) => !commonElementForFind.contains(element["cartName"])).toList();
+
+    print(commonElement);
+    print(commonElement1);
+
+    var combinedArray = [...commonElement, ...commonElement1];
+    print(combinedArray.length);
+
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
+    setState(() {
+      storeCartsVal = combinedArray;
+      // getCustomerFavoriteList();
+      print("vvvvvvvvvvvv $storeCartsVal");
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    storeCartsVal = widget.storeCartsVal;
+    // storeCartsVal = widget.storeCartsVal;
     customerEmailVal = widget.customerEmailVal;
     customerTokenVal = widget.customerTokenVal;
+    tokenVal = widget.tokenVal;
+    emailVal = widget.emailVal;
+    getCustomerFavoriteList();
+    getSpecificStoreCart(emailVal);
+
   }
 
   Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
@@ -231,7 +315,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                               radius: 20,
                                               backgroundColor:
                                               Colors.red,
-                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
                                                 if (_isFavorite) {
                                                   try {
 
@@ -486,7 +570,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                               radius: 20,
                                               backgroundColor:
                                               Colors.red,
-                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
                                                 if (_isFavorite) {
                                                   try {
 

@@ -106,27 +106,7 @@ class _CustomerSpecificStoreMainPageState
 
   bool cartsForSpecificCategory = false;
   List<dynamic> filteredData = [];
-  void getCustomerFavoriteList() async {
-    print("ppppppppppppppppppp");
-    print(customerEmailVal);
-    print("ppppppppppppppppppp");
 
-    http.Response userFuture = await http.get(
-        Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
-        headers: {"Authorization": "Bearer ${customerTokenVal}"});
-    if (userFuture.statusCode == 200) {
-      // print("${userFuture.body}");
-
-      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
-      setState(() {
-        storeCartsVal = json.decode(userFuture.body);
-
-      });
-    } else {
-      throw Exception("Error");
-    }
-  }
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -184,7 +164,7 @@ class _CustomerSpecificStoreMainPageState
       setState(() {
         specificStoreCategoriesVal = urls;
       });
-      getSpecificStoreCart(emailVal);
+
 
       return MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
           .specificStoreCategories
@@ -198,8 +178,34 @@ class _CustomerSpecificStoreMainPageState
   //////////////////////////
   List<dynamic> storeCartsVal = [];
   List<dynamic> CartsForOneCategoryVal = [];
+  List<dynamic> favoriteList = [];
+  void getCustomerFavoriteList() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
+      // print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        favoriteList = json.decode(userFuture.body);
+
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
   Future<void> getSpecificStoreCart(emailVal) async {
     storeCartsVal = [];
+    List<dynamic> commonElement = [] ;
+    List<dynamic> commonElement1 = [] ;
+    List<dynamic> commonElementForFind = [] ;
+
     print("--------------------------");
     print(emailVal);
 
@@ -211,11 +217,37 @@ class _CustomerSpecificStoreMainPageState
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
         .type
         .toList();
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print("######");
+
+    for(int i = 0; i < favoriteList.length; i++){
+      for(int j = 0; j < temp.length; j++) {
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+          commonElement.add(favoriteList[i]);
+        }
+      }
+    }
+    for(int i = 0; i < favoriteList.length; i++){
+      for(int j = 0; j < temp.length; j++) {
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+          commonElementForFind.add(favoriteList[i]["cartName"]);
+        }
+      }
+    }
+
+    commonElement1 = temp.where((element) => !commonElementForFind.contains(element["cartName"])).toList();
+
+    print(commonElement);
+    print(commonElement1);
+
+    var combinedArray = [...commonElement, ...commonElement1];
+    print(combinedArray.length);
+
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
     setState(() {
-      storeCartsVal = GetCartContentModel.fromJson(json.decode(userFuture.body))
-          .type
-          .toList();
+      storeCartsVal = combinedArray;
+      // getCustomerFavoriteList();
       print("vvvvvvvvvvvv $storeCartsVal");
     });
   }
@@ -417,6 +449,7 @@ class _CustomerSpecificStoreMainPageState
     fetchKeys();
     getUserByName();
     getCustomerFavoriteList();
+    getSpecificStoreCart(emailVal);
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -968,7 +1001,7 @@ class _CustomerSpecificStoreMainPageState
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           CustomerDisplayAllProducts(
-                                                              storeCartsVal, customerTokenVal, customerEmailVal)));
+                                                               customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                                             },
                                           )
                                         ],
@@ -1147,7 +1180,7 @@ class _CustomerSpecificStoreMainPageState
                                                               radius: 20,
                                                               backgroundColor:
                                                                   Colors.red,
-                                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                              child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
                                                                 if (_isFavorite) {
                                                                   try {
 
@@ -1751,7 +1784,7 @@ class _CustomerSpecificStoreMainPageState
                                                         child: CircleAvatar(
                                                           backgroundColor:
                                                               Colors.red,
-                                                          child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: Colors.white, offIconColor: Colors.black, onChanged: (_isFavorite) async {
+                                                          child: ToggleButton(toggleIcon: favoriteIcon, onIconColor: storeCartsVal[index]["isFavorite"] ? Colors.black : Colors.white, offIconColor: storeCartsVal[index]["isFavorite"] ? Colors.white : Colors.black, onChanged: (_isFavorite) async {
                                                             if (_isFavorite) {
                                                               try {
                                                                 CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
