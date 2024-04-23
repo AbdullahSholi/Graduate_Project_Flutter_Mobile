@@ -258,17 +258,21 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                   try {
 
                                                     storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                    print(storeCartsVal[index]["cartName"]);
+                                                    print(storeCartsVal[index]["merchant"]);
                                                     http.Response
                                                     userFuture =
                                                     await http.delete(
-                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                       headers: {
                                                         "Content-Type": "application/json",
                                                         "Authorization": "Bearer ${customerTokenVal}"
                                                       },
+
                                                       body: jsonEncode(
                                                         {
-                                                          "index": index,
+                                                          "cartName": storeCartsVal[index]["cartName"],
+                                                          "merchant": storeCartsVal[index]["merchant"]
                                                         },
                                                       ),
                                                       encoding: Encoding.getByName("utf-8"),

@@ -49,7 +49,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     tempStores=[];
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
     );
     // print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);
@@ -82,7 +82,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
     );
     print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);

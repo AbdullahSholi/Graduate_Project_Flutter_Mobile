@@ -132,7 +132,7 @@ class _CustomerSpecificStoreMainPageState
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -165,7 +165,7 @@ class _CustomerSpecificStoreMainPageState
     print("$emailVal ppppp");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -205,7 +205,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -227,7 +227,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
     );
     print(userFuture.body);
 
@@ -250,7 +250,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -315,7 +315,7 @@ class _CustomerSpecificStoreMainPageState
 
   Future<void> fetchKeysToSetPublishableKey() async {
     final String apiUrl =
-        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -337,7 +337,7 @@ class _CustomerSpecificStoreMainPageState
 
   Future<void> fetchKeys() async {
     final String apiUrl =
-        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -1174,17 +1174,21 @@ class _CustomerSpecificStoreMainPageState
                                                                   try {
 
                                                                     storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                                    print(storeCartsVal[index]["cartName"]);
+                                                                    print(storeCartsVal[index]["merchant"]);
                                                                     http.Response
                                                                     userFuture =
                                                                     await http.delete(
-                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                                       headers: {
                                                                         "Content-Type": "application/json",
                                                                         "Authorization": "Bearer ${customerTokenVal}"
                                                                       },
+
                                                                       body: jsonEncode(
                                                                         {
-                                                                          "index": index,
+                                                                          "cartName": storeCartsVal[index]["cartName"],
+                                                                          "merchant": storeCartsVal[index]["merchant"]
                                                                         },
                                                                       ),
                                                                       encoding: Encoding.getByName("utf-8"),
@@ -1772,18 +1776,19 @@ class _CustomerSpecificStoreMainPageState
                                                             } else {
                                                               try {
 
-                                                                storeCartsVal[index]["isFavorite"] = !_isFavorite;
+                                                                CartsForOneCategoryVal[index]["isFavorite"] = !_isFavorite;
                                                                 http.Response
                                                                 userFuture =
                                                                 await http.delete(
-                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                                   headers: {
                                                                     "Content-Type": "application/json",
                                                                     "Authorization": "Bearer ${customerTokenVal}"
                                                                   },
                                                                   body: jsonEncode(
                                                                     {
-                                                                      "index": index,
+                                                                      "cartName": CartsForOneCategoryVal[index]["cartName"],
+                                                                      "merchant": CartsForOneCategoryVal[index]["merchant"],
                                                                     },
                                                                   ),
                                                                   encoding: Encoding.getByName("utf-8"),
