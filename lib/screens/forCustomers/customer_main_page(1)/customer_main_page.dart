@@ -122,6 +122,31 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
 
 
 
+  Future<void> saveIndex(index) async{
+    print( index);
+    print(customerEmailVal);
+    http.Response userFuture = await http.post(
+        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/add-store-index/${customerEmailVal}"),
+        // headers: {"Authorization":"Bearer ${customerTokenVal}"},
+        headers: {
+          // "Authorization": "Bearer ${customerTokenVal}", // Include Authorization header if required
+          "Content-Type": "application/json", // Set content type to JSON
+        },
+        body: jsonEncode(
+        {
+          "index":index
+        }
+      )
+    );
+    if(userFuture.statusCode == 200){
+      print("${userFuture.body}");
+
+    }
+    else{
+      throw Exception("Error");
+    }
+  }
+
   late Future<User> userData;
   @override
   void initState() {
@@ -331,6 +356,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                       itemBuilder:
                                           (context, index) =>InkWell(
                                         onTap: (){
+                                          saveIndex(index);
                                           print(getStoreDataVal[index].specificStoreCategories.runtimeType);
                                           List<String> stringList = getStoreDataVal[index].specificStoreCategories.cast<String>().toList();
                                           print(stringList.runtimeType);

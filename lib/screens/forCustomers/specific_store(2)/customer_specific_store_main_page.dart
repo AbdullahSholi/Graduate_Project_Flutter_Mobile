@@ -700,7 +700,7 @@ class _CustomerSpecificStoreMainPageState
                         context,
                         MaterialPageRoute(
                             builder: (context) => CustomerFavoriteProducts(
-                                customerTokenVal, customerEmailVal)));
+                                customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -847,7 +847,7 @@ class _CustomerSpecificStoreMainPageState
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CustomerFavoriteProducts(
-                                    customerTokenVal, customerEmailVal)));
+                                    customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
