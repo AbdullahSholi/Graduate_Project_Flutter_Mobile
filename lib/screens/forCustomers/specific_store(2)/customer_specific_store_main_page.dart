@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
+import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_edit_profile_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_favorite_products.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_profile_page.dart';
@@ -231,14 +232,14 @@ class _CustomerSpecificStoreMainPageState
 
     for(int i = 0; i < favoriteList.length; i++){
       for(int j = 0; j < temp.length; j++) {
-        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"] && favoriteList[i]["merchant"] == temp[j]["merchant"]){
           commonElement.add(favoriteList[i]);
         }
       }
     }
     for(int i = 0; i < favoriteList.length; i++){
       for(int j = 0; j < temp.length; j++) {
-        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"] && favoriteList[i]["merchant"] == temp[j]["merchant"]){
           commonElementForFind.add(favoriteList[i]["cartName"]);
         }
       }
@@ -759,6 +760,32 @@ class _CustomerSpecificStoreMainPageState
                         context,
                         MaterialPageRoute(
                             builder: (context) => CustomerSupportPage()));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Stores List",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CustomerMainPage(customerTokenVal, customerEmailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,

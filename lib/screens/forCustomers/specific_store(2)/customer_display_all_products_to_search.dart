@@ -84,14 +84,14 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     for(int i = 0; i < favoriteList.length; i++){
       for(int j = 0; j < temp.length; j++) {
-        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"] && favoriteList[i]["merchant"] == temp[j]["merchant"]){
           commonElement.add(favoriteList[i]);
         }
       }
     }
     for(int i = 0; i < favoriteList.length; i++){
       for(int j = 0; j < temp.length; j++) {
-        if(favoriteList[i]["cartName"] == temp[j]["cartName"]){
+        if(favoriteList[i]["cartName"] == temp[j]["cartName"] && favoriteList[i]["merchant"] == temp[j]["merchant"]){
           commonElementForFind.add(favoriteList[i]["cartName"]);
         }
       }
