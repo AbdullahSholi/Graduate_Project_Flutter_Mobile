@@ -89,6 +89,7 @@ class _CustomerSpecificStoreMainPageState
   late bool sliderVisibilityVal;
   late bool categoryVisibilityVal;
   late bool cartsVisibilityVal;
+  late bool _isFavorite1 ;
 
   late Future<User> userData;
   late Future<List> sliderImages;
@@ -272,7 +273,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-carts-for-one-category?email=$emailVal&cartCategory=$cartCategory"),
+          "http://10.0.2.2:3000/matjarcom/api/v1/customer-get-favorite-products-depend-on-category?email=$emailVal&cartCategory=$cartCategory&customerEmail=$customerEmailVal"),
     );
     print(userFuture.body);
 
@@ -284,7 +285,6 @@ class _CustomerSpecificStoreMainPageState
 
     setState(() {
       CartsForOneCategoryVal = jsonList;
-
       print("vvvvvvvvvvvv $CartsForOneCategoryVal");
     });
   }
@@ -990,6 +990,8 @@ class _CustomerSpecificStoreMainPageState
                                                     if (specificStoreCategoriesVal[
                                                             index] ==
                                                         "All Products") {
+                                                      getCustomerFavoriteList();
+                                                      await getSpecificStoreCart(emailVal);
                                                       setState(() {
                                                         cartsForSpecificCategory =
                                                             false;
@@ -999,6 +1001,11 @@ class _CustomerSpecificStoreMainPageState
                                                           emailVal,
                                                           specificStoreCategoriesVal[
                                                               index]);
+                                                      await getCartsForOneCategory(
+                                                          emailVal,
+                                                          specificStoreCategoriesVal[
+                                                          index]);
+
                                                       setState(() {
                                                         cartsForSpecificCategory =
                                                             true;
@@ -1843,7 +1850,7 @@ class _CustomerSpecificStoreMainPageState
                                                         ),
                                                       )),
                                                   Visibility(
-                                                    visible: false,
+                                                    visible: CartsForOneCategoryVal[index]["cartFavourite"],
                                                     child: Positioned(
                                                         top: 5,
                                                         right: 5,
@@ -1853,10 +1860,13 @@ class _CustomerSpecificStoreMainPageState
                                                               Colors.red,
                                                           child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
                                                               offIcon: Icon(Icons.favorite_outline, color: Colors.black),
-                                                              initialValue: storeCartsVal[index]["isFavorite"], onChanged: (_isFavorite) async {
+                                                              initialValue: CartsForOneCategoryVal[index]["isFavorite"], onChanged: (_isFavorite) async {
                                                             if (_isFavorite) {
                                                               try {
-                                                                CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
+                                                                setState(() {
+                                                                  CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
+                                                                });
+
                                                                 http.Response
                                                                 userFuture =
                                                                 await http.post(
