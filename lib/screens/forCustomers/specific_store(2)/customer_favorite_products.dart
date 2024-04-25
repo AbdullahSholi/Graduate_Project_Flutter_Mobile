@@ -236,7 +236,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Set the number of columns
                         childAspectRatio:
-                        0.775, // Customize the aspect ratio (width/height) of each tile
+                        0.73, // Customize the aspect ratio (width/height) of each tile
                         mainAxisSpacing: 4.0, // Spacing between rows
                         crossAxisSpacing: 2.0, // Spacing between columns
                       ),
@@ -283,7 +283,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                               "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
                                               fit: BoxFit.cover,
                                               width: double.infinity,
-                                              height: 120,
+                                              height: 180,
                                             )
                                                 : Image.network(
                                               filteredProducts[index]
@@ -291,7 +291,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   .toString(),
                                               fit: BoxFit.cover,
                                               width: double.infinity,
-                                              height: 120,
+                                              height: 180,
                                             ),
                                           ),
                                         ),
@@ -367,7 +367,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                         left: 0,
                                         right: 0,
                                         child: Container(
-                                          height: 120,
+                                          height: 77,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(20),
@@ -392,19 +392,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     color: Colors.white,
                                                   )),),
                                               ),
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 8, 10, 3),
-                                                child: Text(
-                                                  "${filteredProducts[index]["cartDescription"].toString()}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  )),),
-                                              ),
+
                                               Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -506,7 +494,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                               "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
                                               fit: BoxFit.cover,
                                               width: double.infinity,
-                                              height: 120,
+                                              height: 180,
                                             )
                                                 : Image.network(
                                               storeCartsVal[index]
@@ -514,7 +502,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   .toString(),
                                               fit: BoxFit.fill,
                                               width: double.infinity,
-                                              height: 120,
+                                              height: 180,
                                             ),
                                           ),
                                         ),
@@ -590,7 +578,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                         left: 0,
                                         right: 0,
                                         child: Container(
-                                          height: 120,
+                                          height: 77,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(20),
@@ -615,19 +603,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     color: Colors.white,
                                                   )),),
                                               ),
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 8, 10, 3),
-                                                child: Text(
-                                                  "${storeCartsVal[index]["cartDescription"].toString()}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  )),),
-                                              ),
+
                                               Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -679,7 +655,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                 ],
                                               ),
                                               Visibility(
-                                                visible: storeCartsVal[index]["cartLiked"],
+                                                visible: false,
                                                 child: Container(
                                                   padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
                                                   child: RatingBar.builder(

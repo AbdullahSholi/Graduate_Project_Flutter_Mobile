@@ -1096,7 +1096,7 @@ class _CustomerSpecificStoreMainPageState
                                             crossAxisCount:
                                                 2, // Set the number of columns
                                             childAspectRatio:
-                                                0.77, // Customize the aspect ratio (width/height) of each tile
+                                                0.73, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
                                                 4.0, // Spacing between rows
                                             crossAxisSpacing:
@@ -1153,7 +1153,7 @@ class _CustomerSpecificStoreMainPageState
                                                           color:
                                                               Color(0xF2222128),
                                                         ),
-                                                        height: 120,
+                                                        height: 180,
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius.only(
@@ -1180,7 +1180,7 @@ class _CustomerSpecificStoreMainPageState
                                                                       .fill,
                                                                   width: double
                                                                       .infinity,
-                                                                  height: 120,
+                                                                  height: 180,
                                                                 )
                                                               : Image.network(
                                                                   storeCartsVal[
@@ -1192,7 +1192,7 @@ class _CustomerSpecificStoreMainPageState
                                                                       .fill,
                                                                   width: double
                                                                       .infinity,
-                                                                  height: 120,
+                                                                  height: 180,
                                                                 ),
                                                         ),
                                                       ),
@@ -1316,7 +1316,7 @@ class _CustomerSpecificStoreMainPageState
                                                       left: 0,
                                                       right: 0,
                                                       child: Container(
-                                                        height: 120,
+                                                        height: 71,
                                                         decoration:
                                                             BoxDecoration(
                                                           borderRadius:
@@ -1363,33 +1363,7 @@ class _CustomerSpecificStoreMainPageState
                                                                 )),
                                                               ),
                                                             ),
-                                                            Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          10,
-                                                                          8,
-                                                                          10,
-                                                                          3),
-                                                              child: Text(
-                                                                "${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                                style: GoogleFonts
-                                                                    .lilitaOne(
-                                                                        textStyle:
-                                                                            TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white,
-                                                                )),
-                                                              ),
-                                                            ),
+
                                                             Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
@@ -1460,11 +1434,7 @@ class _CustomerSpecificStoreMainPageState
                                                               ],
                                                             ),
                                                             Visibility(
-                                                              visible:
-                                                                  storeCartsVal[
-                                                                          index]
-                                                                      [
-                                                                      "cartLiked"],
+                                                              visible:false,
                                                               child: Container(
                                                                 padding:
                                                                     EdgeInsets
@@ -1613,7 +1583,7 @@ class _CustomerSpecificStoreMainPageState
                                                                       .cover,
                                                                   width: double
                                                                       .infinity,
-                                                                  height: 120,
+                                                                  height: 180,
                                                                 )
                                                               : Image.network(
                                                                   CartsForOneCategoryVal[
@@ -1637,7 +1607,7 @@ class _CustomerSpecificStoreMainPageState
                                                                         [
                                                                         "cartDiscount"]
                                                                     .toString() ==
-                                                                "false"
+                                                                "true"
                                                             ? Container(
                                                                 margin: EdgeInsets
                                                                     .fromLTRB(
