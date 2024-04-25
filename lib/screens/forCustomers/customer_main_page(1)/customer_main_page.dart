@@ -23,7 +23,13 @@ import '../../../../models/merchant/merchant_connect_store_to_social_media.dart'
 import '../../../../models/merchant/merchant_profile.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/singleUser.dart';
+import '../specific_store(2)/customer_favorite_products_for_all_products_from_main_page.dart';
+import '../specific_store(2)/customer_my_profile_page.dart';
+import '../specific_store(2)/customer_chat_system.dart';
+import '../specific_store(2)/customer_edit_profile_page.dart';
+import '../specific_store(2)/customer_my_cart_page.dart';
 import '../specific_store(2)/customer_specific_store_main_page.dart';
+import '../specific_store(2)/customer_support_page.dart';
 
 
 
@@ -105,19 +111,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     }
   }
 
-  Future<User> getUserByName() async{
-    http.Response userFuture = await http.get(
-        Uri.parse("http://10.0.2.2:3000/electrohub/api/v1/profile/${customerEmailVal}"),
-        headers: {"Authorization":"Bearer ${customerTokenVal}"}
-    );
-    if(userFuture.statusCode == 200){
-      print("${userFuture.body}");
-      return User.fromJson(json.decode(userFuture.body));
-    }
-    else{
-      throw Exception("Error");
-    }
-  }
+
 
 
 
@@ -148,6 +142,29 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   }
 
   late Future<User> userData;
+
+  void getUserByName() async {
+    print("ppppppppppppppppppp");
+    // print(emailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.body}");
+      print(User.fromJson(json.decode(userFuture.body)));
+      // return User.fromJson(json.decode(userFuture.body));
+      setState(() {
+        tempCustomerProfileData = User.fromJson(json.decode(userFuture.body));
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+  User tempCustomerProfileData = User("", "", "", "", "", "");
   @override
   void initState() {
     // TODO: implement initState
@@ -156,9 +173,24 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     customerTokenVal=widget.token;
     // getStoreDataVal = widget.getStoreData;
     getMerchantData();
+    getUserByName();
 
 
 
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
+  Future<void> _refreshData() async {
+    setState(() {
+      getUserByName();
+      // Update your data or state variables
+    });
+    await Future.delayed(Duration(seconds: 2));
   }
 
 
@@ -172,7 +204,267 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
         return Future.value(true);
       },
       child: Scaffold(
-      
+          key: _scaffoldKey,
+          drawer: Drawer(
+            backgroundColor: Color(0xFF1E1F22),
+            width: MediaQuery.of(context).size.width / 1.3,
+            child: RefreshIndicator(
+              onRefresh: _refreshData,
+              child: ListView(
+                children: [
+                  Container(
+                    height: 290,
+                    child: DrawerHeader(
+                        padding: EdgeInsets.all(0),
+                        child: Stack(
+                          children: [
+                            Image.network(
+                              tempCustomerProfileData.Avatar,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                            Center(
+                              child: Container(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white,
+                                              width: 3), // Customize the border color
+                                        ),
+                                        child: CircleAvatar(
+                                            radius: 80,
+                                            child: ClipOval(
+                                                child: Image.network(
+                                                  "${tempCustomerProfileData.Avatar}",
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ))),
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                        width: double.infinity,
+                                        // color: Colors.black,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${tempCustomerProfileData.username}",
+                                              style: TextStyle(
+                                                  color: Colors.white, fontSize: 35),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              "${tempCustomerProfileData.phone}",
+                                              style: TextStyle(
+                                                  color: Colors.white, fontSize: 20),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            )
+                          ],
+                        )),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "My Profile",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        print("My Profile");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyProfilePage(
+                                    customerTokenVal,
+                                    customerEmailVal,
+                                    tempCustomerProfileData)));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "Edit Profile",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        print("My Profile");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerEditProfilePage(
+                                    customerTokenVal,
+                                    customerEmailVal,
+                                    tempCustomerProfileData)));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.shopping_cart,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "My Cart",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        print("My Profile");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerMyCartPage()));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "My Favorites",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        print("My Profile");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerFavoriteProductsForAllProductsFromMainPage(
+                                    customerTokenVal, customerEmailVal)));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.support,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "Support",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        print("My Profile");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomerSupportPage()));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFF2A212E)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                        size: 35,
+                      ),
+                      title: Text(
+                        "Logout",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => Login()));
+                      },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           body: AnimatedBackground(
             behaviour: RandomParticleBehaviour(
               options: ParticleOptions(
@@ -204,24 +496,26 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                   radius: 20,
                                   backgroundColor: Colors.white,
                                   child: IconButton(
-                                    icon: const Icon(
-                                      Icons.arrow_back,
-                                      color: Color(0xFF212128),
-                                    ), // Replace with your desired icon
-                                    onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> LogAllPage()));
-                                    },
-                                    // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                                  ),
+                                      onPressed: () {
+                                        _openDrawer();
+                                      },
+                                      icon: Icon(
+                                        Icons.menu,
+                                        color: Colors.black,
+                                        size: 30,
+                                        weight: 800,
+
+                                      )),
+
                                 ),
                               ),
                               SizedBox(
-                                width: 0,
+                                width: 10,
                               ),
                               Container(
       
                                 height: 40,
-                                width: MediaQuery.of(context).size.width / 1.58,
+                                width: MediaQuery.of(context).size.width / 1.68,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.white,
