@@ -43,6 +43,7 @@ import '../../../stripe_payment/stripe_keys.dart';
 import '../../../toggle_button.dart';
 import 'customer_chat_system.dart';
 import 'customer_display_all_products_to_search.dart';
+import 'customer_display_product.dart';
 import 'customer_my_cart_page.dart';
 import 'customer_support_page.dart';
 
@@ -1107,25 +1108,7 @@ class _CustomerSpecificStoreMainPageState
                                               InkWell(
                                             onTap: () {
                                               // PaymentManager.makePayment(20,"USD");
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        title: Text(
-                                                          "Product",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                        backgroundColor:
-                                                            Color(0xFF212128),
-                                                        content: Container(
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                        ),
-                                                      ));
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct()));
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(
