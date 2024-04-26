@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,18 +10,102 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_preview/image_preview.dart';
+import 'package:photo_view/photo_view.dart';
 
+import '../../../models/Stores/display-all-stores.dart';
 import '../../../toggle_button1.dart';
+import "package:http/http.dart" as http;
+
+import 'customer_specific_store_main_page.dart';
 
 
 class CustomerDisplayProduct extends StatefulWidget {
-  const CustomerDisplayProduct({super.key});
+  Map<String ,dynamic> storeCartsVal;
+  String customerTokenVal ;
+  String customerEmailVal ;
+  String emailVal;
+  String tokenVal;
+  CustomerDisplayProduct(this.storeCartsVal, this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, {super.key});
 
   @override
   State<CustomerDisplayProduct> createState() => _CustomerDisplayProductState();
 }
 
 class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
+
+  Map<String, dynamic> storeCartsVal = {};
+  int counter = 1;
+  String customerTokenVal = "";
+  String customerEmailVal = "";
+  String emailVal = "";
+  String tokenVal = "";
+
+
+  int storeIndexVal = 0;
+  late List<dynamic> getStoreDataVal=[];
+  late List<dynamic> tempStores1=[];
+  Future<void> getMerchantData() async {
+
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
+    );
+    print(userFuture.body);
+    List<dynamic> jsonList = json.decode(userFuture.body);
+    for(int i=0; i<jsonList.length; i++){
+      tempStores1.add(SpecificStore.fromJson(jsonList[i]));
+
+    }
+
+    // print("jsonList: ${jsonList[1]}");
+
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        getStoreDataVal=tempStores1;
+      });
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
+  Future<void> getStoreIndex() async {
+
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-store-index/"),
+    );
+    print(userFuture.body);
+    var temp = json.decode(userFuture.body);
+    print(temp["value"]);
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        storeIndexVal=temp["value"];
+      });
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    storeCartsVal = widget.storeCartsVal;
+    customerEmailVal = widget.customerEmailVal;
+    customerTokenVal = widget.customerTokenVal;
+    emailVal = widget.emailVal;
+    tokenVal = widget.tokenVal;
+
+    getMerchantData();
+    getStoreIndex();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +127,25 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                       color: Color(0xFF212128)
                     ),
                       child: IconButton(onPressed: (){
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                            [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                            {}, customerTokenVal, customerEmailVal)));
+                        print(storeIndexVal);
+                        // return Future.value(true);
                       }, icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white,size: 25,),))),
             ),
           ],
         )
         ,centerTitle: true,
-        title: Text("Product", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),)),
+        title: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width/2,
+          height: 45,
+          decoration: BoxDecoration(
+            color: Color(0xFF212128),
+            borderRadius: BorderRadius.circular(20),
+          ),
+            child: Text("Product", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: Colors.white),))),
         actions: [
           Center(
               child: Container(
@@ -73,9 +171,24 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height/1.9,
-                    child: Image.network(
-                      "https://t4.ftcdn.net/jpg/03/71/92/67/240_F_371926762_MdmDMtJbXt7DoaDrxFP0dp9Nq1tSFCnR.jpg",
-                      fit: BoxFit.cover,
+                    child: InkWell(
+                      onTap: (){
+                        List<String> imagesURL = [];
+                        List<String> temp = [];
+                        temp = List<String>.from(storeCartsVal["cartSecondaryImagesSlider"] as List);
+                        // imagesURL.add(storeCartsVal["cartPrimaryImage"]);
+                        imagesURL = [storeCartsVal["cartPrimaryImage"], ...temp];
+                        print(storeCartsVal["cartPrimaryImage"]);
+                        // print(imagesURL);
+
+                        openImagesPage(Navigator.of(context),
+                          imgUrls: imagesURL,
+                        );
+                      },
+                      child: Image.network(
+                        storeCartsVal["cartPrimaryImage"],
+                        fit: BoxFit.cover,
+                      ),
                     ),
 
                   ),
@@ -99,7 +212,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                             Text("4.8", style: TextStyle(color: Colors.white, fontSize: 20),),
                             SizedBox(width: 8,),
                             Icon(Icons.star, color: Colors.yellow,)
-                            
+
                           ],
                         ),
                       )
@@ -115,14 +228,52 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                         backgroundColor: Color(0xFF212128),
                         child: ToggleButton1(onIcon: Icon(Icons.favorite, color: Colors.white, size: 40,),
                             offIcon: Icon(Icons.favorite_outline, color: Colors.white, size: 40,),
-                            initialValue: false, onChanged: (_isFavorite) async {
+                            initialValue: storeCartsVal["isFavorite"], onChanged: (_isFavorite) async {
                               if (_isFavorite) {
                                 try {
+                                  storeCartsVal["isFavorite"] = _isFavorite;
+                                  http.Response
+                                  userFuture =
+                                  await http.post(
+                                    Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                      "Authorization": "Bearer ${customerTokenVal}"
+                                    },
+                                    body: jsonEncode(
+                                      {
+                                        "favouriteList": storeCartsVal,
+                                      },
+                                    ),
+                                    encoding: Encoding.getByName("utf-8"),
+                                  );
 
+                                  print(userFuture.body);
                                 } catch (error) {}
                               } else {
                                 try {
+                                  storeCartsVal["isFavorite"] = !_isFavorite;
+                                  print(storeCartsVal["cartName"]);
+                                  print(storeCartsVal["merchant"]);
+                                  http.Response
+                                  userFuture =
+                                  await http.delete(
+                                    Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                      "Authorization": "Bearer ${customerTokenVal}"
+                                    },
 
+                                    body: jsonEncode(
+                                      {
+                                        "cartName": storeCartsVal["cartName"],
+                                        "merchant": storeCartsVal["merchant"]
+                                      },
+                                    ),
+                                    encoding: Encoding.getByName("utf-8"),
+                                  );
+
+                                  print(userFuture.body);
                                 } catch (error) {}
                               }
                               print(
@@ -172,15 +323,29 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0), // Set border radius here
                               ),
-                                child: IconButton(onPressed: (){}, icon: Icon(Icons.remove, color: Color(0xFF212128), size: 30,))),
+                                child: IconButton(onPressed: (){
+                                  if(counter > 1 ) {
+                                    setState(() {
+                                      counter--;
+                                    });
+                                  }
+
+                                }, icon: Icon(Icons.remove, color: Color(0xFF212128), size: 30,))),
                             SizedBox(width: 10,),
-                            Text("01", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35),)),
+                            Text("$counter", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35),)),
                             SizedBox(width: 10,),
                             Material(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0), // Set border radius here
                                 ),
-                                child: IconButton(onPressed: (){}, icon: Icon(Icons.add, color: Color(0xFF212128), size: 30,))),
+                                child: IconButton(onPressed: (){
+                                  if(counter < storeCartsVal["cartQuantities"]){
+                                    setState(() {
+                                      counter++;
+                                    });
+                                  }
+
+                                }, icon: Icon(Icons.add, color: Color(0xFF212128), size: 30,))),
                           ],),
 
 

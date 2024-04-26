@@ -1106,9 +1106,15 @@ class _CustomerSpecificStoreMainPageState
                                           // storeCartsVal[index]
                                           itemBuilder: (context, index) =>
                                               InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               // PaymentManager.makePayment(20,"USD");
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct()));
+
+                                              await getSpecificStoreCart(emailVal);
+                                              print("+++++++++++++++++++++");
+                                              print(storeCartsVal[index]);
+                                              print("+++++++++++++++++++++");
+
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(
@@ -1257,6 +1263,9 @@ class _CustomerSpecificStoreMainPageState
                                                                       encoding: Encoding.getByName("utf-8"),
                                                                     );
 
+                                                                    getCustomerFavoriteList();
+                                                                    getSpecificStoreCart(emailVal);
+
                                                                     print(userFuture.body);
                                                                   } catch (error) {}
                                                                 } else {
@@ -1282,6 +1291,8 @@ class _CustomerSpecificStoreMainPageState
                                                                       ),
                                                                       encoding: Encoding.getByName("utf-8"),
                                                                     );
+                                                                    getCustomerFavoriteList();
+                                                                    getSpecificStoreCart(emailVal);
 
                                                                     print(userFuture.body);
 
@@ -1504,15 +1515,16 @@ class _CustomerSpecificStoreMainPageState
                                           // storeCartsVal[index]
                                           itemBuilder: (context, index) =>
                                               InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               // PaymentManager.makePayment(20,"USD");
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        title: Text("Cart"),
-                                                        content: Container(),
-                                                      ));
+                                              // PaymentManager.makePayment(20,"USD");
+
+                                              await getSpecificStoreCart(emailVal);
+                                              print("+++++++++++++++++++++");
+                                              print(storeCartsVal[index]);
+                                              print("+++++++++++++++++++++");
+
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                                             },
                                             child: Container(
                                               margin: EdgeInsets.fromLTRB(
@@ -1837,6 +1849,11 @@ class _CustomerSpecificStoreMainPageState
                                                                 );
 
                                                                 print(userFuture.body);
+                                                                getCustomerFavoriteList();
+                                                                print("0000000000000000000000000");
+                                                                print(CartsForOneCategoryVal[index]["cartCategory"]);
+                                                                getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
+
                                                               } catch (error) {}
                                                             } else {
                                                               try {
@@ -1860,6 +1877,9 @@ class _CustomerSpecificStoreMainPageState
                                                                 );
 
                                                                 print(userFuture.body);
+                                                                getCustomerFavoriteList();
+                                                                print(CartsForOneCategoryVal[index]["cartCategory"]);
+                                                                getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
 
                                                               } catch (error) {}
                                                             }

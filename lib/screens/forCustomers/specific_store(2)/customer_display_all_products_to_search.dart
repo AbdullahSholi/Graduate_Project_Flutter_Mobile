@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
+import 'customer_display_product.dart';
 import 'customer_specific_store_main_page.dart';
 
 class CustomerDisplayAllProducts extends StatefulWidget {
@@ -296,7 +297,16 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         child: ScaleAnimation(
                           child: FadeInAnimation(
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () async {
+                                // PaymentManager.makePayment(20,"USD");
+
+                                await getSpecificStoreCart(emailVal);
+                                print("+++++++++++++++++++++");
+                                print(filteredProducts[index]);
+                                print("+++++++++++++++++++++");
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                              },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
@@ -385,11 +395,11 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                 Colors.red,
                                                 child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
                                                     offIcon: Icon(Icons.favorite_outline, color: Colors.black),
-                                                    initialValue: storeCartsVal[index]["isFavorite"], onChanged: (_isFavorite) async {
+                                                    initialValue: filteredProducts[index]["isFavorite"], onChanged: (_isFavorite) async {
                                                   if (_isFavorite) {
                                                     try {
 
-                                                      storeCartsVal[index]["isFavorite"] = _isFavorite;
+                                                      filteredProducts[index]["isFavorite"] = _isFavorite;
                                                       http.Response
                                                       userFuture =
                                                       await http.post(
@@ -400,20 +410,22 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                         },
                                                         body: jsonEncode(
                                                           {
-                                                            "favouriteList": storeCartsVal[index],
+                                                            "favouriteList": filteredProducts[index],
                                                           },
                                                         ),
                                                         encoding: Encoding.getByName("utf-8"),
                                                       );
 
                                                       print(userFuture.body);
+                                                      getCustomerFavoriteList();
+                                                      getSpecificStoreCart(emailVal);
                                                     } catch (error) {}
                                                   } else {
                                                     try {
 
-                                                      storeCartsVal[index]["isFavorite"] = !_isFavorite;
-                                                      print(storeCartsVal[index]["cartName"]);
-                                                      print(storeCartsVal[index]["merchant"]);
+                                                      filteredProducts[index]["isFavorite"] = !_isFavorite;
+                                                      print(filteredProducts[index]["cartName"]);
+                                                      print(filteredProducts[index]["merchant"]);
                                                       http.Response
                                                       userFuture =
                                                       await http.delete(
@@ -425,8 +437,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
                                                         body: jsonEncode(
                                                           {
-                                                            "cartName": storeCartsVal[index]["cartName"],
-                                                            "merchant": storeCartsVal[index]["merchant"]
+                                                            "cartName": filteredProducts[index]["cartName"],
+                                                            "merchant": filteredProducts[index]["merchant"]
                                                           },
                                                         ),
                                                         encoding: Encoding.getByName("utf-8"),
@@ -541,7 +553,16 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         child: ScaleAnimation(
                           child: FadeInAnimation(
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () async {
+                                // PaymentManager.makePayment(20,"USD");
+
+                                await getSpecificStoreCart(emailVal);
+                                print("+++++++++++++++++++++");
+                                print(storeCartsVal[index]);
+                                print("+++++++++++++++++++++");
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                              },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
@@ -654,6 +675,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       );
 
                                                       print(userFuture.body);
+                                                      getCustomerFavoriteList();
+                                                      getSpecificStoreCart(emailVal);
                                                     } catch (error) {}
                                                   } else {
                                                     try {
