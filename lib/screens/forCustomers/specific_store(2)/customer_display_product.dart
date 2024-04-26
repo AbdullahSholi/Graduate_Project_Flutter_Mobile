@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_preview/image_preview.dart';
@@ -18,6 +19,7 @@ import '../../../toggle_button1.dart';
 import "package:http/http.dart" as http;
 
 import 'customer_specific_store_main_page.dart';
+// import 'package:flutter_expandable_text/expandable_text.dart';
 
 
 class CustomerDisplayProduct extends StatefulWidget {
@@ -307,8 +309,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Furnutare", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),)),
-                          Text("400\$", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
+                          Text("${storeCartsVal["cartName"]}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),)),
+                          Text("${storeCartsVal["cartPrice"]}\$", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
                         ],
                       ),
                     ),
@@ -353,12 +355,13 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                      margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
                             children: [
+                              // ExpandableTextWidget(),
                              Text("Description", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),))
                             ],),
 
@@ -366,10 +369,27 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                       ),
                     ),
 
+
                     Container(
+                      height: MediaQuery.of(context).size.height/7,
+                        // color: Colors.blue,
                         margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text("datadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadata",
-                            style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),))
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            children: [
+                              ExpandableText(
+                                '${storeCartsVal["cartDescription"]}',
+                                trimType: TrimType.lines,
+                                trim: 6, // trims if text exceeds 20 characters
+                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
+                                readLessText: 'show less',
+                                readMoreText: 'show more',
+                              ),
+                            ],
+                          ),
+                        ),
+
                     ),
 
 
