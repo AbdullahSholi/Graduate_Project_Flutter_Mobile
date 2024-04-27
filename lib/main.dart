@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/login.dart';
 import 'package:graduate_project/stripe_payment/stripe_keys.dart';
