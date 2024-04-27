@@ -1002,7 +1002,33 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                         ) // Set border radius here
                       ),
                       child: TextButton(
-                        onPressed: (){}, child: Row(
+                        onPressed: () async {
+                          try {
+                            http.Response
+                            userFuture =
+                                await http.post(
+                              Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-cart-list/${customerEmailVal}"),
+                              headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer ${customerTokenVal}"
+                              },
+                              body: jsonEncode(
+                                {
+                                  "cartList": storeCartsVal,
+                                  "quantities": counter
+                                },
+                              ),
+                              encoding: Encoding.getByName("utf-8"),
+                            );
+
+                            print(userFuture.body);
+
+                            print("0000000000000000000000000");
+                            print(storeCartsVal);
+
+
+                          } catch (error) {}
+                        }, child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Icon(Icons.add, color: Color(0xFF212128), ),
