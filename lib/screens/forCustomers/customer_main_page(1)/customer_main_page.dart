@@ -366,7 +366,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerMyCartPage()));
+                                builder: (context) => CustomerMyCartPage(customerEmailVal, customerTokenVal)));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,

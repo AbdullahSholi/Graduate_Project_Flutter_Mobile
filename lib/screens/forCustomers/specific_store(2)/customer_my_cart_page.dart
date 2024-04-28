@@ -1,11 +1,65 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import "package:http/http.dart" as http;
 
-class CustomerMyCartPage extends StatelessWidget {
-  const CustomerMyCartPage({super.key});
+class CustomerMyCartPage extends StatefulWidget {
+  String customerEmailVal;
+  String customerTokenVal;
+  CustomerMyCartPage(this.customerEmailVal, this.customerTokenVal, {super.key});
+
+  @override
+  State<CustomerMyCartPage> createState() => _CustomerMyCartPageState();
+}
+
+class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
+  String customerEmailVal = "";
+  String customerTokenVal = "";
+  List<dynamic> cartList = [];
+  double totalPrice = 0;
+  void getCustomerCartList() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-cart-list/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+
+    if (userFuture.statusCode == 200) {
+      // print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        cartList = json.decode(userFuture.body);
+
+      });
+
+      for(int i = 0; i < cartList.length; i++){
+        setState(() {
+          totalPrice += cartList[i]["cartPrice"] * cartList[i]["quantities"];
+        });
+
+      }
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    customerTokenVal = widget.customerTokenVal;
+    customerEmailVal = widget.customerEmailVal;
+    getCustomerCartList();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +75,7 @@ class CustomerMyCartPage extends StatelessWidget {
           Container(
               child: ListView.separated(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height/5,),
-                itemCount: 5,
+                itemCount: cartList.length,
                 itemBuilder: (context, index) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
@@ -41,24 +95,24 @@ class CustomerMyCartPage extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
-                                child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMv2EOjvqGsADNLgPZ7V1EReuliTXi_Tcl4g&s", fit: BoxFit.cover,))
+                                child: Image.network("${cartList[index]["cartPrimaryImage"]}", fit: BoxFit.cover,))
                         ),
                         SizedBox(width: 10,),
                         Container(
-                          width: MediaQuery.of(context).size.width/2.15,
+                          width: MediaQuery.of(context).size.width/2.22,
                           margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                            Text("Addidas-A", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis,),
-                            Text("Shoes - StoreName",  style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                            Text("${cartList[index]["cartName"]}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                            Text("${cartList[index]["cartCategory"]}",  style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),), maxLines: 1, overflow: TextOverflow.ellipsis,),
                               SizedBox(height: 5,),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.baseline,
                                 textBaseline: TextBaseline.alphabetic,
                                 children: [
-                                  Text("\$100", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                  Text("\$${cartList[index]["cartPrice"]}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),), maxLines: 1, overflow: TextOverflow.ellipsis,),
                                   SizedBox(width: 20,),
                                   Text("\$400", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold, decoration: TextDecoration.lineThrough),), maxLines: 1, overflow: TextOverflow.ellipsis,),
                                 ],
@@ -69,7 +123,7 @@ class CustomerMyCartPage extends StatelessWidget {
                                 children: [
                                   Text("Price: ", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),), maxLines: 1, overflow: TextOverflow.ellipsis,),
                                   SizedBox(width: 10,),
-                                  Text("100 * 4 = 400", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15,  decoration: TextDecoration.lineThrough),), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                  Text("${cartList[index]["cartPrice"]} * ${cartList[index]["quantities"]} = ${ cartList[index]["cartPrice"] * cartList[index]["quantities"]} ", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15,  ),), maxLines: 1, overflow: TextOverflow.ellipsis,),
                                 ],
                               ),
 
@@ -83,11 +137,48 @@ class CustomerMyCartPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  margin: EdgeInsets.fromLTRB(0, 10, 20, 0),
-                                  child: Icon(Icons.remove_circle_outline, color: Colors.white, size: 30,)),
+                                // width: 60,
+                                // height: 60,
+
+                                // color: Colors.red,
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: IconButton( onPressed: () async {
+                                    try {
+                                      print(cartList[index]["cartName"]);
+                                      print(cartList[index]["merchant"]);
+                                      http.Response
+                                      userFuture =
+                                          await http.delete(
+                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-cart-list-from-different-stores/${customerEmailVal}"),
+                                        headers: {
+                                          "Content-Type": "application/json",
+                                          "Authorization": "Bearer ${customerTokenVal}"
+                                        },
+
+                                        body: jsonEncode(
+                                          {
+                                            "cartName": cartList[index]["cartName"],
+                                            "merchant": cartList[index]["merchant"]
+                                          },
+                                        ),
+                                        encoding: Encoding.getByName("utf-8"),
+                                      );
+
+                                      print(userFuture.body);
+                                      setState(() {
+                                        totalPrice = 0;
+                                      });
+                                      getCustomerCartList();
+
+
+
+                                    } catch (error) {}
+                                  } ,icon: Icon(Icons.remove_circle_outline, color: Colors.white, size: 30,)),)
+
                             ],
                           ),
-                        )
+                        ),
+
                       ],
                     ),
                   );
@@ -127,7 +218,7 @@ class CustomerMyCartPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Text("Total Price ", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis,),
-                        Text("300 ", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis,)
+                        Text("${totalPrice}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis,)
                       ],
                     )
                   ),
@@ -137,7 +228,9 @@ class CustomerMyCartPage extends StatelessWidget {
                     right: 0,
                     child: Container(
                       width: MediaQuery.of(context).size.width/2,
-                      child: ElevatedButton(onPressed: (){}, child: Text("Purchase!", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis, ), style: ButtonStyle(
+                      child: ElevatedButton(onPressed: (){
+
+                      }, child: Text("Purchase!", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis, ), style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
