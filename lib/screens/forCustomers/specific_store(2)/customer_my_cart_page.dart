@@ -21,6 +21,18 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
   String customerTokenVal = "";
   List<dynamic> cartList = [];
   double totalPrice = 0;
+
+  List<dynamic> cartListPaymentInformations = [];
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _expiryMonthController = TextEditingController();
+  final TextEditingController _expiryYearController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
+  final TextEditingController _accountNameController = TextEditingController();
+  final TextEditingController _cardTypeController = TextEditingController(); // Visa, MasterCard, etc.
+  final TextEditingController _phoneNumberController = TextEditingController(); // Visa, MasterCard, etc.
+
   void getCustomerCartList() async {
     print("ppppppppppppppppppp");
     print(customerEmailVal);
@@ -46,10 +58,36 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
         });
 
       }
+      getCartListPaymentInformations();
     } else {
       throw Exception("Error");
     }
   }
+  void getCartListPaymentInformations() async {
+    print("ppppppppppppppppppp");
+    print(customerEmailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "http://10.0.2.2:3000/matjarcom/api/v1/customer-pay-for-products/${customerEmailVal}"),
+        headers: {"Authorization": "Bearer ${customerTokenVal}"});
+
+    if (userFuture.statusCode == 200) {
+      // print("${userFuture.body}");
+
+      // return GetCartContentModel.fromJson(json.decode(userFuture.body));
+      setState(() {
+        cartListPaymentInformations = json.decode(userFuture.body);
+
+      });
+
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+
 
   @override
   void initState() {
@@ -66,7 +104,9 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF212128),
-        leading: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),),
         title: Text("Shopping Cart", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
         centerTitle: true,
       ),
@@ -228,7 +268,339 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                     right: 0,
                     child: Container(
                       width: MediaQuery.of(context).size.width/2,
-                      child: ElevatedButton(onPressed: (){
+                      child: ElevatedButton(onPressed: () async {
+                        String? selectedItem = 'visa';
+                        showModalBottomSheet(context: context, isScrollControlled: true, builder: (context)=> Container(
+
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                            ),
+                            color: Color(0xFF212128),
+                          ),
+                          child: Form(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SingleChildScrollView(
+                                reverse: true,
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      TextFormField(
+                                        style: TextStyle(color: Colors.white),
+                                        controller: _emailController,
+                                        decoration: InputDecoration(labelText: 'Email',labelStyle: TextStyle(color: Colors.white)),
+                                        keyboardType: TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your email';
+                                          }
+                                          // return null;
+                                        },
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context).size.width/1.5,
+                                            child: TextFormField(
+                                              style: TextStyle(color: Colors.white),
+                                              controller: _cardNumberController,
+                                              decoration: InputDecoration(labelText: 'Card Number',labelStyle: TextStyle(color: Colors.white)),
+                                              keyboardType: TextInputType.number,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter your card number';
+                                                }
+                                                // return null;
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(width: 20,),
+                                          Container(
+                                            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                            // color: Colors.blue,
+                                            child: DropdownButton(
+
+                                              borderRadius: BorderRadius.circular(20),
+                                              dropdownColor: Color(0xFF36363C),
+                                              style: TextStyle(color: Color(0xFF212128)),
+                                              value: selectedItem,
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  selectedItem = newValue!;
+                                                  print(selectedItem);
+                                                });
+                                                setState(() {
+                                                  selectedItem = newValue!;
+                                                  print(selectedItem);
+                                                });
+                                                setState(() {
+                                                  selectedItem = newValue!;
+                                                  print(selectedItem);
+                                                });
+
+                                              }, items: ["visa", "paypal"].map<DropdownMenuItem<String>>((String value) {
+                                              return DropdownMenuItem(
+                                                  value: value,
+                                                  child: Text(value,style: TextStyle(color: Colors.white),)
+                                              );
+                                            }).toList(),
+
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context).size.width/2.1,
+                                            child: TextFormField(
+                                              style: TextStyle(color: Colors.white),
+                                              controller: _expiryMonthController,
+                                              decoration: InputDecoration(labelText: 'Expiry Month',labelStyle: TextStyle(color: Colors.white)),
+                                              keyboardType: TextInputType.number,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter your expiry month';
+                                                }
+                                                // return null;
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context).size.width/2.1,
+                                            child: TextFormField(
+                                              style: TextStyle(color: Colors.white),
+                                              controller: _expiryYearController,
+                                              decoration: InputDecoration(labelText: 'Expiry Year',labelStyle: TextStyle(color: Colors.white)),
+                                              keyboardType: TextInputType.number,
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Please enter your expiry year';
+                                                }
+                                                // return null;
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+
+                                      TextFormField(
+                                        style: TextStyle(color: Colors.white),
+                                        controller: _cvvController,
+                                        decoration: InputDecoration(labelText: 'CVV',labelStyle: TextStyle(color: Colors.white)),
+                                        keyboardType: TextInputType.number,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your cvv';
+                                          }
+                                          // return null;
+                                        },
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(color: Colors.white),
+                                        controller: _accountNameController,
+                                        decoration: InputDecoration(labelText: 'Account Name',labelStyle: TextStyle(color: Colors.white)),
+                                        keyboardType: TextInputType.number,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your account name';
+                                          }
+                                          // return null;
+                                        },
+                                      ),
+                                      TextFormField(
+                                        style: TextStyle(color: Colors.white),
+                                        controller: _phoneNumberController,
+                                        decoration: InputDecoration(labelText: 'Phone Number',labelStyle: TextStyle(color: Colors.white)),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your phone number';
+                                          }
+                                          // return null;
+                                        },
+                                      ),
+                                      SizedBox(height: 20,),
+                                      ElevatedButton(
+                                        onPressed: (_emailController.text.isNotEmpty&&_cardNumberController.text.isNotEmpty&&_expiryYearController.text.isNotEmpty&&_expiryMonthController.text.isNotEmpty&&_cvvController.text.isNotEmpty&&_accountNameController.text.isNotEmpty&&_phoneNumberController.text.isNotEmpty) ? () async {
+                                          try {
+                                            print(_emailController.text.isNotEmpty&&_cardNumberController.text.isNotEmpty&&_expiryYearController.text.isNotEmpty&&_expiryMonthController.text.isNotEmpty&&_cvvController.text.isNotEmpty&&_accountNameController.text.isNotEmpty&&_phoneNumberController.text.isNotEmpty);
+                                            if(cartList.isEmpty){
+                                              showDialog(context: context, builder: (context)=>AlertDialog(
+                                                title: Text("No products"),
+                                                content: Container(
+                                                  height: 190,
+                                                  child: Column(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        radius: 80,
+                                                          backgroundColor: Colors.red,
+
+                                                          child: Icon(Icons.close, color: Colors.white, size: 150,)),
+                                                      SizedBox(height: 10,),
+                                                      Container(
+                                                        child: Text("No any product to buy!!", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ));
+                                            } else {
+                                                // If the form is valid, proceed with submission
+                                                // Your submission logic goes here
+                                                List<dynamic> forPay = [];
+                                                int price = 0;
+                                                print(
+                                                    cartListPaymentInformations);
+                                                print("*************");
+
+                                                for (int j = 0; j <
+                                                    cartListPaymentInformations
+                                                        .length; j++) {
+                                                  for (int i = 0; i < cartList
+                                                      .length; i++) {
+                                                    print(
+                                                        cartList[i]["merchant"]);
+                                                    print(
+                                                        cartListPaymentInformations[j]["merchant"]);
+                                                    if (cartList[i]["merchant"] ==
+                                                        cartListPaymentInformations[j]["merchant"]) {
+                                                      price +=
+                                                          (cartList[i]["cartPrice"] as num)
+                                                              .toInt();
+                                                      print(price);
+                                                    }
+                                                  }
+                                                  forPay.add({
+                                                    "merchantId": cartListPaymentInformations[j]["merchant"],
+                                                    "price": price,
+                                                    "publishableKey": cartListPaymentInformations[j]["publishableKey"],
+                                                    "secretKey": cartListPaymentInformations[j]["secretKey"],
+                                                  });
+                                                  price = 0;
+                                                }
+                                                List<Map<String,
+                                                    dynamic>> uniqueList = forPay
+                                                    .fold([], (List<Map<String,
+                                                    dynamic>> accumulator,
+                                                    current) {
+                                                  if (!accumulator.any((
+                                                      element) =>
+                                                  element["merchantId"] ==
+                                                      current["merchantId"])) {
+                                                    accumulator.add(current);
+                                                  }
+                                                  return accumulator;
+                                                });
+                                                // print(price);
+                                                print(uniqueList);
+
+                                                for (int i = 0; i <
+                                                    uniqueList.length; i++) {
+                                                  http.Response
+                                                  userFuture =
+                                                  await http.post(
+                                                    Uri.parse(
+                                                        "https://api.lahza.io/transaction/initialize"),
+                                                    headers: {
+                                                      "Content-Type": "application/json",
+                                                      "Authorization": "Bearer ${uniqueList[i]["secretKey"]}"
+                                                    },
+                                                    body: jsonEncode(
+                                                      {
+                                                        "email": customerEmailVal,
+                                                        "card_number": _cardNumberController
+                                                            .text,
+                                                        "exp_month": _expiryMonthController
+                                                            .text,
+                                                        "exp_year": _expiryYearController
+                                                            .text,
+                                                        "account_name": _accountNameController
+                                                            .text,
+                                                        "phone": _phoneNumberController
+                                                            .text,
+                                                        "cvv": _cvvController
+                                                            .text,
+                                                        "amount": uniqueList[i]["price"] *
+                                                            100,
+                                                        "currency": "USD",
+                                                        "card_type": selectedItem,
+                                                        // Add card type
+                                                      },
+                                                    ),
+                                                    encoding: Encoding
+                                                        .getByName(
+                                                        "utf-8"),
+                                                  );
+
+                                                  print(userFuture.body);
+                                                }
+
+                                                http.Response
+                                                userFuture1 =
+                                                await http.delete(
+                                                  Uri.parse(
+                                                      "http://10.0.2.2:3000/matjarcom/api/v1/delete-all-products-from-cart-list/${customerEmailVal}"),
+                                                  headers: {
+                                                    "Content-Type": "application/json",
+                                                    "Authorization": "Bearer ${customerTokenVal}"
+                                                  },
+
+                                                  encoding: Encoding.getByName(
+                                                      "utf-8"),
+                                                );
+                                                setState(() {
+                                                  getCustomerCartList();
+                                                  totalPrice = 0;
+                                                });
+
+
+                                                showDialog(
+                                                    context: context, builder: (
+                                                    context) =>
+                                                    AlertDialog(
+                                                      title: Text("Success"),
+                                                      content: Container(
+                                                        height: 190,
+                                                        child: Column(
+                                                          children: [
+                                                            CircleAvatar(
+                                                                radius: 80,
+                                                                backgroundColor: Colors
+                                                                    .green,
+
+                                                                child: Icon(
+                                                                  Icons.check,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 150,)),
+                                                            SizedBox(
+                                                              height: 10,),
+                                                            // Container(
+                                                            //   child: Text("No any product to buy!!", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+                                                            // ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ));
+                                              }
+
+                                          } catch (error) {}
+                                        } : (){} ,
+                                        child: Text('Submit Payment', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ));
+
+
 
                       }, child: Text("Purchase!", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 25, fontWeight: FontWeight.bold,),), maxLines: 1, overflow: TextOverflow.ellipsis, ), style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.white),

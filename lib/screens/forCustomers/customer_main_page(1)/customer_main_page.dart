@@ -452,8 +452,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => LogAllPage()));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,

@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
+import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_edit_profile_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_favorite_products.dart';
@@ -811,8 +812,8 @@ class _CustomerSpecificStoreMainPageState
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => Login()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LogAllPage()));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
