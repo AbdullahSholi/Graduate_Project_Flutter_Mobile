@@ -492,9 +492,12 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                               Container(
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(10),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.white,
+                                child: Container(
+                                  decoration: const ShapeDecoration(
+                                    color: Colors.white, // Replace with your desired color
+                                    shape: CircleBorder(
+                                    ),
+                                  ),
                                   child: IconButton(
                                       onPressed: () {
                                         _openDrawer();
@@ -504,9 +507,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                         color: Colors.black,
                                         size: 30,
                                         weight: 800,
-
+                                  
                                       )),
-
                                 ),
                               ),
                               SizedBox(

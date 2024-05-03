@@ -12,6 +12,7 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
 import 'package:image_preview/image_preview.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -156,7 +157,9 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                       shape: BoxShape.circle,
                       color: Color(0xFF212128)
                   ),
-                  child: IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart_outlined, color: Colors.white,size: 25,),))),
+                  child: IconButton(onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage(customerEmailVal, customerTokenVal)));
+                  }, icon: Icon(Icons.shopping_cart_outlined, color: Colors.white,size: 25,),))),
           SizedBox(width: 10,)
         ],
 
