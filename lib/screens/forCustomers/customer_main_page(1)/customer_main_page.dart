@@ -23,6 +23,7 @@ import '../../../../models/merchant/merchant_connect_store_to_social_media.dart'
 import '../../../../models/merchant/merchant_profile.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/singleUser.dart';
+import '../specific_store(2)/customer_contact_with_admin.dart';
 import '../specific_store(2)/customer_favorite_products_for_all_products_from_main_page.dart';
 import '../specific_store(2)/customer_my_profile_page.dart';
 import '../specific_store(2)/customer_chat_system.dart';
@@ -426,7 +427,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerSupportPage()));
+                                builder: (context) => CustomerContactWithAdmin(customerEmailVal, customerTokenVal)));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -474,6 +475,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
             ),
             vsync: this,
             child:Column(
+              
               children: [
                 Expanded(
                   child: Container(

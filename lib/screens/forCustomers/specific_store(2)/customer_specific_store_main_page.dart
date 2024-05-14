@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
+// import 'dart:ffi';
 
 // import 'dart:html';
 import 'dart:io';
@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/constants/constants.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
@@ -80,6 +81,7 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
 
 class _CustomerSpecificStoreMainPageState
     extends State<CustomerSpecificStoreMainPage> {
+
   String tokenVal = "";
   String emailVal = "";
   String customerTokenVal = "";
@@ -312,6 +314,130 @@ class _CustomerSpecificStoreMainPageState
     });
 
     return storeCartsVal;
+  }
+
+  Future<void> incrementProductViews(index) async {
+    await getStatisticsAboutProducts(index);
+
+    Constants.mostViewed++;
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+          "forMostViewed": Constants.mostViewed
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+
+  }
+  Future<void> getStatisticsAboutProducts(index) async {
+    print("--------------------------");
+    print(emailVal);
+    print(index);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+    setState(() {
+      Constants.mostViewed = jsonDecode(userFuture.body)["mostViewed"];
+    });
+
+
+
+  }
+
+  Future<void> getStatisticsAboutProductsForCategory(index, category) async {
+    print("--------------------------");
+    print(emailVal);
+    print(index);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex": index,
+          "cartCategory": category,
+
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print("XXXXXXXXXXXXX");
+    print(jsonDecode(userFuture.body)[0]["forMostViewed"]);
+    print("XXXXXXXXXXXXX");
+
+    setState(() {
+      Constants.mostViewed = jsonDecode(userFuture.body)[0]["forMostViewed"];
+    });
+
+
+
+  }
+  Future<void> incrementProductViewsForCategory(index, category) async {
+    await getStatisticsAboutProductsForCategory(index, category);
+    setState(() {
+      Constants.mostViewed +=1;
+    });
+
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+          "cartCategory": category,
+          "forMostViewed": Constants.mostViewed
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print("OOOOOOOOOOOOOOOOOOOOOOOO");
+    print(userFuture.body);
+    print("OOOOOOOOOOOOOOOOOOOOOOOO");
+
   }
 
   bool _isSearching = false;
@@ -732,7 +858,7 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CustomerChatSystem()));
+                            builder: (context) => CustomerChatSystem(customerEmailVal, customerTokenVal, emailVal, tokenVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -761,7 +887,7 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CustomerSupportPage()));
+                            builder: (context) => CustomerSupportPage(customerEmailVal, customerTokenVal, )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -1108,6 +1234,7 @@ class _CustomerSpecificStoreMainPageState
                                           itemBuilder: (context, index) =>
                                               InkWell(
                                             onTap: () async {
+                                              await incrementProductViews(index);
                                               // PaymentManager.makePayment(20,"USD");
 
                                               await getSpecificStoreCart(emailVal);
@@ -1517,6 +1644,7 @@ class _CustomerSpecificStoreMainPageState
                                           itemBuilder: (context, index) =>
                                               InkWell(
                                             onTap: () async {
+                                              await incrementProductViewsForCategory(index, CartsForOneCategoryVal[index]["cartCategory"]);
                                               // PaymentManager.makePayment(20,"USD");
                                               // PaymentManager.makePayment(20,"USD");
 

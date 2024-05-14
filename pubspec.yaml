@@ -65,6 +65,7 @@ dependencies:
   image_preview: ^1.0.7
   flutter_expandable_text: ^1.0.0
   checkout_screen_ui: ^1.0.1
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../../../constants/constants.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
@@ -31,6 +32,129 @@ class CustomerDisplayAllProducts extends StatefulWidget {
 class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts> {
   List<dynamic> filteredProducts = [];
 
+  Future<void> incrementProductViews(index) async {
+    await getStatisticsAboutProducts(index);
+
+    Constants.mostViewed++;
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+          "forMostViewed": Constants.mostViewed
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+
+  }
+  Future<void> getStatisticsAboutProducts(index) async {
+    print("--------------------------");
+    print(emailVal);
+    print(index);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+    setState(() {
+      Constants.mostViewed = jsonDecode(userFuture.body)["mostViewed"];
+    });
+
+
+
+  }
+
+  Future<void> getStatisticsAboutProductsForCategory(index, category) async {
+    print("--------------------------");
+    print(emailVal);
+    print(index);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex": index,
+          "cartCategory": category,
+
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print("XXXXXXXXXXXXX");
+    print(jsonDecode(userFuture.body)[0]["forMostViewed"]);
+    print("XXXXXXXXXXXXX");
+
+    setState(() {
+      Constants.mostViewed = jsonDecode(userFuture.body)[0]["forMostViewed"];
+    });
+
+
+
+  }
+  Future<void> incrementProductViewsForCategory(index, category) async {
+    await getStatisticsAboutProductsForCategory(index, category);
+    setState(() {
+      Constants.mostViewed +=1;
+    });
+
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+          "cartCategory": category,
+          "forMostViewed": Constants.mostViewed
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print("OOOOOOOOOOOOOOOOOOOOOOOO");
+    print(userFuture.body);
+    print("OOOOOOOOOOOOOOOOOOOOOOOO");
+
+  }
 
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
@@ -555,6 +679,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                             child: InkWell(
                               onTap: () async {
                                 // PaymentManager.makePayment(20,"USD");
+                                await incrementProductViews(index);
 
                                 await getSpecificStoreCart(emailVal);
                                 print("+++++++++++++++++++++");
