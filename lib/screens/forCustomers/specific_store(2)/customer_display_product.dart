@@ -96,6 +96,71 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
     }
   }
 
+
+  int index = 0;
+  Future<void> getProductNameViaIndex() async {
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-product-name-via-index/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "productName":storeCartsVal["cartName"]
+        },
+      ),
+      encoding: Encoding.getByName("utf-8"),
+    );
+
+    setState(() {
+      index = jsonDecode(userFuture.body)["index"];
+    });
+    print(index);
+  }
+
+  double productAverageRate = 0;
+  int numberOfRates = 0;
+  Future<void> getAverageProductRate() async {
+
+    await getProductNameViaIndex();
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-average-product-rate/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "index": index
+        },
+      ),
+      encoding: Encoding.getByName("utf-8"),
+    );
+
+    print(userFuture.body);
+
+    var temp = json.decode(userFuture.body);
+
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        productAverageRate = double.parse(temp["Rate"].toDouble().toStringAsFixed(1));
+        numberOfRates = temp["numberOfRates"];
+      });
+
+      print("IIIIIIIIIIIIIIIIIIIIIII");
+      print(productAverageRate);
+      print("IIIIIIIIIIIIIIIIIIIIIII");
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -106,8 +171,14 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
     emailVal = widget.emailVal;
     tokenVal = widget.tokenVal;
 
+    print("*********************");
+    print(customerTokenVal);
+    print("*********************");
+
+
     getMerchantData();
     getStoreIndex();
+    getAverageProductRate();
 
   }
   @override
@@ -738,7 +809,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                           //     ],
                           //   ),
                           // ));
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerRateAndReviewsPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerRateAndReviewsPage(  storeCartsVal,index,emailVal, tokenVal, customerEmailVal, customerTokenVal ,productAverageRate, numberOfRates)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -752,7 +823,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // SizedBox(width: 10,),
-                              Text("4.8", style: TextStyle(color: Colors.white, fontSize: 20),),
+                              Text("${productAverageRate}", style: TextStyle(color: Colors.white, fontSize: 20),),
                               SizedBox(width: 8,),
                               Icon(Icons.star, color: Colors.yellow,)
 
