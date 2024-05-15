@@ -10,7 +10,9 @@ import "package:http/http.dart" as http;
 class CustomerSupportPage extends StatefulWidget {
   String customerEmailVal;
   String customerTokenVal;
-  CustomerSupportPage(this.customerEmailVal, this.customerTokenVal, {super.key});
+  String emailVal;
+  String tokenVal;
+  CustomerSupportPage(this.customerEmailVal, this.customerTokenVal, this.emailVal, this.tokenVal, {super.key});
 
   @override
   State<CustomerSupportPage> createState() => _CustomerSupportPageState();
@@ -19,19 +21,30 @@ class CustomerSupportPage extends StatefulWidget {
 class _CustomerSupportPageState extends State<CustomerSupportPage> {
   String customerEmailVal = "";
   String customerTokenVal = "";
+  String emailVal = "";
+  String tokenVal = "";
   List<dynamic> cartList = [];
   double totalPrice = 0;
 
-  List<dynamic> cartListPaymentInformations = [];
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _cardNumberController = TextEditingController();
-  final TextEditingController _expiryMonthController = TextEditingController();
-  final TextEditingController _expiryYearController = TextEditingController();
-  final TextEditingController _cvvController = TextEditingController();
-  final TextEditingController _accountNameController = TextEditingController();
-  final TextEditingController _cardTypeController = TextEditingController(); // Visa, MasterCard, etc.
-  final TextEditingController _phoneNumberController = TextEditingController(); // Visa, MasterCard, etc.
+
+  List<dynamic> cartListPaymentInformations = [];
+  List<dynamic> listOfAnsweredQuestions = [];
+
+  final TextEditingController addQuestion = TextEditingController();
+  Future<void> getListOfAnsweredQuestions() async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-list-of-answered-questions/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    setState(() {
+      listOfAnsweredQuestions = jsonDecode(userFuture.body);
+    });
+    // print(listOfQuestions[0]["question"]);
+  }
 
   void getCustomerCartList() async {
     print("ppppppppppppppppppp");
@@ -95,7 +108,10 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
     super.initState();
     customerTokenVal = widget.customerTokenVal;
     customerEmailVal = widget.customerEmailVal;
+    tokenVal = widget.tokenVal;
+    emailVal = widget.emailVal;
     getCustomerCartList();
+    getListOfAnsweredQuestions();
 
   }
 
@@ -114,37 +130,13 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
         children: [
           Container(
             color: Color(0xFFF2F2F2),
-            padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height/7),
+            height: double.infinity,
+
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF7F7F7),
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
                     child: Row(children: [
                       Icon(CupertinoIcons.question_circle_fill, color: Color(0xFF212128), size: 28,),
                       SizedBox(width: 20,),
@@ -152,66 +144,40 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                     ],),
                   ),
                   Container(
-                    margin: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-              
-                    child: Column(children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF212128),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            topLeft: Radius.circular(5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
+                    height:  MediaQuery.of(context).size.height/1.5,
+                    child: ListView.separated(itemBuilder: (context, index)=> Container(
+                      margin: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      
+                      child: Column(children: [
+                        Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF212128),
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(5),
+                                topLeft: Radius.circular(5),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.centerLeft,
-                        child: Text("Help & Support ?", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.centerLeft,
+                            child: Text(listOfAnsweredQuestions[index]["question"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
               
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF7F7F7),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        width: MediaQuery.of(context).size.width,
-                        child: Text("Ttttttttttttt", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
-              
-                    ],),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-              
-                    child: Column(children: [
-                      Container(
+                        Container(
+                          height: 80,
                           decoration: BoxDecoration(
-                            color: Color(0xFF212128),
+                            color: Color(0xFFF7F7F7),
                             borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -222,135 +188,16 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                               ),
                             ],
                           ),
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          alignment: Alignment.topLeft,
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.centerLeft,
-                          child: Text("Help & Support ?", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
+                          child: Text(listOfAnsweredQuestions[index]["answer"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
               
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF7F7F7),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        width: MediaQuery.of(context).size.width,
-                        child: Text("Ttttttttttttt", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
+                      ],),
+                    ), separatorBuilder: (context, index)=>SizedBox(height: 15,), itemCount: listOfAnsweredQuestions.length),
+                  )
+                  ,
               
-                    ],),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-              
-                    child: Column(children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF212128),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.centerLeft,
-                          child: Text("Help & Support ?", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
-              
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF7F7F7),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        width: MediaQuery.of(context).size.width,
-                        child: Text("Ttttttttttttt", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
-              
-                    ],),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    width: MediaQuery.of(context).size.width,
-              
-                    child: Column(children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF212128),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(5),
-                              topLeft: Radius.circular(5),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 5,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.centerLeft,
-                          child: Text("Help & Support ?", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
-              
-                      Container(
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF7F7F7),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.topLeft,
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        width: MediaQuery.of(context).size.width,
-                        child: Text("Ttttttttttttt", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
-              
-                    ],),
-                  ),
                 ],
               ),
             ),
@@ -381,8 +228,31 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                           Container(
 
                             child: TextFormField(
+                              controller: addQuestion,
                               decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.send_rounded, color: Colors.white,),
+                                suffixIcon: IconButton ( onPressed: () async {
+                                  http.Response userFuture = await http.post(
+                                    Uri.parse(
+                                        "http://10.0.2.2:3000/matjarcom/api/v1/add-your-question/${emailVal}"),
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: jsonEncode(
+                                      {
+                                        "isAnswered": false,
+                                        "question": addQuestion.text
+                                        // Add card type
+                                      },
+                                    ),
+                                    encoding: Encoding.getByName("utf-8"),
+                                  );
+                                  setState(() {
+                                    addQuestion.text="";
+
+                                  });
+
+                                  print(userFuture.body);
+                                } ,icon:Icon(Icons.send_rounded, color: Colors.white,),),
                                 hintText: 'Type your question',
                                 hintStyle: TextStyle(color: Colors.grey[300]),
                                 contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),

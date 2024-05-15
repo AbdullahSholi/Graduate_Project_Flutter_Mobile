@@ -887,7 +887,7 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CustomerSupportPage(customerEmailVal, customerTokenVal, )));
+                            builder: (context) => CustomerSupportPage(customerEmailVal, customerTokenVal, emailVal, tokenVal )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,

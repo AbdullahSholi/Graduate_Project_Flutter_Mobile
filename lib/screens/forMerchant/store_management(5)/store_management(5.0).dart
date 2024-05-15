@@ -24,6 +24,7 @@ import '../../../models/merchant/merchant_profile.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
 import '../personal_information(4)/personal_information(4).dart';
 import 'edit_your_store_informations(5.4).dart';
+import 'faq_page.dart';
 
 
 
@@ -569,6 +570,34 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           ConnectToSocialMediaAccounts(tokenVal, emailVal, imageUrlVal, storeNameVal, storeCategoryVal, storeDescriptionVal)));
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.fromLTRB(
+                                              30, 0, 30, 0),
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                                padding: EdgeInsets.all(15),
+                                                backgroundColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(15)
+                                                )
+                                            ),
+                                            child: Text("FAQ ",
+                                              style: GoogleFonts.federo(
+                                                color: Color(0xFF212128),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 29,
+
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MerchantFaqPage(tokenVal, emailVal)));
                                             },
                                           ),
                                         ),
