@@ -337,6 +337,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     );
     setState(() {
       number5Stars = jsonDecode(userFuture.body)["result"];
+      numberOfRates == 0 ? numberOfRates = 1 : numberOfRates = numberOfRates;
       number1StarsRatio = number1Stars/numberOfRates;
       number2StarsRatio = number2Stars/numberOfRates;
       number3StarsRatio = number3Stars/numberOfRates;
@@ -345,11 +346,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
 
     });
 
-    print(number1StarsRatio);
-    print(number2StarsRatio);
-    print(number3StarsRatio);
-    print(number4StarsRatio);
-    print(number5StarsRatio);
+
 
 
   }
