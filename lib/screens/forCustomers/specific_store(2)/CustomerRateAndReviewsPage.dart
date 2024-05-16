@@ -347,8 +347,6 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     });
 
 
-
-
   }
 
   @override

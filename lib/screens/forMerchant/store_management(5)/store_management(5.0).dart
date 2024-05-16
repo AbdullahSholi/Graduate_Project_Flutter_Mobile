@@ -13,6 +13,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/display
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/store_statistics.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -536,9 +537,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             onPressed: () {
                                               Navigator.push(context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditYourStoreDesign(
-                                                              tokenVal, emailVal,specificStoreCategoriesVal,storeNameVal,storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
+                                                      builder: (context) => StoreStatistics(tokenVal, emailVal)));
                                             },
                                           ),
                                         ),
