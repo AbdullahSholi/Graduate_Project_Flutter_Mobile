@@ -12,6 +12,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/connect
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_your_store_design(5.2).dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/notify_your_customers.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_statistics.dart';
 import 'package:graduate_project/screens/home.dart';
@@ -572,6 +573,35 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             },
                                           ),
                                         ),
+                                        SizedBox(height: 20,),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.fromLTRB(
+                                              30, 0, 30, 0),
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                                padding: EdgeInsets.all(15),
+                                                backgroundColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(15)
+                                                )
+                                            ),
+                                            child: Text("Notify Your Customers",
+                                              style: GoogleFonts.federo(
+                                                color: Color(0xFF212128),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 29,
+
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotifyYourCustomers(tokenVal, emailVal)));
+                                            },
+                                          ),
+                                        ),
+
                                         SizedBox(height: 20,),
                                         Container(
                                           width: double.infinity,

@@ -33,6 +33,8 @@ import 'package:graduate_project/screens/imageplaceholder.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/get_cart_content_model.dart';
@@ -47,6 +49,7 @@ import 'customer_chat_system.dart';
 import 'customer_display_all_products_to_search.dart';
 import 'customer_display_product.dart';
 import 'customer_my_cart_page.dart';
+import 'customer_notifications_page.dart';
 import 'customer_support_page.dart';
 
 class CustomerSpecificStoreMainPage extends StatefulWidget {
@@ -120,7 +123,36 @@ class _CustomerSpecificStoreMainPageState
       _isChanged = !_isChanged;
     });
   }
+  List<bool> _isSelected = [];
+  Future<void> findUserDeviceIdFromList() async{
+    await OneSignal.shared.setAppId("6991924e-f460-444c-824d-bf138d0e8d7b");
+    await OneSignal.shared.getDeviceState().then((value) async {
+      print("${value?.userId} RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
 
+      http.Response
+      userFuture =
+      await http.post(
+        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/find-user-device-id-from-list/${emailVal}"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(
+          {
+            "deviceId":value?.userId
+          },
+        ),
+        encoding:
+        Encoding.getByName("utf-8"),
+
+      );
+      setState(() {
+        _isSelected = [jsonDecode(userFuture.body)];
+      });
+      print(userFuture.body);
+
+    });
+
+  }
 
   Future<List> getSliderImages() async {
     print("$emailVal tttttttttt");
@@ -567,10 +599,70 @@ class _CustomerSpecificStoreMainPageState
   Icon favoriteIcon = Icon(Icons.favorite_border, size: 20, color: Colors.white,);
 
   Timer? _timer;
+
+  Future<void> initPlatform() async{
+    await OneSignal.shared.setAppId("6991924e-f460-444c-824d-bf138d0e8d7b");
+    await OneSignal.shared.getDeviceState().then((value) async {
+      print("${value?.userId} RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+
+    http.Response
+    userFuture =
+    await http.post(
+      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/add-user-device-id-into-list/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "deviceId": value?.userId,
+        },
+      ),
+      encoding: Encoding.getByName("utf-8"),
+    );
+
+    print(userFuture.body);
+    });
+
+  }
+
+  Future<void> _navigateToSecondScreen() async {
+    // Check for permission before navigation
+    final permissionStatus = await Permission.locationWhenInUse.request();
+
+    if (permissionStatus.isGranted) {
+      // Navigate to the second screen if permission is granted
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>
+            CustomerNotificationsPage(
+                customerEmailVal, customerTokenVal, emailVal, tokenVal,
+                _isSelected)),
+      );
+    } else {
+      // Handle permission denial or other status
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            permissionStatus.isDenied
+                ? 'Location permission denied. Please grant access to use this feature.'
+                : 'Location permission request unsuccessful.',
+          ),
+          action: SnackBarAction(
+            label: 'Settings',
+            onPressed: () => openAppSettings(),
+          ),
+        ),
+      );
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // initPlatform();
+
 
     tokenVal = widget.token;
     emailVal = widget.email;
@@ -593,7 +685,7 @@ class _CustomerSpecificStoreMainPageState
     getUserByName();
     getCustomerFavoriteList();
     getSpecificStoreCart(emailVal);
-
+    findUserDeviceIdFromList();
 
   }
 
@@ -626,7 +718,6 @@ class _CustomerSpecificStoreMainPageState
   Future<void> _refreshData() async {
     setState(() {
       getUserByName();
-      // Update your data or state variables
     });
     await Future.delayed(Duration(seconds: 2));
   }
@@ -859,6 +950,36 @@ class _CustomerSpecificStoreMainPageState
                         context,
                         MaterialPageRoute(
                             builder: (context) => CustomerChatSystem(customerEmailVal, customerTokenVal, emailVal, tokenVal)));
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF2A212E)),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.notifications_active,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  title: Text(
+                    "Notifications",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    print("My Profile");
+                    findUserDeviceIdFromList();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CustomerNotificationsPage(customerEmailVal, customerTokenVal, emailVal, tokenVal, _isSelected )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,

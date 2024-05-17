@@ -67,6 +67,9 @@ dependencies:
   checkout_screen_ui: ^1.0.1
   get: ^4.6.6
   fl_chart: ^0.68.0
+  onesignal_flutter: ^3.2.7
+  firebase_core: ^2.31.0
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

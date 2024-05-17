@@ -78,6 +78,44 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   double tempSearchBoxHeight = 0;
   late File _image;
   final Dio _dio = Dio();
+  List<dynamic> devicesId = [];
+  Future<void> getDevicesIdList() async {
+
+    http.Response userFuture1 =
+    await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/get-device-id-list/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    setState(() {
+      devicesId = jsonDecode(userFuture1.body);
+    });
+  }
+
+  Future<void> notifyYourCustomers() async {
+    await getDevicesIdList();
+
+    print(devicesId);
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/send-notification-to-device"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "storeName": storeNameVal,
+          "devices": devicesId
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+  }
 
   Future<void> addStoreToDatabase() async {
     print("XPPPPPPPPPPPPX");
@@ -117,6 +155,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       Encoding.getByName("utf-8"),
     );
     print(userFuture.body);
+    await notifyYourCustomers();
 
   }
 
@@ -2437,6 +2476,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       });
                     } else if (index == 2) {
                       addStoreToDatabase();
+
+
                     }
                   },
                   items: [
