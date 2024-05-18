@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_project/screens/forCustomers/customer_login_register/customer-forget-reset-password.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/home.dart';
@@ -229,7 +230,9 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                       ],),
                     SizedBox(height: 10,),
                     Center(
-                      child: InkWell( onTap: () {  }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
+                      child: InkWell( onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetAndResetPassword(emailVal, tokenVal)));
+                      }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
                     )
                   ],
                 ),

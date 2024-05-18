@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../models/merchant/login_page_merchant.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
+import 'merchant-forget-reset-password.dart';
 import 'merchant_register.dart';
 
 
@@ -261,7 +262,9 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                       ],),
                     SizedBox(height: 10,),
                     Center(
-                      child: InkWell( onTap: () {  }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
+                      child: InkWell( onTap: () async {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgetAndResetPassword(emailVal, tokenVal)));
+                      }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
                     )
                   ],
                 ),
