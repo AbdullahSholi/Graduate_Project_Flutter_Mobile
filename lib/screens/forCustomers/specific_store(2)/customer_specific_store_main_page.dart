@@ -124,6 +124,33 @@ class _CustomerSpecificStoreMainPageState
     });
   }
   List<bool> _isSelected = [];
+
+  Map<String, dynamic> merchantData = {};
+  Future<void> getMerchantProfile() async {
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("$emailVal tttttttttXX");
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile-second/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    print(userFuture.body);
+
+      setState(() {
+        merchantData = jsonDecode(userFuture.body);
+      });
+
+      print(merchantData["merchantname"]);
+
+
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+
+  }
+
   Future<void> findUserDeviceIdFromList() async{
     await OneSignal.shared.setAppId("6991924e-f460-444c-824d-bf138d0e8d7b");
     await OneSignal.shared.getDeviceState().then((value) async {
@@ -686,6 +713,7 @@ class _CustomerSpecificStoreMainPageState
     getCustomerFavoriteList();
     getSpecificStoreCart(emailVal);
     findUserDeviceIdFromList();
+    getMerchantProfile();
 
   }
 
@@ -949,7 +977,7 @@ class _CustomerSpecificStoreMainPageState
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CustomerChatSystem(customerEmailVal, customerTokenVal, emailVal, tokenVal)));
+                            builder: (context) => CustomerChatSystem(customerTokenVal, customerEmailVal, merchantData["merchantname"], merchantData["Avatar"], emailVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,

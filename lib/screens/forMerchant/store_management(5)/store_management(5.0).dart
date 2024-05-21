@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/chat_system.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/connect_to_social_media_accounts.dart';
 
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -587,6 +588,35 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                         .circular(15)
                                                 )
                                             ),
+                                            child: Text("Chat System",
+                                              style: GoogleFonts.federo(
+                                                color: Color(0xFF212128),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 29,
+
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatSystem(tokenVal, emailVal)));
+                                            },
+                                          ),
+                                        ),
+
+                                        SizedBox(height: 20,),
+                                        Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.fromLTRB(
+                                              30, 0, 30, 0),
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                                padding: EdgeInsets.all(15),
+                                                backgroundColor: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(15)
+                                                )
+                                            ),
                                             child: Text("Notify Your Customers",
                                               style: GoogleFonts.federo(
                                                 color: Color(0xFF212128),
@@ -601,7 +631,6 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             },
                                           ),
                                         ),
-
                                         SizedBox(height: 20,),
                                         Container(
                                           width: double.infinity,

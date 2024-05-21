@@ -17,7 +17,7 @@ import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CustomerChatSystem extends StatefulWidget {
+class ChattingPage extends StatefulWidget {
   // const MyProfilePage({super.key});
   final String token;
   final String email;
@@ -25,16 +25,16 @@ class CustomerChatSystem extends StatefulWidget {
   final String Avatar;
   final String receiverEmail;
 
-  CustomerChatSystem(
+  ChattingPage(
       this.token,
       this.email, this.name, this.Avatar, this.receiverEmail
       );
 
   @override
-  State<CustomerChatSystem> createState() => _CustomerChatSystemState();
+  State<ChattingPage> createState() => _ChattingPageState();
 }
 
-class _CustomerChatSystemState extends State<CustomerChatSystem>
+class _ChattingPageState extends State<ChattingPage>
     with TickerProviderStateMixin {
   String tokenVal = "";
   String emailVal = "";
@@ -118,7 +118,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-
+                
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -169,10 +169,10 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
             ),
             Expanded(
               child: Container(
-                color: Color(0xFF212128),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric( vertical: 15 ,horizontal: 20),
-                // height: double.infinity,
+                  color: Color(0xFF212128),
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric( vertical: 15 ,horizontal: 20),
+                  // height: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -253,54 +253,54 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                         ),
                       ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.centerLeft,
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.only(
-                    //         bottomRight: Radius.circular(10),
-                    //         topLeft: Radius.circular(10),
-                    //         topRight: Radius.circular(10)
-                    //       ),
-                    //       color: Color(0xFF3A3A3A),
-                    //     ),
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: 5,
-                    //       horizontal: 10
-                    //     ),
-                    //     child: Text("Hello World", style: GoogleFonts.lilitaOne(
-                    //         color: Color(0xFFF4F4FB),
-                    //         fontSize: 16),),
-                    //   ),
-                    // ),
-                    //   Align(
-                    //     alignment: Alignment.centerRight,
-                    //     child: Container(
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.only(
-                    //             bottomLeft: Radius.circular(10),
-                    //             topLeft: Radius.circular(10),
-                    //             topRight: Radius.circular(10)
-                    //         ),
-                    //         color: Color(0xFF3C9542),
-                    //       ),
-                    //       padding: EdgeInsets.symmetric(
-                    //           vertical: 5,
-                    //           horizontal: 10
-                    //       ),
-                    //       child: Text("Hello World", style: GoogleFonts.lilitaOne(
-                    //           color: Color(0xFFF4F4FB),
-                    //           fontSize: 16),  ),
-                    //     ),
-                    //   ),
-                    //   Spacer(),
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.only(
+                  //         bottomRight: Radius.circular(10),
+                  //         topLeft: Radius.circular(10),
+                  //         topRight: Radius.circular(10)
+                  //       ),
+                  //       color: Color(0xFF3A3A3A),
+                  //     ),
+                  //     padding: EdgeInsets.symmetric(
+                  //       vertical: 5,
+                  //       horizontal: 10
+                  //     ),
+                  //     child: Text("Hello World", style: GoogleFonts.lilitaOne(
+                  //         color: Color(0xFFF4F4FB),
+                  //         fontSize: 16),),
+                  //   ),
+                  // ),
+                  //   Align(
+                  //     alignment: Alignment.centerRight,
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.only(
+                  //             bottomLeft: Radius.circular(10),
+                  //             topLeft: Radius.circular(10),
+                  //             topRight: Radius.circular(10)
+                  //         ),
+                  //         color: Color(0xFF3C9542),
+                  //       ),
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: 5,
+                  //           horizontal: 10
+                  //       ),
+                  //       child: Text("Hello World", style: GoogleFonts.lilitaOne(
+                  //           color: Color(0xFFF4F4FB),
+                  //           fontSize: 16),  ),
+                  //     ),
+                  //   ),
+                  //   Spacer(),
                     Container(
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.grey[300]!.withOpacity(.2),
-                              width: 1
-                          ),
-                          borderRadius: BorderRadius.circular(15)
+                        border: Border.all(
+                          color: Colors.grey[300]!.withOpacity(.2),
+                          width: 1
+                        ),
+                        borderRadius: BorderRadius.circular(15)
                       ),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Row(children: [
@@ -312,15 +312,15 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                               border: InputBorder.none,
                               hintText: "type your message here ...",
                               hintStyle: GoogleFonts.lilitaOne(
-                                  color: Color(0xFFF4F4FB),
-                                  fontSize: 16),
+                                color: Color(0xFFF4F4FB),
+                              fontSize: 16),
                             ),
                             style: TextStyle(color: Color(0xFFF4F4FB)),
                           ),
                         )),
                         Container(
                           height: 50,
-                          color: Colors.blue,
+                            color: Colors.blue,
                           child: IconButton(onPressed: _sendMessage, icon: Icon(
                             Icons.send_rounded, size: 20, color: Colors.white,
                           )),
@@ -328,8 +328,8 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                       ],),
                     )
 
-                  ],),
-              ),
+                ],),
+                  ),
             ),
           ],
         ));
