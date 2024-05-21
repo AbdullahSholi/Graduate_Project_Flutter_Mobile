@@ -12,6 +12,7 @@ import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
+import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_chat_system.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
 import 'package:image_preview/image_preview.dart';
 import 'package:photo_view/photo_view.dart';
@@ -94,6 +95,32 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
       print("error");
       throw Exception("Error");
     }
+  }
+
+  Map<String, dynamic> merchantData = {};
+  Future<void> getMerchantProfile() async {
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("$emailVal tttttttttXX");
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile-second/${emailVal}"),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    print(userFuture.body);
+
+    setState(() {
+      merchantData = jsonDecode(userFuture.body);
+    });
+
+    print(merchantData["merchantname"]);
+
+
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+    print("%%%%%%%%%%%%%%%%%%%%%%%");
+
   }
 
 
@@ -179,6 +206,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
     getMerchantData();
     getStoreIndex();
     getAverageProductRate();
+    getMerchantProfile();
+
 
   }
   @override
@@ -831,6 +860,28 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                           ),
                         ),
                       )
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 220,
+                    right: 30,
+                    child: Visibility(
+                      visible: true,
+                      child: Container(
+                        width: 60,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF212128),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        
+                        child: IconButton(onPressed: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CustomerChatSystem(customerTokenVal, customerEmailVal, merchantData["merchantname"], merchantData["Avatar"], emailVal, )));
+                        }, icon: Icon(Icons.chat, color: Colors.white, size: 30,)),
+                      ),
                     ),
                   ),
                   Positioned(
