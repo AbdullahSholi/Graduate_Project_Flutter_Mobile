@@ -50,7 +50,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/avatar';
+      final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/avatar';
 
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -114,7 +114,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
     print("ppppppppppppppppppp");
 
     http.Response userFuture = await http.get(
-        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/profile/${emailVal}"),
+        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/profile/${emailVal}"),
         headers: {"Authorization":"Bearer ${tokenVal}"}
     );
     if(userFuture.statusCode == 200){
@@ -456,7 +456,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                         print(emailVal);
                                         http.Response userFuture = await http.patch(
                                           Uri.parse(
-                                              "http://10.0.2.2:3000/matjarcom/api/v1/update-user-profile/${emailVal}"),
+                                              "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/update-user-profile/${emailVal}"),
                                           headers: { "Content-Type": "application/json", "Authorization":"Bearer ${tokenVal}"},
                                           body: jsonEncode(
                                             { "password": password,

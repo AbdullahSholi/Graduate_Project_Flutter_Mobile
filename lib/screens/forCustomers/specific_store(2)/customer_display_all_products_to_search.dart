@@ -40,7 +40,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/increment-most-viewed/$emailVal"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $tokenVal",
@@ -64,7 +64,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.post(
       Uri.parse(
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
 
 
       ),
@@ -96,7 +96,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.post(
       Uri.parse(
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
 
 
       ),
@@ -135,7 +135,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $tokenVal",
@@ -173,7 +173,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.get(
         Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
     if (userFuture.statusCode == 200) {
       // print("${userFuture.body}");
@@ -198,7 +198,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -246,7 +246,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
     );
     print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);
@@ -272,7 +272,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-store-index/"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-store-index/"),
     );
     print(userFuture.body);
     var temp = json.decode(userFuture.body);
@@ -527,7 +527,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       http.Response
                                                       userFuture =
                                                       await http.post(
-                                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
                                                         headers: {
                                                           "Content-Type": "application/json",
                                                           "Authorization": "Bearer ${customerTokenVal}"
@@ -553,7 +553,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       http.Response
                                                       userFuture =
                                                       await http.delete(
-                                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
+                                                        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                         headers: {
                                                           "Content-Type": "application/json",
                                                           "Authorization": "Bearer ${customerTokenVal}"
@@ -786,7 +786,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       http.Response
                                                       userFuture =
                                                       await http.post(
-                                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
                                                         headers: {
                                                           "Content-Type": "application/json",
                                                           "Authorization": "Bearer ${customerTokenVal}"
@@ -810,7 +810,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       http.Response
                                                       userFuture =
                                                       await http.delete(
-                                                        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
+                                                        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list/${customerEmailVal}"),
                                                         headers: {
                                                           "Content-Type": "application/json",
                                                           "Authorization": "Bearer ${customerTokenVal}"

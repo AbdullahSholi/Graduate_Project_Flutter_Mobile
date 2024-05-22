@@ -170,7 +170,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                               var password = passwordTextEditingController.text;
                               http.Response userFuture = await http.post(
                                 Uri.parse(
-                                    "http://10.0.2.2:3000/matjarcom/api/v1/login"),
+                                    "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/login"),
                                 headers: { "Content-Type": "application/json"},
                                 body: jsonEncode(
                                   {"email": email, "password": password,

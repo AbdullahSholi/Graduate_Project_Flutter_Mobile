@@ -69,7 +69,7 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
   Future<Store> getUserByName() async{
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
-      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -513,7 +513,7 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
                                                       .Response userFuture = await http
                                                       .patch(
                                                     Uri.parse(
-                                                        "http://10.0.2.2:3000/matjarcom/api/v1/connect-social-media-accounts/${emailVal}"),
+                                                        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/connect-social-media-accounts/${emailVal}"),
                                                     headers: {
                                                       "Content-Type": "application/json",
                                                         "Authorization": "Bearer $tokenVal", // Add the token to the headers

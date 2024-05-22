@@ -43,7 +43,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-all-stores/"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
     );
     print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);

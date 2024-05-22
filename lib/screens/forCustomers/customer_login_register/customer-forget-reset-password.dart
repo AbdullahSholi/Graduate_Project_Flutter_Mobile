@@ -137,7 +137,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                       http.Response userFuture =
                       await http.post(
                         Uri.parse(
-                            "http://10.0.2.2:3000/matjarcom/api/v1/customer-forgot-password"),
+                            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-forgot-password"),
                         headers: {
                           "Content-Type": "application/json",
                         },

@@ -32,7 +32,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
 
     http.Response userFuture = await http.get(
         Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-cart-list/${customerEmailVal}"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-customer-cart-list/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
 
     if (userFuture.statusCode == 200) {
@@ -62,7 +62,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
 
     http.Response userFuture = await http.get(
         Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/customer-pay-for-products/${customerEmailVal}"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-pay-for-products/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
 
     if (userFuture.statusCode == 200) {

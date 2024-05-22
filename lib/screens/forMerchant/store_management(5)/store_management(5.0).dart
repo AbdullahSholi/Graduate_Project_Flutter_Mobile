@@ -109,7 +109,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   }
   Future<http.Response> deleteStore() async {
     final http.Response response = await http.delete(
-      Uri.parse('http://10.0.2.2:3000/matjarcom/api/v1/delete-store/$emailVal'),
+      Uri.parse('https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-store/$emailVal'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         "Authorization": "Bearer $tokenVal",
@@ -121,7 +121,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   Future<AllStore> getAllStoreData() async{
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
-      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -141,7 +141,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   Future<Merchant> getUserByName() async{
   print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
-        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -167,7 +167,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },

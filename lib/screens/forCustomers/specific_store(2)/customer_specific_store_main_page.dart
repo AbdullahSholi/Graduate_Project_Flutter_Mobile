@@ -132,7 +132,7 @@ class _CustomerSpecificStoreMainPageState
     print("$emailVal tttttttttXX");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile-second/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile-second/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -159,7 +159,7 @@ class _CustomerSpecificStoreMainPageState
       http.Response
       userFuture =
       await http.post(
-        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/find-user-device-id-from-list/${emailVal}"),
+        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/find-user-device-id-from-list/${emailVal}"),
         headers: {
           "Content-Type": "application/json",
         },
@@ -185,7 +185,7 @@ class _CustomerSpecificStoreMainPageState
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -218,7 +218,7 @@ class _CustomerSpecificStoreMainPageState
     print("$emailVal ppppp");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/store-data/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-data/${emailVal}"),
     );
     // print(userFuture.body);
 
@@ -259,7 +259,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
         Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-customer-favorite-list/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
     if (userFuture.statusCode == 200) {
       // print("${userFuture.body}");
@@ -285,7 +285,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -336,7 +336,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/customer-get-favorite-products-depend-on-category?email=$emailVal&cartCategory=$cartCategory&customerEmail=$customerEmailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-get-favorite-products-depend-on-category?email=$emailVal&cartCategory=$cartCategory&customerEmail=$customerEmailVal"),
     );
     print(userFuture.body);
 
@@ -358,7 +358,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-store-cart/${emailVal}"),
     );
     print(userFuture.body);
     var temp = GetCartContentModel.fromJson(json.decode(userFuture.body))
@@ -383,7 +383,7 @@ class _CustomerSpecificStoreMainPageState
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/increment-most-viewed/$emailVal"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $tokenVal",
@@ -407,7 +407,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.post(
       Uri.parse(
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
 
 
       ),
@@ -439,7 +439,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.post(
       Uri.parse(
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-products-for-category/${emailVal}",
 
 
       ),
@@ -478,7 +478,7 @@ class _CustomerSpecificStoreMainPageState
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/increment-most-viewed-for-category/$emailVal"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $tokenVal",
@@ -547,7 +547,7 @@ class _CustomerSpecificStoreMainPageState
 
   Future<void> fetchKeysToSetPublishableKey() async {
     final String apiUrl =
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -569,7 +569,7 @@ class _CustomerSpecificStoreMainPageState
 
   Future<void> fetchKeys() async {
     final String apiUrl =
-        "http://10.0.2.2:3000/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-payment-informations/$emailVal"; // Replace with your backend API URL
 
     final response = await http.get(
       Uri.parse(apiUrl),
@@ -607,7 +607,7 @@ class _CustomerSpecificStoreMainPageState
 
     http.Response userFuture = await http.get(
         Uri.parse(
-            "http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/profile/${customerEmailVal}"),
         headers: {"Authorization": "Bearer ${customerTokenVal}"});
     if (userFuture.statusCode == 200) {
       print("${userFuture.body}");
@@ -635,7 +635,7 @@ class _CustomerSpecificStoreMainPageState
     http.Response
     userFuture =
     await http.post(
-      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/add-user-device-id-into-list/${emailVal}"),
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-user-device-id-into-list/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -1527,7 +1527,7 @@ class _CustomerSpecificStoreMainPageState
                                                                     http.Response
                                                                     userFuture =
                                                                     await http.post(
-                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
                                                                       headers: {
                                                                         "Content-Type": "application/json",
                                                                         "Authorization": "Bearer ${customerTokenVal}"
@@ -1554,7 +1554,7 @@ class _CustomerSpecificStoreMainPageState
                                                                     http.Response
                                                                     userFuture =
                                                                     await http.delete(
-                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
+                                                                      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                                       headers: {
                                                                         "Content-Type": "application/json",
                                                                         "Authorization": "Bearer ${customerTokenVal}"
@@ -2113,7 +2113,7 @@ class _CustomerSpecificStoreMainPageState
                                                                 http.Response
                                                                 userFuture =
                                                                 await http.post(
-                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                  Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
                                                                   headers: {
                                                                     "Content-Type": "application/json",
                                                                     "Authorization": "Bearer ${customerTokenVal}"
@@ -2140,7 +2140,7 @@ class _CustomerSpecificStoreMainPageState
                                                                 http.Response
                                                                 userFuture =
                                                                 await http.delete(
-                                                                  Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
+                                                                  Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
                                                                   headers: {
                                                                     "Content-Type": "application/json",
                                                                     "Authorization": "Bearer ${customerTokenVal}"

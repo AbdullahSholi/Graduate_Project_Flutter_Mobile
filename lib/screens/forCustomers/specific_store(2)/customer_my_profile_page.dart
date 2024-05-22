@@ -36,7 +36,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
     print("ppppppppppppppppppp");
 
     http.Response userFuture = await http.get(
-        Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/profile/${emailVal}"),
+        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/profile/${emailVal}"),
         headers: {"Authorization":"Bearer ${tokenVal}"}
     );
     if(userFuture.statusCode == 200){

@@ -67,7 +67,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/store-avatar';
+      final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-avatar';
 
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -128,7 +128,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
   Future<Merchant> getUserByName() async{
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
-      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -406,7 +406,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       var storeDescription = storeDescriptionTextEditingController.text;
                                       http.Response userFuture = await http.patch(
                                         Uri.parse(
-                                            "http://10.0.2.2:3000/matjarcom/api/v1/update-store-informations/${emailVal}"),
+                                            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/update-store-informations/${emailVal}"),
                                         headers: { "Content-Type": "application/json",
                                           "Authorization": "Bearer $tokenVal",
                                         },

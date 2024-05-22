@@ -66,7 +66,7 @@ class _StoreStatisticsState extends State<StoreStatistics>
   Future<void> getListOfQuestions() async {
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-list-of-questions/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-list-of-questions/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -80,7 +80,7 @@ class _StoreStatisticsState extends State<StoreStatistics>
   Future<void> getListOfAnsweredQuestions() async {
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-list-of-answered-questions/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-list-of-answered-questions/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -95,7 +95,7 @@ class _StoreStatisticsState extends State<StoreStatistics>
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },

@@ -84,7 +84,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture1 =
     await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-device-id-list/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-device-id-list/$emailVal"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -102,7 +102,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/send-notification-to-device"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-notification-to-device"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -141,7 +141,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture =
     await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $tokenVal",
@@ -169,7 +169,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'http://10.0.2.2:3000/matjarcom/api/v1/store-slider-images';
+      final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-slider-images';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -212,7 +212,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
       final url =
-          'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-primary-image';
+          'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/cart-upload-primary-image';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -258,7 +258,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
       final url =
-          'http://10.0.2.2:3000/matjarcom/api/v1/cart-upload-secondary-images';
+          'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/cart-upload-secondary-images';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -294,7 +294,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> insertSpecificStoreCategory() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/specific-store-categories/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/specific-store-categories/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
 
@@ -337,7 +337,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> deleteImageFromSlider(urlVal) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-image-from-store-slider/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-specific-image-from-store-slider/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -372,7 +372,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> deleteImageFromCartImagesSlider(urlVal, index) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-image-from-cart-image-slider/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-specific-image-from-cart-image-slider/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -411,7 +411,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       indexVal, specificCategoryName) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/update-specific-store-categories/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/update-specific-store-categories/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(indexVal);
@@ -448,7 +448,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     print("$emailVal tttttttttt");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
 
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
@@ -485,7 +485,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     print("$emailVal ppppp");
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-profile/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -525,7 +525,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -549,7 +549,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> activateStoreSlider() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-slider/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/activate-store-slider/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(sliderVisibilityVal);
@@ -587,7 +587,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> activateStoreCategory() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-category/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/activate-store-category/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
 
@@ -623,7 +623,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> activateStoreCarts() async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/activate-store-carts/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/activate-store-carts/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(cartsVisibilityVal);
@@ -664,7 +664,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -685,7 +685,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
   Future<void> deleteCart(index) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-cart/$emailVal';
+    final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-cart/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -724,7 +724,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> deleteCategoryConnectedToCarts(index) async {
     print(index);
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'http://10.0.2.2:3000/matjarcom/api/v1/delete-category-connected-to-cart/$emailVal';
+    final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-category-connected-to-cart/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     // print(url);
@@ -774,7 +774,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> deleteSpecificStoreCategory(indexVal) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
-        'http://10.0.2.2:3000/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-specific-store-categories/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(indexVal);
@@ -1965,7 +1965,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                     print(emailVal);
                                                                                                     print(index);
                                                                                                     http.Response userFuture = await http.patch(
-                                                                                                      Uri.parse("http://10.0.2.2:3000/matjarcom/api/v1/test-update-specific-cart/$emailVal"),
+                                                                                                      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-update-specific-cart/$emailVal"),
                                                                                                       headers: {
                                                                                                         "Content-Type": "application/json",
                                                                                                         "Authorization": "Bearer $tokenVal",
@@ -3035,7 +3035,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           http.Response userFuture =
                                               await http.post(
                                             Uri.parse(
-                                                "http://10.0.2.2:3000/matjarcom/api/v1/test-specific-cart/$emailVal"),
+                                                "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-specific-cart/$emailVal"),
                                             headers: {
                                               "Content-Type": "application/json",
                                               "Authorization": "Bearer $tokenVal",

@@ -167,7 +167,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                               var password = passwordTextEditingController.text;
                               http.Response userFuture = await http.post(
                                 Uri.parse(
-                                    "http://10.0.2.2:3000/matjarcom/api/v1/merchant-login"),
+                                    "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-login"),
                                 headers: { "Content-Type": "application/json"},
                                 body: jsonEncode(
                                   {"email": email, "password": password,},

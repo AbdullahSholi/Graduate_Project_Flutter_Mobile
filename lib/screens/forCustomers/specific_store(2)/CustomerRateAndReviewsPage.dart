@@ -86,7 +86,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
 
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-product-name-via-index/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-product-name-via-index/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -109,7 +109,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
 
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-average-product-rate/${emailVal}"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-average-product-rate/${emailVal}"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -148,7 +148,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getProductRateList() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-product-rate-list/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-product-rate-list/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -184,7 +184,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     int day = now.day;
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/add-your-rate/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-your-rate/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -212,7 +212,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     print(customerTokenVal);
     http.Response userFuture = await http.get(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/profile/${customerEmailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/profile/${customerEmailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -232,7 +232,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getNumberOfRatesViaNumberOfStarsFor1() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -258,7 +258,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getNumberOfRatesViaNumberOfStarsFor2() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -279,7 +279,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getNumberOfRatesViaNumberOfStarsFor3() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -300,7 +300,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getNumberOfRatesViaNumberOfStarsFor4() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",
@@ -321,7 +321,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   Future<void> getNumberOfRatesViaNumberOfStarsFor5() async {
     http.Response userFuture = await http.post(
       Uri.parse(
-          "http://10.0.2.2:3000/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-number-of-rates-via-number-of-stars/${emailVal}"
       ),
       headers: {
         "Content-Type": "application/json",

@@ -29,7 +29,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
   Future<void> postData() async {
     print(tokenVal);
     print(emailVal);
-    final String apiUrl = 'http://10.0.2.2:3000/merchant/api/v1/add-payment-informations/${emailVal}';
+    final String apiUrl = 'https://graduate-project-backend-1.onrender.com/merchant/api/v1/add-payment-informations/${emailVal}';
 
     final response = await http.post(
       Uri.parse(apiUrl),
@@ -236,7 +236,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                         ),
                         child: TextButton(
                             onPressed: () async {
-                              final String apiUrl = 'http://10.0.2.2:3000/matjarcom/api/v1/add-payment-informations/${emailVal}';
+                              final String apiUrl = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-payment-informations/${emailVal}';
 
                               final response = await http.post(
                                 Uri.parse(apiUrl),

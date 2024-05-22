@@ -374,7 +374,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                           http.Response userFuture =
                                               await http.post(
                                             Uri.parse(
-                                                "http://10.0.2.2:3000/matjarcom/api/v1/register"),
+                                                "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/register"),
                                             headers: {
                                               "Content-Type": "application/json"
                                             },

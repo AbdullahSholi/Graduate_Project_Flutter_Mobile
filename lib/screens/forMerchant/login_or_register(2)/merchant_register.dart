@@ -435,7 +435,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                           http.Response userFuture =
                                           await http.post(
                                             Uri.parse(
-                                                "http://10.0.2.2:3000/matjarcom/api/v1/merchant-register"),
+                                                "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-register"),
                                             headers: {
                                               "Content-Type": "application/json"
                                             },

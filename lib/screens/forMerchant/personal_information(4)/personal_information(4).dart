@@ -337,7 +337,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                     print("$email yyyyyyyyyy");
                                     http.Response userFuture = await http.patch(
                                       Uri.parse(
-                                          "http://10.0.2.2:3000/matjarcom/api/v1/merchant-update/${emailVal}"),
+                                          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-update/${emailVal}"),
                                       headers: {
                                         "Content-Type": "application/json",
                                         "Authorization": "Bearer $tokenVal",
