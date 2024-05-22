@@ -1,0 +1,72 @@
+{
+  "welcome": "welcome",
+  "continue_as_admin": "continue as admin",
+  "continue_as_customer": "continue as customer",
+  "continue_as_merchant": "continue as merchant",
+  "continue_as_guest": "continue as guest",
+
+  "login_as_customer": "login as customer",
+  "login_as_merchant": "login as merchant",
+
+  "email_address": "Email Address",
+  "password": "Password",
+  "login": "Login",
+  "register": "Register",
+  "forgot_password": "Forgot Password",
+
+  "register_page": "Register Page",
+  "customer_name": "Customer name",
+  "phone_number": "Phone Number",
+  "country": "Country",
+  "street": "Street",
+
+  "forgot_reset_password": "Forgot & Reset Password",
+  "forgot_password": "Forgot Password",
+  "forgot_password_description": "Enter your email for the verification process, we will send link for reset password to your email.",
+  "send": "Send!",
+
+  "stores": "Stores",
+  "all_stores": "All Stores",
+  "electronics": "Electronics",
+  "cars": "Cars",
+  "resturanst": "Resturants",
+  "my_profile": "My Profile",
+  "edit_profile": "Edit Profile",
+  "my_cart": "My Cart",
+  "my_favorites": "My Favorites",
+  "support": "Support",
+  "logout": "Logout",
+
+  "products": "Products",
+  "view_all": "View All",
+  "notifications": "Notifications",
+  "stores_list": "Stores List",
+  "chat_system": "Chat System",
+  "username": "Username",
+  "update": "Save",
+
+  "shopping_cart": "Shopping Cart",
+  "total_price": "Total Price",
+  "purchase": "Purchase",
+  "price": "Price",
+
+  "favorite_products": "Favorite Products",
+  "help_support": "Help & Support",
+  "subject": "Subject",
+  "content": "Content",
+
+  "type_in_chat": "type your message here ...",
+
+  "product": "Product",
+  "add_to_cart": "Add to Cart",
+  "description": "Description",
+
+  "rating_reviews": "Rating & Reviews",
+  "rating": "Rating",
+  "ratings": "Ratings",
+  "reviews": "Reviews",
+  "rate_write_review": "Rate & Write a review"
+
+
+
+}

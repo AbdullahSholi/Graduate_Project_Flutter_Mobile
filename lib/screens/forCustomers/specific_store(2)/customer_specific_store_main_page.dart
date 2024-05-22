@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/constants/constants.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
@@ -846,7 +847,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "My Profile",
+                    "${getLang(context, 'my_profile')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -878,7 +879,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Edit Profile",
+                    "${getLang(context, 'edit_profile')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -910,7 +911,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "My Cart",
+                    "${getLang(context, 'my_cart')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -939,7 +940,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "My Favorites",
+                    "${getLang(context, 'my_favorites')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -969,7 +970,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Chat System",
+                    "${getLang(context, 'chat_system')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -998,7 +999,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Notifications",
+                    "${getLang(context, 'notifications')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -1028,7 +1029,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Support",
+                    "${getLang(context, 'support')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -1057,7 +1058,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Stores List",
+                    "${getLang(context, 'stores_list')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -1083,7 +1084,7 @@ class _CustomerSpecificStoreMainPageState
                     size: 35,
                   ),
                   title: Text(
-                    "Logout",
+                    "${getLang(context, 'logout')}",
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
@@ -1325,7 +1326,7 @@ class _CustomerSpecificStoreMainPageState
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Products",
+                                            "${getLang(context, 'products')}",
                                             style: GoogleFonts.lilitaOne(
                                               textStyle: TextStyle(
                                                   fontSize: 38,
@@ -1335,7 +1336,7 @@ class _CustomerSpecificStoreMainPageState
                                           ),
                                           InkWell(
                                             child: Text(
-                                              "View All",
+                                              "${getLang(context, 'view_all')}",
                                               style: GoogleFonts.lilitaOne(
                                                 textStyle: TextStyle(
                                                     fontSize: 20,

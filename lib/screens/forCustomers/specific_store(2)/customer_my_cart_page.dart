@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 
 import '../../../constants/constants.dart';
@@ -111,7 +112,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
             size: 30,
           ),
         ),
-        title: Text("Shopping Cart",
+        title: Text("${getLang(context, 'shopping_cart')}",
             style: GoogleFonts.lilitaOne(
               textStyle: TextStyle(
                   color: Colors.white,
@@ -226,7 +227,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Text(
-                                  "Price: ",
+                                  "${getLang(context, 'price')}: ",
                                   style: GoogleFonts.lilitaOne(
                                     textStyle: TextStyle(
                                         color: Colors.white,
@@ -343,7 +344,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                       child: Column(
                         children: [
                           Text(
-                            "Total Price ",
+                            "${getLang(context, 'total_price')}",
                             style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(
                                 color: Colors.white,
@@ -1066,7 +1067,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                         ));
                               },
                         child: Text(
-                          "Purchase!",
+                          "${getLang(context, 'purchase')}!",
                           style: GoogleFonts.lilitaOne(
                             textStyle: TextStyle(
                               color: Color(0xFF212128),

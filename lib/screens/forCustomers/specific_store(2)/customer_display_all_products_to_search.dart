@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -366,7 +367,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         ),
                       )
                           : Text(
-                        "Products",
+                        "${getLang(context, 'products')}",
                         style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

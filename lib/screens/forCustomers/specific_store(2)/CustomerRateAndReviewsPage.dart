@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_display_product.dart';
 import "package:http/http.dart" as http;
 
@@ -364,7 +365,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal)));
           }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)),
           backgroundColor: Color(0xFF212128),
-          title: Text("Rating & Reviews", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),),
+          title: Text("${getLang(context, 'rating_reviews')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),),
           centerTitle: true,
           elevation: .1,
         ),
@@ -394,7 +395,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                             children: [
                               Icon(Icons.star, color: Colors.yellow, size: 45,),
                               SizedBox(width: 10,),
-                              Text("Rating", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                              Text("${getLang(context, 'rating')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                             ],
                           ),
                           Row(
@@ -408,7 +409,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text("${productAverageRate}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 70),)),
-                                    Text("${numberOfRates} Ratings", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                                    Text("${numberOfRates} ${getLang(context, 'ratings')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                                   ],
                                 ),
                               ),
@@ -644,7 +645,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                       children: [
                         Icon(Icons.message, color: Colors.yellow, size: 45,),
                         SizedBox(width: 12,),
-                        Text("Reviews", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                        Text("${getLang(context, 'reviews')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                       ],
                     ),
 
@@ -916,7 +917,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                           ],
                           color: Colors.red,
                         ),
-                        child: Text("Rate & Write a review", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
+                        child: Text("${getLang(context, 'rate_write_review')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
                       ),
                     ),
 

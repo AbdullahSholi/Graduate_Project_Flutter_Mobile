@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forGuest/specific_store(2)/specific_store_main_page.dart';
@@ -17,6 +18,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/store_m
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:translator/translator.dart';
 
 import '../../../../models/merchant/get_cart_content_model.dart';
 import '../../../../models/merchant/merchant_connect_store_to_social_media.dart';
@@ -31,6 +33,7 @@ import '../specific_store(2)/customer_edit_profile_page.dart';
 import '../specific_store(2)/customer_my_cart_page.dart';
 import '../specific_store(2)/customer_specific_store_main_page.dart';
 import '../specific_store(2)/customer_support_page.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -166,6 +169,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   }
 
   User tempCustomerProfileData = User("", "", "", "", "", "");
+  List<String> items = ["Electronics", 'Cars', 'Resturant'];
   @override
   void initState() {
     // TODO: implement initState
@@ -175,6 +179,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     // getStoreDataVal = widget.getStoreData;
     getMerchantData();
     getUserByName();
+
+
 
 
 
@@ -195,10 +201,11 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   }
 
 
-  List<String> items = ['Electronic', 'Cars', 'Resturant'];
+
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> LogAllPage()));
@@ -295,7 +302,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "My Profile",
+                        "${getLang(context, 'my_profile')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -327,7 +334,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "Edit Profile",
+                        "${getLang(context, 'edit_profile')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -359,7 +366,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "My Cart",
+                        "${getLang(context, 'my_cart')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -388,7 +395,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "My Favorites",
+                        "${getLang(context, 'my_favorites')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -419,7 +426,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "Support",
+                        "${getLang(context, 'support')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -449,7 +456,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         size: 35,
                       ),
                       title: Text(
-                        "Logout",
+                        "${getLang(context, 'logout')}",
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -526,7 +533,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                 ),
                                 child: Center(
                                     child: Text(
-                                        "Stores",
+                                        "${getLang(context, 'stores')}",
                                         style: GoogleFonts.lilitaOne(
                                             color: Color(0xFF212128),
                                             fontWeight: FontWeight.bold,
@@ -582,7 +589,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                                   ),
                                                   width: 120,
                                                   alignment: Alignment.center,
-                                                  child: Text("All Stores",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
+                                                  child: Text("${getLang(context, 'all_stores')}",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
       
                                               ),
                                             ),
@@ -915,4 +922,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     );
   }
 }
+
+
+
+
 

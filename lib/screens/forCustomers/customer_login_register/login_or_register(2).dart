@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/customer_login_register/customer-forget-reset-password.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
@@ -82,7 +83,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height/10,),
-                    Text("Login as Customer",style: TextStyle(color: Colors.white, fontSize: 25),),
+                    Text("${getLang(context, 'login_as_customer')}",style: TextStyle(color: Colors.white, fontSize: 25),),
                     SizedBox(height: 20,),
                     Container(
                       width: MediaQuery.of(context).size.width/1.3,
@@ -98,7 +99,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                           }
                         },
                         decoration: InputDecoration(
-                            labelText: 'Email Address',
+                            labelText: "${getLang(context, 'email_address')}",
                             labelStyle: TextStyle(color: Colors.white),
                             prefixIcon: Icon(
                               Icons.email,color: Colors.white,
@@ -130,7 +131,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                           }
                         },
                         decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: "${getLang(context, 'password')}",
                             labelStyle: const TextStyle(color: Colors.white),
                             prefixIcon: const Icon(
                               Icons.password,color: Colors.white,
@@ -214,7 +215,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                             catch(error) {
 
                             }
-                          }, child: Text("Login",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                          }, child: Text("${getLang(context, 'login')}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
                         ),
                         SizedBox(width: 20,),
                         Container(
@@ -225,14 +226,14 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
                           ),
                           child: TextButton(onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerRegister("","")));
-                          }, child: Text("Register",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+                          }, child: Text("${getLang(context, 'register')}",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
                         ),
                       ],),
                     SizedBox(height: 10,),
                     Center(
                       child: InkWell( onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetAndResetPassword(emailVal, tokenVal)));
-                      }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
+                      }, child: Text("${getLang(context, 'forgot_password')}؟",style: TextStyle(color: Colors.white),),),
                     )
                   ],
                 ),

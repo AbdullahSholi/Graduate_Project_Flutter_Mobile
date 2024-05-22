@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -239,7 +240,7 @@ class _CustomerNotificationsPageState extends State<CustomerNotificationsPage> {
               size: 30,
             ),
           ),
-          title: Text("Notifications",
+          title: Text("${getLang(context, 'notifications')}",
               style: GoogleFonts.lilitaOne(
                 textStyle: TextStyle(
                     color: Colors.white,
@@ -259,7 +260,7 @@ class _CustomerNotificationsPageState extends State<CustomerNotificationsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Notifications",
+                      Text("${getLang(context, 'notifications')}",
                           style: GoogleFonts.lilitaOne(
                             textStyle: TextStyle(
                               color: Color(0xFF212128),

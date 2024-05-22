@@ -1,0 +1,69 @@
+{
+  "welcome": "مرحباً",
+  "continue_as_admin": "استمر كمسؤول",
+  "continue_as_customer": "استمر كزبون",
+  "continue_as_merchant": "استمر كتاجر",
+  "continue_as_guest": "حساب الضيف",
+
+  "login_as_customer": "تسجيل الدخول كزبون",
+  "login_as_merchant": "تسجيل الدخول كتاجر",
+
+  "email_address": "البريد الالكتروني",
+  "password": "كلمة السر",
+  "login": "تسجيل الدخول",
+  "register": "انشاء حساب",
+  "forgot_password": "هل نسيت كلمة السر",
+
+  "register_page": "انشاء حساب",
+  "customer_name": "اسم الزبون",
+  "phone_number": "رقم الهاتف",
+  "country": " المدينة",
+  "street": "الشارع",
+
+  "forgot_reset_password": "انشاء كلمة سر جديدة",
+  "forgot_password1": "هل نسيت كلمة السر ؟",
+  "forgot_password_description": "فضلاً, أدخل بريدك الالكتروني للتحقق من أنك تملك هذا الحساب, سوف نقول بارسال رسالة خاصة باعادة تعيين كلمة السر على بريدك الالكتروني",
+  "send": "أرسل",
+
+  "stores": "المتاجر",
+  "all_stores": "جميع المتاجر",
+  "electronics": "الكترونيات",
+  "cars": "سيارات",
+  "resturanst": "مطاعم",
+  "my_profile": "الملف الشخصي",
+  "edit_profile": "تعديل الملف الشخصي",
+  "my_cart": "سلّة المشتريات",
+  "my_favorites": "المفضلة",
+  "support": "الدعم الفني",
+  "logout": "تسجيل الخروج",
+
+  "products": "المنتجات",
+  "view_all": "عرض الكل",
+  "notifications": "الاشعارات",
+  "stores_list": "قائمة المتاجر",
+  "chat_system": "المحادثة",
+  "username": "اسم المستخدم",
+  "update": "حفظ",
+
+  "shopping_cart": "سلّة المشتريات",
+  "total_price": "السعر الكلي",
+  "purchase": "الدفع",
+  "price": "السعر",
+
+  "favorite_products": "المنتجات المفضلة",
+  "help_support": "الدعم الفني",
+  "subject": "الموضوع",
+  "content": "المحتويات",
+
+  "type_in_chat": "اكتب رسالتك هنا... ",
+
+  "product": "المنتج",
+  "add_to_cart": "أضف الى السلة",
+  "description": "الوصف",
+
+  "rating_reviews": "التقييم والمراجعات",
+  "rating": "التقييم",
+  "ratings": "تقييمات",
+  "reviews": "المراجعات",
+  "rate_write_review": "أضف تقييمك و تعليقك "
+}

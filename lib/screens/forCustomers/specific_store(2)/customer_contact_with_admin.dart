@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 
 class CustomerContactWithAdmin extends StatefulWidget {
@@ -99,7 +100,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
           leading: IconButton(onPressed: (){
             Navigator.pop(context);
           }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),),
-          title: Text("Help & Support", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
+          title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
           centerTitle: true,
         ),
         body: Padding(
@@ -111,7 +112,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
               children: [
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Subject',
+                    labelText: '${getLang(context, 'subject')}',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -119,7 +120,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                 TextFormField(
                   maxLines: null, // Allows for multiline input
                   decoration: InputDecoration(
-                    labelText: 'Content',
+                    labelText: '${getLang(context, 'content')}',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -132,7 +133,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                   child: TextButton(
                     onPressed: () {},
                     child: Text(
-                      "Send",
+                      '${getLang(context, 'send')}',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

@@ -8,6 +8,7 @@ import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../components/applocal.dart';
 import '../../../models/singleUser.dart';
 import '../customer_main_page(1)/customer_main_page.dart';
 import 'customer_edit_profile_page.dart';
@@ -117,7 +118,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                               ),
                               child: Center(
                                   child: Text(
-                                    "My Profile",
+                                    "${getLang(context, 'my_profile')}",
                                     style: TextStyle(
                                         color: Color(0xFF212128),
                                         fontWeight: FontWeight.bold,
@@ -180,7 +181,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.white
                                         ),
-                                        child:Text("Username: ${tempCustomerProfileData.username}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+                                        child:Text("${getLang(context, 'username')}: ${tempCustomerProfileData.username}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
                                     ),
                                     SizedBox(height: 20,),
                                     Container(
@@ -194,24 +195,7 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.white
                                         ),
-                                        child:Text("Email: ${tempCustomerProfileData.email}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
-
-
-
-                                    ),
-                                    SizedBox(height: 20,),
-                                    Container(
-                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                        width: double.infinity,
-                                        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.white,width: 1
-                                            ),
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colors.white
-                                        ),
-                                        child: Text("Phone: ${tempCustomerProfileData.phone}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+                                        child:Text("${getLang(context, 'email_address')}: ${tempCustomerProfileData.email}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
 
 
 
@@ -228,7 +212,8 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.white
                                         ),
-                                        child:Text("Country: ${tempCustomerProfileData.country}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+                                        child: Text("${getLang(context, 'phone_number')}: ${tempCustomerProfileData.phone}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+
 
 
                                     ),
@@ -244,7 +229,23 @@ class _MyProfilePageState extends State<MyProfilePage> with TickerProviderStateM
                                             borderRadius: BorderRadius.circular(10),
                                             color: Colors.white
                                         ),
-                                        child: Text("Street: ${tempCustomerProfileData.street}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+                                        child:Text("${getLang(context, 'country')}: ${tempCustomerProfileData.country}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
+
+
+                                    ),
+                                    SizedBox(height: 20,),
+                                    Container(
+                                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                        width: double.infinity,
+                                        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.white,width: 1
+                                            ),
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.white
+                                        ),
+                                        child: Text("${getLang(context, 'street')}: ${tempCustomerProfileData.street}",style: TextStyle(color: Color(0xFF212128),fontWeight: FontWeight.bold,height: 4,fontSize: 16,),)
 
                                     ),
                                     SizedBox(height: 20,),

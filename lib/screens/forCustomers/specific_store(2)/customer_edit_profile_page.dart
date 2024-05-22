@@ -16,6 +16,7 @@ import 'package:path/path.dart' as path;
 
 import 'package:image_picker/image_picker.dart';
 
+import '../../../components/applocal.dart';
 import '../../../models/update_model.dart';
 
 class CustomerEditProfilePage extends StatefulWidget {
@@ -195,7 +196,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                 ),
                                 child: Center(
                                     child: Text(
-                                      "Edit Profile",
+                                      "${getLang(context, 'edit_profile')}",
                                       style: TextStyle(
                                           color: Color(0xFF212128),
                                           fontWeight: FontWeight.bold,
@@ -287,7 +288,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.name,
                                       decoration: InputDecoration(
-                                          labelText: 'New Username ',
+                                          labelText: "${getLang(context, 'username')}",
                                           labelStyle: const TextStyle(color: Colors.white),
                                           prefixIcon: const Icon(
                                             Icons.person,
@@ -313,7 +314,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.emailAddress,
                                       decoration: InputDecoration(
-                                          labelText: 'New Email Address ',
+                                          labelText: "${getLang(context, 'email_address')}",
                                           labelStyle: const TextStyle(color: Colors.white),
                                           prefixIcon: const Icon(
                                             Icons.email,
@@ -340,7 +341,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.visiblePassword,
                                       decoration: InputDecoration(
-                                          labelText: 'New Password ',
+                                          labelText: "${getLang(context, 'password')}",
                                           labelStyle: const TextStyle(color: Colors.white),
                                           prefixIcon: const Icon(
                                             Icons.password,color: Colors.white,
@@ -370,7 +371,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.phone,
                                       decoration: InputDecoration(
-                                          labelText: 'New Phone Number ',
+                                          labelText: "${getLang(context, 'phone_number')}",
                                           labelStyle: const TextStyle(color: Colors.white),
                                           prefixIcon: const Icon(
                                             Icons.phone,
@@ -396,7 +397,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
-                                          labelText: 'New Country value ',
+                                          labelText: "${getLang(context, 'country')}",
                                           labelStyle: const TextStyle(color: Colors.white),
                                           prefixIcon: const Icon(
                                             Icons.location_city,
@@ -421,8 +422,8 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                       controller: streetTextEditingController,
                                       //Making keyboard just for Email
                                       keyboardType: TextInputType.text,
-                                      decoration: const InputDecoration(
-                                          labelText: 'New Street value ',
+                                      decoration: InputDecoration(
+                                          labelText: "${getLang(context, 'street')}",
                                           labelStyle: TextStyle(color: Colors.white),
                                           prefixIcon: Icon(
                                             Icons.location_on,
@@ -516,7 +517,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
 
 
                                       }
-                                    }, child: Text("Update",style: TextStyle(color: Colors.white),)),),
+                                    }, child: Text("${getLang(context, 'update')}",style: TextStyle(color: Colors.white),)),),
                                   ),
 
 

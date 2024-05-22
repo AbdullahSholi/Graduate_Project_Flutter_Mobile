@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:graduate_project/components/applocal.dart';
 import 'package:http/http.dart' as http;
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -174,7 +175,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                         : Container(
                       width: MediaQuery.of(context).size.width/1.7,
                           child: Text(
-                             "Favorite Products",
+                             "${getLang(context, 'favorite_products')}",
                              style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

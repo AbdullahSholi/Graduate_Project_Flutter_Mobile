@@ -5,6 +5,7 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forGuest/guest_main_page(1)/guest_main_page.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/register.dart';
@@ -123,7 +124,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                               print("RRRR ${snapshot.data}");
                               return InkWell(onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> GuestMainPage()));
-                              }, child: Text("Continue as Guest",style: GoogleFonts.lilitaOne(
+                              }, child: Text('${getLang(context, "continue_as_guest")}',style: GoogleFonts.lilitaOne(
                                   textStyle: TextStyle(color: Colors.white),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 24
@@ -135,7 +136,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
-                          }, child: Text("Continue as User ",style: GoogleFonts.lilitaOne(
+                          }, child: Text('${getLang(context, "continue_as_customer")}',style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24
@@ -143,7 +144,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantMainPage()));
-                          }, child: Text("Continue as Merchant",style: GoogleFonts.lilitaOne(
+                          }, child: Text('${getLang(context, "continue_as_merchant")}',style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24
@@ -151,7 +152,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                           SizedBox(height: 10,),
                           InkWell(onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminMainPage()));
-                          }, child: Text("Continue as Admin",style: GoogleFonts.lilitaOne(
+                          }, child: Text('${getLang(context, "continue_as_admin")}',style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(color: Colors.white),
                               fontWeight: FontWeight.bold,
                               fontSize: 24

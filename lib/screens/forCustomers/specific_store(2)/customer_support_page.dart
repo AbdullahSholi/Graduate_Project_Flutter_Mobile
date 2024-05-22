@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
 
+import '../../../components/applocal.dart';
+
 class CustomerSupportPage extends StatefulWidget {
   String customerEmailVal;
   String customerTokenVal;
@@ -123,7 +125,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),),
-        title: Text("Help & Support", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
+        title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
         centerTitle: true,
       ),
       body: Stack(

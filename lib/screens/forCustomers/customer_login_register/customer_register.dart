@@ -4,6 +4,7 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -107,7 +108,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                           ),
                           child: Center(
                               child: Text(
-                            "Register Page",
+                            "${getLang(context, 'register_page')}",
                             style: TextStyle(
                                 color: Color(0xFF212128),
                                 fontWeight: FontWeight.bold,
@@ -142,7 +143,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Customer name',
+                                    labelText: "${getLang(context, 'customer_name')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -174,7 +175,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Email Address',
+                                    labelText: "${getLang(context, 'email_address')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -207,7 +208,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Password',
+                                    labelText: "${getLang(context, 'password')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -249,7 +250,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Phone Number',
+                                    labelText: "${getLang(context, 'phone_number')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -281,7 +282,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Country',
+                                    labelText: "${getLang(context, 'country')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -313,7 +314,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   }
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Street',
+                                    labelText: "${getLang(context, 'street')}",
                                     labelStyle:
                                         const TextStyle(color: Colors.white),
                                     prefixIcon: const Icon(
@@ -410,7 +411,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                       }
                                     },
                                     child: Text(
-                                      "Register",
+                                      "${getLang(context, 'register')}",
                                       style: TextStyle(color: Colors.white),
                                     )),
                               ),

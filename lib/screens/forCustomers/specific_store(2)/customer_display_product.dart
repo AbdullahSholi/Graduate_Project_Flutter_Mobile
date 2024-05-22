@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_chat_system.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
@@ -249,7 +250,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
             color: Color(0xFF212128),
             borderRadius: BorderRadius.circular(20),
           ),
-            child: Text("Product", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: Colors.white),))),
+            child: Text("${getLang(context, 'product')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: Colors.white),))),
         actions: [
           Center(
               child: Container(
@@ -1026,7 +1027,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                           Row(
                             children: [
                               // ExpandableTextWidget(),
-                             Text("Description", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),))
+                             Text("${getLang(context, 'description')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),))
                             ],),
 
                         ],
@@ -1157,7 +1158,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Icon(Icons.add, color: Color(0xFF212128), ),
-                          Text("Add to Cart", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 24, fontWeight: FontWeight.bold),))
+                          Text("${getLang(context, 'add_to_cart')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 24, fontWeight: FontWeight.bold),))
                         ],
                       ),style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.white),

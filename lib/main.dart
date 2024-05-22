@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
 import 'package:graduate_project/screens/home.dart';
@@ -18,6 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -31,6 +34,29 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       home: LogAllPage(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        AppLocale.delegate,
+      ],
+      supportedLocales: [
+        Locale("en", ""),
+        Locale("ar", ""),
+      ], // languages which our app will support .
+      localeResolutionCallback: (currentLang, supportLang){
+        if(currentLang != null){
+          for(Locale locale in supportLang){
+            if(locale.languageCode == currentLang.languageCode){ // currentLang --> refer to device language
+              return currentLang;
+            }
+
+          }
+        }
+        return supportLang.first; // if error occurs select the en default language of our app
+      }, // for handle multi-languages in same app
     );
   }
 }
+
+//////////////////////
+/////////////////////
