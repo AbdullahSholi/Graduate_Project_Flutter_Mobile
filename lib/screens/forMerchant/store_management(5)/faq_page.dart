@@ -14,6 +14,7 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_yo
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
 
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
@@ -66,7 +67,7 @@ class _MerchantFaqPageState extends State<MerchantFaqPage>
     setState(() {
       listOfQuestions = jsonDecode(userFuture.body);
     });
-    print(listOfQuestions[0]["question"]);
+    // print(listOfQuestions[0]["question"]);
   }
 
   Future<void> getListOfAnsweredQuestions() async {

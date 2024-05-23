@@ -9,6 +9,8 @@ import 'package:graduate_project/screens/forMerchant/merchant_home_page(3)/merch
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../models/merchant/update_page_merchant.dart';
 import '../personal_information(4)/personal_information(4).dart';
@@ -358,10 +360,14 @@ class _PersonalInformationState extends State<PersonalInformation>
                                         json.decode(userFuture.body));
                                     print(temp);
 
-                                    AlertDialog(
-                                      title: Text(
-                                          "Information Message"),
-                                      content: Text(temp.Message),
+                                    merchantnameTextEditingController.text="";
+                                    passwordTextEditingController.text="";
+                                    phoneTextEditingController.text="";
+                                    countryTextEditingController.text="";
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.success,
+                                      text: "Your Information's Updated Successfully!",
                                     );
                                   } catch (error) {
                                     //   showDialog<void>(

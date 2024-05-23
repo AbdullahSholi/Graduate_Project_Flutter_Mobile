@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../stripe_payment/stripe_keys.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
@@ -248,6 +250,13 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                                   'publishableKey': publishableKeyTextEditingController.text,
                                   'secretKey': secretKeyTextEditingController.text,
                                 }),
+                              );
+                              publishableKeyTextEditingController.text="";
+                              secretKeyTextEditingController.text="";
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.success,
+                                text: "Your Payment Information's Added Successfully!",
                               );
 
                               ///////////////////////

@@ -16,6 +16,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/store_m
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/merchant_profile.dart';
@@ -425,20 +427,17 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       var temp = UpdateStoreInformations.fromJson(
                                           json.decode(userFuture.body));
                                       print(temp);
+                                      storeNameTextEditingController.text="";
+                                      storeDescriptionTextEditingController.text="";
+
 
                                       // print(temp?.email);
 
-                                      showDialog(context: context, builder: (context)=> AlertDialog(
-                                        title: const Text("Information Message"),
-                                        content: Text("${temp.Message}"),
-                                        actions: [
-                                          TextButton(onPressed: (){
-                                            Navigator.pop(context);
-                                          }, child: Text("OK"))
-                                        ],
-
-
-                                      ));
+                                      QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.success,
+                                        text: "Your Information's Updated Successfully!",
+                                      );
                                     }
                                     catch(error) {
 

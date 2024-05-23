@@ -18,6 +18,8 @@ import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
 import 'package:image_preview/image_preview.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:translator/translator.dart';
 
 import '../../../models/Stores/display-all-stores.dart';
@@ -1197,6 +1199,11 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                       ),
                       child: TextButton(
                         onPressed: () async {
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.success,
+                            text: 'Product Added Successfully!',
+                          );
                           try {
                             http.Response
                             userFuture =
@@ -1219,6 +1226,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
 
                             print("0000000000000000000000000");
                             print(storeCartsVal);
+
 
 
                           } catch (error) {}

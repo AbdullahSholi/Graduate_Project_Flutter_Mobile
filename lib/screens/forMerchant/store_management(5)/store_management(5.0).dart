@@ -18,6 +18,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/store_m
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_statistics.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/all_stores_model.dart';
@@ -683,27 +685,42 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                               textAlign: TextAlign.center,
                                             ),
                                             onPressed: () {
-                                              showDialog(context: context, builder: (context)=>AlertDialog(
-                                                title: Row(
-                                                  children: [
-                                                    Icon(Icons.warning,color: Colors.red,size: 25,),
-                                                    SizedBox(width: 10,),
-                                                    Text("Information Message"),
-                                                  ],
-                                                ),
-                                                content: Text("This action will delete your store with all it's details!!"),
-                                                actions: [
-                                                  TextButton(onPressed: () {
-                                                      deleteStore();
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
-
-                                                  }, child: Text("Delete anyway")),
-                                                  TextButton(onPressed: (){
-                                                    Navigator.pop(context);
-                                                  }, child: Text("Cancel")),
-
-                                                ],
-                                              ),);
+                                              QuickAlert.show(
+                                                context: context,
+                                                type: QuickAlertType.confirm,
+                                                text: 'Do you want to delete your store?  ( This action will delete your store with all its details!! )',
+                                                confirmBtnText: 'Yes',
+                                                cancelBtnText: 'No',
+                                                confirmBtnColor: Colors.green,
+                                                onConfirmBtnTap: (){
+                                                  deleteStore();
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
+                                                },
+                                                onCancelBtnTap: (){
+                                                  Navigator.pop(context);
+                                                }
+                                              );
+                                              // showDialog(context: context, builder: (context)=>AlertDialog(
+                                              //   title: Row(
+                                              //     children: [
+                                              //       Icon(Icons.warning,color: Colors.red,size: 25,),
+                                              //       SizedBox(width: 10,),
+                                              //       Text("Information Message"),
+                                              //     ],
+                                              //   ),
+                                              //   content: Text("This action will delete your store with all it's details!!"),
+                                              //   actions: [
+                                              //     TextButton(onPressed: () {
+                                              //         deleteStore();
+                                              //         Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
+                                              //
+                                              //     }, child: Text("Delete anyway")),
+                                              //     TextButton(onPressed: (){
+                                              //       Navigator.pop(context);
+                                              //     }, child: Text("Cancel")),
+                                              //
+                                              //   ],
+                                              // ),);
                                             },
                                           ),
                                         ),

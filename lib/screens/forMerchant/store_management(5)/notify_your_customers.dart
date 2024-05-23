@@ -15,6 +15,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_yo
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
@@ -117,7 +119,7 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
     setState(() {
       listOfQuestions = jsonDecode(userFuture.body);
     });
-    print(listOfQuestions[0]["question"]);
+    // print(listOfQuestions[0]["question"]);
   }
 
   Future<void> getListOfAnsweredQuestions() async {
@@ -358,6 +360,12 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
                         subjectTextEditingController.text = "";
                         contentTextEditingController.text = "";
                       });
+                      QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.success,
+                        text: 'Notify Sent Successfully!',
+                      );
+
 
                     },
                     child: Text('Notify',style: GoogleFonts.lilitaOne(

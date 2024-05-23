@@ -107,7 +107,7 @@ class _LogAllPageState extends State<LogAllPage> with TickerProviderStateMixin{
                         ),
                         alignment: Alignment.center,
                         padding: const EdgeInsets.all(10),
-                        child: Text("MATJARKOM",style: GoogleFonts.lilitaOne(
+                        child: Text("${getLang(context, 'matjarcom')}",style: GoogleFonts.lilitaOne(
                             color: Color(0xFF212128),
                             fontSize: 45,
                             fontWeight: FontWeight.bold

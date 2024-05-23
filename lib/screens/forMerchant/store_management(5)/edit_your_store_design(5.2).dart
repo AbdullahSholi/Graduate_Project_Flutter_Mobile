@@ -20,6 +20,8 @@ import 'package:graduate_project/screens/imageplaceholder.dart';
 import "package:http/http.dart" as http;
 import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/get_cart_content_model.dart';
@@ -117,6 +119,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     );
   }
 
+  Map<String, dynamic> merchant ={};
+
   Future<void> addStoreToDatabase() async {
     print("XPPPPPPPPPPPPX");
     print(sliderVisibilityVal);
@@ -124,10 +128,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     print(cartsVisibilityVal);
     print("PPPPPPPPPPPP");
     setState(() {
-      objectDataVal["activateSlider"]=sliderVisibilityVal;
-      objectDataVal["activateCategory"]=categoryVisibilityVal;
-      objectDataVal["activateCarts"]=cartsVisibilityVal;
-      objectDataVal["specificStoreCategories"]=specificStoreCategoriesVal;
+      objectDataVal["activateSlider"] = sliderVisibilityVal;
+      objectDataVal["activateCategory"] = categoryVisibilityVal;
+      objectDataVal["activateCarts"] = cartsVisibilityVal;
+      objectDataVal["specificStoreCategories"] = specificStoreCategoriesVal;
       // objectDataVal["type"] = storeCartsVal;
 
     });
@@ -137,7 +141,29 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
 
     var storeDataToAddVal = objectDataVal;
-    print(storeDataToAddVal);
+
+    http.Response userFuture1 = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
+
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+    setState(() {
+      merchant = jsonDecode(userFuture1.body);
+    });
+
+    print(merchant["secretKey"]);
+    if (merchant["secretKey"] == null || merchant["publishableKey"] == null) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'You must add your payment informations...',
+      );
+    } else {
+
     http.Response userFuture =
     await http.post(
       Uri.parse(
@@ -155,8 +181,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       Encoding.getByName("utf-8"),
     );
     print(userFuture.body);
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.success,
+      text: "Your Store Published Successfully!",
+    );
     await notifyYourCustomers();
-
+  }
   }
 
   Future<void> _pickAndUploadImage() async {

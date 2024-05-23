@@ -8,6 +8,8 @@ import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class ForgetAndResetPassword extends StatefulWidget {
   String emailVal;
@@ -76,7 +78,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20,),
-                Text("${getLang(context, 'forgot_password1')}",
+                Text("${getLang(context, 'forgot_password')}",
                     style: GoogleFonts.lilitaOne(
                       textStyle: TextStyle(
                           color: Color(0xFF212128),
@@ -153,6 +155,26 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                       setState(() {
                         emailTextEditingController.text = "";
                       });
+
+                      print(userFuture.body);
+                      if(userFuture.body == "User with this email does not exist"){
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.error,
+                          title: 'Oops...',
+                          text: 'User with this email does not exist',
+                        );
+                      }
+                      if(userFuture.body == "Password reset link sent to your email account"){
+                        setState(() {
+                          emailTextEditingController.text = "";
+                        });
+                        QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.success,
+                          text: 'Password reset link sent to your email account',
+                        );
+                      }
 
 
                     },

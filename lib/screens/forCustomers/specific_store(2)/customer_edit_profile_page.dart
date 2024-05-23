@@ -15,6 +15,8 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 
 import 'package:image_picker/image_picker.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../components/applocal.dart';
 import '../../../models/update_model.dart';
@@ -304,32 +306,32 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                               ))),
                                     ),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
-                                    width: MediaQuery.of(context).size.width / 1.3,
-                                    child: TextFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      cursorColor: Colors.white,
-                                      controller: emailTextEditingController,
-                                      //Making keyboard just for Email
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                          labelText: "${getLang(context, 'email_address')}",
-                                          labelStyle: const TextStyle(color: Colors.white),
-                                          prefixIcon: const Icon(
-                                            Icons.email,
-                                            color: Colors.white,
-                                          ),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ))),
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                                  //   width: MediaQuery.of(context).size.width / 1.3,
+                                  //   child: TextFormField(
+                                  //     style: TextStyle(color: Colors.white),
+                                  //     cursorColor: Colors.white,
+                                  //     controller: emailTextEditingController,
+                                  //     //Making keyboard just for Email
+                                  //     keyboardType: TextInputType.emailAddress,
+                                  //     decoration: InputDecoration(
+                                  //         labelText: "${getLang(context, 'email_address')}",
+                                  //         labelStyle: const TextStyle(color: Colors.white),
+                                  //         prefixIcon: const Icon(
+                                  //           Icons.email,
+                                  //           color: Colors.white,
+                                  //         ),
+                                  //         border: const OutlineInputBorder(
+                                  //             borderSide: BorderSide(
+                                  //               color: Colors.white,
+                                  //             )),
+                                  //         focusedBorder: OutlineInputBorder(
+                                  //             borderSide: BorderSide(
+                                  //               color: Colors.white,
+                                  //             ))),
+                                  //   ),
+                                  // ),
                                   Container(
                                     margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
                                     width: MediaQuery.of(context).size.width/1.3,
@@ -474,39 +476,51 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage> with 
                                         var temp = UpdatePage.fromJson(
                                             json.decode(userFuture.body));
                                         print(temp.Message);
+                                        usernameTextEditingController.text="";
+                                        passwordTextEditingController.text="";
+                                        phoneTextEditingController.text="";
+                                        countryTextEditingController.text="";
+                                        streetTextEditingController.text="";
 
-                                        showDialog<void>(
+
+                                        QuickAlert.show(
                                           context: context,
-                                          barrierDismissible: false, // User must tap button to close
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              title: Row(
-                                                children: [
-                                                  Icon(Icons.done_all,color: Colors.green,weight: 30,),
-                                                  SizedBox(width: 10,),
-                                                  Text("Information Message"),
-                                                ],
-                                              ),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: <Widget>[
-                                                    Text("${temp.Message}",style: TextStyle(color: Colors.black),),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text("OK"),
-                                                  onPressed: () {
-                                                    print("${tokenVal} --- ${emailVal}");
-                                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal))); // Close the dialog
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
+                                          type: QuickAlertType.success,
+                                          text: "Your Information's Updated Successfully!",
                                         );
+
+                                        // showDialog<void>(
+                                        //   context: context,
+                                        //   barrierDismissible: false, // User must tap button to close
+                                        //   builder: (BuildContext context) {
+                                        //     return AlertDialog(
+                                        //       backgroundColor: Colors.white,
+                                        //       title: Row(
+                                        //         children: [
+                                        //           Icon(Icons.done_all,color: Colors.green,weight: 30,),
+                                        //           SizedBox(width: 10,),
+                                        //           Text("Information Message"),
+                                        //         ],
+                                        //       ),
+                                        //       content: SingleChildScrollView(
+                                        //         child: ListBody(
+                                        //           children: <Widget>[
+                                        //             Text("${temp.Message}",style: TextStyle(color: Colors.black),),
+                                        //           ],
+                                        //         ),
+                                        //       ),
+                                        //       actions: <Widget>[
+                                        //         TextButton(
+                                        //           child: const Text("OK"),
+                                        //           onPressed: () {
+                                        //             print("${tokenVal} --- ${emailVal}");
+                                        //             // Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(tokenVal, emailVal))); // Close the dialog
+                                        //           },
+                                        //         ),
+                                        //       ],
+                                        //     );
+                                        //   },
+                                        // );
 
 
 

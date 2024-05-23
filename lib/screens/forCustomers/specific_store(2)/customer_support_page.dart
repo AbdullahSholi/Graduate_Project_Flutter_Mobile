@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:translator/translator.dart';
 
 import '../../../components/applocal.dart';
@@ -311,6 +313,11 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsB
                                     addQuestion.text="";
 
                                   });
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.success,
+                                    text: 'Your Question Sent Successfully!',
+                                  );
 
                                   print(userFuture.body);
                                 } ,icon:Icon(Icons.send_rounded, color: Colors.white,),),

@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../constants/constants.dart';
 
@@ -714,38 +716,12 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                           .isNotEmpty);
                                                                   if (cartList
                                                                       .isEmpty) {
-                                                                    showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder: (context) =>
-                                                                            AlertDialog(
-                                                                              title: Text("No products"),
-                                                                              content: Container(
-                                                                                height: 190,
-                                                                                child: Column(
-                                                                                  children: [
-                                                                                    CircleAvatar(
-                                                                                        radius: 80,
-                                                                                        backgroundColor: Colors.red,
-                                                                                        child: Icon(
-                                                                                          Icons.close,
-                                                                                          color: Colors.white,
-                                                                                          size: 150,
-                                                                                        )),
-                                                                                    SizedBox(
-                                                                                      height: 10,
-                                                                                    ),
-                                                                                    Container(
-                                                                                      child: Text(
-                                                                                        "No any product to buy!!",
-                                                                                        textAlign: TextAlign.start,
-                                                                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ));
+                                                                    QuickAlert.show(
+                                                                      context: context,
+                                                                      type: QuickAlertType.error,
+                                                                      title: 'Oops...',
+                                                                      text: 'No Products To Buy!!',
+                                                                    );
                                                                   } else {
                                                                     // If the form is valid, proceed with submission
                                                                     // Your submission logic goes here
@@ -886,34 +862,20 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                       totalPrice =
                                                                           0;
                                                                     });
-                                                                    showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder: (context) =>
-                                                                            AlertDialog(
-                                                                              title: Text("Success"),
-                                                                              content: Container(
-                                                                                height: 190,
-                                                                                child: Column(
-                                                                                  children: [
-                                                                                    CircleAvatar(
-                                                                                        radius: 80,
-                                                                                        backgroundColor: Colors.green,
-                                                                                        child: Icon(
-                                                                                          Icons.check,
-                                                                                          color: Colors.white,
-                                                                                          size: 150,
-                                                                                        )),
-                                                                                    SizedBox(
-                                                                                      height: 10,
-                                                                                    ),
-                                                                                    // Container(
-                                                                                    //   child: Text("No any product to buy!!", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
-                                                                                    // ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                            ));
+                                                                    _emailController.text="";
+                                                                    _cardNumberController.text="";
+                                                                    _expiryMonthController.text="";
+                                                                    _expiryYearController.text="";
+                                                                    _cvvController.text="";
+                                                                    _accountNameController.text="";
+                                                                    _phoneNumberController.text="";
+
+                                                                    QuickAlert.show(
+                                                                      context: context,
+                                                                      type: QuickAlertType.success,
+                                                                      text: 'Transaction Completed Successfully!',
+                                                                    );
+
                                                                     setState(() {
                                                                       Constants.submitCardCounter++;
                                                                     });
@@ -1038,33 +1000,11 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   totalPrice = 0;
                                 });
 
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          title: Text("Success"),
-                                          content: Container(
-                                            height: 190,
-                                            child: Column(
-                                              children: [
-                                                CircleAvatar(
-                                                    radius: 80,
-                                                    backgroundColor:
-                                                        Colors.green,
-                                                    child: Icon(
-                                                      Icons.check,
-                                                      color: Colors.white,
-                                                      size: 150,
-                                                    )),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                // Container(
-                                                //   child: Text("No any product to buy!!", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                        ));
+                          QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.success,
+                            text: 'Transaction Completed Successfully!',
+                          );
                               },
                         child: Text(
                           "${getLang(context, 'purchase')}!",

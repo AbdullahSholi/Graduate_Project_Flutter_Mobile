@@ -36,6 +36,8 @@ import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:translator/translator.dart';
 
@@ -809,6 +811,7 @@ class _CustomerSpecificStoreMainPageState
     });
     await Future.delayed(Duration(seconds: 2));
   }
+  Timer? timer;
 
   bool isPressed = true;
   bool isPressed2 = true;
@@ -1324,6 +1327,25 @@ class _CustomerSpecificStoreMainPageState
                                               width: 120,
                                               child: TextButton(
                                                   onPressed: () async {
+                                                    QuickAlert.show(
+                                                      context: context,
+                                                      type: QuickAlertType.loading,
+                                                      title: 'Loading',
+                                                      text: 'Fetching your data',
+                                                    );
+                                                    timer = Timer(const Duration(milliseconds: 2000), () {
+                                                      // Simulate data fetching completion (replace with actual logic)
+                                                      bool dataFetched = true; // Assuming data is fetched after 2 seconds
+
+                                                      if (dataFetched) {
+                                                        Navigator.pop(context); // Dismiss dialog if data is fetched
+                                                      } else {
+                                                        // Handle case where data fetching takes longer (optional)
+                                                        print('Data fetching taking longer than expected...');
+                                                      }
+                                                    });
+
+
                                                     if (specificStoreCategoriesVal[
                                                             index] ==
                                                         "All Products") {
@@ -1442,6 +1464,12 @@ class _CustomerSpecificStoreMainPageState
                                           itemBuilder: (context, index) =>
                                               InkWell(
                                             onTap: () async {
+                                              QuickAlert.show(
+                                                context: context,
+                                                type: QuickAlertType.loading,
+                                                title: 'Loading',
+                                                text: 'Fetching your data',
+                                              );
                                               await incrementProductViews(index);
                                               // PaymentManager.makePayment(20,"USD");
 
@@ -1853,6 +1881,12 @@ class _CustomerSpecificStoreMainPageState
                                           itemBuilder: (context, index) =>
                                               InkWell(
                                             onTap: () async {
+                                              QuickAlert.show(
+                                                context: context,
+                                                type: QuickAlertType.loading,
+                                                title: 'Loading',
+                                                text: 'Fetching your data',
+                                              );
                                               await incrementProductViewsForCategory(index, CartsForOneCategoryVal[index]["cartCategory"]);
                                               // PaymentManager.makePayment(20,"USD");
                                               // PaymentManager.makePayment(20,"USD");
@@ -1861,6 +1895,7 @@ class _CustomerSpecificStoreMainPageState
                                               print("+++++++++++++++++++++");
                                               print(storeCartsVal[index]);
                                               print("+++++++++++++++++++++");
+
 
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                                             },

@@ -13,6 +13,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/edit_yo
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
@@ -525,7 +527,11 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
                                                         .getByName("utf-8"),
                                                   );
                                                   print(userFuture.body);
-
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.success,
+                                                    text: 'Your Social Media Account/s Successfully!',
+                                                  );
 
                                                 }
                                                 catch (error) {
