@@ -301,12 +301,13 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                             padding:
                                             const EdgeInsets.all(2.0),
                                             child: Text(
-                                              "DISCOUNT",
+                                              "${getLang(context, 'discount')}",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 11,
                                                   fontWeight:
                                                   FontWeight.bold),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         )
@@ -512,12 +513,13 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                             padding:
                                             const EdgeInsets.all(2.0),
                                             child: Text(
-                                              "DISCOUNT",
+                                              "${getLang(context, 'discount')}",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 11,
                                                   fontWeight:
                                                   FontWeight.bold),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         )

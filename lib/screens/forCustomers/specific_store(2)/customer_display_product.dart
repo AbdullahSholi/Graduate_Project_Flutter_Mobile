@@ -1,6 +1,7 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_my_cart_page.dart';
 import 'package:image_preview/image_preview.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:translator/translator.dart';
 
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../toggle_button1.dart';
@@ -38,7 +40,7 @@ class CustomerDisplayProduct extends StatefulWidget {
   State<CustomerDisplayProduct> createState() => _CustomerDisplayProductState();
 }
 
-class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
+class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with WidgetsBindingObserver {
 
   Map<String, dynamic> storeCartsVal = {};
   int counter = 1;
@@ -189,10 +191,56 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
     }
   }
 
+  Future<void> translateProductDescription() async {
+
+    Map<String, dynamic> temp = storeCartsVal;
+
+    // print("jsonList: ${jsonList[1]}");
+
+      final translator = GoogleTranslator();
+
+      final String localeName = Platform.localeName; // e.g., "en_US"
+
+      // You can extract the language code from the string if needed
+      final String langCode = localeName.split('_').first; // e.g., "en"
+
+      if(langCode != "ar") {
+        final translatedDescription = await translator.translate(temp["cartDescription"], to: langCode);
+
+        temp["cartDescription"] = translatedDescription.text;
+        print("IIIIIIIIIIIIIIII");
+        // print(getStoreDataVal[0].storeName);
+        print("IIIIIIIIIIIIIIII");
+        setState(() {
+          storeCartsVal={};
+          storeCartsVal = temp;
+          temp={};
+        });
+      }
+
+
+      if(langCode == "ar") {
+
+        final translatedDescription = await translator.translate(temp["cartDescription"], to: langCode);
+
+        temp["cartDescription"] = translatedDescription.text;
+        print("IIIIIIIIIIIIIIII");
+        // print(getStoreDataVal[0].storeName);
+        print("IIIIIIIIIIIIIIII");
+        setState(() {
+          storeCartsVal={};
+          storeCartsVal = temp;
+          temp={};
+        });
+      }
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     storeCartsVal = widget.storeCartsVal;
     customerEmailVal = widget.customerEmailVal;
     customerTokenVal = widget.customerTokenVal;
@@ -203,14 +251,34 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> {
     print(customerTokenVal);
     print("*********************");
 
-
     getMerchantData();
     getStoreIndex();
     getAverageProductRate();
     getMerchantProfile();
+    translateProductDescription();
+
 
 
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Execute your function here when the app resumes from the background
+      // yourFunction();
+
+      // getSpecificStoreCategories();
+      translateProductDescription();
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

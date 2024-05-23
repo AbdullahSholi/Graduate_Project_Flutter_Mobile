@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:animated_background/animated_background.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,7 +35,7 @@ import '../specific_store(2)/customer_my_cart_page.dart';
 import '../specific_store(2)/customer_specific_store_main_page.dart';
 import '../specific_store(2)/customer_support_page.dart';
 import 'package:intl/intl.dart';
-
+import "package:flutter/widgets.dart";
 
 
 
@@ -49,7 +50,7 @@ class CustomerMainPage extends StatefulWidget {
   State<CustomerMainPage> createState() => _CustomerMainPageState();
 }
 
-class _CustomerMainPageState extends State<CustomerMainPage> with TickerProviderStateMixin {
+class _CustomerMainPageState extends State<CustomerMainPage> with TickerProviderStateMixin,WidgetsBindingObserver {
   String customerTokenVal="";
   String customerEmailVal="";
   bool allStoresVisibility = true;
@@ -90,6 +91,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {
 
+
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
@@ -105,9 +107,44 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
 
     if (userFuture.statusCode == 200) {
       print("${userFuture.statusCode}");
-      setState(() {
-        getStoreDataVal=tempStores1;
-      });
+      List<dynamic> temp =[];
+      final translator = GoogleTranslator();
+
+      final String localeName = Platform.localeName; // e.g., "en_US"
+
+      // You can extract the language code from the string if needed
+      final String langCode = localeName.split('_').first; // e.g., "en"
+
+      if(langCode != "ar") {
+        setState(() {
+          getStoreDataVal=[];
+          getStoreDataVal = tempStores1;
+          tempStores1=[];
+        });
+      }
+
+
+      if(langCode == "ar") {
+
+        List<Future<dynamic>> translatedData = tempStores1.map((item) async {
+          final translatedName = await translator.translate(item.storeName, to: langCode);
+          final translatedCategory = await translator.translate(item.storeCategory, to: langCode);
+          item.storeName = translatedName.text; // Spread syntax for shallow copy
+          item.storeCategory = translatedCategory.text;
+          return item;
+        }).toList();
+
+        List<dynamic> completedData = await Future.wait(translatedData);
+        print("IIIIIIIIIIIIIIII");
+        // print(getStoreDataVal[0].storeName);
+        print(completedData);
+        print("IIIIIIIIIIIIIIII");
+        setState(() {
+          getStoreDataVal=[];
+          getStoreDataVal = completedData;
+          tempStores1=[];
+        });
+      }
 
     } else {
       print("error");
@@ -169,21 +206,66 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   }
 
   User tempCustomerProfileData = User("", "", "", "", "", "");
-  List<String> items = ["Electronics", 'Cars', 'Resturant'];
+  Locale? _currentLocale;
+  List<String> items = [];
+  // final WidgetsBindingObserver _observer = WidgetsBindingObserver();
+
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     customerEmailVal=widget.email;
     customerTokenVal=widget.token;
     // getStoreDataVal = widget.getStoreData;
+    _currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
+    getDataFromTranslator();
     getMerchantData();
     getUserByName();
 
 
 
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Execute your function here when the app resumes from the background
+      // yourFunction();
+
+      getDataFromTranslator();
+      getMerchantData();
+    }
+
+  }
+
+  Future<void> getDataFromTranslator() async {
+    String _currentLocale1 = _currentLocale.toString().split('_').first;
 
 
+    setState(() {
+      items = ["Electronics", "Cars", "Restaurants"];
+    });
+    final String localeName = Platform.localeName; // e.g., "en_US"
+
+    // You can extract the language code from the string if needed
+    final String langCode = localeName.split('_').first; // e.g., "en"
+
+    final translator = GoogleTranslator();
+    if(langCode == "ar") {
+      var translator1 = await translator.translate("Electronics", to: langCode);
+      var translator2 = await translator.translate("Cars", to: langCode);
+      var translator3 = await translator.translate("Restaurants", to: langCode);
+      setState(() {
+        items = [translator1.text, translator2.text, translator3.text];
+      });
+    }
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -482,7 +564,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
             ),
             vsync: this,
             child:Column(
-              
+
               children: [
                 Expanded(
                   child: Container(
@@ -516,7 +598,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                         color: Colors.black,
                                         size: 30,
                                         weight: 800,
-                                  
+
                                       )),
                                 ),
                               ),
@@ -524,7 +606,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                 width: 10,
                               ),
                               Container(
-      
+
                                 height: 40,
                                 width: MediaQuery.of(context).size.width / 1.68,
                                 decoration: BoxDecoration(
@@ -544,7 +626,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                               SizedBox(
                                 width: 0,
                               ),
-      
+
                             ],
                           ),
                           Container(
@@ -552,14 +634,14 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                             height: 2,
                             color: Colors.white,
                           ),
-      
+
                           Container(
                             height: MediaQuery
                                 .of(context)
                                 .size
                                 .height / 1.3,
-      
-      
+
+
                             child: SingleChildScrollView(
                               child:   Column(
                                 children: [
@@ -576,9 +658,9 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                               onTap: ()async {
                                                 setState(() {
                                                   allStoresVisibility = true;
-      
+
                                                 });
-      
+
                                               },
                                               child: Container(
                                                   decoration: BoxDecoration(
@@ -590,7 +672,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                                   width: 120,
                                                   alignment: Alignment.center,
                                                   child: Text("${getLang(context, 'all_stores')}",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
-      
+
                                               ),
                                             ),
                                           ),
@@ -601,7 +683,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                             //     .width /
                                             //     2.1,
                                             height: 50,
-      
+
                                             child: ListView.separated(
                                               physics: NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
@@ -644,8 +726,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                       width: MediaQuery.of(context)
                                           .size
                                           .width,
-      
-      
+
+
                                       child: GridView.builder(
                                         scrollDirection:
                                         Axis.vertical,
@@ -658,7 +740,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                           1, // Set the number of columns
                                           childAspectRatio:
                                           1.9, // Customize the aspect ratio (width/height) of each tile
-      
+
                                           crossAxisSpacing:
                                           2.0, // Spacing between columns
                                         ),
@@ -670,13 +752,13 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                             print(getStoreDataVal[index].specificStoreCategories.runtimeType);
                                             List<String> stringList = getStoreDataVal[index].specificStoreCategories.cast<String>().toList();
                                             print(stringList.runtimeType);
-      
+
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage("",getStoreDataVal[index].email,stringList ,getStoreDataVal[index].storeName,
                                                 [],getStoreDataVal[index].activateSlider,getStoreDataVal[index].activateCategory,getStoreDataVal[index].activateCarts,
                                                 {}, customerTokenVal, customerEmailVal)));
                                           },
                                           child: Container(
-      
+
                                             margin: EdgeInsets.fromLTRB(20,0,20,15),
                                             width: MediaQuery
                                                 .of(context)
@@ -723,24 +805,24 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("Owned by: ${getStoreDataVal[index].merchantname}", style:GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}", style:GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                     SizedBox(height: 5,),
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("email: ${getStoreDataVal[index].email}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                     SizedBox(height: 5,),
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("Phone: ${getStoreDataVal[index].phone}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                   ],
                                                 )
                                               ],
                                             ),
                                           ),
                                         ),
-      
+
                                         itemCount:
                                         getStoreDataVal.length,
                                       ),
@@ -764,7 +846,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                           1, // Set the number of columns
                                           childAspectRatio:
                                           1.9, // Customize the aspect ratio (width/height) of each tile
-      
+
                                           crossAxisSpacing:
                                           2.0, // Spacing between columns
                                         ),
@@ -775,13 +857,13 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                             print(specificCategoryStores[index].specificStoreCategories.runtimeType);
                                             List<String> stringList = specificCategoryStores[index].specificStoreCategories.cast<String>().toList();
                                             print(stringList.runtimeType);
-      
+
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage("",specificCategoryStores[index].email,stringList ,specificCategoryStores[index].storeName,
                                                 [],specificCategoryStores[index].activateSlider,specificCategoryStores[index].activateCategory,specificCategoryStores[index].activateCarts,
                                                 {}, customerTokenVal, customerEmailVal)));
                                           },
                                           child: Container(
-      
+
                                             margin: EdgeInsets.fromLTRB(20,0,20,15),
                                             width: MediaQuery
                                                 .of(context)
@@ -828,30 +910,30 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("Owned by: ${specificCategoryStores[index].merchantname}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                     SizedBox(height: 5,),
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("email: ${specificCategoryStores[index].email}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                     SizedBox(height: 5,),
                                                     Container(
                                                         width: MediaQuery.of(context).size.width/4,
                                                         // color: Colors.blue,
-                                                        child: Text("Phone: ${specificCategoryStores[index].phone}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text("${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
                                                   ],
                                                 )
                                               ],
                                             ),
                                           ),
                                         ),
-      
+
                                         itemCount:
                                         specificCategoryStores.length,
                                       ),
                                     ),
                                   ),
-      
+
                                   // Container(
                                   //   margin: EdgeInsets.fromLTRB(20,20,20,10),
                                   //   width: MediaQuery
@@ -879,19 +961,19 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                   //     ],
                                   //   ),
                                   // ),
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
                                 ],
                               ),
-      
-      
-      
+
+
+
                             ),
                           ),
                           // Container(
@@ -914,10 +996,10 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                     ),
                   ),
                 ),
-      
+
               ],
             ),
-      
+
           )),
     );
   }

@@ -65,7 +65,14 @@
   "rating": "Rating",
   "ratings": "Ratings",
   "reviews": "Reviews",
-  "rate_write_review": "Rate & Write a review"
+  "rate_write_review": "Rate & Write a review",
+
+  "owned_by": "Owned by",
+  "all_products": "All Products",
+
+  "faq": "FAQ",
+
+  "discount": "DISCOUNT"
 
 
 

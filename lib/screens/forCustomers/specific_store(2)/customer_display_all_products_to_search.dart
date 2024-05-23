@@ -498,12 +498,13 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                               padding:
                                               const EdgeInsets.all(2.0),
                                               child: Text(
-                                                "DISCOUNT",
+                                                "${getLang(context, 'discount')}",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 11,
                                                     fontWeight:
                                                     FontWeight.bold),
+                                                textAlign: TextAlign.center,
                                               ),
                                             ),
                                           )
@@ -755,12 +756,13 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                               padding:
                                               const EdgeInsets.all(2.0),
                                               child: Text(
-                                                "DISCOUNT",
+                                                "${getLang(context, 'discount')}",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 11,
                                                     fontWeight:
                                                     FontWeight.bold),
+                                                textAlign: TextAlign.center,
                                               ),
                                             ),
                                           )

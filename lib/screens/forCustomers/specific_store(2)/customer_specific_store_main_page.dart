@@ -37,6 +37,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:translator/translator.dart';
 
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
@@ -84,7 +85,7 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
 }
 
 class _CustomerSpecificStoreMainPageState
-    extends State<CustomerSpecificStoreMainPage> {
+    extends State<CustomerSpecificStoreMainPage> with WidgetsBindingObserver{
 
   String tokenVal = "";
   String emailVal = "";
@@ -92,6 +93,7 @@ class _CustomerSpecificStoreMainPageState
   String customerEmailVal = "";
   String imageSliderVal = "";
   List<String> specificStoreCategoriesVal = [];
+  List<String> specificStoreCategoriesValEn = [];
   late Map<String, dynamic> objectDataVal;
   String storeNameVal = "";
   late bool sliderVisibilityVal;
@@ -233,13 +235,51 @@ class _CustomerSpecificStoreMainPageState
           MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
               .specificStoreCategories
               .toList();
-      final List<String> urls = data.map((item) => item.toString()).toList();
-      print("ooooooooooooooo $urls ");
-      setState(() {
-        specificStoreCategoriesVal = urls;
-      });
+      List<String> urls = data.map((item) => item.toString()).toList();
+
+      final translator = GoogleTranslator();
+
+      final String localeName = Platform.localeName; // e.g., "en_US"
+
+      // You can extract the language code from the string if needed
+      final String langCode = localeName.split('_').first; // e.g., "en"
+
+      if(langCode != "ar") {
+        print("ooooooooooooooo $urls ");
+        setState(() {
+          specificStoreCategoriesValEn=urls;
+          specificStoreCategoriesVal = [];
+          specificStoreCategoriesVal = urls;
+          urls=[];
+        });
+      }
+      ///////////////
+
+      if(langCode == "ar") {
+
+        specificStoreCategoriesValEn=urls;
+        List<Future<String>> translatedData = urls.skip(1) // Skip the first element
+            .map((item) async {
+          final translatedCategory = await translator.translate(item, to: langCode);
+          item = translatedCategory.text; // Update the store category
+          return item;
+        }).toList();
+
+        List<String> completedData = await Future.wait(translatedData);
+        completedData.insert(0, urls[0]);
+        print("IIIIIIIIIIIIIIII");
+        // print(getStoreDataVal[0].storeName);
+        print(completedData);
+        print("IIIIIIIIIIIIIIII");
+        setState(() {
+          specificStoreCategoriesVal=[];
+          specificStoreCategoriesVal = completedData;
+          urls=[];
+        });
+      }
 
 
+      ////////////
       return MerchantStoreSliderImages.fromJson(json.decode(userFuture.body))
           .specificStoreCategories
           .toList();
@@ -345,7 +385,8 @@ class _CustomerSpecificStoreMainPageState
 
     List<dynamic> jsonList = json.decode(userFuture.body);
     print("CCCCCCCCCCCCCCCCC");
-    print(jsonList[0]["cartName"]);
+    print(jsonList);
+    // print(jsonList[0]["cartName"]);
 
     setState(() {
       CartsForOneCategoryVal = jsonList;
@@ -690,6 +731,7 @@ class _CustomerSpecificStoreMainPageState
     // TODO: implement initState
     super.initState();
     // initPlatform();
+    WidgetsBinding.instance.addObserver(this);
 
 
     tokenVal = widget.token;
@@ -715,6 +757,23 @@ class _CustomerSpecificStoreMainPageState
     getSpecificStoreCart(emailVal);
     findUserDeviceIdFromList();
     getMerchantProfile();
+
+  }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Execute your function here when the app resumes from the background
+      // yourFunction();
+
+      getSpecificStoreCategories();
+    }
 
   }
 
@@ -1277,11 +1336,11 @@ class _CustomerSpecificStoreMainPageState
                                                     } else {
                                                       await getCartsForOneCategory(
                                                           emailVal,
-                                                          specificStoreCategoriesVal[
+                                                          specificStoreCategoriesValEn[
                                                               index]);
                                                       await getCartsForOneCategory(
                                                           emailVal,
-                                                          specificStoreCategoriesVal[
+                                                          specificStoreCategoriesValEn[
                                                           index]);
 
                                                       setState(() {
@@ -1293,9 +1352,8 @@ class _CustomerSpecificStoreMainPageState
                                                           cartsForSpecificCategory);
                                                     }
                                                   },
-                                                  child: Text(
-                                                      specificStoreCategoriesVal[
-                                                          index],
+                                                  child: Text(index == 0 ? "${getLang(context, 'all_products')}":  specificStoreCategoriesVal[
+                                                          index] ,
                                                       style:
                                                           GoogleFonts.lilitaOne(
                                                         textStyle: TextStyle(
@@ -1497,7 +1555,7 @@ class _CustomerSpecificStoreMainPageState
                                                                           .all(
                                                                           2.0),
                                                                   child: Text(
-                                                                    "DISCOUNT",
+                                                                    "${getLang(context, 'discount')}",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .white,
@@ -1505,6 +1563,7 @@ class _CustomerSpecificStoreMainPageState
                                                                             11,
                                                                         fontWeight:
                                                                             FontWeight.bold),
+                                                                    textAlign: TextAlign.center,
                                                                   ),
                                                                 ),
                                                               )
@@ -1907,7 +1966,7 @@ class _CustomerSpecificStoreMainPageState
                                                                           .all(
                                                                           2.0),
                                                                   child: Text(
-                                                                    "DISCOUNT",
+                                                                    "${getLang(context, 'discount')}",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .white,
@@ -1915,6 +1974,7 @@ class _CustomerSpecificStoreMainPageState
                                                                             11,
                                                                         fontWeight:
                                                                             FontWeight.bold),
+                                                                    textAlign: TextAlign.center,
                                                                   ),
                                                                 ),
                                                               )

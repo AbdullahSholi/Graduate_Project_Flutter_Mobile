@@ -1,11 +1,13 @@
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
+import 'package:translator/translator.dart';
 
 import '../../../components/applocal.dart';
 
@@ -20,7 +22,7 @@ class CustomerSupportPage extends StatefulWidget {
   State<CustomerSupportPage> createState() => _CustomerSupportPageState();
 }
 
-class _CustomerSupportPageState extends State<CustomerSupportPage> {
+class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsBindingObserver {
   String customerEmailVal = "";
   String customerTokenVal = "";
   String emailVal = "";
@@ -42,9 +44,48 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
         "Content-Type": "application/json",
       },
     );
-    setState(() {
-      listOfAnsweredQuestions = jsonDecode(userFuture.body);
-    });
+
+    final translator = GoogleTranslator();
+
+    final String localeName = Platform.localeName; // e.g., "en_US"
+
+    // You can extract the language code from the string if needed
+    final String langCode = localeName.split('_').first; // e.g., "en"
+    if(langCode != "ar") {
+      setState(() {
+        listOfAnsweredQuestions=[];
+        listOfAnsweredQuestions = jsonDecode(userFuture.body);
+
+      });
+    }
+
+    if(langCode == "ar") {
+      List<dynamic> temp = [];
+      temp = jsonDecode(userFuture.body);
+      print(temp);
+      List<Future<dynamic>> translatedData = temp.map((item) async {
+        final translatedQuestion = await translator.translate(item["question"], to: langCode);
+        final translatedAnswer = await translator.translate(item["answer"], to: langCode);
+        item["question"] = translatedQuestion.text; // Spread syntax for shallow copy
+        item["answer"] = translatedAnswer.text;
+        return item;
+      }).toList();
+
+      List<dynamic> completedData = await Future.wait(translatedData);
+      print("IIIIIIIIIIIIIIII");
+      // print(getStoreDataVal[0].storeName);
+      print(completedData);
+      print("IIIIIIIIIIIIIIII");
+      setState(() {
+        listOfAnsweredQuestions=[];
+        listOfAnsweredQuestions = completedData;
+        completedData=[];
+      });
+    }
+
+    // setState(() {
+    //   listOfAnsweredQuestions = jsonDecode(userFuture.body);
+    // });
     // print(listOfQuestions[0]["question"]);
   }
 
@@ -108,12 +149,30 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     customerTokenVal = widget.customerTokenVal;
     customerEmailVal = widget.customerEmailVal;
     tokenVal = widget.tokenVal;
     emailVal = widget.emailVal;
     getCustomerCartList();
     getListOfAnsweredQuestions();
+
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Execute your function here when the app resumes from the background
+      // yourFunction();
+
+      getListOfAnsweredQuestions();
+    }
 
   }
 
@@ -142,7 +201,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                     child: Row(children: [
                       Icon(CupertinoIcons.question_circle_fill, color: Color(0xFF212128), size: 28,),
                       SizedBox(width: 20,),
-                      Text("FAQ", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 20, ),)),
+                      Text("${getLang(context, 'faq')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 20, ),)),
                     ],),
                   ),
                   Container(
