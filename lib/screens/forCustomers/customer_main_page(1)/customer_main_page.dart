@@ -208,6 +208,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
   User tempCustomerProfileData = User("", "", "", "", "", "");
   Locale? _currentLocale;
   List<String> items = [];
+  List<String> itemsEn = ["Electronics", "Cars", "Restaurants"];
+
   // final WidgetsBindingObserver _observer = WidgetsBindingObserver();
 
   @override
@@ -689,14 +691,14 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
                                               itemCount:
-                                              items.length,
+                                              itemsEn.length,
                                               itemBuilder: (context, index) =>
                                                   InkWell(
                                                     onTap: ()async {
                                                       setState(() {
                                                         allStoresVisibility = false;
                                                       });
-                                                      await getAllStoresForOneCategory(items[index]);
+                                                      await getAllStoresForOneCategory(itemsEn[index]);
                                                     },
                                                     child: Container(
                                                         decoration: BoxDecoration(
