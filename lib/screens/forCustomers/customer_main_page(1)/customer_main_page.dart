@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -37,10 +36,7 @@ import '../specific_store(2)/customer_support_page.dart';
 import 'package:intl/intl.dart';
 import "package:flutter/widgets.dart";
 
-
-
 class CustomerMainPage extends StatefulWidget {
-
   String token;
   String email;
   // late List<AllStore> storeDataVal;
@@ -50,29 +46,28 @@ class CustomerMainPage extends StatefulWidget {
   State<CustomerMainPage> createState() => _CustomerMainPageState();
 }
 
-class _CustomerMainPageState extends State<CustomerMainPage> with TickerProviderStateMixin,WidgetsBindingObserver {
-  String customerTokenVal="";
-  String customerEmailVal="";
+class _CustomerMainPageState extends State<CustomerMainPage>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
+  String customerTokenVal = "";
+  String customerEmailVal = "";
   bool allStoresVisibility = true;
-  late List<dynamic> tempStores=[];
-  late List<dynamic> specificCategoryStores=[];
+  late List<dynamic> tempStores = [];
+  late List<dynamic> specificCategoryStores = [];
   Future<void> getAllStoresForOneCategory(storeCategory) async {
-    tempStores=[];
+    tempStores = [];
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
     );
     // print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);
-    for(int i=0; i<jsonList.length; i++){
+    for (int i = 0; i < jsonList.length; i++) {
       tempStores.add(SpecificStore.fromJson(jsonList[i]));
-
     }
 
     // print("jsonList: ${jsonList[1]}");
     // print(userFuture.statusCode);
     if (userFuture.statusCode == 200) {
-
       print("${userFuture.statusCode}");
       print(tempStores);
 
@@ -87,27 +82,24 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
 
   ///////////////////////////////////////////////////////////
   //////////////////////////////////////////////////
-  late List<dynamic> getStoreDataVal=[];
-  late List<dynamic> tempStores1=[];
+  late List<dynamic> getStoreDataVal = [];
+  late List<dynamic> tempStores1 = [];
   Future<void> getMerchantData() async {
-
-
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores/"),
     );
     print(userFuture.body);
     List<dynamic> jsonList = json.decode(userFuture.body);
-    for(int i=0; i<jsonList.length; i++){
+    for (int i = 0; i < jsonList.length; i++) {
       tempStores1.add(SpecificStore.fromJson(jsonList[i]));
-
     }
 
     // print("jsonList: ${jsonList[1]}");
 
     if (userFuture.statusCode == 200) {
       print("${userFuture.statusCode}");
-      List<dynamic> temp =[];
+      List<dynamic> temp = [];
       final translator = GoogleTranslator();
 
       final String localeName = Platform.localeName; // e.g., "en_US"
@@ -115,21 +107,22 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
       // You can extract the language code from the string if needed
       final String langCode = localeName.split('_').first; // e.g., "en"
 
-      if(langCode != "ar") {
+      if (langCode != "ar") {
         setState(() {
-          getStoreDataVal=[];
+          getStoreDataVal = [];
           getStoreDataVal = tempStores1;
-          tempStores1=[];
+          tempStores1 = [];
         });
       }
 
-
-      if(langCode == "ar") {
-
+      if (langCode == "ar") {
         List<Future<dynamic>> translatedData = tempStores1.map((item) async {
-          final translatedName = await translator.translate(item.storeName, to: langCode);
-          final translatedCategory = await translator.translate(item.storeCategory, to: langCode);
-          item.storeName = translatedName.text; // Spread syntax for shallow copy
+          final translatedName =
+              await translator.translate(item.storeName, to: langCode);
+          final translatedCategory =
+              await translator.translate(item.storeCategory, to: langCode);
+          item.storeName =
+              translatedName.text; // Spread syntax for shallow copy
           item.storeCategory = translatedCategory.text;
           return item;
         }).toList();
@@ -140,44 +133,32 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
         print(completedData);
         print("IIIIIIIIIIIIIIII");
         setState(() {
-          getStoreDataVal=[];
+          getStoreDataVal = [];
           getStoreDataVal = completedData;
-          tempStores1=[];
+          tempStores1 = [];
         });
       }
-
     } else {
       print("error");
       throw Exception("Error");
     }
   }
 
-
-
-
-
-
-  Future<void> saveIndex(index) async{
-    print( index);
+  Future<void> saveIndex(index) async {
+    print(index);
     print(customerEmailVal);
     http.Response userFuture = await http.post(
-        Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-store-index/${customerEmailVal}"),
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-store-index/${customerEmailVal}"),
         // headers: {"Authorization":"Bearer ${customerTokenVal}"},
         headers: {
           // "Authorization": "Bearer ${customerTokenVal}", // Include Authorization header if required
           "Content-Type": "application/json", // Set content type to JSON
         },
-        body: jsonEncode(
-        {
-          "index":index
-        }
-      )
-    );
-    if(userFuture.statusCode == 200){
+        body: jsonEncode({"index": index}));
+    if (userFuture.statusCode == 200) {
       print("${userFuture.body}");
-
-    }
-    else{
+    } else {
       throw Exception("Error");
     }
   }
@@ -214,21 +195,18 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
 
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    customerEmailVal=widget.email;
-    customerTokenVal=widget.token;
+    customerEmailVal = widget.email;
+    customerTokenVal = widget.token;
     // getStoreDataVal = widget.getStoreData;
     _currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
     getDataFromTranslator();
     getMerchantData();
     getUserByName();
-
-
-
   }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -244,12 +222,10 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
       getDataFromTranslator();
       getMerchantData();
     }
-
   }
 
   Future<void> getDataFromTranslator() async {
     String _currentLocale1 = _currentLocale.toString().split('_').first;
-
 
     setState(() {
       items = ["Electronics", "Cars", "Restaurants"];
@@ -260,7 +236,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     final String langCode = localeName.split('_').first; // e.g., "en"
 
     final translator = GoogleTranslator();
-    if(langCode == "ar") {
+    if (langCode == "ar") {
       var translator1 = await translator.translate("Electronics", to: langCode);
       var translator2 = await translator.translate("Cars", to: langCode);
       var translator3 = await translator.translate("Restaurants", to: langCode);
@@ -284,15 +260,12 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
     await Future.delayed(Duration(seconds: 2));
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> LogAllPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LogAllPage()));
         return Future.value(true);
       },
       child: Scaffold(
@@ -303,6 +276,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
             child: RefreshIndicator(
               onRefresh: _refreshData,
               child: ListView(
+                physics: BouncingScrollPhysics(),
                 children: [
                   Container(
                     height: 290,
@@ -319,56 +293,64 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                             Center(
                               child: Container(
                                   child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: Colors.white,
-                                              width: 3), // Customize the border color
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: Colors.white,
+                                          width:
+                                              3), // Customize the border color
+                                    ),
+                                    child: CircleAvatar(
+                                        radius: 80,
+                                        child: ClipOval(
+                                            child: Image.network(
+                                          "${tempCustomerProfileData.Avatar}",
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ))),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    width: double.infinity,
+                                    // color: Colors.black,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${tempCustomerProfileData.username}",
+                                          style: GoogleFonts.lilitaOne(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 35),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                        child: CircleAvatar(
-                                            radius: 80,
-                                            child: ClipOval(
-                                                child: Image.network(
-                                                  "${tempCustomerProfileData.Avatar}",
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                  fit: BoxFit.cover,
-                                                ))),
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                        width: double.infinity,
-                                        // color: Colors.black,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${tempCustomerProfileData.username}",
-                                              style: TextStyle(
-                                                  color: Colors.white, fontSize: 35),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              "${tempCustomerProfileData.phone}",
-                                              style: TextStyle(
-                                                  color: Colors.white, fontSize: 20),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
+                                        Text(
+                                          "${tempCustomerProfileData.phone}",
+                                          style: GoogleFonts.lilitaOne(
+                                            textStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                    ],
-                                  )),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
                             )
                           ],
                         )),
@@ -381,7 +363,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         color: Color(0xFF2A212E)),
                     child: ListTile(
                       leading: Icon(
-                        Icons.home,
+                        Icons.person,
                         color: Colors.white,
                         size: 35,
                       ),
@@ -458,7 +440,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerMyCartPage(customerEmailVal, customerTokenVal)));
+                                builder: (context) => CustomerMyCartPage(
+                                    customerEmailVal, customerTokenVal)));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -487,8 +470,9 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerFavoriteProductsForAllProductsFromMainPage(
-                                    customerTokenVal, customerEmailVal)));
+                                builder: (context) =>
+                                    CustomerFavoriteProductsForAllProductsFromMainPage(
+                                        customerTokenVal, customerEmailVal)));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -496,7 +480,6 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                       ),
                     ),
                   ),
-
                   Container(
                     margin: EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -518,7 +501,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CustomerContactWithAdmin(customerEmailVal, customerTokenVal)));
+                                builder: (context) => CustomerContactWithAdmin(
+                                    customerEmailVal, customerTokenVal)));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -526,7 +510,6 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                       ),
                     ),
                   ),
-
                   Container(
                     margin: EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -544,8 +527,10 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => LogAllPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LogAllPage()));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -561,12 +546,12 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
             behaviour: RandomParticleBehaviour(
               options: ParticleOptions(
                   particleCount: 100,
-                  image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-              ),
+                  image: Image(
+                      image: NetworkImage(
+                          "https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))),
             ),
             vsync: this,
-            child:Column(
-
+            child: Column(
               children: [
                 Expanded(
                   child: Container(
@@ -578,6 +563,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                     width: double.infinity,
                     height: double.infinity,
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           Row(
@@ -587,9 +573,9 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                 padding: EdgeInsets.all(10),
                                 child: Container(
                                   decoration: const ShapeDecoration(
-                                    color: Colors.white, // Replace with your desired color
-                                    shape: CircleBorder(
-                                    ),
+                                    color: Colors
+                                        .white, // Replace with your desired color
+                                    shape: CircleBorder(),
                                   ),
                                   child: IconButton(
                                       onPressed: () {
@@ -600,7 +586,6 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                         color: Colors.black,
                                         size: 30,
                                         weight: 800,
-
                                       )),
                                 ),
                               ),
@@ -608,7 +593,6 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                 width: 10,
                               ),
                               Container(
-
                                 height: 40,
                                 width: MediaQuery.of(context).size.width / 1.68,
                                 decoration: BoxDecoration(
@@ -616,19 +600,15 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                   color: Colors.white,
                                 ),
                                 child: Center(
-                                    child: Text(
-                                        "${getLang(context, 'stores')}",
+                                    child: Text("${getLang(context, 'stores')}",
                                         style: GoogleFonts.lilitaOne(
                                             color: Color(0xFF212128),
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 25
-                                        )
-                                    )),
+                                            fontSize: 25))),
                               ),
                               SizedBox(
                                 width: 0,
                               ),
-
                             ],
                           ),
                           Container(
@@ -638,48 +618,55 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                           ),
 
                           Container(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height / 1.3,
-
-
+                            height: MediaQuery.of(context).size.height / 1.3,
                             child: SingleChildScrollView(
-                              child:   Column(
+                              physics: BouncingScrollPhysics(),
+                              child: Column(
                                 children: [
                                   Container(
                                     margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     child: SingleChildScrollView(
+                                      physics: BouncingScrollPhysics(),
                                       scrollDirection: Axis.horizontal,
                                       child: Row(
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                            margin: EdgeInsets.fromLTRB(
+                                                0, 20, 0, 0),
                                             height: 50,
                                             child: InkWell(
-                                              onTap: ()async {
+                                              onTap: () async {
                                                 setState(() {
                                                   allStoresVisibility = true;
-
                                                 });
-
                                               },
                                               child: Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                    BorderRadius.circular(
-                                                        10),
+                                                        BorderRadius.circular(
+                                                            10),
                                                     color: Color(0xFFFF2139),
                                                   ),
                                                   width: 120,
                                                   alignment: Alignment.center,
-                                                  child: Text("${getLang(context, 'all_stores')}",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
-
-                                              ),
+                                                  child: Text(
+                                                    "${getLang(context, 'all_stores')}",
+                                                    style:
+                                                        GoogleFonts.lilitaOne(
+                                                            textStyle:
+                                                                TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    )),
+                                                    textAlign: TextAlign.center,
+                                                  )),
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.fromLTRB(10, 20, 20, 0),
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 20, 20, 0),
                                             // width: MediaQuery.of(context)
                                             //     .size
                                             //     .width /
@@ -687,31 +674,45 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                             height: 50,
 
                                             child: ListView.separated(
-                                              physics: NeverScrollableScrollPhysics(),
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
                                               scrollDirection: Axis.horizontal,
-                                              itemCount:
-                                              itemsEn.length,
+                                              itemCount: itemsEn.length,
                                               itemBuilder: (context, index) =>
                                                   InkWell(
-                                                    onTap: ()async {
-                                                      setState(() {
-                                                        allStoresVisibility = false;
-                                                      });
-                                                      await getAllStoresForOneCategory(itemsEn[index]);
-                                                    },
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
+                                                onTap: () async {
+                                                  setState(() {
+                                                    allStoresVisibility = false;
+                                                  });
+                                                  await getAllStoresForOneCategory(
+                                                      itemsEn[index]);
+                                                },
+                                                child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                          color: Colors.white,
-                                                        ),
-                                                        width: 120,
-                                                        alignment: Alignment.center,
-                                                        child: Text(items[index],style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128),fontSize: 22, fontWeight: FontWeight.bold,)),textAlign: TextAlign.center,)
+                                                      color: Colors.white,
                                                     ),
-                                                  ),
+                                                    width: 120,
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      items[index],
+                                                      style:
+                                                          GoogleFonts.lilitaOne(
+                                                              textStyle:
+                                                                  TextStyle(
+                                                        color:
+                                                            Color(0xFF212128),
+                                                        fontSize: 22,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    )),
+                                              ),
                                               separatorBuilder:
                                                   (context, index) => SizedBox(
                                                 width: 10,
@@ -725,99 +726,235 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                   Visibility(
                                     visible: allStoresVisibility,
                                     child: Container(
-                                      width: MediaQuery.of(context)
-                                          .size
-                                          .width,
-
-
+                                      width: MediaQuery.of(context).size.width,
                                       child: GridView.builder(
-                                        scrollDirection:
-                                        Axis.vertical,
-                                        physics:
-                                        NeverScrollableScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount:
-                                          1, // Set the number of columns
+                                              1, // Set the number of columns
                                           childAspectRatio:
-                                          1.9, // Customize the aspect ratio (width/height) of each tile
+                                              1.9, // Customize the aspect ratio (width/height) of each tile
 
                                           crossAxisSpacing:
-                                          2.0, // Spacing between columns
+                                              2.0, // Spacing between columns
                                         ),
                                         // storeCartsVal[index]
-                                        itemBuilder:
-                                            (context, index) =>InkWell(
-                                          onTap: (){
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
+                                          onTap: () {
                                             saveIndex(index);
-                                            print(getStoreDataVal[index].specificStoreCategories.runtimeType);
-                                            List<String> stringList = getStoreDataVal[index].specificStoreCategories.cast<String>().toList();
+                                            print(getStoreDataVal[index]
+                                                .specificStoreCategories
+                                                .runtimeType);
+                                            List<String> stringList =
+                                                getStoreDataVal[index]
+                                                    .specificStoreCategories
+                                                    .cast<String>()
+                                                    .toList();
                                             print(stringList.runtimeType);
 
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage("",getStoreDataVal[index].email,stringList ,getStoreDataVal[index].storeName,
-                                                [],getStoreDataVal[index].activateSlider,getStoreDataVal[index].activateCategory,getStoreDataVal[index].activateCarts,
-                                                {}, customerTokenVal, customerEmailVal)));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage(
+                                                            "",
+                                                            getStoreDataVal[
+                                                                    index]
+                                                                .email,
+                                                            stringList,
+                                                            getStoreDataVal[
+                                                                    index]
+                                                                .storeName,
+                                                            [],
+                                                            getStoreDataVal[
+                                                                    index]
+                                                                .activateSlider,
+                                                            getStoreDataVal[
+                                                                    index]
+                                                                .activateCategory,
+                                                            getStoreDataVal[
+                                                                    index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal)));
                                           },
                                           child: Container(
-
-                                            margin: EdgeInsets.fromLTRB(20,0,20,15),
-                                            width: MediaQuery
-                                                .of(context)
+                                            margin: EdgeInsets.fromLTRB(
+                                                20, 0, 20, 15),
+                                            width: MediaQuery.of(context)
                                                 .size
-                                                .width ,
-                                            height: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height / 4,
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                4,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                               border: Border.all(width: 1),
                                               color: Color(0xFF212139),
                                             ),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   height: double.infinity,
-                                                  width: MediaQuery.of(context).size.width/2.6,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.6,
                                                   decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20),
-                                                      color: Colors.white
-                                                  ),
-                                                  child: Image.network(getStoreDataVal[index].storeAvatar),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: Colors.white),
+                                                  child: ClipRRect(
+                                                      borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(20.0),
+                                                        topRight: Radius.circular(20.0),
+                                                        bottomLeft: Radius.circular(20.0),
+                                                        bottomRight: Radius.circular(20.0),
+                                                      ),
+                                                      child: Image.network(
+                                                    getStoreDataVal[index]
+                                                        .storeAvatar,
+                                                    fit: BoxFit.cover,
+                                                  )),
                                                 ),
-                                                SizedBox(width: 20,),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
                                                 Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    SizedBox(height: 15,),
+                                                    SizedBox(
+                                                      height: 15,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getStoreDataVal[index].storeName}",style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,fontSize: 25, fontWeight: FontWeight.bold,)),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getStoreDataVal[index].storeName}",
+                                                          style: GoogleFonts
+                                                              .lilitaOne(
+                                                                  textStyle:
+                                                                      TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 25,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          )),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getStoreDataVal[index].storeCategory}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 20),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getStoreDataVal[index].storeCategory}",
+                                                          style: GoogleFonts
+                                                              .lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20),
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}", style:GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}",
+                                                          style: GoogleFonts
+                                                              .lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12),
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}",
+                                                          style: GoogleFonts
+                                                              .lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12),
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}", style: GoogleFonts.lilitaOne(textStyle:  TextStyle(color: Colors.white,  fontSize: 12),),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text(
+                                                          "${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}",
+                                                          style: GoogleFonts
+                                                              .lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12),
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
                                                   ],
                                                 )
                                               ],
@@ -825,104 +962,231 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                           ),
                                         ),
 
-                                        itemCount:
-                                        getStoreDataVal.length,
+                                        itemCount: getStoreDataVal.length,
                                       ),
                                     ),
                                   ),
                                   Visibility(
                                     visible: !allStoresVisibility,
                                     child: Container(
-                                      width: MediaQuery.of(context)
-                                          .size
-                                          .width,
+                                      width: MediaQuery.of(context).size.width,
                                       child: GridView.builder(
-                                        scrollDirection:
-                                        Axis.vertical,
-                                        physics:
-                                        NeverScrollableScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount:
-                                          1, // Set the number of columns
+                                              1, // Set the number of columns
                                           childAspectRatio:
-                                          1.9, // Customize the aspect ratio (width/height) of each tile
+                                              1.9, // Customize the aspect ratio (width/height) of each tile
 
                                           crossAxisSpacing:
-                                          2.0, // Spacing between columns
+                                              2.0, // Spacing between columns
                                         ),
                                         // storeCartsVal[index]
-                                        itemBuilder:
-                                            (context, index) =>InkWell(
-                                          onTap: (){
-                                            print(specificCategoryStores[index].specificStoreCategories.runtimeType);
-                                            List<String> stringList = specificCategoryStores[index].specificStoreCategories.cast<String>().toList();
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
+                                          onTap: () {
+                                            print(specificCategoryStores[index]
+                                                .specificStoreCategories
+                                                .runtimeType);
+                                            List<String> stringList =
+                                                specificCategoryStores[index]
+                                                    .specificStoreCategories
+                                                    .cast<String>()
+                                                    .toList();
                                             print(stringList.runtimeType);
 
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage("",specificCategoryStores[index].email,stringList ,specificCategoryStores[index].storeName,
-                                                [],specificCategoryStores[index].activateSlider,specificCategoryStores[index].activateCategory,specificCategoryStores[index].activateCarts,
-                                                {}, customerTokenVal, customerEmailVal)));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage(
+                                                            "",
+                                                            specificCategoryStores[
+                                                                    index]
+                                                                .email,
+                                                            stringList,
+                                                            specificCategoryStores[
+                                                                    index]
+                                                                .storeName,
+                                                            [],
+                                                            specificCategoryStores[
+                                                                    index]
+                                                                .activateSlider,
+                                                            specificCategoryStores[
+                                                                    index]
+                                                                .activateCategory,
+                                                            specificCategoryStores[
+                                                                    index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal)));
                                           },
                                           child: Container(
-
-                                            margin: EdgeInsets.fromLTRB(20,0,20,15),
-                                            width: MediaQuery
-                                                .of(context)
+                                            margin: EdgeInsets.fromLTRB(
+                                                20, 0, 20, 15),
+                                            width: MediaQuery.of(context)
                                                 .size
-                                                .width ,
-                                            height: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height / 4,
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                4,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                               border: Border.all(width: 1),
                                               color: Color(0xFF212139),
                                             ),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Container(
                                                   height: double.infinity,
-                                                  width: MediaQuery.of(context).size.width/2.6,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2.6,
                                                   decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20),
-                                                      color: Colors.white
-                                                  ),
-                                                  child: Image.network(specificCategoryStores[index].storeAvatar),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      color: Colors.white),
+                                                  child: Image.network(
+                                                      specificCategoryStores[
+                                                              index]
+                                                          .storeAvatar),
                                                 ),
-                                                SizedBox(width: 20,),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
                                                 Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    SizedBox(height: 15,),
+                                                    SizedBox(
+                                                      height: 15,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${specificCategoryStores[index].storeName}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${specificCategoryStores[index].storeName}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 25),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${specificCategoryStores[index].storeCategory}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${specificCategoryStores[index].storeCategory}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 10),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
-                                                    SizedBox(height: 5,),
+                                                        child: Text(
+                                                          "${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 10),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Container(
-                                                        width: MediaQuery.of(context).size.width/4,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            4,
                                                         // color: Colors.blue,
-                                                        child: Text("${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 10),overflow: TextOverflow.ellipsis,maxLines: 1,)),
+                                                        child: Text(
+                                                          "${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 10),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 1,
+                                                        )),
                                                   ],
                                                 )
                                               ],
@@ -931,7 +1195,7 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                         ),
 
                                         itemCount:
-                                        specificCategoryStores.length,
+                                            specificCategoryStores.length,
                                       ),
                                     ),
                                   ),
@@ -963,19 +1227,8 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                                   //     ],
                                   //   ),
                                   // ),
-
-
-
-
-
-
-
-
                                 ],
                               ),
-
-
-
                             ),
                           ),
                           // Container(
@@ -998,16 +1251,9 @@ class _CustomerMainPageState extends State<CustomerMainPage> with TickerProvider
                     ),
                   ),
                 ),
-
               ],
             ),
-
           )),
     );
   }
 }
-
-
-
-
-

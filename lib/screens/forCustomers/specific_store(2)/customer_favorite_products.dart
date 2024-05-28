@@ -37,6 +37,9 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
   TextEditingController _searchController = TextEditingController();
   double rateVal = 3;
   late List<dynamic> storeCartsVal = [];
+  Color primaryColor = Color(0xFF212128);
+  Color secondaryColor = Color(0xFFF4F4FB);
+  Color accentColor = Color(0xFF0E1011);
 
 
 
@@ -140,6 +143,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: secondaryColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -165,7 +169,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         },
                         icon: Icon(
                           Icons.arrow_back,
-                          color: Colors.white,
+                          color: secondaryColor,
                           size: 30,
                         ),
                       ),
@@ -177,10 +181,10 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         height: 50, // Example height
                         child: TextField(
                           controller: _searchController,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: secondaryColor),
                           decoration: InputDecoration(
                             hintText: 'Search...',
-                            hintStyle: TextStyle(color: Colors.white),
+                            hintStyle: TextStyle(color: secondaryColor),
                           ),
                           onChanged: (value) {
                             filterProducts(value);
@@ -193,7 +197,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                             child: Text(
                                "${getLang(context, 'favorite_products')}",
                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                              color: Colors.white,
+                              color: secondaryColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 30),
                                                   ),
@@ -217,7 +221,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         icon: Icon(
                           _isSearching ? Icons.close : Icons.search,
                           size: 30,
-                          color: Colors.white,
+                          color: secondaryColor,
                         ),
                       ),
                     )
@@ -319,7 +323,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                               child: Text(
                                                 "${getLang(context, 'discount')}",
                                                 style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: secondaryColor,
                                                     fontSize: 11,
                                                     fontWeight:
                                                     FontWeight.bold),
@@ -391,7 +395,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                                    color: secondaryColor,
                                                   )),),
                                               ),
 
@@ -415,7 +419,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                         fontSize: 13,
                                                         fontWeight:
                                                         FontWeight.bold,
-                                                        color: Colors.white,
+                                                        color: secondaryColor,
                                                       )),),
                                                   ),
                                                   SizedBox(
@@ -440,7 +444,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                             .lineThrough,
                                                         decorationThickness:
                                                         3,
-                                                        color: Colors.white,
+                                                        color: secondaryColor,
                                                       )),),
                                                   ),
                                                 ],
@@ -531,7 +535,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                               child: Text(
                                                 "${getLang(context, 'discount')}",
                                                 style: TextStyle(
-                                                    color: Colors.white,
+                                                    color: secondaryColor,
                                                     fontSize: 11,
                                                     fontWeight:
                                                     FontWeight.bold),
@@ -603,7 +607,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   style: GoogleFonts.lilitaOne(textStyle: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                                    color: secondaryColor,
                                                   )),),
                                               ),
 
@@ -627,7 +631,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                         fontSize: 13,
                                                         fontWeight:
                                                         FontWeight.bold,
-                                                        color: Colors.white,
+                                                        color: secondaryColor,
                                                       )),),
                                                   ),
                                                   SizedBox(
@@ -652,7 +656,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                             .lineThrough,
                                                         decorationThickness:
                                                         3,
-                                                        color: Colors.white,
+                                                        color: secondaryColor,
                                                       )),),
                                                   ),
                                                 ],
@@ -668,7 +672,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     allowHalfRating: true,
                                                     itemCount: 5,
                                                     itemSize: 20,
-                                                    unratedColor: Colors.white,
+                                                    unratedColor: secondaryColor,
                                                     itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                                                     itemBuilder: (context, _) => Icon(
                                                       Icons.favorite,

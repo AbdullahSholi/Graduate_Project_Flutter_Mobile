@@ -147,7 +147,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                 child: Center(
                     child: Text(
                       "${nameVal}",
-                      style: GoogleFonts.lilitaOne(
+                      style: GoogleFonts.roboto(
                           color: Color(0xFFF4F4FB),
                           fontWeight: FontWeight.bold,
                           fontSize: 21),
@@ -216,7 +216,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                                           horizontal: 10
                                       ),
                                       child: Text("${messages[i]['text']}",
-                                        style: GoogleFonts.lilitaOne(
+                                        style: GoogleFonts.roboto(
                                             color: Color(0xFFF4F4FB),
                                             fontSize: 16),),
                                     ),
@@ -239,7 +239,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                                           horizontal: 10
                                       ),
                                       child: Text("${messages[i]['text']}",
-                                        style: GoogleFonts.lilitaOne(
+                                        style: GoogleFonts.roboto(
                                             color: Color(0xFFF4F4FB),
                                             fontSize: 16),),
                                     ),
@@ -254,47 +254,6 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                         ),
                       ),
                     ),
-                    // Align(
-                    //   alignment: Alignment.centerLeft,
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.only(
-                    //         bottomRight: Radius.circular(10),
-                    //         topLeft: Radius.circular(10),
-                    //         topRight: Radius.circular(10)
-                    //       ),
-                    //       color: Color(0xFF3A3A3A),
-                    //     ),
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: 5,
-                    //       horizontal: 10
-                    //     ),
-                    //     child: Text("Hello World", style: GoogleFonts.lilitaOne(
-                    //         color: Color(0xFFF4F4FB),
-                    //         fontSize: 16),),
-                    //   ),
-                    // ),
-                    //   Align(
-                    //     alignment: Alignment.centerRight,
-                    //     child: Container(
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.only(
-                    //             bottomLeft: Radius.circular(10),
-                    //             topLeft: Radius.circular(10),
-                    //             topRight: Radius.circular(10)
-                    //         ),
-                    //         color: Color(0xFF3C9542),
-                    //       ),
-                    //       padding: EdgeInsets.symmetric(
-                    //           vertical: 5,
-                    //           horizontal: 10
-                    //       ),
-                    //       child: Text("Hello World", style: GoogleFonts.lilitaOne(
-                    //           color: Color(0xFFF4F4FB),
-                    //           fontSize: 16),  ),
-                    //     ),
-                    //   ),
-                    //   Spacer(),
                     Container(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -312,7 +271,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "${getLang(context, 'type_in_chat')}",
-                              hintStyle: GoogleFonts.lilitaOne(
+                              hintStyle: GoogleFonts.roboto(
                                   color: Color(0xFFF4F4FB),
                                   fontSize: 16),
                             ),

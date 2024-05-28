@@ -875,15 +875,19 @@ class _CustomerSpecificStoreMainPageState
                                   children: [
                                     Text(
                                       "${tempCustomerProfileData.username}",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 35),
+                                      style: GoogleFonts.lilitaOne(
+                                        textStyle: TextStyle(
+                                            color: Colors.white, fontSize: 35),
+                                      ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
                                       "${tempCustomerProfileData.phone}",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                      style: GoogleFonts.lilitaOne(
+                                        textStyle: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -904,7 +908,7 @@ class _CustomerSpecificStoreMainPageState
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
-                    Icons.home,
+                    Icons.person,
                     color: Colors.white,
                     size: 35,
                   ),

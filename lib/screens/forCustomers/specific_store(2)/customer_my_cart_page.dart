@@ -39,6 +39,11 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
   final TextEditingController _phoneNumberController =
       TextEditingController(); // Visa, MasterCard, etc.
 
+
+  Color primaryColor = Color(0xFF212128);
+  Color secondaryColor = Color(0xFFF4F4FB);
+  Color accentColor = Color(0xFF0E1011);
+
   void getCustomerCartList() async {
     print("ppppppppppppppppppp");
     print(customerEmailVal);
@@ -110,14 +115,14 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
           },
           icon: Icon(
             Icons.arrow_back_ios_new,
-            color: Colors.white,
+            color: secondaryColor,
             size: 30,
           ),
         ),
         title: Text("${getLang(context, 'shopping_cart')}",
             style: GoogleFonts.lilitaOne(
               textStyle: TextStyle(
-                  color: Colors.white,
+                  color: secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             )),
@@ -126,6 +131,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
       body: Stack(
         children: [
           Container(
+            color: secondaryColor,
             child: ListView.separated(
               padding: EdgeInsets.fromLTRB(
                 0,
@@ -170,7 +176,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               "${cartList[index]["cartName"]}",
                               style: GoogleFonts.lilitaOne(
                                 textStyle: TextStyle(
-                                  color: Colors.white,
+                                  color: secondaryColor,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -182,7 +188,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               "${cartList[index]["cartCategory"]}",
                               style: GoogleFonts.lilitaOne(
                                 textStyle: TextStyle(
-                                    color: Colors.white,
+                                    color: secondaryColor,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -200,7 +206,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   "\$${cartList[index]["cartPrice"]}",
                                   style: GoogleFonts.lilitaOne(
                                     textStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: secondaryColor,
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -214,7 +220,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   "\$400",
                                   style: GoogleFonts.lilitaOne(
                                     textStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: secondaryColor,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
                                         decoration: TextDecoration.lineThrough),
@@ -232,7 +238,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   "${getLang(context, 'price')}: ",
                                   style: GoogleFonts.lilitaOne(
                                     textStyle: TextStyle(
-                                        color: Colors.white,
+                                        color: secondaryColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -246,7 +252,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   "${cartList[index]["cartPrice"]} * ${cartList[index]["quantities"]} = ${cartList[index]["cartPrice"] * cartList[index]["quantities"]} ",
                                   style: GoogleFonts.lilitaOne(
                                     textStyle: TextStyle(
-                                      color: Colors.white,
+                                      color: secondaryColor,
                                       fontSize: 15,
                                     ),
                                   ),
@@ -303,7 +309,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   },
                                   icon: Icon(
                                     Icons.remove_circle_outline,
-                                    color: Colors.white,
+                                    color: secondaryColor,
                                     size: 30,
                                   )),
                             )
@@ -349,7 +355,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                             "${getLang(context, 'total_price')}",
                             style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(
-                                color: Colors.white,
+                                color: secondaryColor,
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -361,7 +367,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                             "${totalPrice}",
                             style: GoogleFonts.lilitaOne(
                               textStyle: TextStyle(
-                                color: Colors.white,
+                                color: secondaryColor,
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -411,14 +417,13 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                       TextFormField(
                                                         style: TextStyle(
                                                             color:
-                                                                Colors.white),
+                                                                secondaryColor),
                                                         controller:
                                                             _emailController,
                                                         decoration: InputDecoration(
                                                             labelText: 'Email',
                                                             labelStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
+                                                                color: secondaryColor)),
                                                         keyboardType:
                                                             TextInputType
                                                                 .emailAddress,
@@ -441,8 +446,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                             child:
                                                                 TextFormField(
                                                               style: TextStyle(
-                                                                  color: Colors
-                                                                      .white),
+                                                                  color: secondaryColor),
                                                               controller:
                                                                   _cardNumberController,
                                                               decoration: InputDecoration(
@@ -451,7 +455,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                   labelStyle:
                                                                       TextStyle(
                                                                           color:
-                                                                              Colors.white)),
+                                                                              secondaryColor)),
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -524,7 +528,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                       value,
                                                                       style: TextStyle(
                                                                           color:
-                                                                              Colors.white),
+                                                                              secondaryColor),
                                                                     ));
                                                               }).toList(),
                                                             ),
@@ -542,8 +546,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                             child:
                                                                 TextFormField(
                                                               style: TextStyle(
-                                                                  color: Colors
-                                                                      .white),
+                                                                  color: secondaryColor),
                                                               controller:
                                                                   _expiryMonthController,
                                                               decoration: InputDecoration(
@@ -552,7 +555,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                   labelStyle:
                                                                       TextStyle(
                                                                           color:
-                                                                              Colors.white)),
+                                                                              secondaryColor)),
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -577,8 +580,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                             child:
                                                                 TextFormField(
                                                               style: TextStyle(
-                                                                  color: Colors
-                                                                      .white),
+                                                                  color: secondaryColor),
                                                               controller:
                                                                   _expiryYearController,
                                                               decoration: InputDecoration(
@@ -586,8 +588,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                       'Expiry Year',
                                                                   labelStyle:
                                                                       TextStyle(
-                                                                          color:
-                                                                              Colors.white)),
+                                                                          color:secondaryColor)),
                                                               keyboardType:
                                                                   TextInputType
                                                                       .number,
@@ -607,15 +608,13 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                       ),
                                                       TextFormField(
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                            color:secondaryColor),
                                                         controller:
                                                             _cvvController,
                                                         decoration: InputDecoration(
                                                             labelText: 'CVV',
                                                             labelStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
+                                                                color: secondaryColor)),
                                                         keyboardType:
                                                             TextInputType
                                                                 .number,
@@ -629,16 +628,14 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                       ),
                                                       TextFormField(
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                            color:secondaryColor),
                                                         controller:
                                                             _accountNameController,
                                                         decoration: InputDecoration(
                                                             labelText:
                                                                 'Account Name',
                                                             labelStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
+                                                                color: secondaryColor)),
                                                         keyboardType:
                                                             TextInputType
                                                                 .number,
@@ -652,16 +649,14 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                       ),
                                                       TextFormField(
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.white),
+                                                            color:secondaryColor),
                                                         controller:
                                                             _phoneNumberController,
                                                         decoration: InputDecoration(
                                                             labelText:
                                                                 'Phone Number',
                                                             labelStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white)),
+                                                                color: secondaryColor)),
                                                         validator: (value) {
                                                           if (value == null ||
                                                               value.isEmpty) {
@@ -1020,7 +1015,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                         ),
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
+                              MaterialStateProperty.all<Color>(secondaryColor),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(

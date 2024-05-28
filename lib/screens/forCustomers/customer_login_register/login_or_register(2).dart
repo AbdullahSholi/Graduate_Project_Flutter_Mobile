@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/customer_login_register/customer-forget-reset-password.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
@@ -18,21 +19,18 @@ import '../../../models/customer/customer_login_model.dart';
 import '../../../models/customer/customer_register_model.dart';
 import 'customer_register.dart';
 
-
-
 class CustomerLoginOrRegister extends StatefulWidget {
-
   final String token;
   final String email;
-  CustomerLoginOrRegister(this.token,this.email);
+  CustomerLoginOrRegister(this.token, this.email);
 
   @override
-  State<CustomerLoginOrRegister> createState() => _CustomerLoginOrRegisterState();
+  State<CustomerLoginOrRegister> createState() =>
+      _CustomerLoginOrRegisterState();
 }
 
-class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with TickerProviderStateMixin {
-
-
+class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
+    with TickerProviderStateMixin {
   String tokenVal = "";
   String emailVal = "";
   @override
@@ -47,199 +45,298 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
-
+  Color primaryColor = Color(0xFF212128);
+  Color secondaryColor = Color(0xFFF4F4FB);
+  Color accentColor = Color(0xFF0E1011);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedBackground(
-        behaviour: RandomParticleBehaviour(
-          options: ParticleOptions(
-            // spawnMaxRadius: 40,
-            // spawnMinRadius: 1.0,
-              particleCount: 100,
-              // spawnMaxSpeed: 150.0,
-              // // minOpacity: .3,
-              // // spawnOpacity: .4,
-              // // baseColor: Colors.black26,
-              image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-          ),
+      backgroundColor: primaryColor,
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          // color: Colors.blue,
         ),
-        vsync: this,
         child: Container(
-          padding: const EdgeInsets.fromLTRB(10, 60, 10, 60),
-          // color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Color(0xFF212128),
-            ),
-            child: Container(
-              height: double.infinity,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height/10,),
-                    Text("${getLang(context, 'login_as_customer')}",style: TextStyle(color: Colors.white, fontSize: 25),),
-                    SizedBox(height: 20,),
-                    Container(
-                      width: MediaQuery.of(context).size.width/1.3,
-                      child: TextFormField(
-                        cursorColor: Colors.white,
-                        style: TextStyle(color: Colors.white),
-                        controller: emailTextEditingController,
-                        //Making keyboard just for Email
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value){
-                          if(value!.isEmpty){
-                            return 'Email address is required';
-                          }
-                        },
-                        decoration: InputDecoration(
-                            labelText: "${getLang(context, 'email_address')}",
-                            labelStyle: TextStyle(color: Colors.white),
-                            prefixIcon: Icon(
-                              Icons.email,color: Colors.white,
-                            ),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white, )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white, )
-                            )
-                        ),
-                      ),
+          height: double.infinity,
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipPath(
+                    clipper: WaveClipper(),
+                    child: Image.asset(
+                      'assets/images/login.jpg',
+                      // width: 110.0,
+                      // height: 110.0,
+                      fit: BoxFit.fill,
                     ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width/1.3,
-                      child: TextFormField(
-                        obscureText: !defaultObsecure,
-                        style: TextStyle(color: Colors.white),
-                        cursorColor: Colors.white,
-                        controller: passwordTextEditingController,
-                        //Making keyboard just for Email
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: (value){
-                          if(value!.isEmpty){
-                            return 'Email address is required';
-                          }
-                        },
-                        decoration: InputDecoration(
-                            labelText: "${getLang(context, 'password')}",
-                            labelStyle: const TextStyle(color: Colors.white),
-                            prefixIcon: const Icon(
-                              Icons.password,color: Colors.white,
-                            ),
-                            suffixIcon: IconButton( color: Colors.white, onPressed: () {
-                              setState(() {
-                                defaultObsecure= !defaultObsecure;
-                              });
-                            }, icon: Icon(defaultObsecure ? Icons.visibility : Icons.visibility_off)
-                            ),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white, )
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white, )
-                            )
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width/3,
-                          decoration: BoxDecoration(
-                              color: Colors.black26,
-                              borderRadius: BorderRadius.circular(10)
+                  ),
+                  // SizedBox(height: MediaQuery.of(context).size.height/10,),
+                  // Text("${getLang(context, 'login_as_customer')}",style: TextStyle(color: secondaryColor, fontSize: 25),),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 12,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                    // width: MediaQuery.of(context).size.width/1.3,
+                    child: TextFormField(
+                      cursorColor: Colors.white,
+                      style: GoogleFonts.roboto(
+                          textStyle: TextStyle(color: secondaryColor)),
+                      controller: emailTextEditingController,
+                      //Making keyboard just for Email
+                      keyboardType: TextInputType.emailAddress,
+
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter an email';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        } else {
+                          return null;
+                        }
+                      },
+
+                      decoration: InputDecoration(
+                          labelText: "${getLang(context, 'email_address')}",
+                          labelStyle: GoogleFonts.roboto(
+                              textStyle: TextStyle(color: secondaryColor)),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: secondaryColor,
                           ),
-                          child: TextButton(onPressed:
-                              ()async{
-                            try {
-                              var email = emailTextEditingController.text;
-                              var password = passwordTextEditingController.text;
-                              http.Response userFuture = await http.post(
-                                Uri.parse(
-                                    "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/login"),
-                                headers: { "Content-Type": "application/json"},
-                                body: jsonEncode(
-                                  {"email": email, "password": password,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: secondaryColor,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: secondaryColor,
+                          ))),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                    child: TextFormField(
+                      obscureText: !defaultObsecure,
+                      style: GoogleFonts.roboto(
+                          textStyle: TextStyle(color: secondaryColor)),
+                      cursorColor: Colors.white,
+                      controller: passwordTextEditingController,
+                      //Making keyboard just for Email
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          labelText: "${getLang(context, 'password')}",
+                          labelStyle: GoogleFonts.roboto(
+                              textStyle: TextStyle(color: secondaryColor)),
+                          prefixIcon: Icon(
+                            Icons.password,
+                            color: secondaryColor,
+                          ),
+                          suffixIcon: IconButton(
+                              color: secondaryColor,
+                              onPressed: () {
+                                setState(() {
+                                  defaultObsecure = !defaultObsecure;
+                                });
+                              },
+                              icon: Icon(defaultObsecure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: secondaryColor,
+                          )),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                            color: secondaryColor,
+                          ))),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        decoration: BoxDecoration(
+                            color: accentColor,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: TextButton(
+                            onPressed: () async {
+                              // _formKey.currentState!.validate();
+                              if (_formKey.currentState!.validate()) {
+                                try {
+                                  var email = emailTextEditingController.text;
+                                  var password =
+                                      passwordTextEditingController.text;
+                                  http.Response userFuture = await http.post(
+                                    Uri.parse(
+                                        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/login"),
+                                    headers: {
+                                      "Content-Type": "application/json"
+                                    },
+                                    body: jsonEncode(
+                                      {
+                                        "email": email,
+                                        "password": password,
+                                      },
+                                    ),
+                                    encoding: Encoding.getByName("utf-8"),
+                                  );
+                                  print(userFuture.body);
+                                  print(emailVal);
+                                  if (userFuture.body.toString().trim() ==
+                                      "Too many login attempts, please try again after 60 seconds") {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline,
+                                              color: Colors.red,
+                                              weight: 30,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Error Occurs!",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        backgroundColor: Color(0xFF101720),
+                                        content: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              20,
+                                          child: Text(
+                                            "${userFuture.body}",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                "OK",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ))
+                                        ],
+                                      ),
+                                    );
+                                  }
 
-                                  },
+                                  var temp = CustomerLoginPage.fromJson(
+                                      json.decode(userFuture.body));
 
-                                ),
-                                encoding: Encoding.getByName("utf-8"),
-                              );
-                              print(userFuture.body);
-                              print(emailVal);
-                              if(userFuture.body.toString().trim()=="Too many login attempts, please try again after 60 seconds"){
-                                showDialog(context: context, builder: (context)=>AlertDialog(
-                                  title: Row(
-                                    children: [
-                                      Icon(Icons.error_outline,color: Colors.red,weight: 30,),
-                                      SizedBox(width: 10,),
-                                      Text("Error Occurs!",style: TextStyle(color: Colors.white),),
-                                    ],
-                                  ),
-                                  backgroundColor: Color(0xFF101720),
-                                  content: Container(
-                                    height: MediaQuery.of(context).size.height/20,
-                                    child: Text("${userFuture.body}",style: TextStyle(color: Colors.white),),
-                                  ),
-                                  actions: [
-                                    TextButton(onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("OK",style: TextStyle(color: Colors.white),))
-                                  ],
-                                ),
-                                );
+                                  print(temp?.token);
+                                  print(temp?.email);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CustomerMainPage(
+                                                  temp.token, temp.email)));
+                                } catch (error) {}
                               }
-
-                              var temp = CustomerLoginPage.fromJson(json.decode(userFuture.body));
-
-                              print(temp?.token );
-                              print(temp?.email);
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMainPage(temp.token,temp.email)));
-                            }
-                            catch(error) {
-
-                            }
-                          }, child: Text("${getLang(context, 'login')}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
-                        ),
-                        SizedBox(width: 20,),
-                        Container(
-                          width: MediaQuery.of(context).size.width/3,
-                          decoration: BoxDecoration(
-                              color: Colors.black26,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: TextButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerRegister("","")));
-                          }, child: Text("${getLang(context, 'register')}",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
-                        ),
-                      ],),
-                    SizedBox(height: 10,),
-                    Center(
-                      child: InkWell( onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetAndResetPassword(emailVal, tokenVal)));
-                      }, child: Text("${getLang(context, 'forgot_password')}؟",style: TextStyle(color: Colors.white),),),
-                    )
-                  ],
-                ),
+                            },
+                            child: Text("${getLang(context, 'login')}",
+                                style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                        color: secondaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)))),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        decoration: BoxDecoration(
+                            color: accentColor,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CustomerRegister("", "")));
+                            },
+                            child: Text("${getLang(context, 'register')}",
+                                style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                        color: secondaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("${getLang(context, 'forgot_password')}?  ",
+                          style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15))),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgetAndResetPassword(
+                                      emailVal, tokenVal)));
+                        },
+                        child: Text("Click !",
+                            style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                    decorationColor: Colors.blue,
+                                    decorationThickness: 2,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15))),
+                      ),
+                      // SizedBox(width: 30,)
+                    ],
+                  ),
+                ],
               ),
             ),
-
           ),
         ),
       ),
@@ -247,5 +344,36 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister> with 
   }
 }
 
+////////////////////
+////////////////////
+////////////////////
+////////////////////
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 50);
 
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 50);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
 
+    var secondControlPoint =
+    Offset(size.width * 3 / 4, size.height - 100);
+    var secondEndPoint = Offset(size.width, size.height - 50);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, size.height - 50);
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}
