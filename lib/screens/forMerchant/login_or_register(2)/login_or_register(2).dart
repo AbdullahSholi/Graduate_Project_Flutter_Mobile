@@ -4,11 +4,13 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/register.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../components/applocal.dart';
 import '../../../models/merchant/login_page_merchant.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
 import 'merchant-forget-reset-password.dart';
@@ -43,33 +45,24 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
+  Color primaryColor = Color(0xFF212128);
+  Color secondaryColor = Color(0xFFF4F4FB);
+  Color accentColor = Color(0xFF0E1011);
+  final _formKey = GlobalKey<FormState>();
+
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedBackground(
-        behaviour: RandomParticleBehaviour(
-          options: ParticleOptions(
-            // spawnMaxRadius: 40,
-            // spawnMinRadius: 1.0,
-              particleCount: 100,
-              // spawnMaxSpeed: 150.0,
-              // // minOpacity: .3,
-              // // spawnOpacity: .4,
-              // // baseColor: Colors.black26,
-              image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-          ),
-        ),
-        vsync: this,
+      body: Container(
+        // color: Colors.white,
         child: Container(
-          padding: const EdgeInsets.fromLTRB(10, 60, 10, 60),
-          // color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Color(0xFF212128),
-            ),
+          decoration: BoxDecoration(
+            color: Color(0xFF212128),
+          ),
+          child: Form(
+            key: _formKey,
             child: Container(
               height: double.infinity,
               width: MediaQuery.of(context).size.width,
@@ -78,20 +71,34 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height/10,),
-                    Text("Login as Merchant",style: TextStyle(color: Colors.white, fontSize: 25),),
-                    SizedBox(height: 20,),
+                    ClipPath(
+                      clipper: WaveClipper(),
+                      child: Image.asset(
+                        'assets/images/login.jpg',
+                        // width: 110.0,
+                        // height: 110.0,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 12,
+                    ),
                     Container(
-                      width: MediaQuery.of(context).size.width/1.3,
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
                       child: TextFormField(
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
                         controller: emailTextEditingController,
                         //Making keyboard just for Email
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value){
-                          if(value!.isEmpty){
-                            return 'Email address is required';
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter an email';
+                          }
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          } else {
+                            return null;
                           }
                         },
                         decoration: InputDecoration(
@@ -113,7 +120,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                       height: 30.0,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width/1.3,
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
                       child: TextFormField(
                         obscureText: !defaultObsecure,
                         style: TextStyle(color: Colors.white),
@@ -121,10 +128,11 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                         controller: passwordTextEditingController,
                         //Making keyboard just for Email
                         keyboardType: TextInputType.visiblePassword,
-                        validator: (value){
-                          if(value!.isEmpty){
-                            return 'Email address is required';
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                             labelText: 'Password',
@@ -148,130 +156,166 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                       ),
                     ),
                     const SizedBox(
-                      height: 50.0,
+                      height: 30.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width/3,
+                          width: MediaQuery.of(context).size.width/2.5,
                           decoration: BoxDecoration(
-                              color: Colors.black26,
-                              borderRadius: BorderRadius.circular(10)
+                              color: accentColor,
+                              borderRadius: BorderRadius.circular(4)
                           ),
                           child: TextButton(onPressed:
                               ()async{
-                            try {
-                              var email = emailTextEditingController.text;
-                              var password = passwordTextEditingController.text;
-                              http.Response userFuture = await http.post(
-                                Uri.parse(
-                                    "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-login"),
-                                headers: { "Content-Type": "application/json"},
-                                body: jsonEncode(
-                                  {"email": email, "password": password,},
+                            if(_formKey.currentState!.validate()){
+                              try {
+                                var email = emailTextEditingController.text;
+                                var password = passwordTextEditingController.text;
+                                http.Response userFuture = await http.post(
+                                  Uri.parse(
+                                      "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-login"),
+                                  headers: { "Content-Type": "application/json"},
+                                  body: jsonEncode(
+                                    {"email": email, "password": password,},
 
-                                ),
-                                encoding: Encoding.getByName("utf-8"),
-                              );
-                              print(userFuture.body);
-                              print(emailVal);
-                              if(userFuture.body.toString().trim()=="Too many login attempts, please try again after 60 seconds"){
-                                showDialog(context: context, builder: (context)=>AlertDialog(
-                                    title: Row(
-                                                children: [
-                                                  Icon(Icons.error_outline,color: Colors.red,weight: 30,),
-                                                  SizedBox(width: 10,),
-                                                  Text("Error Occurs!",style: TextStyle(color: Colors.white),),
-                                                ],
-                                              ),
-                                  backgroundColor: Color(0xFF101720),
-                                  content: Container(
-                                    height: MediaQuery.of(context).size.height/20,
-                                    child: Text("${userFuture.body}",style: TextStyle(color: Colors.white),),
                                   ),
-                                actions: [
-                                  TextButton(onPressed: (){
-                                    Navigator.pop(context);
-                                  }, child: Text("OK",style: TextStyle(color: Colors.white),))
-                                ],
-                                ),
+                                  encoding: Encoding.getByName("utf-8"),
                                 );
+                                print(userFuture.body);
+                                print(emailVal);
+                                if(userFuture.body.toString().trim()=="Too many login attempts, please try again after 60 seconds"){
+                                  showDialog(context: context, builder: (context)=>AlertDialog(
+                                    title: Row(
+                                      children: [
+                                        Icon(Icons.error_outline,color: Colors.red,weight: 30,),
+                                        SizedBox(width: 10,),
+                                        Text("Error Occurs!",style: TextStyle(color: Colors.white),),
+                                      ],
+                                    ),
+                                    backgroundColor: Color(0xFF101720),
+                                    content: Container(
+                                      height: MediaQuery.of(context).size.height/20,
+                                      child: Text("${userFuture.body}",style: TextStyle(color: Colors.white),),
+                                    ),
+                                    actions: [
+                                      TextButton(onPressed: (){
+                                        Navigator.pop(context);
+                                      }, child: Text("OK",style: TextStyle(color: Colors.white),))
+                                    ],
+                                  ),
+                                  );
+                                }
+
+                                var temp = LoginPageMerchant.fromJson(
+                                    json.decode(userFuture.body));
+
+                                print(temp?.token );
+                                print(temp?.email);
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantHome(temp.token,temp.email)));
                               }
+                              catch(error) {
 
-                              var temp = LoginPageMerchant.fromJson(
-                                  json.decode(userFuture.body));
+                                //   showDialog<void>(
+                                //     context: context,
+                                //     barrierDismissible: false, // User must tap button to close
+                                //     builder: (BuildContext context) {
+                                //       return AlertDialog(
+                                //         backgroundColor: Colors.white,
+                                //         title: Row(
+                                //           children: [
+                                //             Icon(Icons.error_outline,color: Colors.red,weight: 30,),
+                                //             SizedBox(width: 10,),
+                                //             Text("Error Occurs!"),
+                                //           ],
+                                //         ),
+                                //         content: const SingleChildScrollView(
+                                //           child: ListBody(
+                                //             children: <Widget>[
+                                //               Text("Wrong Email or Password!!",style: TextStyle(color: Colors.black),),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //         actions: <Widget>[
+                                //           TextButton(
+                                //             child: const Text("OK"),
+                                //             onPressed: () {
+                                //               Navigator.of(context).pop(); // Close the dialog
+                                //             },
+                                //           ),
+                                //         ],
+                                //       );
+                                //     },
+                                //   );
+                                //
+                                //
+                                // }
 
-                              print(temp?.token );
-                              print(temp?.email);
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantHome(temp.token,temp.email)));
+
+                              }
                             }
-                            catch(error) {
 
-                              //   showDialog<void>(
-                              //     context: context,
-                              //     barrierDismissible: false, // User must tap button to close
-                              //     builder: (BuildContext context) {
-                              //       return AlertDialog(
-                              //         backgroundColor: Colors.white,
-                              //         title: Row(
-                              //           children: [
-                              //             Icon(Icons.error_outline,color: Colors.red,weight: 30,),
-                              //             SizedBox(width: 10,),
-                              //             Text("Error Occurs!"),
-                              //           ],
-                              //         ),
-                              //         content: const SingleChildScrollView(
-                              //           child: ListBody(
-                              //             children: <Widget>[
-                              //               Text("Wrong Email or Password!!",style: TextStyle(color: Colors.black),),
-                              //             ],
-                              //           ),
-                              //         ),
-                              //         actions: <Widget>[
-                              //           TextButton(
-                              //             child: const Text("OK"),
-                              //             onPressed: () {
-                              //               Navigator.of(context).pop(); // Close the dialog
-                              //             },
-                              //           ),
-                              //         ],
-                              //       );
-                              //     },
-                              //   );
-                              //
-                              //
-                              // }
-
-
-                            }
-                          }, child: Text("Login",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                          }, child: Text("Login",style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)))),
                         ),
                         SizedBox(width: 20,),
                         Container(
-                          width: MediaQuery.of(context).size.width/3,
+                          width: MediaQuery.of(context).size.width/2.5,
                           decoration: BoxDecoration(
-                              color: Colors.black26,
-                              borderRadius: BorderRadius.circular(10)
+                              color: accentColor,
+                              borderRadius: BorderRadius.circular(4)
                           ),
                           child: TextButton(onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantRegister("","")));
-                          }, child: Text("Register",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+                          }, child: Text("Register",style:GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),)),
                         ),
                       ],),
-                    SizedBox(height: 10,),
-                    Center(
-                      child: InkWell( onTap: () async {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgetAndResetPassword(emailVal, tokenVal)));
-                      }, child: Text("Forgot Password?",style: TextStyle(color: Colors.white),),),
-                    )
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("${getLang(context, 'forgot_password')}?  ",
+                            style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                    color: secondaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15))),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgetAndResetPassword(
+                                        emailVal, tokenVal)));
+                          },
+                          child: Text("Click !",
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.blue,
+                                      decorationThickness: 2,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15))),
+                        ),
+                        // SizedBox(width: 30,)
+                      ],
+                    ),
                   ],
                 ),
               ),
             ),
-
           ),
+
         ),
       ),
     );
@@ -279,4 +323,32 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
 }
 
 
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 50);
 
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 50);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+
+    var secondControlPoint =
+    Offset(size.width * 3 / 4, size.height - 100);
+    var secondEndPoint = Offset(size.width, size.height - 50);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, size.height - 50);
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}

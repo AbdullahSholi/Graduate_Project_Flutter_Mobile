@@ -28,6 +28,7 @@ import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
 import '../../../models/singleUser.dart';
+import '../../../toggle_button.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
 import 'display_store_informations(5.3).dart';
 
@@ -886,8 +887,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   TextEditingController cartPriceTextEditingController =
       TextEditingController();
   bool cartDiscountBool = false;
-  bool cartLikedBool = false;
-  bool cartFavouriteBool = false;
+  bool cartLikedBool = true;
+  bool cartFavouriteBool = true;
   TextEditingController cartPriceAfterDiscountTextEditingController =
       TextEditingController();
   TextEditingController cartDescriptionTextEditingController =
@@ -1359,7 +1360,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Carts",
+                                            "Products",
                                             style: TextStyle(
                                                 color: Color(0xFF212128),
                                                 fontSize: 24,
@@ -1406,15 +1407,15 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                 NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                            SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount:
-                                                  2, // Set the number of columns
+                                              2, // Set the number of columns
                                               childAspectRatio:
-                                              0.77, // Customize the aspect ratio (width/height) of each tile
+                                              0.73, // Customize the aspect ratio (width/height) of each tile
                                               mainAxisSpacing:
-                                                  4.0, // Spacing between rows
+                                              4.0, // Spacing between rows
                                               crossAxisSpacing:
-                                                  2.0, // Spacing between columns
+                                              2.0, // Spacing between columns
                                             ),
                                             // storeCartsVal[index]
                                             itemBuilder:
@@ -1448,6 +1449,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           color: Color(
                                                               0xF2222128),
                                                         ),
+                                                        height: 180,
                                                         child: InkWell(
                                                           onTap: () {
                                                             print(index);
@@ -1474,6 +1476,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 ? CachedNetworkImage(
                                                                     imageUrl:
                                                                         "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
+                                                                  height: 180,
                                                                     placeholder: (context, url) =>
                                                                         SimpleCircularProgressBar(
                                                                       mergeMode:
@@ -1490,6 +1493,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 : CachedNetworkImage(
                                                               imageUrl:
                                                               storeCartsVal[index]["cartPrimaryImage"],
+                                                              height: 180,
                                                               placeholder: (context, url) =>
                                                                   SimpleCircularProgressBar(
                                                                     mergeMode:
@@ -1501,7 +1505,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                   Icon(Icons.error),
                                                               fit: BoxFit
                                                                   .cover,
-                                                              height: 120,
+                                                              // height: 120,
                                                               width: double.infinity,
                                                             )
                                                           ),
@@ -1552,15 +1556,19 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       Visibility(
                                                         visible: storeCartsVal[index]["cartFavourite"],
                                                         child: Positioned(
-                                                          top: 5,
+                                                            top: 5,
                                                             right: 5,
-                                                            child: FavoriteButton(
-                                                              iconDisabledColor: Color(0xFF212128),
-                                                              iconSize: 40,
-                                                              iconColor: Colors.white,
-                                                                valueChanged: (_isFavorite){
-                                                          print('Is Favorite $_isFavorite');
-                                                        })),
+                                                            child: CircleAvatar(
+                                                              radius: 23,
+                                                              backgroundColor:
+                                                              Colors.red,
+                                                              child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                                  offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                                  initialValue: false, onChanged: (_isFavorite) async {
+                                                                    print(
+                                                                        'Is Favorite $_isFavorite');
+                                                                  }),
+                                                            )),
                                                       )
                                                     ],
                                                   ),
@@ -1578,7 +1586,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                       AlertDialog(
                                                                         backgroundColor: Color(0xFF212128),
                                                                         title: Text(
-                                                                          "Edit Cart ",
+                                                                          "Edit Product ",
                                                                           style: TextStyle(color: Colors.white),
                                                                         ),
                                                                         content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
@@ -1589,7 +1597,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                                 children: [
                                                                                   Text(
-                                                                                    "Edit Your Store Carts ",
+                                                                                    "Edit Your Product ",
                                                                                     textAlign: TextAlign.left,
                                                                                     style: TextStyle(color: Colors.white),
                                                                                   ),
@@ -1734,11 +1742,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                           keyboardType: TextInputType.emailAddress,
                                                                                           validator: (value) {
                                                                                             if (value!.isEmpty) {
-                                                                                              return 'Cart Name is required';
+                                                                                              return 'Product Name is required';
                                                                                             }
                                                                                           },
                                                                                           decoration: InputDecoration(
-                                                                                              labelText: 'Cart name',
+                                                                                              labelText: 'Product name',
                                                                                               labelStyle: TextStyle(color: Colors.white),
                                                                                               prefixIcon: Icon(
                                                                                                 Icons.category_outlined,
@@ -1767,11 +1775,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                           keyboardType: TextInputType.text,
                                                                                           validator: (value) {
                                                                                             if (value!.isEmpty) {
-                                                                                              return 'Cart Price is required';
+                                                                                              return 'Product Price is required';
                                                                                             }
                                                                                           },
                                                                                           decoration: InputDecoration(
-                                                                                              labelText: 'Cart price',
+                                                                                              labelText: 'Product price',
                                                                                               labelStyle: TextStyle(color: Colors.white),
                                                                                               prefixIcon: Icon(
                                                                                                 Icons.price_change,
@@ -1800,11 +1808,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                           keyboardType: TextInputType.text,
                                                                                           validator: (value) {
                                                                                             if (value!.isEmpty) {
-                                                                                              return 'Cart Quantities is required';
+                                                                                              return 'Product Quantities is required';
                                                                                             }
                                                                                           },
                                                                                           decoration: InputDecoration(
-                                                                                              labelText: 'Cart Quantities',
+                                                                                              labelText: 'Product Quantities',
                                                                                               labelStyle: TextStyle(color: Colors.white),
                                                                                               prefixIcon: Icon(
                                                                                                 Icons.production_quantity_limits,
@@ -1833,11 +1841,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                           keyboardType: TextInputType.emailAddress,
                                                                                           validator: (value) {
                                                                                             if (value!.isEmpty) {
-                                                                                              return 'Cart Descrption is required';
+                                                                                              return 'Product Descrption is required';
                                                                                             }
                                                                                           },
                                                                                           decoration: InputDecoration(
-                                                                                              labelText: 'Cart description',
+                                                                                              labelText: 'Product description',
                                                                                               labelStyle: TextStyle(color: Colors.white),
                                                                                               prefixIcon: Icon(
                                                                                                 Icons.description,
@@ -1915,65 +1923,65 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                       SizedBox(
                                                                                         height: 0,
                                                                                       ),
-                                                                                      Padding(
-                                                                                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                                                                        child: Row(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          children: [
-                                                                                            Container(
-                                                                                              width: MediaQuery.of(context).size.width / 2.5,
-                                                                                              child: Text(
-                                                                                                'Activate Like',
-                                                                                                style: TextStyle(fontSize: 16.0, color: Colors.white),
-                                                                                              ),
-                                                                                            ),
-                                                                                            Checkbox(
-                                                                                              value: cartLikedBool,
-                                                                                              onChanged: (bool? value) {
-                                                                                                setState(() {
-                                                                                                  cartLikedBool = value!;
-                                                                                                  print(cartLikedBool);
-                                                                                                });
-                                                                                              },
-                                                                                              checkColor: Colors.blue,
-                                                                                              activeColor: Colors.blue,
-                                                                                              // Color when checked
-                                                                                              fillColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        height: 0,
-                                                                                      ),
-                                                                                      Padding(
-                                                                                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                                                                                        child: Row(
-                                                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                                                          children: [
-                                                                                            Container(
-                                                                                              width: MediaQuery.of(context).size.width / 2.5,
-                                                                                              child: Text(
-                                                                                                'Activate Favourite',
-                                                                                                style: TextStyle(fontSize: 16.0, color: Colors.white),
-                                                                                              ),
-                                                                                            ),
-                                                                                            Checkbox(
-                                                                                              value: cartFavouriteBool,
-                                                                                              onChanged: (bool? value) {
-                                                                                                setState(() {
-                                                                                                  cartFavouriteBool = value!;
-                                                                                                  print(cartFavouriteBool);
-                                                                                                });
-                                                                                              },
-                                                                                              checkColor: Colors.blue,
-                                                                                              activeColor: Colors.blue,
-                                                                                              // Color when checked
-                                                                                              fillColor: MaterialStateProperty.all<Color>(Colors.white),
-                                                                                            ),
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
+                                                                                      // Padding(
+                                                                                      //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                                                                      //   child: Row(
+                                                                                      //     mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      //     children: [
+                                                                                      //       Container(
+                                                                                      //         width: MediaQuery.of(context).size.width / 2.5,
+                                                                                      //         child: Text(
+                                                                                      //           'Activate Like',
+                                                                                      //           style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                                                                      //         ),
+                                                                                      //       ),
+                                                                                      //       Checkbox(
+                                                                                      //         value: cartLikedBool,
+                                                                                      //         onChanged: (bool? value) {
+                                                                                      //           setState(() {
+                                                                                      //             cartLikedBool = value!;
+                                                                                      //             print(cartLikedBool);
+                                                                                      //           });
+                                                                                      //         },
+                                                                                      //         checkColor: Colors.blue,
+                                                                                      //         activeColor: Colors.blue,
+                                                                                      //         // Color when checked
+                                                                                      //         fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                                      //       ),
+                                                                                      //     ],
+                                                                                      //   ),
+                                                                                      // ),
+                                                                                      // SizedBox(
+                                                                                      //   height: 0,
+                                                                                      // ),
+                                                                                      // Padding(
+                                                                                      //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                                                                                      //   child: Row(
+                                                                                      //     mainAxisAlignment: MainAxisAlignment.start,
+                                                                                      //     children: [
+                                                                                      //       Container(
+                                                                                      //         width: MediaQuery.of(context).size.width / 2.5,
+                                                                                      //         child: Text(
+                                                                                      //           'Activate Favourite',
+                                                                                      //           style: TextStyle(fontSize: 16.0, color: Colors.white),
+                                                                                      //         ),
+                                                                                      //       ),
+                                                                                      //       Checkbox(
+                                                                                      //         value: cartFavouriteBool,
+                                                                                      //         onChanged: (bool? value) {
+                                                                                      //           setState(() {
+                                                                                      //             cartFavouriteBool = value!;
+                                                                                      //             print(cartFavouriteBool);
+                                                                                      //           });
+                                                                                      //         },
+                                                                                      //         checkColor: Colors.blue,
+                                                                                      //         activeColor: Colors.blue,
+                                                                                      //         // Color when checked
+                                                                                      //         fillColor: MaterialStateProperty.all<Color>(Colors.white),
+                                                                                      //       ),
+                                                                                      //     ],
+                                                                                      //   ),
+                                                                                      // ),
                                                                                       SizedBox(
                                                                                         height: 10,
                                                                                       ),
@@ -2047,7 +2055,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                 }
                                                                                               },
                                                                                               child: Text(
-                                                                                                "Update Cart",
+                                                                                                "Update Product",
                                                                                                 style: TextStyle(color: Colors.white),
                                                                                               ),
                                                                                               style: ButtonStyle(
@@ -2066,7 +2074,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                   deleteCart(index);
                                                                                                 },
                                                                                                 child: Text(
-                                                                                                  "Delete Cart",
+                                                                                                  "Delete Product",
                                                                                                   style: TextStyle(color: Colors.white),
                                                                                                 ),
                                                                                                 style: ButtonStyle(
@@ -2087,7 +2095,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                       ));
                                                         },
                                                         child: Container(
-                                                          height: 120,
+                                                          height: 71,
                                                           decoration:
                                                               BoxDecoration(
                                                             borderRadius:
@@ -2131,29 +2139,29 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                           Colors.white,
                                                                     )),
                                                               ),
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        10,
-                                                                        8,
-                                                                        10,
-                                                                        3),
-                                                                child: Text(
-                                                                    "${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                    overflow: TextOverflow
-                                                                        .ellipsis,
-                                                                    maxLines:
-                                                                        2,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight.bold,
-                                                                      color:
-                                                                          Colors.white,
-                                                                    )),
-                                                              ),
+                                                              // Container(
+                                                              //   padding: EdgeInsets
+                                                              //       .fromLTRB(
+                                                              //           10,
+                                                              //           8,
+                                                              //           10,
+                                                              //           3),
+                                                              //   child: Text(
+                                                              //       "${storeCartsVal[index]["cartDescription"].toString()}",
+                                                              //       overflow: TextOverflow
+                                                              //           .ellipsis,
+                                                              //       maxLines:
+                                                              //           2,
+                                                              //       style:
+                                                              //           TextStyle(
+                                                              //         fontSize:
+                                                              //             14,
+                                                              //         fontWeight:
+                                                              //             FontWeight.bold,
+                                                              //         color:
+                                                              //             Colors.white,
+                                                              //       )),
+                                                              // ),
                                                               Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
@@ -2203,7 +2211,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 ],
                                                               ),
                                                             Visibility(
-                                                          visible: storeCartsVal[index]["cartLiked"],
+                                                          visible: false,
                                                           child: Container(
                                                             padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
                                                             child: RatingBar.builder(
@@ -2707,7 +2715,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           builder: (context) => AlertDialog(
                 backgroundColor: Color(0xFF212128),
                 title: Text(
-                  "Cart content",
+                  "Product content",
                   style: TextStyle(color: Colors.white),
                 ),
                 content: StatefulBuilder(
@@ -2720,7 +2728,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Enter Your Store Carts ",
+                            "Enter Your Product Details... ",
                             textAlign: TextAlign.left,
                             style: TextStyle(color: Colors.white),
                           ),
@@ -2739,11 +2747,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Cart Name is required';
+                                      return 'Product Name is required';
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      labelText: 'Cart name',
+                                      labelText: 'Product name',
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                       prefixIcon: Icon(
@@ -2773,11 +2781,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Cart Price is required';
+                                      return 'Product Price is required';
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      labelText: 'Cart price',
+                                      labelText: 'Product price',
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                       prefixIcon: Icon(
@@ -2808,11 +2816,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Cart Quantities is required';
+                                      return 'Product Quantities is required';
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      labelText: 'Cart Quantities',
+                                      labelText: 'Product Quantities',
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                       prefixIcon: Icon(
@@ -2843,11 +2851,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Cart Descrption is required';
+                                      return 'Product Descrption is required';
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      labelText: 'Cart description',
+                                      labelText: 'Product description',
                                       labelStyle:
                                           TextStyle(color: Colors.white),
                                       prefixIcon: Icon(
@@ -2934,75 +2942,75 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               SizedBox(
                                 height: 0,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      child: Text(
-                                        'Activate Like',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                    Checkbox(
-                                      value: cartLikedBool,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          cartLikedBool = value!;
-                                          print(cartLikedBool);
-                                        });
-                                      },
-                                      checkColor: Colors.blue,
-                                      activeColor: Colors.blue,
-                                      // Color when checked
-                                      fillColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 0,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      child: Text(
-                                        'Activate Favourite',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                    Checkbox(
-                                      value: cartFavouriteBool,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          cartFavouriteBool = value!;
-                                          print(cartFavouriteBool);
-                                        });
-                                      },
-                                      checkColor: Colors.blue,
-                                      activeColor: Colors.blue,
-                                      // Color when checked
-                                      fillColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: [
+                              //       Container(
+                              //         width: MediaQuery.of(context).size.width /
+                              //             2.5,
+                              //         child: Text(
+                              //           'Activate Like',
+                              //           style: TextStyle(
+                              //               fontSize: 16.0,
+                              //               color: Colors.white),
+                              //         ),
+                              //       ),
+                              //       Checkbox(
+                              //         value: cartLikedBool,
+                              //         onChanged: (bool? value) {
+                              //           setState(() {
+                              //             cartLikedBool = value!;
+                              //             print(cartLikedBool);
+                              //           });
+                              //         },
+                              //         checkColor: Colors.blue,
+                              //         activeColor: Colors.blue,
+                              //         // Color when checked
+                              //         fillColor:
+                              //             MaterialStateProperty.all<Color>(
+                              //                 Colors.white),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 0,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.start,
+                              //     children: [
+                              //       Container(
+                              //         width: MediaQuery.of(context).size.width /
+                              //             2.5,
+                              //         child: Text(
+                              //           'Activate Favourite',
+                              //           style: TextStyle(
+                              //               fontSize: 16.0,
+                              //               color: Colors.white),
+                              //         ),
+                              //       ),
+                              //       Checkbox(
+                              //         value: cartFavouriteBool,
+                              //         onChanged: (bool? value) {
+                              //           setState(() {
+                              //             cartFavouriteBool = value!;
+                              //             print(cartFavouriteBool);
+                              //           });
+                              //         },
+                              //         checkColor: Colors.blue,
+                              //         activeColor: Colors.blue,
+                              //         // Color when checked
+                              //         fillColor:
+                              //             MaterialStateProperty.all<Color>(
+                              //                 Colors.white),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               SizedBox(
                                 height: 10,
                               ),
@@ -3130,7 +3138,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     } catch (error) {}
                                   },
                                   child: Text(
-                                    "Add Cart",
+                                    "Add Product",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   style: ButtonStyle(
