@@ -122,7 +122,7 @@ class _ChatSystemState extends State<ChatSystem>
     print("--");
 
     List<dynamic> temp = jsonDecode(customersList.toString());
-    print(temp[0]["userId"]);
+    // print(temp[0]["userId"]);
 
 
     for (int i = 0; i < temp.length; i++) {
@@ -208,7 +208,7 @@ class _ChatSystemState extends State<ChatSystem>
     setState(() {
       listOfQuestions = jsonDecode(userFuture.body);
     });
-    print(listOfQuestions[0]["question"]);
+    // print(listOfQuestions[0]["question"]);
   }
 
   Future<void> getListOfAnsweredQuestions() async {

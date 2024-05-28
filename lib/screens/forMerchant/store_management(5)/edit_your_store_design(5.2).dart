@@ -10,6 +10,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
@@ -73,6 +74,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   late Future<List> specificStoreCategories;
   late Future<List> getCartContent;
   // late indexVal="";
+
+  final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
 
   // for Images Slider
   List<String> imageUrls = [];
@@ -944,10 +948,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       Center(
                           child: Text(
                         storeNameVal,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30),
+                        style: GoogleFonts.lilitaOne(
+                          textStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30),
+                        )
                       )),
                     ],
                   ),
@@ -982,10 +988,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       children: [
                                         Text(
                                           "Slider",
-                                          style: TextStyle(
-                                              color: Color(0xFF212128),
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.lilitaOne(
+                                            textStyle: TextStyle(
+                                                color: Color(0xFF212128),
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                          )
                                         ),
                                         SizedBox(
                                           width: 10,
@@ -1037,65 +1045,80 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             10),
                                                     child: InkWell(
                                                       onTap: () {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (context) =>
-                                                                    AlertDialog(
-                                                                      backgroundColor:
-                                                                          Color(0xFF212128),
-                                                                      title:
-                                                                          Text(
-                                                                        "Delete image ",
-                                                                        style:
-                                                                            TextStyle(color: Colors.white),
-                                                                      ),
-                                                                      content:
-                                                                          Container(
-                                                                        height:
-                                                                            MediaQuery.of(context).size.height / 18,
-                                                                        child:
-                                                                            Column(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children: [
-                                                                            Text(
-                                                                              "Delete this image from slider",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 20,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      actions: [
-                                                                        TextButton(
-                                                                            onPressed: () async {
-                                                                              print(111111111);
-                                                                              print("$url ytytytyty");
-                                                                              print(33333333333);
-                                                                              await deleteImageFromSlider(url);
-                                                                              await getSliderImages();
-                                                                            },
-                                                                            child: Text(
-                                                                              "Delete",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            )),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              20,
-                                                                        ),
-                                                                        TextButton(
-                                                                            onPressed: () {
-                                                                              Navigator.pop(context);
-                                                                            },
-                                                                            child: Text(
-                                                                              "Cancel",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ))
-                                                                      ],
-                                                                    ));
+                                                        QuickAlert.show(
+                                                          context: context,
+                                                          type: QuickAlertType.confirm,
+                                                          text: 'Do you want to Delete this image from slider ?',
+                                                          confirmBtnText: 'Delete',
+                                                          cancelBtnText: 'Cancel',
+                                                          confirmBtnColor: Colors.green,
+                                                          onConfirmBtnTap: () async {
+                                                            await deleteImageFromSlider(url);
+                                                            await getSliderImages();
+                                                          },
+                                                          onCancelBtnTap: (){
+                                                            Navigator.pop(context);
+                                                          }
+                                                        );
+                                                        // showDialog(
+                                                        //     context: context,
+                                                        //     builder:
+                                                        //         (context) =>
+                                                        //             AlertDialog(
+                                                        //               backgroundColor:
+                                                        //                   Color(0xFF212128),
+                                                        //               title:
+                                                        //                   Text(
+                                                        //                 "Delete image ",
+                                                        //                 style:
+                                                        //                     TextStyle(color: Colors.white),
+                                                        //               ),
+                                                        //               content:
+                                                        //                   Container(
+                                                        //                 height:
+                                                        //                     MediaQuery.of(context).size.height / 18,
+                                                        //                 child:
+                                                        //                     Column(
+                                                        //                   crossAxisAlignment:
+                                                        //                       CrossAxisAlignment.start,
+                                                        //                   children: [
+                                                        //                     Text(
+                                                        //                       "Delete this image from slider",
+                                                        //                       style: TextStyle(color: Colors.white),
+                                                        //                     ),
+                                                        //                     SizedBox(
+                                                        //                       height: 20,
+                                                        //                     ),
+                                                        //                   ],
+                                                        //                 ),
+                                                        //               ),
+                                                        //               actions: [
+                                                        //                 TextButton(
+                                                        //                     onPressed: () async {
+                                                        //                       print(111111111);
+                                                        //                       print("$url ytytytyty");
+                                                        //                       print(33333333333);
+                                                        //                       await deleteImageFromSlider(url);
+                                                        //                       await getSliderImages();
+                                                        //                     },
+                                                        //                     child: Text(
+                                                        //                       "Delete",
+                                                        //                       style: TextStyle(color: Colors.white),
+                                                        //                     )),
+                                                        //                 SizedBox(
+                                                        //                   width:
+                                                        //                       20,
+                                                        //                 ),
+                                                        //                 TextButton(
+                                                        //                     onPressed: () {
+                                                        //                       Navigator.pop(context);
+                                                        //                     },
+                                                        //                     child: Text(
+                                                        //                       "Cancel",
+                                                        //                       style: TextStyle(color: Colors.white),
+                                                        //                     ))
+                                                        //               ],
+                                                        //             ));
                                                       },
                                                       child:
                                                           CachedNetworkImage(
@@ -1138,10 +1161,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       children: [
                                         Text(
                                           "Category",
-                                          style: TextStyle(
-                                              color: Color(0xFF212128),
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.lilitaOne(
+                                            textStyle: TextStyle(
+                                                color: Color(0xFF212128),
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                          )
                                         ),
                                         SizedBox(
                                           width: 10,
@@ -1187,7 +1212,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                    color: Color(0xFF212128),
+                                                    color: specificStoreCategoriesVal[index] == "All Products" ? Colors.red : Color(0xFF212128),
                                                   ),
                                                   width: 120,
                                                   child: TextButton(
@@ -1208,61 +1233,98 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                     Color(
                                                                         0xff212128),
                                                                 content:
-                                                                    Container(
-                                                                  height: MediaQuery.of(context)
-                                                                          .size
-                                                                          .height /
-                                                                      9,
-                                                                  child:
-                                                                      Column(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                        height:
-                                                                            20,
-                                                                      ),
-                                                                      TextFormField(
-                                                                        cursorColor:
-                                                                            Colors.white,
-                                                                        style:
-                                                                            TextStyle(color: Colors.white),
-                                                                        controller:
-                                                                            specificStoreCategoriesTextEditingController,
-                                                                        //Making keyboard just for Email
-                                                                        keyboardType:
-                                                                            TextInputType.emailAddress,
-                                                                        validator:
-                                                                            (value) {
-                                                                          if (value!.isEmpty) {
-                                                                            return 'Category is required';
-                                                                          }
-                                                                        },
-                                                                        decoration: InputDecoration(
-                                                                            labelText: 'Category name',
-                                                                            labelStyle: TextStyle(color: Colors.white),
-                                                                            prefixIcon: Icon(
-                                                                              Icons.category_outlined,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                            border: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                              color: Colors.white,
-                                                                            )),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                                borderSide: BorderSide(
-                                                                              color: Colors.white,
-                                                                            ))),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
+                                                                    Form(
+                                                                      key: _formKey1,
+                                                                      child: Container(
+                                                                                                                                        height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height /
+                                                                        7,
+                                                                                                                                        child:
+                                                                        Column(
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          height:
+                                                                              20,
+                                                                        ),
+                                                                        TextFormField(
+                                                                          cursorColor:
+                                                                              Colors.white,
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                          controller:
+                                                                              specificStoreCategoriesTextEditingController,
+                                                                          //Making keyboard just for Email
+                                                                          keyboardType:
+                                                                              TextInputType.emailAddress,
+                                                                          validator:
+                                                                              (value) {
+                                                                            if (value!.isEmpty) {
+                                                                              return 'Category is required';
+                                                                            }
+                                                                            return null;
+                                                                          },
+                                                                          decoration: InputDecoration(
+                                                                              labelText: 'Category name',
+                                                                              labelStyle: TextStyle(color: Colors.white),
+                                                                              prefixIcon: Icon(
+                                                                                Icons.category_outlined,
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              border: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                color: Colors.white,
+                                                                              )),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                  borderSide: BorderSide(
+                                                                                color: Colors.white,
+                                                                              ))),
+                                                                        ),
+                                                                      ],
+                                                                                                                                        ),
+                                                                                                                                      ),
+                                                                    ),
                                                                 actions: [
                                                                   TextButton(
                                                                       onPressed:
                                                                           () async {
-                                                                        await updateSpecificStoreCategory(
-                                                                            index,
-                                                                            specificStoreCategoriesTextEditingController.text);
-                                                                        await getSpecificStoreCategories();
+                                                                        if(_formKey1.currentState!.validate()){
+                                                                          if (specificStoreCategoriesVal[index] !=
+                                                                              "All Products"){
+                                                                            bool doesCategoryExist = specificStoreCategoriesVal.any((category) => category.toLowerCase() == specificStoreCategoriesTextEditingController.text.toLowerCase());
+                                                                            if(doesCategoryExist){
+                                                                              QuickAlert.show(
+                                                                                context: context,
+                                                                                type: QuickAlertType.error,
+                                                                                title: 'Oops...',
+                                                                                text: "Failed to Update, You have Category with this name!!",
+                                                                              );
+                                                                            } else{
+                                                                              await updateSpecificStoreCategory(
+                                                                                  index,
+                                                                                  specificStoreCategoriesTextEditingController.text);
+                                                                              await getSpecificStoreCategories();
+                                                                              QuickAlert.show(
+                                                                                context: context,
+                                                                                type: QuickAlertType.success,
+                                                                                text: 'Category Updated Successfully!',
+                                                                              );
+                                                                              specificStoreCategoriesTextEditingController.clear();
+                                                                            }
+
+                                                                          } else {
+                                                                            QuickAlert.show(
+                                                                              context: context,
+                                                                              type: QuickAlertType.error,
+                                                                              title: 'Oops...',
+                                                                              text: "Failed to Update 'All products' category",
+                                                                            );
+                                                                          }
+                                                                        }
+
+
+
+
                                                                       },
                                                                       child:
                                                                           Text(
@@ -1277,47 +1339,71 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             specificStoreCategoriesVal[index]);
                                                                         if (specificStoreCategoriesVal[index] !=
                                                                             "All Products") {
-                                                                          showDialog(context: context, builder: (context)=>AlertDialog(
-                                                                            title: Text("Information Message"),
-                                                                            content: Container(
-                                                                              height: MediaQuery.of(context).size.height/18,
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Text("This action will delete all carts connected with this category"),
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            actions: [
-                                                                              TextButton(onPressed: (){
-                                                                                Navigator.pop(context);
-                                                                              }, child: Text("Cancel")),
-                                                                              TextButton(onPressed: () async{
+                                                                          QuickAlert.show(
+                                                                            context: context,
+                                                                            type: QuickAlertType.confirm,
+                                                                            text: "This action will delete all carts connected with this category",
+                                                                            confirmBtnText: 'Delete',
+                                                                            cancelBtnText: 'Cancel',
+                                                                            confirmBtnColor: Colors.green,
+                                                                            onConfirmBtnTap: () async {
+                                                                              await deleteCategoryConnectedToCarts(index);
+                                                                              // await deleteSpecificStoreCategory(index);
+                                                                              await getSpecificStoreCategories();
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            onCancelBtnTap: ()  {
+                                                                              Navigator.pop(context);
+                                                                            }
 
-                                                                                await deleteCategoryConnectedToCarts(index);
-                                                                                // await deleteSpecificStoreCategory(index);
-                                                                                await getSpecificStoreCategories();
-                                                                              }, child: Text("Delete any way")),
-
-                                                                            ],
-                                                                          ));
+                                                                          );
+                                                                          // showDialog(context: context, builder: (context)=>AlertDialog(
+                                                                          //   title: Text("Information Message"),
+                                                                          //   content: Container(
+                                                                          //     height: MediaQuery.of(context).size.height/18,
+                                                                          //     child: Column(
+                                                                          //       children: [
+                                                                          //         Text("This action will delete all carts connected with this category"),
+                                                                          //       ],
+                                                                          //     ),
+                                                                          //   ),
+                                                                          //   actions: [
+                                                                          //     TextButton(onPressed: (){
+                                                                          //       Navigator.pop(context);
+                                                                          //     }, child: Text("Cancel")),
+                                                                          //     TextButton(onPressed: () async{
+                                                                          //
+                                                                          //       await deleteCategoryConnectedToCarts(index);
+                                                                          //       // await deleteSpecificStoreCategory(index);
+                                                                          //       await getSpecificStoreCategories();
+                                                                          //     }, child: Text("Delete any way")),
+                                                                          //
+                                                                          //   ],
+                                                                          // ));
 
                                                                         } else {
-                                                                          showDialog(
-                                                                              context: context,
-                                                                              builder: (context) => AlertDialog(
-                                                                                    backgroundColor: Color(0xFF212128),
-                                                                                    title: Text(
-                                                                                      "Failed",
-                                                                                      style: TextStyle(color: Colors.white),
-                                                                                    ),
-                                                                                    content: Container(
-                                                                                        width: MediaQuery.of(context).size.width,
-                                                                                        height: MediaQuery.of(context).size.height / 15,
-                                                                                        child: Text(
-                                                                                          "Failed to Delete 'All products' category",
-                                                                                          style: TextStyle(color: Colors.white),
-                                                                                        )),
-                                                                                  ));
+                                                                          QuickAlert.show(
+                                                                            context: context,
+                                                                            type: QuickAlertType.error,
+                                                                            title: 'Oops...',
+                                                                            text: "Failed to Delete 'All products' category",
+                                                                          );
+                                                                          // showDialog(
+                                                                          //     context: context,
+                                                                          //     builder: (context) => AlertDialog(
+                                                                          //           backgroundColor: Color(0xFF212128),
+                                                                          //           title: Text(
+                                                                          //             "Failed",
+                                                                          //             style: TextStyle(color: Colors.white),
+                                                                          //           ),
+                                                                          //           content: Container(
+                                                                          //               width: MediaQuery.of(context).size.width,
+                                                                          //               height: MediaQuery.of(context).size.height / 15,
+                                                                          //               child: Text(
+                                                                          //                 "Failed to Delete 'All products' category",
+                                                                          //                 style: TextStyle(color: Colors.white),
+                                                                          //               )),
+                                                                          //         ));
                                                                         }
                                                                       },
                                                                       child:
@@ -1333,10 +1419,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       child: Text(
                                                         specificStoreCategoriesVal[
                                                             index],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white,
-                                                            fontSize: 15),
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 18),
+                                                        )
                                                       ))),
                                           separatorBuilder:
                                               (context, index) => SizedBox(
@@ -1361,11 +1449,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                         children: [
                                           Text(
                                             "Products",
-                                            style: TextStyle(
-                                                color: Color(0xFF212128),
-                                                fontSize: 24,
-                                                fontWeight:
-                                                    FontWeight.bold),
+                                            style: GoogleFonts.lilitaOne(
+                                              textStyle: TextStyle(
+                                                  color: Color(0xFF212128),
+                                                  fontSize: 24,
+                                                  fontWeight:
+                                                  FontWeight.bold),
+                                            )
                                           ),
                                           SizedBox(
                                             width: 10,
@@ -2593,52 +2683,56 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                   "Category name",
                   style: TextStyle(color: Colors.white),
                 ),
-                content: Container(
-                  height: MediaQuery.of(context).size.height / 6,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Enter Your Store Categories ",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.3,
-                        child: TextFormField(
-                          cursorColor: Colors.white,
+                content: Form(
+                  key: _formKey,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Enter Your Store Category.. ",
+                          textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.white),
-                          controller:
-                              specificStoreCategoriesTextEditingController,
-                          //Making keyboard just for Email
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Category is required';
-                            }
-                          },
-                          decoration: InputDecoration(
-                              labelText: 'Category name',
-                              labelStyle: TextStyle(color: Colors.white),
-                              prefixIcon: Icon(
-                                Icons.category_outlined,
-                                color: Colors.white,
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                color: Colors.white,
-                              )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                color: Colors.white,
-                              ))),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.3,
+                          child: TextFormField(
+                            cursorColor: Colors.white,
+                            style: TextStyle(color: Colors.white),
+                            controller:
+                                specificStoreCategoriesTextEditingController,
+                            //Making keyboard just for Email
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Category is required';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                labelText: 'Category name',
+                                labelStyle: TextStyle(color: Colors.white),
+                                prefixIcon: Icon(
+                                  Icons.category_outlined,
+                                  color: Colors.white,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Colors.white,
+                                )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: Colors.white,
+                                ))),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 actions: [
@@ -2652,54 +2746,66 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       )),
                   TextButton(
                     onPressed: () async {
-                      int counterCat=0;
-                      setState(() async {
-                        for(int i = 0; i<specificStoreCategoriesVal.length; i++){
-                          if(specificStoreCategoriesVal[i].toString() == specificStoreCategoriesTextEditingController.text){
-                            counterCat++;
+                      if(_formKey.currentState!.validate()){
+                        int counterCat=0;
+                        setState(() async {
+                          for(int i = 0; i<specificStoreCategoriesVal.length; i++){
+                            if(specificStoreCategoriesVal[i].toString() == specificStoreCategoriesTextEditingController.text){
+                              counterCat++;
+                            }
                           }
-                        }
-                        if(counterCat != 0){
-                          showDialog(context: context, builder: (context)=>AlertDialog(
-                            title: Text("Failed"),
-                            content: Text("Failed: Duplicate category name"),
-                          ));
-                        }else {
-                          await insertSpecificStoreCategory();
-                          await getSpecificStoreCategories();
-                          showDialog(
+                          if(counterCat != 0){
+                            QuickAlert.show(
                               context: context,
-                              builder: (context) =>
-                                  AlertDialog(
-                                    backgroundColor: Color(0xFF212128),
-                                    icon: Icon(
-                                      Icons.info,
-                                      color: Colors.green,
-                                      size: 15,
-                                    ),
-                                    title: Text(
-                                      "Information Message",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    content: Text(
-                                      "Category added Successfully!!",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "OK",
-                                            style: TextStyle(
-                                                color: Colors.white),
-                                          ))
-                                    ],
-                                  ));
-                          specificStoreCategoriesTextEditingController.clear();
-                        }
-                      });
+                              type: QuickAlertType.error,
+                              title: 'Oops...',
+                              text: 'Failed: Duplicate category name',
+                            );
+
+
+                          }else {
+                            await insertSpecificStoreCategory();
+                            await getSpecificStoreCategories();
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              text: 'Category added Successfully!!',
+                            );
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (context) =>
+                            //         AlertDialog(
+                            //           backgroundColor: Color(0xFF212128),
+                            //           icon: Icon(
+                            //             Icons.info,
+                            //             color: Colors.green,
+                            //             size: 15,
+                            //           ),
+                            //           title: Text(
+                            //             "Information Message",
+                            //             style: TextStyle(color: Colors.white),
+                            //           ),
+                            //           content: Text(
+                            //             "Category added Successfully!!",
+                            //             style: TextStyle(color: Colors.white),
+                            //           ),
+                            //           actions: [
+                            //             TextButton(
+                            //                 onPressed: () {
+                            //                   Navigator.pop(context);
+                            //                 },
+                            //                 child: Text(
+                            //                   "OK",
+                            //                   style: TextStyle(
+                            //                       color: Colors.white),
+                            //                 ))
+                            //           ],
+                            //         ));
+                            specificStoreCategoriesTextEditingController.clear();
+                          }
+                        });
+                      }
+
                     },
                     child: Text("OK", style: TextStyle(color: Colors.white)),
                   ),

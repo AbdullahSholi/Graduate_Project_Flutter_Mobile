@@ -189,7 +189,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
   User tempCustomerProfileData = User("", "", "", "", "", "");
   Locale? _currentLocale;
   List<String> items = [];
-  List<String> itemsEn = ["Electronics", "Cars", "Restaurants"];
+  List<String> itemsEn = ["Electronic", "Cars", "Restaurants"];
 
   // final WidgetsBindingObserver _observer = WidgetsBindingObserver();
 
@@ -1050,18 +1050,26 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                 Container(
                                                   height: double.infinity,
                                                   width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
+                                                      .size
+                                                      .width /
                                                       2.6,
                                                   decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
+                                                      BorderRadius.circular(
+                                                          20),
                                                       color: Colors.white),
-                                                  child: Image.network(
-                                                      specificCategoryStores[
-                                                              index]
-                                                          .storeAvatar),
+                                                  child: ClipRRect(
+                                                      borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(20.0),
+                                                        topRight: Radius.circular(20.0),
+                                                        bottomLeft: Radius.circular(20.0),
+                                                        bottomRight: Radius.circular(20.0),
+                                                      ),
+                                                      child: Image.network(
+                                                        specificCategoryStores[index]
+                                                            .storeAvatar,
+                                                        fit: BoxFit.cover,
+                                                      )),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
@@ -1084,13 +1092,15 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         // color: Colors.blue,
                                                         child: Text(
                                                           "${specificCategoryStores[index].storeName}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 25),
+                                                          style: GoogleFonts.lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color:
+                                                                Colors.white,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                                fontSize: 25),
+                                                          ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
@@ -1107,13 +1117,12 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         // color: Colors.blue,
                                                         child: Text(
                                                           "${specificCategoryStores[index].storeCategory}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20),
+                                                          style: GoogleFonts.lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color:
+                                                                Colors.white,
+                                                                fontSize: 20),
+                                                          ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
@@ -1130,13 +1139,12 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         // color: Colors.blue,
                                                         child: Text(
                                                           "${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 10),
+                                                          style: GoogleFonts.lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color:
+                                                                Colors.white,
+                                                                fontSize: 10),
+                                                          ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
@@ -1153,13 +1161,12 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         // color: Colors.blue,
                                                         child: Text(
                                                           "${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 10),
+                                                          style: GoogleFonts.lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color:
+                                                                Colors.white,
+                                                                fontSize: 10),
+                                                          ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
@@ -1176,13 +1183,12 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         // color: Colors.blue,
                                                         child: Text(
                                                           "${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 10),
+                                                          style: GoogleFonts.lilitaOne(
+                                                            textStyle: TextStyle(
+                                                                color:
+                                                                Colors.white,
+                                                                fontSize: 10),
+                                                          ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
