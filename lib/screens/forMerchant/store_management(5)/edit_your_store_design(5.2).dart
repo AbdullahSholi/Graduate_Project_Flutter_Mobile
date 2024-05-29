@@ -23,6 +23,7 @@ import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../../models/merchant/get_cart_content_model.dart';
@@ -2366,7 +2367,16 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           ),
                                                         ),
                                                       )),
-                                                  Positioned(right: 10, bottom: 10 ,child: Icon(Icons.edit, color: Colors.white,))
+                                                  Positioned(right: 10, bottom: 10 ,child: Icon(Icons.edit, color: Colors.white,)),
+                                                  Positioned(right: 10, bottom: 45 ,child: InkWell(onTap: (){
+                                                    final String text = 'Check out this Product: ${storeCartsVal[index]["cartName"]}';
+                                                    final String imageUrl = '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
+
+                                                    // Combine text and URL
+                                                    final String content = '$text $imageUrl';
+
+                                                    Share.share(content);
+                                                  } ,child: Icon(Icons.share_outlined, color: Colors.white,)))
                                                 ],
                                               ),
                                             ),
