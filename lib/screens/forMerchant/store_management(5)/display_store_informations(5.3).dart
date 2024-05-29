@@ -164,16 +164,8 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                   shape: BoxShape.circle,
                                   border: Border.all(width: 3, color: Colors.white),
                                 ),
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width / 2,
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height / 4,
                                 child: CircleAvatar(
-                                  radius: 20,
+                                  radius: 100,
                                   child: ClipOval(child: CachedNetworkImage(
                                     imageUrl:snapshot.data!.storeAvatar,
                                     placeholder: (context, url) => SimpleCircularProgressBar(
@@ -188,32 +180,19 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                   ),),
                                 ),
                               ),
-                              SizedBox(height: 20,),
+                              SizedBox(height: 30,),
                               Container(
                                 width: double.infinity,
-                                margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius
-                                              .circular(4)
-                                      )
-                                  ),
-                                  child: Text("Category: ${snapshot.data!.storeCategory}",
-                                    style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 29,
+                                margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                                child: Text("${snapshot.data!.storeCategory}",
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: 20,
 
-                                    ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                  onPressed: () {
-
-                                  },
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
-                              SizedBox(height: 5,),
                               Container(
                                 width: MediaQuery.of(context).size.width/1.3,
                                 child: Divider(
@@ -221,34 +200,20 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(height: 5,),
 
                               Container(
                                 width: double.infinity,
-                                margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      // backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius
-                                              .circular(4)
-                                      )
-                                  ),
-                                  child: Text("Descripton: ${snapshot.data!.storeDescription}",
-                                    style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 29,
+                                margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                                child: Text("${snapshot.data!.storeDescription}",
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: 20,
 
-                                    ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                  onPressed: () {
-
-                                  },
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
                                 ),
                               ),
-                              SizedBox(height: 5,),
                               Container(
                                 width: MediaQuery.of(context).size.width/1.3,
                                 child: Divider(
@@ -256,7 +221,6 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(height: 5,),
                               FutureBuilder<Store>(
                                 future: userSocialAccounts,
 
@@ -296,10 +260,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                               },
                                               child: CircleAvatar(
                                                 radius:28,
+                                                backgroundColor: Color(0xFF0E1011),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -324,10 +289,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                               },
                                               child: CircleAvatar(
                                                 radius:28,
+                                                backgroundColor: Color(0xFF0E1011),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.whatsapp,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.whatsapp,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -350,11 +316,12 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                 }
                                               },
                                               child: CircleAvatar(
+                                                backgroundColor: Color(0xFF0E1011),
                                                 radius:28,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.telegram,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.telegram,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -377,11 +344,12 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                 }
                                               },
                                               child: CircleAvatar(
+                                                backgroundColor: Color(0xFF0E1011),
                                                 radius:28,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.tiktok,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.tiktok,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -411,11 +379,12 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                 }
                                               },
                                               child: CircleAvatar(
+                                                backgroundColor: Color(0xFF0E1011),
                                                 radius:28,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.snapchat,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.snapchat,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -438,11 +407,12 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                 }
                                               },
                                               child: CircleAvatar(
+                                                backgroundColor: Color(0xFF0E1011),
                                                 radius:28,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
@@ -465,17 +435,26 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                 }
                                               },
                                               child: CircleAvatar(
+                                                backgroundColor: Color(0xFF0E1011),
                                                 radius:28,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    ClipOval(child: FaIcon(FontAwesomeIcons.linkedin,size: 40,color: Colors.blue,))
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.linkedin,size: 40,color: Colors.white,))
                                                   ],
                                                 ),
                                               ),
                                             ),
 
                                           ],
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width/1.3,
+                                          child: Divider(
+                                            thickness: 1,
+                                            color: Colors.grey,
+                                          ),
                                         ),
 
 

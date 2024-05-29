@@ -26,6 +26,8 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
   String tokenVal="";
   String emailVal="";
 
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController publishableKeyTextEditingController = TextEditingController();
   TextEditingController secretKeyTextEditingController = TextEditingController();
 
@@ -95,144 +97,153 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                 ),
 
                 width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
 
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          Container(
-                            width:
-                            MediaQuery.of(context).size.width / 1.15,
-                            child: TextFormField(
-                              cursorColor: Colors.white,
-                              style: TextStyle(color: Colors.white),
-                              controller:
-                              publishableKeyTextEditingController,
-                              //Making keyboard just for Email
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Your Publish Key is required';
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  labelText: 'Publishable Key',
-                                  labelStyle:
-                                  TextStyle(color: Colors.white),
-                                  prefixIcon: Icon(
-                                    Icons.person,
-                                    color: Colors.white,
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ))),
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 30.0,
-                          ),
-                          Container(
-                            width:
-                            MediaQuery.of(context).size.width / 1.15,
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.white),
-                              cursorColor: Colors.white,
-                              controller: secretKeyTextEditingController,
-                              //Making keyboard just for Email
-                              keyboardType:
-                              TextInputType.visiblePassword,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Secret Key is required';
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  labelText: 'Secret Key',
-                                  labelStyle: const TextStyle(
-                                      color: Colors.white),
-                                  prefixIcon: const Icon(
-                                    Icons.password,
-                                    color: Colors.white,
-                                  ),
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      )),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ))),
-                            ),
-                          ),
-
-                        ],
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 40.0,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Color(0xFF0E1011)
-                      ),
-                      child: TextButton(
-                          onPressed: () async {
-                            final String apiUrl = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-payment-informations/${emailVal}';
-
-                            final response = await http.post(
-                              Uri.parse(apiUrl),
-                              headers: <String, String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
-                                "Authorization": "Bearer $tokenVal"
-                              },
-                              body: jsonEncode(<String, String>{
-                                'publishableKey': publishableKeyTextEditingController.text,
-                                'secretKey': secretKeyTextEditingController.text,
-                              }),
-                            );
-                            publishableKeyTextEditingController.text="";
-                            secretKeyTextEditingController.text="";
-                            QuickAlert.show(
-                              context: context,
-                              type: QuickAlertType.success,
-                              text: "Your Payment Information's Added Successfully!",
-                            );
-
-                            ///////////////////////
-
-
-
-
-                          },
-                          child: Text(
-                            "Add",
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                      Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 20,
                             ),
-                          )),
-                    ),
-                  ],
+
+                            Container(
+                              width:
+                              MediaQuery.of(context).size.width / 1.15,
+                              child: TextFormField(
+                                cursorColor: Colors.white,
+                                style: TextStyle(color: Colors.white),
+                                controller:
+                                publishableKeyTextEditingController,
+                                //Making keyboard just for Email
+                                keyboardType: TextInputType.text,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Your Publish Key is required';
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Publishable Key',
+                                    labelStyle:
+                                    TextStyle(color: Colors.white),
+                                    prefixIcon: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        )),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ))),
+                              ),
+                            ),
+
+                            SizedBox(
+                              height: 30.0,
+                            ),
+                            Container(
+                              width:
+                              MediaQuery.of(context).size.width / 1.15,
+                              child: TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                cursorColor: Colors.white,
+                                controller: secretKeyTextEditingController,
+                                //Making keyboard just for Email
+                                keyboardType:
+                                TextInputType.visiblePassword,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Secret Key is required';
+                                  }
+                                  return null;
+
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Secret Key',
+                                    labelStyle: const TextStyle(
+                                        color: Colors.white),
+                                    prefixIcon: const Icon(
+                                      Icons.password,
+                                      color: Colors.white,
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        )),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ))),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40.0,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: Color(0xFF0E1011)
+                        ),
+                        child: TextButton(
+                            onPressed: () async {
+                              if(_formKey.currentState!.validate()){
+                                final String apiUrl = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-payment-informations/${emailVal}';
+
+                                final response = await http.post(
+                                  Uri.parse(apiUrl),
+                                  headers: <String, String>{
+                                    'Content-Type': 'application/json; charset=UTF-8',
+                                    "Authorization": "Bearer $tokenVal"
+                                  },
+                                  body: jsonEncode(<String, String>{
+                                    'publishableKey': publishableKeyTextEditingController.text,
+                                    'secretKey': secretKeyTextEditingController.text,
+                                  }),
+                                );
+                                publishableKeyTextEditingController.text="";
+                                secretKeyTextEditingController.text="";
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: "Your Payment Information's Added Successfully!",
+                                );
+
+                                ///////////////////////
+                              }
+
+
+
+
+
+                            },
+                            child: Text(
+                              "Add",
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

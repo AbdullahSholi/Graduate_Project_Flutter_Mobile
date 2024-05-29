@@ -306,16 +306,9 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                         shape: BoxShape.circle,
                                       border: Border.all(width: 3, color: Colors.white),
                                     ),
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width / 2,
-                                      height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height / 4,
+
                                       child: CircleAvatar(
-                                        radius: 20,
+                                        radius: 100,
                                         child: ClipOval(
                                           child: CachedNetworkImage(
                                             width: double.infinity,
@@ -338,7 +331,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                     SizedBox(height: 20,),
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -403,7 +396,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -469,7 +462,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -535,7 +528,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -601,7 +594,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -662,7 +655,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -725,7 +718,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -782,7 +775,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -839,7 +832,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),
@@ -896,7 +889,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
 
                                     Container(
                                       height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 5),
                                       decoration: BoxDecoration(
                                           border: Border.all(color: Colors.white, width: 1),
                                           borderRadius: BorderRadius.circular(10),

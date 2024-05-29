@@ -79,7 +79,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                 width: double.infinity,
                 height: double.infinity,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
 
                     SizedBox(

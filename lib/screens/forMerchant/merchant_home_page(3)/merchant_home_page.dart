@@ -68,11 +68,11 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
               SizedBox(height: 20,),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       height: 70,
-                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
                           borderRadius: BorderRadius.circular(10),
@@ -128,7 +128,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                     // ),
                     Container(
                       height: 70,
-                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
                           borderRadius: BorderRadius.circular(10),
@@ -184,7 +184,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                     // SizedBox(height: 20,),
                     Container(
                       height: 70,
-                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
                           borderRadius: BorderRadius.circular(10),
@@ -240,7 +240,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
 
                     Container(
                       height: 70,
-                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1),
                           borderRadius: BorderRadius.circular(10),

@@ -201,16 +201,8 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
 
                                 Container(
 
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2,
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height / 4,
                                   child: CircleAvatar(
-                                    radius: 20,
+                                    radius: 100,
                                     child: Stack(
                                         children:[
                                           Container(
