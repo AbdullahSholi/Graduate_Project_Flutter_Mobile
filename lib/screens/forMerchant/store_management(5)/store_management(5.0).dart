@@ -193,500 +193,727 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MerchantHome(tokenVal, emailVal)));
+            },
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+          ),
+          title: Text("Store Management", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          centerTitle: true,
+        ),
 
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-              ),
+        body: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 2,
+              color: Colors.white,
             ),
-            vsync: this,
-            child:
-            Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF212128),
-                    ),
-                    margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.white,
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.arrow_back,
-                                      color: Color(0xFF212128),
-                                    ), // Replace with your desired icon
-                                    onPressed: () {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MerchantHome(tokenVal, emailVal)));
-                                    },
-                                    // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
-                              Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                        "Store Management",
-                                        style: GoogleFonts.federo(
-                                            color: Color(0xFF212128),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 21
-                                        )
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF212128),
+                ),
+                width: double.infinity,
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      FutureBuilder<AllStore>(
+                        future: storeData,
+                        builder: (BuildContext context, AsyncSnapshot<AllStore> snapshot) {
+                          try {
+                            imageUrlVal = snapshot.data!.storeAvatar;
+                            storeNameVal = snapshot.data!.storeName;
+                            storeCategoryVal = snapshot.data!.storeCategory;
+                            storeDescriptionVal = snapshot.data!.storeDescription;
+                            sliderVisibilityVal = snapshot.data!.activateSlider;
+                            categoryVisibilityVal = snapshot.data!.activateCategory;
+                            cartsVisibilityVal = snapshot.data!.activateCarts;
 
-                            ],
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 2,
-                            color: Colors.white,
-                          ),
+                            specificStoreCatVal = snapshot.data!.specificStoreCategories;
+                            List<String> stringList = specificStoreCatVal.map((element) => element.toString()).toList();
+                            specificStoreCategoriesVal = stringList;
+                            typeVal = snapshot.data!.type;
+                            List<String> tempTypeVal = typeVal.map((element) => element.toString()).toList();
+                            print("xxxxxxxxxx");
+                            print(tempTypeVal);
+                            print("xxxxxxxxxx");
 
-                          FutureBuilder<AllStore>(
-                            future: storeData,
-                            builder: (BuildContext context, AsyncSnapshot<AllStore> snapshot) {
-                              try {
-                                imageUrlVal = snapshot.data!.storeAvatar;
-                                storeNameVal = snapshot.data!.storeName;
-                                storeCategoryVal = snapshot.data!.storeCategory;
-                                storeDescriptionVal = snapshot.data!.storeDescription;
-                                sliderVisibilityVal = snapshot.data!.activateSlider;
-                                categoryVisibilityVal = snapshot.data!.activateCategory;
-                                cartsVisibilityVal = snapshot.data!.activateCarts;
-
-                                specificStoreCatVal = snapshot.data!.specificStoreCategories;
-                                List<String> stringList = specificStoreCatVal.map((element) => element.toString()).toList();
-                                specificStoreCategoriesVal = stringList;
-                                typeVal = snapshot.data!.type;
-                                List<String> tempTypeVal = typeVal.map((element) => element.toString()).toList();
-                                print("xxxxxxxxxx");
-                                print(tempTypeVal);
-                                print("xxxxxxxxxx");
-
-                                storeSliderImagesVal = snapshot.data!.storeSliderImages;
-                                storeProductImagesVal = snapshot.data!.storeProductImages;
-                                storeSocialMediaAccounts = snapshot.data!.socialMediaAccounts;
-                                merchantnameVal = snapshot.data!.merchantname;
-                                phoneVal = snapshot.data!.phone;
-                                countryVal = snapshot.data!.country;
-                                AvatarVal = snapshot.data!.Avatar;
-                                objectData = {
-                                  "merchantname":merchantnameVal,
-                                  "email":emailVal,
-                                  "phone":phoneVal,
-                                  "country":countryVal,
-                                  "Avatar":AvatarVal,
-                                  "storeName":storeNameVal,
-                                  "storeAvatar":snapshot.data?.storeAvatar,
-                                  "storeCategory":storeCategoryVal,
-                                  "storeSliderImages":storeSliderImagesVal,
-                                  "storeProductImages":storeProductImagesVal,
-                                  "storeDescription":storeDescriptionVal,
-                                  "storeSocialMediaAccounts":storeSocialMediaAccounts,
-                                  "activateSlider":sliderVisibilityVal,
-                                  "activateCategory":categoryVisibilityVal,
-                                  "activateCarts":cartsVisibilityVal ,
-                                  "specificStoreCategories":specificStoreCategoriesVal,
-                                  // "type":tempTypeVal,
+                            storeSliderImagesVal = snapshot.data!.storeSliderImages;
+                            storeProductImagesVal = snapshot.data!.storeProductImages;
+                            storeSocialMediaAccounts = snapshot.data!.socialMediaAccounts;
+                            merchantnameVal = snapshot.data!.merchantname;
+                            phoneVal = snapshot.data!.phone;
+                            countryVal = snapshot.data!.country;
+                            AvatarVal = snapshot.data!.Avatar;
+                            objectData = {
+                              "merchantname":merchantnameVal,
+                              "email":emailVal,
+                              "phone":phoneVal,
+                              "country":countryVal,
+                              "Avatar":AvatarVal,
+                              "storeName":storeNameVal,
+                              "storeAvatar":snapshot.data?.storeAvatar,
+                              "storeCategory":storeCategoryVal,
+                              "storeSliderImages":storeSliderImagesVal,
+                              "storeProductImages":storeProductImagesVal,
+                              "storeDescription":storeDescriptionVal,
+                              "storeSocialMediaAccounts":storeSocialMediaAccounts,
+                              "activateSlider":sliderVisibilityVal,
+                              "activateCategory":categoryVisibilityVal,
+                              "activateCarts":cartsVisibilityVal ,
+                              "specificStoreCategories":specificStoreCategoriesVal,
+                              // "type":tempTypeVal,
 
 
-                                };
+                            };
 
-                                print("%%%%%%%%%%%%%%%%%%%%%");
-                                print(objectData);
-                                print("%%%%%%%%%%%%%%%%%%%%%");
-                                print(storeCartsVal);
-                                return Container(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height / 1.5,
+                            print("%%%%%%%%%%%%%%%%%%%%%");
+                            print(objectData);
+                            print("%%%%%%%%%%%%%%%%%%%%%");
+                            print(storeCartsVal);
+                            return Container(
 
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
 
-                                        Center(
-                                          child: Container(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
 
-                                              padding: EdgeInsets.all(15),
+                                    Center(
+                                      child: Container(
 
-                                              child: Text(
-                                                storeNameVal,
-                                                style: GoogleFonts
-                                                    .permanentMarker(
-                                                  color: Colors.white,
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              )
+                                          padding: EdgeInsets.all(15),
+
+                                          child: Text(
+                                            storeNameVal,
+                                            style: GoogleFonts
+                                                .roboto(
+                                              color: Colors.white,
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          )
+
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      border: Border.all(width: 3, color: Colors.white),
+                                    ),
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width / 2,
+                                      height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height / 4,
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        child: ClipOval(
+                                          child: CachedNetworkImage(
+                                            width: double.infinity,
+                                            height:  double.infinity,
+                                            fit: BoxFit.cover,
+                                              imageUrl:snapshot.data!.storeAvatar,
+                                            placeholder: (context, url) => SimpleCircularProgressBar(
+                                              mergeMode: true,
+                                              animationDuration: 1,
+                                            ),
+                                            errorWidget: (context, url, error) => Icon(Icons.error),
+
 
                                           ),
+
+
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          border: Border.all(width: 3, color: Colors.white),
-                                        ),
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width / 2,
-                                          height: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .height / 4,
-                                          child: CircleAvatar(
-                                            radius: 20,
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                width: double.infinity,
-                                                height:  double.infinity,
-                                                fit: BoxFit.cover,
-                                                  imageUrl:snapshot.data!.storeAvatar,
-                                                placeholder: (context, url) => SimpleCircularProgressBar(
-                                                  mergeMode: true,
-                                                  animationDuration: 1,
-                                                ),
-                                                errorWidget: (context, url, error) => Icon(Icons.error),
-
-
-                                              ),
-
-
-                                            ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20,),
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.view_carousel_outlined,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Display your store",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DisplayYourStore(
+                                                            tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Display your store",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Display your store",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   DisplayYourStore(
+                                    //                       tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DisplayYourStore(
-                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Edit your store design",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditYourStoreDesign(
+                                                            tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text(
-                                              "Edit your store design",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text(
+                                    //       "Edit your store design",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   EditYourStoreDesign(
+                                    //                       tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditYourStoreDesign(
-                                                              tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectData)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.view_carousel_outlined,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Store informations",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DisplayStoreInformations(
+                                                            tokenVal, emailVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text(
-                                              "Display store informations",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 24,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text(
+                                    //       "Display store informations",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 24,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   DisplayStoreInformations(
+                                    //                       tokenVal, emailVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DisplayStoreInformations(
-                                                              tokenVal, emailVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Edit store information",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditYourStoreInformations(
+                                                            tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal,storeDescriptionVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text(
-                                              "Edit your store information",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 24,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text(
+                                    //       "Edit your store information",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 24,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   EditYourStoreInformations(
+                                    //                       tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal,storeDescriptionVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditYourStoreInformations(
-                                                              tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal,storeDescriptionVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.stacked_line_chart,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Store statistics",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => StoreStatistics(tokenVal, emailVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Store statistics",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Store statistics",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) => StoreStatistics(tokenVal, emailVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => StoreStatistics(tokenVal, emailVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.switch_account,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Connect social media",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ConnectToSocialMediaAccounts(tokenVal, emailVal, imageUrlVal, storeNameVal, storeCategoryVal, storeDescriptionVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Connect social media ",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Connect social media ",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.push(context,
+                                    //           MaterialPageRoute(
+                                    //               builder: (context) =>
+                                    //                   ConnectToSocialMediaAccounts(tokenVal, emailVal, imageUrlVal, storeNameVal, storeCategoryVal, storeDescriptionVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ConnectToSocialMediaAccounts(tokenVal, emailVal, imageUrlVal, storeNameVal, storeCategoryVal, storeDescriptionVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.chat,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Chat System",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatSystem(tokenVal, emailVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Chat System",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Chat System",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatSystem(tokenVal, emailVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatSystem(tokenVal, emailVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.notifications_active,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Notify Your Customers",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotifyYourCustomers(tokenVal, emailVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Notify Your Customers",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotifyYourCustomers(tokenVal, emailVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Notify Your Customers",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
-
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotifyYourCustomers(tokenVal, emailVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.question_mark_sharp,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "FAQ",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MerchantFaqPage(tokenVal, emailVal)));
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("FAQ ",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
+                                      ),
+                                    ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("FAQ ",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MerchantFaqPage(tokenVal, emailVal)));
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
 
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MerchantFaqPage(tokenVal, emailVal)));
-                                            },
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.delete_forever,
+                                            color: Colors.white,
+                                            size: 35,
                                           ),
-                                        ),
-                                        SizedBox(height: 20,),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.fromLTRB(
-                                              30, 0, 30, 0),
-                                          child: TextButton(
-                                            style: TextButton.styleFrom(
-                                                padding: EdgeInsets.all(15),
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius
-                                                        .circular(15)
-                                                )
-                                            ),
-                                            child: Text("Delete Store ",
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 29,
-
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            onPressed: () {
-                                              QuickAlert.show(
+                                          title: Text(
+                                            "Delete Store",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+                                            QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.confirm,
                                                 text: 'Do you want to delete your store?  ( This action will delete your store with all its details!! )',
@@ -700,89 +927,180 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                                 onCancelBtnTap: (){
                                                   Navigator.pop(context);
                                                 }
-                                              );
-                                              // showDialog(context: context, builder: (context)=>AlertDialog(
-                                              //   title: Row(
-                                              //     children: [
-                                              //       Icon(Icons.warning,color: Colors.red,size: 25,),
-                                              //       SizedBox(width: 10,),
-                                              //       Text("Information Message"),
-                                              //     ],
-                                              //   ),
-                                              //   content: Text("This action will delete your store with all it's details!!"),
-                                              //   actions: [
-                                              //     TextButton(onPressed: () {
-                                              //         deleteStore();
-                                              //         Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
-                                              //
-                                              //     }, child: Text("Delete anyway")),
-                                              //     TextButton(onPressed: (){
-                                              //       Navigator.pop(context);
-                                              //     }, child: Text("Cancel")),
-                                              //
-                                              //   ],
-                                              // ),);
-                                            },
+                                            );
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
-                                      ],
+                                      ),
                                     ),
+                                    // Container(
+                                    //   width: double.infinity,
+                                    //   margin: EdgeInsets.fromLTRB(
+                                    //       30, 0, 30, 0),
+                                    //   child: TextButton(
+                                    //     style: TextButton.styleFrom(
+                                    //         padding: EdgeInsets.all(15),
+                                    //         backgroundColor: Colors.white,
+                                    //         shape: RoundedRectangleBorder(
+                                    //             borderRadius: BorderRadius
+                                    //                 .circular(15)
+                                    //         )
+                                    //     ),
+                                    //     child: Text("Delete Store ",
+                                    //       style: GoogleFonts.federo(
+                                    //         color: Color(0xFF212128),
+                                    //         fontWeight: FontWeight.bold,
+                                    //         fontSize: 29,
+                                    //
+                                    //       ),
+                                    //       textAlign: TextAlign.center,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       QuickAlert.show(
+                                    //         context: context,
+                                    //         type: QuickAlertType.confirm,
+                                    //         text: 'Do you want to delete your store?  ( This action will delete your store with all its details!! )',
+                                    //         confirmBtnText: 'Yes',
+                                    //         cancelBtnText: 'No',
+                                    //         confirmBtnColor: Colors.green,
+                                    //         onConfirmBtnTap: (){
+                                    //           deleteStore();
+                                    //           Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
+                                    //         },
+                                    //         onCancelBtnTap: (){
+                                    //           Navigator.pop(context);
+                                    //         }
+                                    //       );
+                                    //       // showDialog(context: context, builder: (context)=>AlertDialog(
+                                    //       //   title: Row(
+                                    //       //     children: [
+                                    //       //       Icon(Icons.warning,color: Colors.red,size: 25,),
+                                    //       //       SizedBox(width: 10,),
+                                    //       //       Text("Information Message"),
+                                    //       //     ],
+                                    //       //   ),
+                                    //       //   content: Text("This action will delete your store with all it's details!!"),
+                                    //       //   actions: [
+                                    //       //     TextButton(onPressed: () {
+                                    //       //         deleteStore();
+                                    //       //         Navigator.push(context, MaterialPageRoute(builder: (context)=>LogAllPage()));
+                                    //       //
+                                    //       //     }, child: Text("Delete anyway")),
+                                    //       //     TextButton(onPressed: (){
+                                    //       //       Navigator.pop(context);
+                                    //       //     }, child: Text("Cancel")),
+                                    //       //
+                                    //       //   ],
+                                    //       // ),);
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    SizedBox(height: 20,),
+
+                                    Container(
+                                      height: 70,
+                                      margin: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.white, width: 1),
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Color(0xFF2A212E)),
+                                      child: Center(
+                                        child: ListTile(
+                                          leading: Icon(
+                                            Icons.logout_outlined,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          title: Text(
+                                            "Logout",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onTap: () {
+
+                                              QuickAlert.show(
+                                                  context: context,
+                                                  type: QuickAlertType.confirm,
+                                                  text: 'Do you want to logout',
+                                                  confirmBtnText: 'Yes',
+                                                  cancelBtnText: 'No',
+                                                  confirmBtnColor: Colors.green,
+                                                  onConfirmBtnTap: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                                                  },
+                                                  onCancelBtnTap: (){
+                                                    Navigator.pop(context);
+                                                  }
+
+                                              );
+
+                                          },
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
 
 
-                                  ),
-                                );
-                              }catch(err){
-                                return Text("err");
-                              }
-                            },
-
-                          ),
-                          Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(15),
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15)
-                                  )
                               ),
-                              child: Text("Logout", style: GoogleFonts.federo(
-                                color: Color(0xFF212128),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
+                            );
+                          }catch(err){
+                            return Text("err");
+                          }
+                        },
 
-                              ),
-                                textAlign: TextAlign.center,
-                              ),
-                              onPressed: (){
-                                QuickAlert.show(
-                                    context: context,
-                                    type: QuickAlertType.confirm,
-                                    text: 'Do you want to logout',
-                                    confirmBtnText: 'Yes',
-                                    cancelBtnText: 'No',
-                                    confirmBtnColor: Colors.green,
-                                    onConfirmBtnTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
-                                    },
-                                    onCancelBtnTap: (){
-                                      Navigator.pop(context);
-                                    }
-
-                                );
-                              },
-                            ),
-                          ),
-                        ],
                       ),
-                    ),
+                      // Container(
+                      //   width: double.infinity,
+                      //   margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                      //   child: TextButton(
+                      //     style: TextButton.styleFrom(
+                      //         padding: EdgeInsets.all(15),
+                      //         backgroundColor: Colors.white,
+                      //         shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(15)
+                      //         )
+                      //     ),
+                      //     child: Text("Logout", style: GoogleFonts.federo(
+                      //       color: Color(0xFF212128),
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 30,
+                      //
+                      //     ),
+                      //       textAlign: TextAlign.center,
+                      //     ),
+                      //     onPressed: (){
+                      //       QuickAlert.show(
+                      //           context: context,
+                      //           type: QuickAlertType.confirm,
+                      //           text: 'Do you want to logout',
+                      //           confirmBtnText: 'Yes',
+                      //           cancelBtnText: 'No',
+                      //           confirmBtnColor: Colors.green,
+                      //           onConfirmBtnTap: (){
+                      //             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                      //           },
+                      //           onCancelBtnTap: (){
+                      //             Navigator.pop(context);
+                      //           }
+                      //
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
+              ),
+            ),
 
-              ],
-            )));
+          ],
+        ));
   }
 }

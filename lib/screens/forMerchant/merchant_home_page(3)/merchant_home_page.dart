@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
@@ -43,210 +44,289 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
   Widget build(BuildContext context) {
 
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(onPressed: (){
+            Navigator.pop(context);
+          }, icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
+          centerTitle: true,
+          title: Text("Main Page", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF212128),
+          ),
+          width: double.infinity,
 
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 2,
+                color: Colors.white,
               ),
-            ),
-            vsync: this,
-            child:
-            Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF212128),
-                    ),
-                    margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              
-                              Container(
-                                margin: EdgeInsets.all(20),
-                                height: 40,
-                                width: MediaQuery.of(context).size.width/1.26 ,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                      "Main Page",
-                                      style: GoogleFonts.federo(
-                                          color: Color(0xFF212128),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 21
-                                      )
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
-                      
-                            ],
+              SizedBox(height: 20,),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF2A212E)),
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 35,
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 2,
+                          title: Text(
+                            "Personal Informations",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onTap: () {
+                            print("My Profile");
+                            print(tokenVal);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> PersonalInformation(tokenVal,emailVal)));
+                          },
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 20,),
-                          Container(
-                            height: MediaQuery.of(context).size.height/1.5,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 20,),
-                                  Center(
-                                    child: Container(
-                                      padding: EdgeInsets.all(20),
-                                      child: Text("Welcome to your Main Page",style: GoogleFonts.permanentMarker(
-                                        color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold,
-                                      ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 40,),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.all(15),
-                                        backgroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15)
-                                        )
-                                      ),
-                                      child: Text("Personal Information", style: GoogleFonts.federo(
-                                        color: Color(0xFF212128),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 29,
-                      
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: (){
-                                        print(tokenVal);
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> PersonalInformation(tokenVal,emailVal)));
-                      
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.all(15),
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(15)
-                                          )
-                                      ),
-                                      child: Text("Store Management", style: GoogleFonts.federo(
-                                        color: Color(0xFF212128),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 29,
-                      
-                                      ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[],[],false,false,false)));
-                      
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.all(15),
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(15)
-                                          )
-                                      ),
-                                      child: Text("Payment Informations", style: GoogleFonts.federo(
-                                        color: Color(0xFF212128),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 29,
-
-                                      ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantPaymentInformation(tokenVal, emailVal)));
-
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.all(15),
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15)
-                                  )
-                              ),
-                              child: Text("Logout", style: GoogleFonts.federo(
-                                color: Color(0xFF212128),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                      
-                              ),
-                                textAlign: TextAlign.center,
-                              ),
-                              onPressed: (){
-                                QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.confirm,
-                                  text: 'Do you want to logout',
-                                  confirmBtnText: 'Yes',
-                                  cancelBtnText: 'No',
-                                  confirmBtnColor: Colors.green,
-                                  onConfirmBtnTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
-                                  },
-                                  onCancelBtnTap: (){
-                                    Navigator.pop(context);
-                                  }
-
-                                );
-
-                      
-                              },
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    //   child: TextButton(
+                    //     style: TextButton.styleFrom(
+                    //       padding: EdgeInsets.all(15),
+                    //       backgroundColor: Colors.white,
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(15)
+                    //       )
+                    //     ),
+                    //     child: Text("Personal Information", style: GoogleFonts.roboto(
+                    //       color: Color(0xFF212128),
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 29,
+                    //
+                    //     ),
+                    //     textAlign: TextAlign.center,
+                    //     ),
+                    //     onPressed: (){
+                    //       print(tokenVal);
+                    //       Navigator.push(context, MaterialPageRoute(builder: (context)=> PersonalInformation(tokenVal,emailVal)));
+                    //
+                    //     },
+                    //   ),
+                    // ),
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF2A212E)),
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.settings_sharp,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          title: Text(
+                            "Store Management",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onTap: () {
+                            print("My Profile");
+                            print(tokenVal);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[],[],false,false,false)));
+                          },
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    //   child: TextButton(
+                    //     style: TextButton.styleFrom(
+                    //         padding: EdgeInsets.all(15),
+                    //         backgroundColor: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(15)
+                    //         )
+                    //     ),
+                    //     child: Text("Store Management", style: GoogleFonts.roboto(
+                    //       color: Color(0xFF212128),
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 29,
+                    //
+                    //     ),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //     onPressed: (){
+                    //       Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal,"","","","",[],[],false,false,false)));
+                    //
+                    //     },
+                    //   ),
+                    // ),
+                    // SizedBox(height: 20,),
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF2A212E)),
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.payments_outlined,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          title: Text(
+                            "Payment Informations",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onTap: () {
+                            print("My Profile");
+                            print(tokenVal);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantPaymentInformation(tokenVal, emailVal)));
+                          },
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    //   child: TextButton(
+                    //     style: TextButton.styleFrom(
+                    //         padding: EdgeInsets.all(15),
+                    //         backgroundColor: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(15)
+                    //         )
+                    //     ),
+                    //     child: Text("Payment Informations", style: GoogleFonts.roboto(
+                    //       color: Color(0xFF212128),
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 29,
+                    //
+                    //     ),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //     onPressed: (){
+                    //       Navigator.push(context, MaterialPageRoute(builder: (context)=> MerchantPaymentInformation(tokenVal, emailVal)));
+                    //
+                    //     },
+                    //   ),
+                    // ),
 
-              ],
-            )));
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFF2A212E)),
+                      child: Center(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.logout_outlined,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          title: Text(
+                            "Logout",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onTap: () {
+                            QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.confirm,
+                                text: 'Do you want to logout',
+                                confirmBtnText: 'Yes',
+                                cancelBtnText: 'No',
+                                confirmBtnColor: Colors.green,
+                                onConfirmBtnTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                                },
+                                onCancelBtnTap: (){
+                                  Navigator.pop(context);
+                                }
+
+                            );
+                          },
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.fromLTRB(30, 70, 30, 20),
+                    //   child: TextButton(
+                    //     style: TextButton.styleFrom(
+                    //         padding: EdgeInsets.all(15),
+                    //         backgroundColor: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(15)
+                    //         )
+                    //     ),
+                    //     child: Text("Logout", style: GoogleFonts.roboto(
+                    //       color: Color(0xFF212128),
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 30,
+                    //
+                    //     ),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //     onPressed: (){
+                    //       QuickAlert.show(
+                    //           context: context,
+                    //           type: QuickAlertType.confirm,
+                    //           text: 'Do you want to logout',
+                    //           confirmBtnText: 'Yes',
+                    //           cancelBtnText: 'No',
+                    //           confirmBtnColor: Colors.green,
+                    //           onConfirmBtnTap: (){
+                    //             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                    //           },
+                    //           onCancelBtnTap: (){
+                    //             Navigator.pop(context);
+                    //           }
+                    //
+                    //       );
+                    //
+                    //
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+
+
+            ],
+          ),
+        ));
   }
 }

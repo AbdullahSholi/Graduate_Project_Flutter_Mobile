@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import "package:http/http.dart" as http;
 import 'package:quickalert/models/quickalert_type.dart';
@@ -68,217 +69,174 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(
-                      image: NetworkImage(
-                          "https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))),
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.push(context, (MaterialPageRoute(builder: (context)=> MerchantHome(tokenVal, emailVal))));
+            },
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+          ),
+          title: Text("Payment Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          centerTitle: true,
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 2,
+              color: Colors.white,
             ),
-            vsync: this,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(0xFF212128),
-                  ),
-                  margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height/2,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back,
-                                  color: Color(0xFF212128),
-                                ), // Replace with your desired icon
-                                onPressed: () {
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF212128),
+                ),
 
-                                  Navigator.push(context, (MaterialPageRoute(builder: (context)=> MerchantHome(tokenVal, emailVal))));
-                                },
-                                // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                              ),
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width / 1.15,
+                            child: TextFormField(
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white),
+                              controller:
+                              publishableKeyTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Your Publish Key is required';
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Publishable Key',
+                                  labelStyle:
+                                  TextStyle(color: Colors.white),
+                                  prefixIcon: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ))),
                             ),
                           ),
+
                           SizedBox(
-                            width: 0,
+                            height: 30.0,
                           ),
                           Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
+                            width:
+                            MediaQuery.of(context).size.width / 1.15,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: secretKeyTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType:
+                              TextInputType.visiblePassword,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Secret Key is required';
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Secret Key',
+                                  labelStyle: const TextStyle(
+                                      color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.password,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ))),
                             ),
-                            child: Center(
-                                child: Text(
-                                  "Update your personal information",
-                                  style: GoogleFonts.federo(
-                                      color: Color(0xFF212128),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                )),
                           ),
-                          SizedBox(
-                            width: 0,
-                          ),
+
                         ],
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 2,
-                        color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: 40.0,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color(0xFF0E1011)
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
+                      child: TextButton(
+                          onPressed: () async {
+                            final String apiUrl = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-payment-informations/${emailVal}';
 
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 1.3,
-                                child: TextFormField(
-                                  cursorColor: Colors.white,
-                                  style: TextStyle(color: Colors.white),
-                                  controller:
-                                  publishableKeyTextEditingController,
-                                  //Making keyboard just for Email
-                                  keyboardType: TextInputType.text,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Your Publish Key is required';
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                      labelText: 'Publishable Key',
-                                      labelStyle:
-                                      TextStyle(color: Colors.white),
-                                      prefixIcon: Icon(
-                                        Icons.person,
-                                        color: Colors.white,
-                                      ),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.white,
-                                          )),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.white,
-                                          ))),
-                                ),
-                              ),
+                            final response = await http.post(
+                              Uri.parse(apiUrl),
+                              headers: <String, String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                                "Authorization": "Bearer $tokenVal"
+                              },
+                              body: jsonEncode(<String, String>{
+                                'publishableKey': publishableKeyTextEditingController.text,
+                                'secretKey': secretKeyTextEditingController.text,
+                              }),
+                            );
+                            publishableKeyTextEditingController.text="";
+                            secretKeyTextEditingController.text="";
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.success,
+                              text: "Your Payment Information's Added Successfully!",
+                            );
 
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                              Container(
-                                width:
-                                MediaQuery.of(context).size.width / 1.3,
-                                child: TextFormField(
-                                  style: TextStyle(color: Colors.white),
-                                  cursorColor: Colors.white,
-                                  controller: secretKeyTextEditingController,
-                                  //Making keyboard just for Email
-                                  keyboardType:
-                                  TextInputType.visiblePassword,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Secret Key is required';
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                      labelText: 'Secret Key',
-                                      labelStyle: const TextStyle(
-                                          color: Colors.white),
-                                      prefixIcon: const Icon(
-                                        Icons.password,
-                                        color: Colors.white,
-                                      ),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.white,
-                                          )),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.white,
-                                          ))),
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                        child: TextButton(
-                            onPressed: () async {
-                              final String apiUrl = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-payment-informations/${emailVal}';
-
-                              final response = await http.post(
-                                Uri.parse(apiUrl),
-                                headers: <String, String>{
-                                  'Content-Type': 'application/json; charset=UTF-8',
-                                  "Authorization": "Bearer $tokenVal"
-                                },
-                                body: jsonEncode(<String, String>{
-                                  'publishableKey': publishableKeyTextEditingController.text,
-                                  'secretKey': secretKeyTextEditingController.text,
-                                }),
-                              );
-                              publishableKeyTextEditingController.text="";
-                              secretKeyTextEditingController.text="";
-                              QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.success,
-                                text: "Your Payment Information's Added Successfully!",
-                              );
-
-                              ///////////////////////
+                            ///////////////////////
 
 
 
 
-                            },
-                            child: Text(
-                              "Add",
-                              style: GoogleFonts.federo(
-                                color: Color(0xFF212128),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                backgroundColor: Colors.white,
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
+                          },
+                          child: Text(
+                            "Add",
+                            style: GoogleFonts.roboto(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                    ),
+                  ],
                 ),
-              ],
-            )));
+              ),
+            ),
+          ],
+        ));
   }
 }

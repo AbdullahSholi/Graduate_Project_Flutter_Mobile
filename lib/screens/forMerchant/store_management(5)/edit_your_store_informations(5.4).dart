@@ -57,6 +57,8 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
   List<String> items = ['Electronic', 'Cars', 'Resturant'];
   String selectedItem = 'Electronic';
 
+  final _formKey = GlobalKey<FormState>();
+
   late File _image;
   final Dio _dio = Dio();
   Future<void> _pickAndUploadImage() async {
@@ -157,255 +159,214 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
         return Future.value(true);
       },
       child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Color(0xFF212128),
+            leading: IconButton(
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, imageUrlVal,"","","",[],[],false,false,false)));
+              },
+              icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+            ),
+            title: Text("Edit Store Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+            centerTitle: true,
+          ),
+          body: Container(
+            decoration: BoxDecoration(
+              color: Color(0xFF212128),
+            ),
+            width: double.infinity,
+            height: double.infinity,
 
-          body: AnimatedBackground(
-              behaviour: RandomParticleBehaviour(
-                options: ParticleOptions(
-                    particleCount: 100,
-                    image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-                ),
-              ),
-              vsync: this,
-              child:
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Color(0xFF212128),
-                ),
-                margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                width: double.infinity,
-                height: double.infinity,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 2,
+                      color: Colors.white,
+                    ),
 
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back,
-                                  color: Color(0xFF212128),
-                                ), // Replace with your desired icon
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreManagement(tokenVal, emailVal, imageUrlVal,"","","",[],[],false,false,false)));
-                                },
-                                // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 0,
-                          ),
-                          Container(
-                            height: 40,
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                                child: Text(
-                                    "Edit Store Informations",
-                                    style: GoogleFonts.federo(
-                                        color: Color(0xFF212128),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 21
-                                    )
-                                )),
-                          ),
-                          SizedBox(
-                            width: 0,
-                          ),
+                    FutureBuilder<Merchant>(
+                      future: userData,
+                      builder: (BuildContext context, AsyncSnapshot<Merchant> snapshot) {
+                        try {
+                          return Container(
 
-                        ],
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 2,
-                        color: Colors.white,
-                      ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 20,),
 
-                      FutureBuilder<Merchant>(
-                        future: userData,
-                        builder: (BuildContext context, AsyncSnapshot<Merchant> snapshot) {
-                          try {
-                            return Container(
+                                Container(
 
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 20,),
-
-                                  Container(
-
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width / 2,
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height / 4,
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      child: Stack(
-                                          children:[
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(width: 3, color: Colors.white),
-                                              ),
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl:imageUrlVal,
-                                                placeholder: (context, url) => SimpleCircularProgressBar(
-                                                  mergeMode: true,
-                                                  animationDuration: 1,
-                                                ),
-                                                errorWidget: (context, url, error) => Icon(Icons.error),
-                                                fit: BoxFit.cover,
-                                                height: double.infinity,
-                                                width: double.infinity,
-
-                                              ),
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 2,
+                                  height: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height / 4,
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    child: Stack(
+                                        children:[
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(width: 3, color: Colors.white),
                                             ),
-                                  ),
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              imageUrl:imageUrlVal,
+                                              placeholder: (context, url) => SimpleCircularProgressBar(
+                                                mergeMode: true,
+                                                animationDuration: 1,
+                                              ),
+                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                              fit: BoxFit.cover,
+                                              height: double.infinity,
+                                              width: double.infinity,
 
-
-                                            Positioned(
-                                                bottom: 6,
-                                                right: 6,
-                                                child: CircleAvatar(
-                                                  radius: 22,
-                                                  backgroundColor: Color(0xFF212128),
-                                                  child: Center(
-
-                                                      child: IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.white,))),
-                                                )
                                             ),
-                                            Positioned(
-                                                bottom: 8,
-                                                right: 8,
-                                                child: CircleAvatar(
-                                                  backgroundColor: Colors.green,
-                                                  child: Center(
-                                                      child: IconButton(
-                                                          onPressed: _pickAndUploadImage,
-                                                           icon: Icon(Icons.edit,color: Colors.white,))),
-                                                )
-                                            )
-                                          ]
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(0, 10, 0, 40),
-                                    width: MediaQuery.of(context).size.width / 1.3,
-                                    child: TextFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      cursorColor: Colors.white,
-                                      controller: storeNameTextEditingController,
-                                      //Making keyboard just for Email
-                                      keyboardType: TextInputType.text,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Store Name is required';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: 'Store Name',
-                                          labelStyle: const TextStyle(color: Colors.white),
-                                          prefixIcon: const Icon(
-                                            Icons.storefront,
-                                            color: Colors.white,
                                           ),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ))),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                    width: MediaQuery.of(context).size.width / 1.3,
-                                    child: TextFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      cursorColor: Colors.white,
-                                      controller: storeDescriptionTextEditingController,
-                                      //Making keyboard just for Email
-                                      keyboardType: TextInputType.text,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Store Description is required';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          labelText: 'Store Description',
-                                          labelStyle: const TextStyle(color: Colors.white),
-                                          prefixIcon: const Icon(
-                                            Icons.description,
-                                            color: Colors.white,
+                                ),
+
+
+                                          Positioned(
+                                              bottom: 6,
+                                              right: 6,
+                                              child: CircleAvatar(
+                                                radius: 22,
+                                                backgroundColor: Color(0xFF212128),
+                                                child: Center(
+
+                                                    child: IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: Colors.white,))),
+                                              )
                                           ),
-                                          border: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.white,
-                                              ))),
+                                          Positioned(
+                                              bottom: 8,
+                                              right: 8,
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.green,
+                                                child: Center(
+                                                    child: IconButton(
+                                                        onPressed: _pickAndUploadImage,
+                                                         icon: Icon(Icons.edit,color: Colors.white,))),
+                                              )
+                                          )
+                                        ]
                                     ),
                                   ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        border: Border.all(width: .45,color: Colors.white)
-                                    ),
-                                    padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
-                                    width: MediaQuery.of(context).size.width / 1.3,
+                                ),
+                                SizedBox(height: 20,),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 10, 0, 40),
+                                  width: MediaQuery.of(context).size.width / 1.15,
+                                  child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    cursorColor: Colors.white,
+                                    controller: storeNameTextEditingController,
+                                    //Making keyboard just for Email
+                                    keyboardType: TextInputType.text,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Store Name is required';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'Store Name',
+                                        labelStyle: const TextStyle(color: Colors.white),
+                                        prefixIcon: const Icon(
+                                          Icons.storefront,
+                                          color: Colors.white,
+                                        ),
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.white,
+                                            )),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                  width: MediaQuery.of(context).size.width / 1.15,
+                                  child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    cursorColor: Colors.white,
+                                    controller: storeDescriptionTextEditingController,
+                                    //Making keyboard just for Email
+                                    keyboardType: TextInputType.text,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Store Description is required';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                        labelText: 'Store Description',
+                                        labelStyle: const TextStyle(color: Colors.white),
+                                        prefixIcon: const Icon(
+                                          Icons.description,
+                                          color: Colors.white,
+                                        ),
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.white,
+                                            )),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                ),
+                                SizedBox(height: 20,),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      border: Border.all(width: .45,color: Colors.white)
+                                  ),
+                                  padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
+                                  width: MediaQuery.of(context).size.width / 1.15,
 
-                                    child: DropdownButton(
+                                  child: DropdownButton(
 
-                                      borderRadius: BorderRadius.circular(20),
-                                      dropdownColor: Color(0xFF36363C),
-                                      style: TextStyle(color: Color(0xFF212128)),
-                                      value: selectedItem,
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          selectedItem = newValue!;
-                                          print(selectedItem);
-                                        });
-                                      }, items: items.map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem(
-                                          value: value,
-                                          child: Text(value,style: TextStyle(color: Colors.white),)
-                                      );
-                                    }).toList(),
-
-                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                    dropdownColor: Color(0xFF36363C),
+                                    style: TextStyle(color: Color(0xFF212128)),
+                                    value: selectedItem,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedItem = newValue!;
+                                        print(selectedItem);
+                                      });
+                                    }, items: items.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem(
+                                        value: value,
+                                        child: Text(value,style: TextStyle(color: Colors.white),)
+                                    );
+                                  }).toList(),
 
                                   ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width/2.5,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Color(0xFF18181E),
-                                    ),
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                                    child: Center(child: TextButton(onPressed: ()async{
+
+                                ),
+                                SizedBox(height: 40,),
+                                Container(
+                                  width: MediaQuery.of(context).size.width/2.5,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: Color(0xFF0E1011),
+                                  ),
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                                  child: Center(child: TextButton(onPressed: ()async{
+                                    if(_formKey.currentState!.validate()){
                                       try {
 
                                         var storeName = storeNameTextEditingController.text;
@@ -483,25 +444,28 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
 
 
                                       }
-                                    }, child: Text("Update",style: TextStyle(color: Colors.white),)),),
-                                  ),
+                                    }
+
+                                  }, child: Text("Update",style: TextStyle(color: Colors.white, fontSize: 18),)),),
+                                ),
 
 
-                                ],
-                              ),
-                            );
-                          }
-                          catch(e){
-                            return Text("err");
-                          }
-                        },
+                              ],
+                            ),
+                          );
+                        }
+                        catch(e){
+                          return Text("err");
+                        }
+                      },
 
-                      ),
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
-              ))),
+              ),
+            ),
+          )),
     );
   }
 }

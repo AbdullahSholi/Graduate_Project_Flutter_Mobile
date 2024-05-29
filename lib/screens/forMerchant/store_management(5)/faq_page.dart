@@ -108,193 +108,148 @@ class _MerchantFaqPageState extends State<MerchantFaqPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(
-                      image: NetworkImage(
-                          "https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))),
-            ),
-            vsync: this,
-            child: Column(children: [
-              Expanded(
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color(0xFF212128),
-                      ),
-                      margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: SingleChildScrollView(
-                          // physics: NeverScrollableScrollPhysics(),
-                          child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Color(0xFFF4F4FB),
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.arrow_back,
-                                      color: Color(0xFF212128),
-                                    ), // Replace with your desired icon
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>StoreManagement(tokenVal, emailVal,imageUrlVal,storeNameVal,storeCategoryVal, storeDescriptionVal,[],[], false, false, false)));
-                                    },
-                                    // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
-                              Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width / 1.56,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Color(0xFFF4F4FB),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  "FAQ",
-                                  style: GoogleFonts.lilitaOne(
-                                      color: Color(0xFF212128),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 21),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 2,
-                            color: Color(0xFFF4F4FB),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height/1.4,
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                            child: ListView.separated(
-                                itemCount: listOfQuestions.length,
-                                itemBuilder: (context, index) => InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  title: Text(
-                                                    "Type your answer...",
-                                                    style: GoogleFonts.lilitaOne(
-                                                        textStyle: TextStyle(
-                                                            color: Color(
-                                                                0xFF212128))),
-                                                  ),
-                                                  content: Container(
-                                                    color: Color(0xFFF4F4FB),
-                                                    child: TextFormField(
-                                                      controller: addAnswer,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        suffixIcon: IconButton(
-                                                          onPressed: () async {
-                                                            setState(() {
-                                                              listOfQuestions[index]["isAnswered"] = true;
-                                                            });
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+          ),
+          title: Text("FAQ", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          centerTitle: true,
+        ),
+        body: Column(children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 2,
+            color: Color(0xFFF4F4FB),
+          ),
+          Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF212128),
+                  ),
 
-                                                            http.Response userFuture = await http.post(
-                                                              Uri.parse(
-                                                                  "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-your-answer/${emailVal}"),
-                                                              headers: {
-                                                                "Content-Type": "application/json",
-                                                              },
-                                                              body: jsonEncode(
-                                                                {
-                                                                  "index": index,
-                                                                  "answer": addAnswer.text,
-                                                                  "isAnswered": listOfQuestions[index]["isAnswered"],
-                                                                  // Add card type
-                                                                },
-                                                              ),
-                                                              encoding: Encoding.getByName("utf-8"),
-                                                            );
-                                                            setState(() {
-                                                              addAnswer.text = "";
-
-                                                            });
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                      // physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                    children: [
 
 
-                                                            print(userFuture.body);
+                      Container(
+                        height: MediaQuery.of(context).size.height/1.4,
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                        child: ListView.separated(
+                            itemCount: listOfQuestions.length,
+                            itemBuilder: (context, index) => InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                              title: Text(
+                                                "Type your answer...",
+                                                style: GoogleFonts.lilitaOne(
+                                                    textStyle: TextStyle(
+                                                        color: Color(
+                                                            0xFF212128))),
+                                              ),
+                                              content: Container(
+                                                color: Color(0xFFF4F4FB),
+                                                child: TextFormField(
+                                                  controller: addAnswer,
+                                                  decoration:
+                                                      InputDecoration(
+                                                    suffixIcon: IconButton(
+                                                      onPressed: () async {
+                                                        setState(() {
+                                                          listOfQuestions[index]["isAnswered"] = true;
+                                                        });
+
+                                                        http.Response userFuture = await http.post(
+                                                          Uri.parse(
+                                                              "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/add-your-answer/${emailVal}"),
+                                                          headers: {
+                                                            "Content-Type": "application/json",
                                                           },
-                                                          icon: Icon(
-                                                            Icons.send_rounded,
-                                                            color: Color(
-                                                                0xFF212128),
+                                                          body: jsonEncode(
+                                                            {
+                                                              "index": index,
+                                                              "answer": addAnswer.text,
+                                                              "isAnswered": listOfQuestions[index]["isAnswered"],
+                                                              // Add card type
+                                                            },
                                                           ),
-                                                        ),
-                                                        hintText: '',
-                                                        hintStyle: TextStyle(
-                                                            color: Colors
-                                                                .grey[300]),
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 20.0,
-                                                                horizontal:
-                                                                    10.0),
-                                                        border: OutlineInputBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0)),
+                                                          encoding: Encoding.getByName("utf-8"),
+                                                        );
+                                                        setState(() {
+                                                          addAnswer.text = "";
+
+                                                        });
+
+
+                                                        print(userFuture.body);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.send_rounded,
+                                                        color: Color(
+                                                            0xFF212128),
                                                       ),
-                                                      style: TextStyle(
-                                                          color: Color(
-                                                              0xFF212128)),
-                                                      // Other properties for the TextFormField go here
                                                     ),
+                                                    hintText: '',
+                                                    hintStyle: TextStyle(
+                                                        color: Colors
+                                                            .grey[300]),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 20.0,
+                                                            horizontal:
+                                                                10.0),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10.0)),
                                                   ),
-                                                ));
-                                      },
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: Color(0xFFF4F4FB),
-                                          ),
-                                          child: ListTile(
-                                            leading: Icon(
-                                              CupertinoIcons
-                                                  .question_square_fill,
-                                              color: listOfQuestions[index]["isAnswered"] ? Colors.green : Color(0xFF212128),
-                                            ),
-                                            title: Text(
-                                              listOfQuestions[index]["question"],
-                                              style: GoogleFonts.lilitaOne(
-                                                  textStyle: TextStyle(
-                                                      color:
-                                                          Color(0xFF212128))),
-                                            ),
-                                            trailing: Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Color(0xFF212128),
-                                            ),
-                                          )),
-                                    ), separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 20,); },),
-                          )
-                        ],
-                      ))))
-            ])));
+                                                  style: TextStyle(
+                                                      color: Color(
+                                                          0xFF212128)),
+                                                  // Other properties for the TextFormField go here
+                                                ),
+                                              ),
+                                            ));
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8),
+                                        color: Color(0xFFF4F4FB),
+                                      ),
+                                      child: ListTile(
+                                        leading: Icon(
+                                          CupertinoIcons
+                                              .question_square_fill,
+                                          color: listOfQuestions[index]["isAnswered"] ? Colors.green : Color(0xFF212128),
+                                        ),
+                                        title: Text(
+                                          listOfQuestions[index]["question"],
+                                          style: GoogleFonts.lilitaOne(
+                                              textStyle: TextStyle(
+                                                  color:
+                                                      Color(0xFF212128))),
+                                        ),
+                                        trailing: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Color(0xFF212128),
+                                        ),
+                                      )),
+                                ), separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 20,); },),
+                      )
+                    ],
+                  ))))
+        ]));
   }
 }

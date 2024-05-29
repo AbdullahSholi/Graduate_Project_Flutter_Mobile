@@ -13,6 +13,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/rabish/
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:social_media_flutter/widgets/icons.dart';
 import 'package:social_media_flutter/widgets/text.dart';
@@ -106,378 +108,400 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+          ),
+          title: Text("Store Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          centerTitle: true,
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF212128),
+          ),
+          width: double.infinity,
+          height: double.infinity,
 
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(image: NetworkImage("https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))
-              ),
-            ),
-            vsync: this,
-            child:
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color(0xFF212128),
-              ),
-              margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-              width: double.infinity,
-              height: double.infinity,
+          child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 2,
+                  color: Colors.white,
+                ),
 
-              child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          padding: EdgeInsets.all(10),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.white,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Color(0xFF212128),
-                              ), // Replace with your desired icon
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 0,
-                        ),
-                        Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                          ),
-                          child: Center(
-                              child: Text(
-                                  "Store Informations",
-                                  style: GoogleFonts.federo(
-                                      color: Color(0xFF212128),
+                FutureBuilder<Merchant>(
+                  future: userData,
+                  builder: (BuildContext context, AsyncSnapshot<Merchant> snapshot) {
+                    try {
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 20,),
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(15),
+                                  child: Text(snapshot.data!.storeName,
+                                    style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 21
-                                  )
-                              )),
-                        ),
-                        SizedBox(
-                          width: 0,
-                        ),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(width: 3, color: Colors.white),
+                                ),
+                                width: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width / 2,
+                                height: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height / 4,
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  child: ClipOval(child: CachedNetworkImage(
+                                    imageUrl:snapshot.data!.storeAvatar,
+                                    placeholder: (context, url) => SimpleCircularProgressBar(
+                                      mergeMode: true,
+                                      animationDuration: 1,
+                                    ),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
 
-                      ],
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 2,
-                      color: Colors.white,
-                    ),
+                                  ),),
+                                ),
+                              ),
+                              SizedBox(height: 20,),
+                              Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius
+                                              .circular(4)
+                                      )
+                                  ),
+                                  child: Text("Category: ${snapshot.data!.storeCategory}",
+                                    style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 29,
 
-                    FutureBuilder<Merchant>(
-                      future: userData,
-                      builder: (BuildContext context, AsyncSnapshot<Merchant> snapshot) {
-                        try {
-                          return Container(
-                            height: MediaQuery.of(context).size.height/1.25,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 20,),
-                                  Center(
-                                    child: Container(
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Container(
+                                width: MediaQuery.of(context).size.width/1.3,
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+
+                              Container(
+                                width: double.infinity,
+                                margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      // backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius
+                                              .circular(4)
+                                      )
+                                  ),
+                                  child: Text("Descripton: ${snapshot.data!.storeDescription}",
+                                    style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 29,
+
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              Container(
+                                width: MediaQuery.of(context).size.width/1.3,
+                                child: Divider(
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(height: 5,),
+                              FutureBuilder<Store>(
+                                future: userSocialAccounts,
+
+                                builder: (BuildContext context, AsyncSnapshot<Store> snapshot) {
+                                  return Container(
+
+                                    width: double.infinity,
+                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
                                       padding: EdgeInsets.all(15),
-                                      child: Text(snapshot.data!.storeName,
-                                        style: GoogleFonts.permanentMarker(
-                                          color: Colors.white,
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
                                     decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(width: 3, color: Colors.white),
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    width: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width / 2,
-                                    height: MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height / 4,
-                                    child: CircleAvatar(
-                                      radius: 20,
-                                      child: ClipOval(child: CachedNetworkImage(
-                                        imageUrl:snapshot.data!.storeAvatar,
-                                        placeholder: (context, url) => SimpleCircularProgressBar(
-                                          mergeMode: true,
-                                          animationDuration: 1,
-                                        ),
-                                        errorWidget: (context, url, error) => Icon(Icons.error),
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover,
-
-                                      ),),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.all(15),
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(15)
-                                          )
-                                      ),
-                                      child: Text("Category: ${snapshot.data!.storeCategory}",
-                                        style: GoogleFonts.federo(
-                                          color: Color(0xFF212128),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 29,
-                              
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  Container(
-                                    width: double.infinity,
-                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          padding: EdgeInsets.all(15),
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(15)
-                                          )
-                                      ),
-                                      child: Text("Descripton: ${snapshot.data!.storeDescription}",
-                                        style: GoogleFonts.federo(
-                                          color: Color(0xFF212128),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 29,
-                              
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  FutureBuilder<Store>(
-                                    future: userSocialAccounts,
-
-                                    builder: (BuildContext context, AsyncSnapshot<Store> snapshot) {
-                                      return Container(
-                                        
-                                        width: double.infinity,
-                                        margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                          padding: EdgeInsets.all(15),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          color: Colors.white
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text("Social Accounts",style: GoogleFonts.federo(
-                                              color: Color(0xFF212128),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 29,
 
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[0]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.blue,))
+                                                  ],
+                                                ),
+                                              ),
                                             ),
-                                              textAlign: TextAlign.center,
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[3]}');
+                                                print(_url);
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.whatsapp,size: 40,color: Colors.blue,))
+                                                  ],
+                                                ),
+                                              ),
                                             ),
-                                            SizedBox(height: 10,),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[0]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.facebook,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[1]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.telegram,size: 40,color: Colors.blue,))
+                                                  ],
                                                 ),
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[3]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.whatsapp,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[1]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.telegram,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[4]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.tiktok,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                            SizedBox(height: 10,),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[5]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.snapchat,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[4]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.tiktok,size: 40,color: Colors.blue,))
+                                                  ],
                                                 ),
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[2]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(width: 5,),
-                                                GestureDetector(
-                                                  onTap: ()async{
-                                                    final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[6]}');
-                                                    if (!await launchUrl(_url)) {
-                                                      throw Exception('Could not launch $_url');
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius:28,
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        ClipOval(child: FaIcon(FontAwesomeIcons.linkedin,size: 40,color: Colors.blue,))
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-
-                                              ],
+                                              ),
                                             ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
 
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[5]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.snapchat,size: 40,color: Colors.blue,))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[2]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.instagram,size: 40,color: Colors.blue,))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: ()async{
+                                                final Uri _url = Uri.parse('${snapshot.data!.socialMediaAccounts[6]}');
+                                                if (_url.toString().startsWith("https://")) {
+                                                  if (!await launchUrl(_url)) {
+                                                    throw Exception('Could not launch $_url');
+                                                  }
+                                                } else{
+                                                  QuickAlert.show(
+                                                    context: context,
+                                                    type: QuickAlertType.error,
+                                                    title: 'Oops...',
+                                                    text: 'Sorry, but link not provided!!',
+                                                  );
+                                                }
+                                              },
+                                              child: CircleAvatar(
+                                                radius:28,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    ClipOval(child: FaIcon(FontAwesomeIcons.linkedin,size: 40,color: Colors.blue,))
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
 
                                           ],
-                                        )
-                                      );
-                                    },
+                                        ),
 
-                                  ),
-                              
-                              
-                                ],
+
+                                      ],
+                                    )
+                                  );
+                                },
+
                               ),
-                            ),
-                          );
-                        }
-                        catch(e){
-                          return Text("err");
-                        }
-                      },
 
-                    ),
 
-                  ],
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    catch(e){
+                      return Text("err");
+                    }
+                  },
+
                 ),
-              ),
-            )));
+
+              ],
+            ),
+          ),
+        ));
   }
 }
