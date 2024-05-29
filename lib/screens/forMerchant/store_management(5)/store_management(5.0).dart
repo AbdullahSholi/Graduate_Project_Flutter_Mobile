@@ -26,6 +26,7 @@ import '../../../models/merchant/all_stores_model.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
+import '../../forCustomers/customer_login_register/login_or_register(2).dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
 import '../personal_information(4)/personal_information(4).dart';
 import 'edit_your_store_informations(5.4).dart';
@@ -757,8 +758,21 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                 textAlign: TextAlign.center,
                               ),
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> LogAllPage()));
+                                QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.confirm,
+                                    text: 'Do you want to logout',
+                                    confirmBtnText: 'Yes',
+                                    cancelBtnText: 'No',
+                                    confirmBtnColor: Colors.green,
+                                    onConfirmBtnTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                                    },
+                                    onCancelBtnTap: (){
+                                      Navigator.pop(context);
+                                    }
 
+                                );
                               },
                             ),
                           ),

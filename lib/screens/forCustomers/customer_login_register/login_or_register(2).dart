@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../models/customer/customer_login_model.dart';
 import '../../../models/customer/customer_register_model.dart';
+import '../../forMerchant/login_or_register(2)/login_or_register(2).dart';
 import 'customer_register.dart';
 
 class CustomerLoginOrRegister extends StatefulWidget {
@@ -81,7 +82,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                   // SizedBox(height: MediaQuery.of(context).size.height/10,),
                   // Text("${getLang(context, 'login_as_customer')}",style: TextStyle(color: secondaryColor, fontSize: 25),),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 12,
+                    height: MediaQuery.of(context).size.height / 20,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
@@ -333,6 +334,27 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                       ),
                       // SizedBox(width: 30,)
                     ],
+                  ),
+                  SizedBox(height: 60),
+                  Container(
+                    width: MediaQuery.of(context).size.width /1.15,
+                    decoration: BoxDecoration(
+                        color: accentColor,
+                        borderRadius: BorderRadius.circular(4)),
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginOrRegister("", "")));
+                        },
+                        child: Text("${getLang(context, 'continue_as_merchant')}",
+                            style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                    color: secondaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20)))),
                   ),
                 ],
               ),

@@ -10,7 +10,10 @@ import 'package:graduate_project/screens/forMerchant/customize_store(6)/merchant
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+import '../../forCustomers/customer_login_register/login_or_register(2).dart';
 import '../personal_information(4)/personal_information(4).dart';
 
 
@@ -217,7 +220,22 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                                 textAlign: TextAlign.center,
                               ),
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> LogAllPage()));
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.confirm,
+                                  text: 'Do you want to logout',
+                                  confirmBtnText: 'Yes',
+                                  cancelBtnText: 'No',
+                                  confirmBtnColor: Colors.green,
+                                  onConfirmBtnTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));
+                                  },
+                                  onCancelBtnTap: (){
+                                    Navigator.pop(context);
+                                  }
+
+                                );
+
                       
                               },
                             ),

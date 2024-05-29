@@ -1,8 +1,8 @@
 {
   "welcome": "welcome",
   "continue_as_admin": "continue as admin",
-  "continue_as_customer": "continue as customer",
-  "continue_as_merchant": "continue as merchant",
+  "continue_as_customer": "Continue as customer",
+  "continue_as_merchant": "Continue as merchant",
   "continue_as_guest": "continue as guest",
 
   "login_as_customer": "login as customer",

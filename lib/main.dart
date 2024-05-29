@@ -10,6 +10,7 @@ import 'package:graduate_project/screens/login.dart';
 import 'package:graduate_project/stripe_payment/stripe_keys.dart';
 
 import 'firebase_options.dart';
+import 'onboarding-page.dart';
 
 
 void main() async {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-      home: LogAllPage(),
+      home: OnboardingScreen(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
