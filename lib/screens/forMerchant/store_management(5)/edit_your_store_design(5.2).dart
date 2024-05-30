@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forMerchant/store_management(5)/select_your_store_design.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_management(5.0).dart';
 import 'package:graduate_project/screens/imageplaceholder.dart';
 import "package:http/http.dart" as http;
@@ -555,8 +556,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       throw Exception("Error");
     }
   }
-
-  //////////////////////////
 
   Future<List<dynamic>> getSpecificStoreCart() async {
     print("--------------------------");
@@ -2650,7 +2649,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 ));
                       });
                     } else if (index == 2) {
-                      addStoreToDatabase();
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectYourStoreDesign(tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectDataVal)));
+                      // addStoreToDatabase();
 
 
                     }
@@ -2672,10 +2672,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.save,
+                        Icons.arrow_forward_ios,
                         color: Colors.white,
                       ),
-                      label: 'Save',
+                      label: 'Continue',
                     ),
                   ],
                   selectedItemColor: Colors.white,
