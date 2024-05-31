@@ -186,7 +186,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsB
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),),
-        title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
+        title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
         centerTitle: true,
       ),
       body: Stack(
@@ -203,7 +203,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsB
                     child: Row(children: [
                       Icon(CupertinoIcons.question_circle_fill, color: Color(0xFF212128), size: 28,),
                       SizedBox(width: 20,),
-                      Text("${getLang(context, 'faq')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 20, ),)),
+                      Text("${getLang(context, 'faq')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 20, ),)),
                     ],),
                   ),
                   Container(
@@ -232,7 +232,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsB
                             padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                             width: MediaQuery.of(context).size.width,
                             alignment: Alignment.centerLeft,
-                            child: Text(listOfAnsweredQuestions[index]["question"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
+                            child: Text(listOfAnsweredQuestions[index]["question"], style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 20, ),))),
               
                         Container(
                           height: 80,
@@ -254,7 +254,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> with WidgetsB
                           alignment: Alignment.topLeft,
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           width: MediaQuery.of(context).size.width,
-                          child: Text(listOfAnsweredQuestions[index]["answer"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
+                          child: Text(listOfAnsweredQuestions[index]["answer"], style: GoogleFonts.roboto(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 16, ),), maxLines: 3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
               
                       ],),
                     ), separatorBuilder: (context, index)=>SizedBox(height: 15,), itemCount: listOfAnsweredQuestions.length),

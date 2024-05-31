@@ -838,11 +838,11 @@ class _Design3State extends State<Design3> {
       appBar: AppBar(
         backgroundColor: topBarBackgroundColorVal,
         leading: IconButton(onPressed: (){
-        }, icon: Icon(Icons.menu, color: textColorVal, size: 30,),),
+        }, icon: Icon(Icons.menu, color: secondaryTextColorVal, size: 30,),),
         title: Text("${storeNameVal}", style: TextStyle(color: secondaryTextColorVal, fontSize: 24, fontWeight: FontWeight.bold), ),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline, color: textColorVal, size: 30,)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline, color: secondaryTextColorVal, size: 30,)),
           SizedBox(width: 10,),
         ],
         shape: RoundedRectangleBorder(

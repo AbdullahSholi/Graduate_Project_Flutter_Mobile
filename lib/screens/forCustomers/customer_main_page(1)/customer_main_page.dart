@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
+import 'package:graduate_project/screens/forCustomers/customer_login_register/login_or_register(2).dart';
 import 'package:graduate_project/screens/forGuest/specific_store(2)/specific_store_main_page.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/connect_to_social_media_accounts.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -31,7 +32,9 @@ import '../specific_store(2)/customer_my_profile_page.dart';
 import '../specific_store(2)/customer_chat_system.dart';
 import '../specific_store(2)/customer_edit_profile_page.dart';
 import '../specific_store(2)/customer_my_cart_page.dart';
-import '../specific_store(2)/customer_specific_store_main_page.dart';
+import '../specific_store(2)/customer_specific_store_main_page1.dart';
+import '../specific_store(2)/customer_specific_store_main_page2.dart';
+import '../specific_store(2)/customer_specific_store_main_page3.dart';
 import '../specific_store(2)/customer_support_page.dart';
 import 'package:intl/intl.dart';
 import "package:flutter/widgets.dart";
@@ -530,7 +533,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LogAllPage()));
+                                builder: (context) => CustomerLoginOrRegister("", "")));
                       },
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -755,33 +758,119 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                     .cast<String>()
                                                     .toList();
                                             print(stringList.runtimeType);
+                                            print("777");
+                                            print(getStoreDataVal[index].design);
+                                            if(getStoreDataVal[index].design == "Option 1"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage1(
+                                                              "",
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .email,
+                                                              stringList,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .storeName,
+                                                              [],
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateSlider,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCategory,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCarts,
+                                                              {},
+                                                              customerTokenVal,
+                                                              customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
+                                            if(getStoreDataVal[index].design == "Option 2"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage2(
+                                                              "",
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .email,
+                                                              stringList,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .storeName,
+                                                              [],
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateSlider,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCategory,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCarts,
+                                                              {},
+                                                              customerTokenVal,
+                                                              customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
+                                            if(getStoreDataVal[index].design == "Option 3"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage3(
+                                                              "",
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .email,
+                                                              stringList,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .storeName,
+                                                              [],
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateSlider,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCategory,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCarts,
+                                                              {},
+                                                              customerTokenVal,
+                                                              customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
 
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CustomerSpecificStoreMainPage(
-                                                            "",
-                                                            getStoreDataVal[
-                                                                    index]
-                                                                .email,
-                                                            stringList,
-                                                            getStoreDataVal[
-                                                                    index]
-                                                                .storeName,
-                                                            [],
-                                                            getStoreDataVal[
-                                                                    index]
-                                                                .activateSlider,
-                                                            getStoreDataVal[
-                                                                    index]
-                                                                .activateCategory,
-                                                            getStoreDataVal[
-                                                                    index]
-                                                                .activateCarts,
-                                                            {},
-                                                            customerTokenVal,
-                                                            customerEmailVal)));
+
+
                                           },
                                           child: Container(
                                             margin: EdgeInsets.fromLTRB(
@@ -998,32 +1087,114 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                     .toList();
                                             print(stringList.runtimeType);
 
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CustomerSpecificStoreMainPage(
+                                            if(getStoreDataVal[index].design == "Option 1"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage1(
                                                             "",
-                                                            specificCategoryStores[
-                                                                    index]
+                                                            getStoreDataVal[
+                                                            index]
                                                                 .email,
                                                             stringList,
-                                                            specificCategoryStores[
-                                                                    index]
+                                                            getStoreDataVal[
+                                                            index]
                                                                 .storeName,
                                                             [],
-                                                            specificCategoryStores[
-                                                                    index]
+                                                            getStoreDataVal[
+                                                            index]
                                                                 .activateSlider,
-                                                            specificCategoryStores[
-                                                                    index]
+                                                            getStoreDataVal[
+                                                            index]
                                                                 .activateCategory,
-                                                            specificCategoryStores[
-                                                                    index]
+                                                            getStoreDataVal[
+                                                            index]
                                                                 .activateCarts,
                                                             {},
                                                             customerTokenVal,
-                                                            customerEmailVal)));
+                                                            customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
+                                            if(getStoreDataVal[index].design == "Option 2"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage2(
+                                                              "",
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .email,
+                                                              stringList,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .storeName,
+                                                              [],
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateSlider,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCategory,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCarts,
+                                                              {},
+                                                              customerTokenVal,
+                                                              customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
+                                            if(getStoreDataVal[index].design == "Option 3"){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CustomerSpecificStoreMainPage3(
+                                                              "",
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .email,
+                                                              stringList,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .storeName,
+                                                              [],
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateSlider,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCategory,
+                                                              getStoreDataVal[
+                                                              index]
+                                                                  .activateCarts,
+                                                              {},
+                                                              customerTokenVal,
+                                                              customerEmailVal,
+                                                            getStoreDataVal[index].backgroundColor,
+                                                            getStoreDataVal[index].boxesColor,
+                                                            getStoreDataVal[index].primaryTextColor,
+                                                            getStoreDataVal[index].secondaryTextColor,
+                                                            getStoreDataVal[index].clippingColor,
+                                                            getStoreDataVal[index].smoothy,
+                                                            getStoreDataVal[index].design,
+                                                          )));
+                                            }
                                           },
                                           child: Container(
                                             margin: EdgeInsets.fromLTRB(

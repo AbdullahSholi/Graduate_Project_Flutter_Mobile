@@ -100,7 +100,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
           leading: IconButton(onPressed: (){
             Navigator.pop(context);
           }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 30,),),
-          title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
+          title: Text("${getLang(context, 'help_support')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)),
           centerTitle: true,
         ),
         body: Padding(

@@ -17,12 +17,20 @@ class SpecificStore {
   bool activateSlider;
   bool activateCategory;
   bool activateCarts;
+  String backgroundColor;
+  String boxesColor;
+  String primaryTextColor;
+  String secondaryTextColor;
+  String clippingColor;
+  String smoothy;
+  String design;
 
 
 
   SpecificStore(this.merchantname, this.email, this.phone, this.country, this.Avatar,
       this.storeName, this.storeAvatar, this.storeCategory, this.storeSliderImages, this.storeProductImages, this.storeDescription,
-      this.storeSocialMediaAccounts, this.specificStoreCategories, this.activateSlider, this.activateCategory, this.activateCarts,);
+      this.storeSocialMediaAccounts, this.specificStoreCategories, this.activateSlider, this.activateCategory, this.activateCarts,
+      this.backgroundColor, this.boxesColor, this.primaryTextColor, this.secondaryTextColor, this.clippingColor, this.smoothy, this.design);
   factory SpecificStore.fromJson(Map<String,dynamic> json){
     return SpecificStore(
       json["merchantname"]!,
@@ -41,6 +49,14 @@ class SpecificStore {
       json["activateSlider"],
       json["activateCategory"],
       json["activateCarts"],
+
+      json["backgroundColor"]!,
+      json["boxesColor"]!,
+      json["primaryTextColor"]!,
+      json["secondaryTextColor"]!,
+      json["clippingColor"]!,
+      json["smoothy"]!,
+      json["design"]!,
 
 
     );

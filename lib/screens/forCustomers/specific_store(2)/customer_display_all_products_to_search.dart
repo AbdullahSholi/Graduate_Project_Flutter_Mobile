@@ -16,7 +16,9 @@ import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
 import 'customer_display_product.dart';
-import 'customer_specific_store_main_page.dart';
+import 'customer_specific_store_main_page1.dart';
+import 'customer_specific_store_main_page2.dart';
+import 'customer_specific_store_main_page3.dart';
 
 class CustomerDisplayAllProducts extends StatefulWidget {
 
@@ -31,6 +33,20 @@ class CustomerDisplayAllProducts extends StatefulWidget {
 }
 
 class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts> {
+
+  Color primaryTextColor = Color(0xFF212128);
+  Color secondaryTextColor = Color(0xFF212128);
+  Color boxesColor = Color(0xFF212128);
+  Color backgroundColor = Color(0xFF212128);
+  String smoothy = "";
+
+
+  late double smoothDesignBorderRadius = 15;
+  late double solidDesignBorderRadius = 2;
+  double spaceAboveComponent = 20;
+  double spaceBelowComponent = 10;
+
+
   List<dynamic> filteredProducts = [];
 
   Future<void> incrementProductViews(index) async {
@@ -262,6 +278,12 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
       print("${userFuture.statusCode}");
       setState(() {
         getStoreDataVal=tempStores1;
+        boxesColor = Color(int.parse(getStoreDataVal[storeIndexVal].boxesColor.replaceAll("Color(", "").replaceAll(")", "")));
+        backgroundColor = Color(int.parse(getStoreDataVal[storeIndexVal].backgroundColor.replaceAll("Color(", "").replaceAll(")", "")));
+        primaryTextColor = Color(int.parse(getStoreDataVal[storeIndexVal].primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")));
+        secondaryTextColor = Color(int.parse(getStoreDataVal[storeIndexVal].secondaryTextColor.replaceAll("Color(", "").replaceAll(")", "")));
+        smoothy = getStoreDataVal[storeIndexVal].smoothy;
+
       });
 
     } else {
@@ -312,13 +334,20 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
             [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-            {}, customerTokenVal, customerEmailVal)));
+            {}, customerTokenVal, customerEmailVal, getStoreDataVal[storeIndexVal].backgroundColor,
+          getStoreDataVal[storeIndexVal].boxesColor,
+          getStoreDataVal[storeIndexVal].primaryTextColor,
+          getStoreDataVal[storeIndexVal].secondaryTextColor,
+          getStoreDataVal[storeIndexVal].clippingColor,
+          getStoreDataVal[storeIndexVal].smoothy,
+          getStoreDataVal[storeIndexVal].design,)));
         print(storeIndexVal);
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: backgroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -326,8 +355,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                 margin: EdgeInsets.fromLTRB(
                     20, MediaQuery.of(context).size.height / 20, 20, 0),
                 decoration: BoxDecoration(
-                  color: Color(0xFF212128),
-                  borderRadius: BorderRadius.circular(20),
+                  color: boxesColor,
+                  borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -335,15 +364,55 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                     Container(
                       child: IconButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                          if(getStoreDataVal[storeIndexVal].design == "Option 1"){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
                               [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-                              {}, customerTokenVal, customerEmailVal)));
-                          print(storeIndexVal);
+                              {}, customerTokenVal, customerEmailVal,
+                              getStoreDataVal[storeIndexVal].backgroundColor,
+                              getStoreDataVal[storeIndexVal].boxesColor,
+                              getStoreDataVal[storeIndexVal].primaryTextColor,
+                              getStoreDataVal[storeIndexVal].secondaryTextColor,
+                              getStoreDataVal[storeIndexVal].clippingColor,
+                              getStoreDataVal[storeIndexVal].smoothy,
+                              getStoreDataVal[storeIndexVal].design,
+                            )));
+                            print(storeIndexVal);
+                          }
+
+                          if(getStoreDataVal[storeIndexVal].design == "Option 2"){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage2(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                              [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                              {}, customerTokenVal, customerEmailVal,
+                              getStoreDataVal[storeIndexVal].backgroundColor,
+                              getStoreDataVal[storeIndexVal].boxesColor,
+                              getStoreDataVal[storeIndexVal].primaryTextColor,
+                              getStoreDataVal[storeIndexVal].secondaryTextColor,
+                              getStoreDataVal[storeIndexVal].clippingColor,
+                              getStoreDataVal[storeIndexVal].smoothy,
+                              getStoreDataVal[storeIndexVal].design,
+                            )));
+                            print(storeIndexVal);
+                          }
+
+                          if(getStoreDataVal[storeIndexVal].design == "Option 3"){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage3(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                              [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                              {}, customerTokenVal, customerEmailVal,
+                              getStoreDataVal[storeIndexVal].backgroundColor,
+                              getStoreDataVal[storeIndexVal].boxesColor,
+                              getStoreDataVal[storeIndexVal].primaryTextColor,
+                              getStoreDataVal[storeIndexVal].secondaryTextColor,
+                              getStoreDataVal[storeIndexVal].clippingColor,
+                              getStoreDataVal[storeIndexVal].smoothy,
+                              getStoreDataVal[storeIndexVal].design,
+                            )));
+                            print(storeIndexVal);
+                          }
                           // getStoreIndex();
                         },
                         icon: Icon(
                           Icons.arrow_back,
-                          color: Colors.white,
+                          color: secondaryTextColor,
                           size: 30,
                         ),
                       ),
@@ -355,10 +424,10 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         height: 50, // Example height
                         child: TextField(
                           controller: _searchController,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: secondaryTextColor),
                           decoration: InputDecoration(
                             hintText: 'Search...',
-                            hintStyle: TextStyle(color: Colors.white),
+                            hintStyle: TextStyle(color: secondaryTextColor),
                           ),
                           onChanged: (value) {
                             filterProducts(value);
@@ -368,8 +437,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                       )
                           : Text(
                         "${getLang(context, 'products')}",
-                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(
-                            color: Colors.white,
+                        style: GoogleFonts.roboto(textStyle: TextStyle(
+                            color: secondaryTextColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                         ),),
@@ -389,7 +458,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                         icon: Icon(
                           _isSearching ? Icons.close : Icons.search,
                           size: 30,
-                          color: Colors.white,
+                          color: secondaryTextColor,
                         ),
                       ),
                     )
@@ -409,7 +478,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Set the number of columns
                         childAspectRatio:
-                        0.73, // Customize the aspect ratio (width/height) of each tile
+                        0.77, // Customize the aspect ratio (width/height) of each tile
                         mainAxisSpacing: 4.0, // Spacing between rows
                         crossAxisSpacing: 2.0, // Spacing between columns
                       ),
@@ -443,15 +512,15 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                           padding: EdgeInsets.all(1),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
                                             color: Color(0xF2222128),
                                           ),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
                                             child: (filteredProducts[index]
                                             ["cartPrimaryImage"]
@@ -589,10 +658,10 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                           height: 77,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(20),
-                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
-                                            color: Color(0xF2222128),
+                                            color: boxesColor,
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -605,10 +674,10 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                   "${filteredProducts[index]["cartName"].toString()}",
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                  style: GoogleFonts.roboto(textStyle: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                                    color: secondaryTextColor,
                                                   )),),
                                               ),
 
@@ -628,11 +697,11 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       overflow:
                                                       TextOverflow.ellipsis,
                                                       maxLines: 1,
-                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
                                                         fontSize: 13,
                                                         fontWeight:
                                                         FontWeight.bold,
-                                                        color: Colors.white,
+                                                        color: secondaryTextColor,
                                                       )),),
                                                   ),
                                                   SizedBox(
@@ -648,7 +717,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                       maxLines: 1,
-                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
                                                         fontSize: 11,
                                                         fontWeight:
                                                         FontWeight.bold,
@@ -657,7 +726,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                             .lineThrough,
                                                         decorationThickness:
                                                         3,
-                                                        color: Colors.white,
+                                                        color: secondaryTextColor,
                                                       )),),
                                                   ),
                                                 ],
@@ -701,15 +770,15 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                           padding: EdgeInsets.all(1),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
                                             color: Color(0xF2222128),
                                           ),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
                                             child: (storeCartsVal[index]
                                             ["cartPrimaryImage"]
@@ -846,10 +915,10 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                           height: 77,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(20),
-                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                              bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                             ),
-                                            color: Color(0xF2222128),
+                                            color: boxesColor,
                                           ),
                                           child: Column(
                                             crossAxisAlignment:
@@ -862,10 +931,10 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                   "${storeCartsVal[index]["cartName"].toString()}",
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
-                                                  style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                  style: GoogleFonts.roboto(textStyle: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
+                                                    color: secondaryTextColor,
                                                   )),),
                                               ),
 
@@ -885,11 +954,11 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       overflow:
                                                       TextOverflow.ellipsis,
                                                       maxLines: 1,
-                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
                                                         fontSize: 13,
                                                         fontWeight:
                                                         FontWeight.bold,
-                                                        color: Colors.white,
+                                                        color: secondaryTextColor,
                                                       )),),
                                                   ),
                                                   SizedBox(
@@ -905,7 +974,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                       maxLines: 1,
-                                                      style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
                                                         fontSize: 11,
                                                         fontWeight:
                                                         FontWeight.bold,
@@ -914,7 +983,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                             .lineThrough,
                                                         decorationThickness:
                                                         3,
-                                                        color: Colors.white,
+                                                        color: secondaryTextColor,
                                                       )),),
                                                   ),
                                                 ],

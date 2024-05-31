@@ -13,7 +13,7 @@ import '../../../custom_button.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
-import 'customer_specific_store_main_page.dart';
+import 'customer_specific_store_main_page1.dart';
 
 class CustomerFavoriteProductsForAllProductsFromMainPage extends StatefulWidget {
   String customerTokenVal;
@@ -176,7 +176,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                       width: MediaQuery.of(context).size.width/1.7,
                           child: Text(
                              "${getLang(context, 'favorite_products')}",
-                             style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                             style: GoogleFonts.roboto(textStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
@@ -372,7 +372,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                 "${filteredProducts[index]["cartName"].toString()}",
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                style: GoogleFonts.roboto(textStyle: TextStyle(
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
@@ -395,7 +395,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                     overflow:
                                                     TextOverflow.ellipsis,
                                                     maxLines: 1,
-                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                    style: GoogleFonts.roboto(textStyle: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight:
                                                       FontWeight.bold,
@@ -415,7 +415,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                     overflow: TextOverflow
                                                         .ellipsis,
                                                     maxLines: 1,
-                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                    style: GoogleFonts.roboto(textStyle: TextStyle(
                                                       fontSize: 11,
                                                       fontWeight:
                                                       FontWeight.bold,
@@ -584,7 +584,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                 "${storeCartsVal[index]["cartName"].toString()}",
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                style: GoogleFonts.roboto(textStyle: TextStyle(
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white,
@@ -607,7 +607,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                     overflow:
                                                     TextOverflow.ellipsis,
                                                     maxLines: 1,
-                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                    style: GoogleFonts.roboto(textStyle: TextStyle(
                                                       fontSize: 13,
                                                       fontWeight:
                                                       FontWeight.bold,
@@ -627,7 +627,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                     overflow: TextOverflow
                                                         .ellipsis,
                                                     maxLines: 1,
-                                                    style: GoogleFonts.lilitaOne(textStyle: TextStyle(
+                                                    style: GoogleFonts.roboto(textStyle: TextStyle(
                                                       fontSize: 11,
                                                       fontWeight:
                                                       FontWeight.bold,

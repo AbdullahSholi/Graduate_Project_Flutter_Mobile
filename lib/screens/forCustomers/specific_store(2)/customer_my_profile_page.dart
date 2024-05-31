@@ -13,7 +13,7 @@ import '../../../components/applocal.dart';
 import '../../../models/singleUser.dart';
 import '../customer_main_page(1)/customer_main_page.dart';
 import 'customer_edit_profile_page.dart';
-import 'customer_specific_store_main_page.dart';
+import 'customer_specific_store_main_page1.dart';
 
 
 

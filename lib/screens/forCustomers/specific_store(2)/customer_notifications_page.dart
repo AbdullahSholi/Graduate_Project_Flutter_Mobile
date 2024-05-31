@@ -241,7 +241,7 @@ class _CustomerNotificationsPageState extends State<CustomerNotificationsPage> {
             ),
           ),
           title: Text("${getLang(context, 'notifications')}",
-              style: GoogleFonts.lilitaOne(
+              style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -261,7 +261,7 @@ class _CustomerNotificationsPageState extends State<CustomerNotificationsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("${getLang(context, 'notifications')}",
-                          style: GoogleFonts.lilitaOne(
+                          style: GoogleFonts.roboto(
                             textStyle: TextStyle(
                               color: Color(0xFF212128),
                               fontSize: 20,

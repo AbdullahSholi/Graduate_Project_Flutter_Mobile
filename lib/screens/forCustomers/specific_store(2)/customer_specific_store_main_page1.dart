@@ -22,6 +22,7 @@ import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
+import 'package:graduate_project/screens/forCustomers/customer_login_register/login_or_register(2).dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_edit_profile_page.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/customer_favorite_products.dart';
@@ -56,7 +57,7 @@ import 'customer_my_cart_page.dart';
 import 'customer_notifications_page.dart';
 import 'customer_support_page.dart';
 
-class CustomerSpecificStoreMainPage extends StatefulWidget {
+class CustomerSpecificStoreMainPage1 extends StatefulWidget {
   final String token;
   final String email;
   final List<String> specificStoreCategories;
@@ -68,7 +69,14 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
   final Map<String, dynamic> objectData;
   final String customerTokenVal;
   final String customerEmailVal;
-  const CustomerSpecificStoreMainPage(
+  final String backgroundColor;
+  final String boxesColor;
+  final String primaryTextColor;
+  final String secondaryTextColor;
+  final String clippingColor;
+  final String smoothy;
+  final String design;
+  const CustomerSpecificStoreMainPage1(
       this.token,
       this.email,
       this.specificStoreCategories,
@@ -80,14 +88,21 @@ class CustomerSpecificStoreMainPage extends StatefulWidget {
       this.objectData,
       this.customerTokenVal,
       this.customerEmailVal,
+      this.backgroundColor,
+      this.boxesColor,
+      this.primaryTextColor,
+      this.secondaryTextColor,
+      this.clippingColor,
+      this.smoothy,
+      this.design,
       {super.key});
   @override
-  State<CustomerSpecificStoreMainPage> createState() =>
-      _CustomerSpecificStoreMainPageState();
+  State<CustomerSpecificStoreMainPage1> createState() =>
+      _CustomerSpecificStoreMainPage1State();
 }
 
-class _CustomerSpecificStoreMainPageState
-    extends State<CustomerSpecificStoreMainPage> with WidgetsBindingObserver{
+class _CustomerSpecificStoreMainPage1State
+    extends State<CustomerSpecificStoreMainPage1> with WidgetsBindingObserver{
 
   String tokenVal = "";
   String emailVal = "";
@@ -109,6 +124,24 @@ class _CustomerSpecificStoreMainPageState
   late Future<List> getCartContent;
   // late indexVal="";
   double rateVal = 3;
+
+  //////////////
+  late List<dynamic> getStoreDataVal = [];
+  late String backgroundColor = "";
+  late String boxesColor = "";
+  late String primaryTextColor = "";
+  late String secondaryTextColor = "";
+  late String clippingColor = "";
+  late String smoothy = "";
+  late String design = "";
+
+  late double smoothDesignBorderRadius = 15;
+  late double solidDesignBorderRadius = 2;
+  double spaceAboveComponent = 20;
+  double spaceBelowComponent = 10;
+
+
+  //////////////
 
   // for Images Slider
   List<String> imageUrls = [];
@@ -743,6 +776,15 @@ class _CustomerSpecificStoreMainPageState
     specificStoreCategoriesVal = widget.specificStoreCategories;
     storeNameVal = widget.storeName;
     objectDataVal = widget.objectData;
+
+    backgroundColor = widget.backgroundColor;
+    boxesColor = widget.boxesColor;
+    primaryTextColor = widget.primaryTextColor;
+    secondaryTextColor = widget.secondaryTextColor;
+    clippingColor = widget.clippingColor;
+    smoothy = widget.smoothy;
+    design = widget.design;
+
     print(emailVal);
     // userData = getUserByName();
     sliderImages = getSliderImages();
@@ -819,6 +861,7 @@ class _CustomerSpecificStoreMainPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(int.parse(backgroundColor.replaceAll("Color(", "").replaceAll(")", ""))),
       key: _scaffoldKey,
       drawer: Drawer(
         backgroundColor: Color(0xFF1E1F22),
@@ -875,7 +918,7 @@ class _CustomerSpecificStoreMainPageState
                                   children: [
                                     Text(
                                       "${tempCustomerProfileData.username}",
-                                      style: GoogleFonts.lilitaOne(
+                                      style: GoogleFonts.roboto(
                                         textStyle: TextStyle(
                                             color: Colors.white, fontSize: 35),
                                       ),
@@ -884,7 +927,7 @@ class _CustomerSpecificStoreMainPageState
                                     ),
                                     Text(
                                       "${tempCustomerProfileData.phone}",
-                                      style: GoogleFonts.lilitaOne(
+                                      style: GoogleFonts.roboto(
                                         textStyle: TextStyle(
                                             color: Colors.white, fontSize: 20),
                                       ),
@@ -904,7 +947,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -936,7 +979,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -968,7 +1011,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -997,7 +1040,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1027,7 +1070,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1056,7 +1099,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1086,7 +1129,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1115,7 +1158,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1141,7 +1184,7 @@ class _CustomerSpecificStoreMainPageState
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                     color: Color(0xFF2A212E)),
                 child: ListTile(
                   leading: Icon(
@@ -1155,7 +1198,7 @@ class _CustomerSpecificStoreMainPageState
                   ),
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LogAllPage()));
+                        MaterialPageRoute(builder: (context) => CustomerLoginOrRegister("", "")));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -1174,8 +1217,8 @@ class _CustomerSpecificStoreMainPageState
               margin: EdgeInsets.fromLTRB(
                   20, MediaQuery.of(context).size.height / 20, 20, 0),
               decoration: BoxDecoration(
-                  color: Color(0xFF212128),
-                  borderRadius: BorderRadius.circular(20)),
+                  color: Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                  borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1185,7 +1228,7 @@ class _CustomerSpecificStoreMainPageState
                       },
                       icon: Icon(
                         Icons.menu,
-                        color: Colors.white,
+                        color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                         size: 35,
                       )),
                   SizedBox(
@@ -1196,9 +1239,9 @@ class _CustomerSpecificStoreMainPageState
                     child: Center(
                         child: Text(
                       storeNameVal,
-                      style: GoogleFonts.lilitaOne(
+                      style: GoogleFonts.roboto(
                         textStyle: TextStyle(
-                          color: Colors.white,
+                          color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
                         ),
@@ -1222,7 +1265,7 @@ class _CustomerSpecificStoreMainPageState
                       },
                       icon: Icon(
                         Icons.favorite_border_outlined,
-                        color: Colors.white,
+                        color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                         size: 35,
                       )),
                 ],
@@ -1236,12 +1279,22 @@ class _CustomerSpecificStoreMainPageState
                     height: MediaQuery.of(context).size.height / 1.15,
                     margin: EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                       // color: Colors.cyan
                     ),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: spaceAboveComponent,
+                          ),
+                          Container(
+                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              alignment: Alignment.topLeft,
+                              child: Text("Latest", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+                          SizedBox(
+                            height: spaceBelowComponent,
+                          ),
                           Visibility(
                             visible: sliderVisibilityVal,
                             child: Column(children: [
@@ -1270,7 +1323,7 @@ class _CustomerSpecificStoreMainPageState
                                                   .width,
                                               child: ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                 child: CachedNetworkImage(
                                                   imageUrl: url,
                                                   placeholder: (context, url) =>
@@ -1295,13 +1348,21 @@ class _CustomerSpecificStoreMainPageState
                             ]),
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 5,
                           ),
                           Visibility(
                             visible: categoryVisibilityVal,
                             child: Column(children: [
+
                               SizedBox(
-                                height: 15,
+                                height: spaceAboveComponent,
+                              ),
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  alignment: Alignment.topLeft,
+                                  child: Text("All Categories", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+                              SizedBox(
+                                height: spaceBelowComponent,
                               ),
                               FutureBuilder<List>(
                                 future: specificStoreCategories,
@@ -1320,15 +1381,17 @@ class _CustomerSpecificStoreMainPageState
                                           Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                 color:
                                                     specificStoreCategoriesVal[
                                                                 index] ==
                                                             "All Products"
-                                                        ? Color(0xFFFF2139)
-                                                        : Color(0xFF212128),
+                                                        ? Color(int.parse(clippingColor.replaceAll("Color(", "").replaceAll(")", "")))
+                                                        : Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                               ),
-                                              width: 120,
+                                              width: specificStoreCategoriesVal[
+                                              index] ==
+                                                  "All Products" ? 150 : 120,
                                               child: TextButton(
                                                   onPressed: () async {
                                                     QuickAlert.show(
@@ -1381,9 +1444,9 @@ class _CustomerSpecificStoreMainPageState
                                                   child: Text(index == 0 ? "${getLang(context, 'all_products')}":  specificStoreCategoriesVal[
                                                           index] ,
                                                       style:
-                                                          GoogleFonts.lilitaOne(
+                                                          GoogleFonts.roboto(
                                                         textStyle: TextStyle(
-                                                            color: Colors.white,
+                                                            color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                             fontSize: 18),
                                                       )))),
                                       separatorBuilder: (context, index) =>
@@ -1402,30 +1465,30 @@ class _CustomerSpecificStoreMainPageState
                                 visible: cartsVisibilityVal,
                                 child: Column(
                                   children: [
+                                    SizedBox(
+                                      height: spaceAboveComponent,
+                                    ),
                                     Container(
                                       padding:
-                                          EdgeInsets.fromLTRB(13, 20, 20, 0),
+                                          EdgeInsets.fromLTRB(0, 0, 20, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            "${getLang(context, 'products')}",
-                                            style: GoogleFonts.lilitaOne(
-                                              textStyle: TextStyle(
-                                                  fontSize: 38,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xFF212128)),
-                                            ),
-                                          ),
+
+                                          Container(
+                                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                              alignment: Alignment.topLeft,
+                                              child: Text("Products", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+
                                           InkWell(
                                             child: Text(
                                               "${getLang(context, 'view_all')}",
-                                              style: GoogleFonts.lilitaOne(
+                                              style: GoogleFonts.roboto(
                                                 textStyle: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
-                                                    color: Color(0xFF212128)),
+                                                    color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")))),
                                               ),
                                             ),
                                             onTap: () {
@@ -1441,6 +1504,9 @@ class _CustomerSpecificStoreMainPageState
                                         ],
                                       ),
                                     ),
+                                    SizedBox(
+                                      height: spaceBelowComponent,
+                                    ),
                                     Visibility(
                                       visible: !cartsForSpecificCategory,
                                       child: Container(
@@ -1448,7 +1514,7 @@ class _CustomerSpecificStoreMainPageState
                                             MediaQuery.of(context).size.width,
                                         child: GridView.builder(
                                           padding:
-                                              EdgeInsets.fromLTRB(0, 12, 0, 0),
+                                              EdgeInsets.fromLTRB(0, 0, 0, 0),
                                           scrollDirection: Axis.vertical,
                                           physics:
                                               NeverScrollableScrollPhysics(),
@@ -1458,7 +1524,7 @@ class _CustomerSpecificStoreMainPageState
                                             crossAxisCount:
                                                 2, // Set the number of columns
                                             childAspectRatio:
-                                                0.73, // Customize the aspect ratio (width/height) of each tile
+                                                0.77, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
                                                 4.0, // Spacing between rows
                                             crossAxisSpacing:
@@ -1501,11 +1567,9 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             topRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             topLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
                                                           color:
                                                               Color(0xF2222128),
@@ -1515,11 +1579,9 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             topRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             topLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
                                                           child: (storeCartsVal[index]
                                                                               [
@@ -1685,14 +1747,11 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             bottomRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             bottomLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
-                                                          color:
-                                                              Color(0xF2222128),
+                                                          color: Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                         ),
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -1714,15 +1773,14 @@ class _CustomerSpecificStoreMainPageState
                                                                         .ellipsis,
                                                                 maxLines: 1,
                                                                 style: GoogleFonts
-                                                                    .lilitaOne(
+                                                                    .roboto(
                                                                         textStyle:
                                                                             TextStyle(
                                                                   fontSize: 22,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                 )),
                                                               ),
                                                             ),
@@ -1752,7 +1810,7 @@ class _CustomerSpecificStoreMainPageState
                                                                             .ellipsis,
                                                                     maxLines: 1,
                                                                     style: GoogleFonts
-                                                                        .lilitaOne(
+                                                                        .roboto(
                                                                             textStyle:
                                                                                 TextStyle(
                                                                       fontSize:
@@ -1760,8 +1818,7 @@ class _CustomerSpecificStoreMainPageState
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
-                                                                      color: Colors
-                                                                          .white,
+                                                                      color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                     )),
                                                                   ),
                                                                 ),
@@ -1779,7 +1836,7 @@ class _CustomerSpecificStoreMainPageState
                                                                               TextOverflow.ellipsis,
                                                                           maxLines:
                                                                               1,
-                                                                          style: GoogleFonts.lilitaOne(
+                                                                          style: GoogleFonts.roboto(
                                                                               textStyle: TextStyle(
                                                                             fontSize:
                                                                                 11,
@@ -1789,8 +1846,7 @@ class _CustomerSpecificStoreMainPageState
                                                                                 TextDecoration.lineThrough,
                                                                             decorationThickness:
                                                                                 3,
-                                                                            color:
-                                                                                Colors.white,
+                                                                            color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                           )),
                                                                         ),
                                                                 ),
@@ -1875,7 +1931,7 @@ class _CustomerSpecificStoreMainPageState
                                             crossAxisCount:
                                                 2, // Set the number of columns
                                             childAspectRatio:
-                                                0.73, // Customize the aspect ratio (width/height) of each tile
+                                                0.77, // Customize the aspect ratio (width/height) of each tile
                                             mainAxisSpacing:
                                                 4.0, // Spacing between rows
                                             crossAxisSpacing:
@@ -1920,11 +1976,9 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             topRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             topLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
                                                           color:
                                                               Color(0xF2222128),
@@ -1933,11 +1987,9 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             topRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             topLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
                                                           child: (CartsForOneCategoryVal[index]
                                                                               [
@@ -2032,14 +2084,11 @@ class _CustomerSpecificStoreMainPageState
                                                           borderRadius:
                                                               BorderRadius.only(
                                                             bottomRight:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                             bottomLeft:
-                                                                Radius.circular(
-                                                                    20),
+                                                                Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                           ),
-                                                          color:
-                                                              Color(0xF2222128),
+                                                          color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                         ),
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -2067,8 +2116,7 @@ class _CustomerSpecificStoreMainPageState
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
-                                                                    color: Colors
-                                                                        .white,
+                                                                    color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                   )),
                                                             ),
 
@@ -2103,8 +2151,7 @@ class _CustomerSpecificStoreMainPageState
                                                                             13,
                                                                         fontWeight:
                                                                             FontWeight.bold,
-                                                                        color: Colors
-                                                                            .white,
+                                                                        color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                       )),
                                                                 ),
                                                                 SizedBox(
@@ -2131,8 +2178,7 @@ class _CustomerSpecificStoreMainPageState
                                                                                 TextDecoration.lineThrough,
                                                                             decorationThickness:
                                                                                 3,
-                                                                            color:
-                                                                                Colors.white,
+                                                                            color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                           )),
                                                                 ),
                                                               ],

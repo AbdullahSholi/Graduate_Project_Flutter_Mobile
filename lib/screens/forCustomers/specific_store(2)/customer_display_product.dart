@@ -26,7 +26,9 @@ import '../../../models/Stores/display-all-stores.dart';
 import '../../../toggle_button1.dart';
 import "package:http/http.dart" as http;
 
-import 'customer_specific_store_main_page.dart';
+import 'customer_specific_store_main_page1.dart';
+import 'customer_specific_store_main_page2.dart';
+import 'customer_specific_store_main_page3.dart';
 // import 'package:flutter_expandable_text/expandable_text.dart';
 
 
@@ -51,6 +53,18 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
   String emailVal = "";
   String tokenVal = "";
 
+  Color primaryTextColor = Color(0xFF212128);
+  Color secondaryTextColor = Color(0xFF212128);
+  Color boxesColor = Color(0xFF212128);
+  Color backgroundColor = Color(0xFF212128);
+  String smoothy = "";
+
+
+  late double smoothDesignBorderRadius = 15;
+  late double solidDesignBorderRadius = 2;
+  double spaceAboveComponent = 20;
+  double spaceBelowComponent = 10;
+
 
   int storeIndexVal = 0;
   late List<dynamic> getStoreDataVal=[];
@@ -74,6 +88,11 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
       print("${userFuture.statusCode}");
       setState(() {
         getStoreDataVal=tempStores1;
+        boxesColor = Color(int.parse(getStoreDataVal[storeIndexVal].boxesColor.replaceAll("Color(", "").replaceAll(")", "")));
+        backgroundColor = Color(int.parse(getStoreDataVal[storeIndexVal].backgroundColor.replaceAll("Color(", "").replaceAll(")", "")));
+        primaryTextColor = Color(int.parse(getStoreDataVal[storeIndexVal].primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")));
+        secondaryTextColor = Color(int.parse(getStoreDataVal[storeIndexVal].secondaryTextColor.replaceAll("Color(", "").replaceAll(")", "")));
+        smoothy = getStoreDataVal[storeIndexVal].smoothy;
       });
 
     } else {
@@ -299,15 +318,58 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xFF212128)
+                      color: boxesColor
                     ),
                       child: IconButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                        if(getStoreDataVal[storeIndexVal].design == "Option 1"){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
                             [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-                            {}, customerTokenVal, customerEmailVal)));
-                        print(storeIndexVal);
+                            {}, customerTokenVal, customerEmailVal,
+                            getStoreDataVal[storeIndexVal].backgroundColor,
+                            getStoreDataVal[storeIndexVal].boxesColor,
+                            getStoreDataVal[storeIndexVal].primaryTextColor,
+                            getStoreDataVal[storeIndexVal].secondaryTextColor,
+                            getStoreDataVal[storeIndexVal].clippingColor,
+                            getStoreDataVal[storeIndexVal].smoothy,
+                            getStoreDataVal[storeIndexVal].design,
+                          )));
+                          print(storeIndexVal);
+                        }
+
+                        if(getStoreDataVal[storeIndexVal].design == "Option 2"){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage2(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                            [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                            {}, customerTokenVal, customerEmailVal,
+                            getStoreDataVal[storeIndexVal].backgroundColor,
+                            getStoreDataVal[storeIndexVal].boxesColor,
+                            getStoreDataVal[storeIndexVal].primaryTextColor,
+                            getStoreDataVal[storeIndexVal].secondaryTextColor,
+                            getStoreDataVal[storeIndexVal].clippingColor,
+                            getStoreDataVal[storeIndexVal].smoothy,
+                            getStoreDataVal[storeIndexVal].design,
+                          )));
+                          print(storeIndexVal);
+                        }
+
+                        if(getStoreDataVal[storeIndexVal].design == "Option 3"){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage3(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                            [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                            {}, customerTokenVal, customerEmailVal,
+                            getStoreDataVal[storeIndexVal].backgroundColor,
+                            getStoreDataVal[storeIndexVal].boxesColor,
+                            getStoreDataVal[storeIndexVal].primaryTextColor,
+                            getStoreDataVal[storeIndexVal].secondaryTextColor,
+                            getStoreDataVal[storeIndexVal].clippingColor,
+                            getStoreDataVal[storeIndexVal].smoothy,
+                            getStoreDataVal[storeIndexVal].design,
+                          )));
+                          print(storeIndexVal);
+                        }
+
+
+
                         // return Future.value(true);
-                      }, icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white,size: 25,),))),
+                      }, icon: Icon(Icons.arrow_back_ios_outlined, color: secondaryTextColor,size: 25,),))),
             ),
           ],
         )
@@ -317,20 +379,20 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
           width: MediaQuery.of(context).size.width/2,
           height: 45,
           decoration: BoxDecoration(
-            color: Color(0xFF212128),
-            borderRadius: BorderRadius.circular(20),
+            color: boxesColor,
+            borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
           ),
-            child: Text("${getLang(context, 'product')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: Colors.white),))),
+            child: Text("${getLang(context, 'product')}", style: GoogleFonts.roboto(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: secondaryTextColor),))),
         actions: [
           Center(
               child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xFF212128)
+                      color: boxesColor
                   ),
                   child: IconButton(onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerMyCartPage(customerEmailVal, customerTokenVal)));
-                  }, icon: Icon(Icons.shopping_cart_outlined, color: Colors.white,size: 25,),))),
+                  }, icon: Icon(Icons.shopping_cart_outlined, color: secondaryTextColor,size: 25,),))),
           SizedBox(width: 10,)
         ],
 
@@ -380,7 +442,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //   elevation: .5,
                           //   contentPadding: EdgeInsets.all(0),
                           //   backgroundColor: Color(0xFF212128),
-                          //   title: Text("Rating & Reviews", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white)),),
+                          //   title: Text("Rating & Reviews", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white)),),
                           //   content: Stack(
                           //     children: [
                           //       Divider(),
@@ -404,7 +466,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                       children: [
                           //                         Icon(Icons.star, color: Colors.yellow, size: 45,),
                           //                         SizedBox(width: 10,),
-                          //                         Text("Rating", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                          //                         Text("Rating", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                           //                       ],
                           //                     ),
                           //                     Row(
@@ -417,8 +479,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                             mainAxisAlignment: MainAxisAlignment.center,
                           //                             crossAxisAlignment: CrossAxisAlignment.center,
                           //                             children: [
-                          //                               Text("4.3", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 50),)),
-                          //                               Text("23 ratings", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                          //                               Text("4.3", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 50),)),
+                          //                               Text("23 ratings", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                           //                             ],
                           //                           ),
                           //                         ),
@@ -458,7 +520,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                         },
                           //                                       ),
                           //                                     ),
-                          //                                     Text("22", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                     Text("22", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                   ],
                           //                                 ),
                           //                                 Row(
@@ -492,7 +554,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                         },
                           //                                       ),
                           //                                     ),
-                          //                                     Text("22", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                     Text("22", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                   ],
                           //                                 ),
                           //                                 Row(
@@ -525,7 +587,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                         },
                           //                                       ),
                           //                                     ),
-                          //                                     Text("22", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                     Text("22", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                   ],
                           //                                 ),
                           //                                 Row(
@@ -558,7 +620,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                         },
                           //                                       ),
                           //                                     ),
-                          //                                     Text("22", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                     Text("22", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                   ],
                           //                                 ),
                           //                                 Row(
@@ -585,7 +647,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //
                           //                                       ),
                           //                                     ),
-                          //                                     Text("22", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                     Text("22", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                   ],
                           //                                 ),
                           //                               ],
@@ -609,7 +671,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                 children: [
                           //                   Icon(Icons.message, color: Colors.yellow, size: 45,),
                           //                   SizedBox(width: 12,),
-                          //                   Text("Reviews", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                          //                   Text("Reviews", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                           //                 ],
                           //               ),
                           //               Container(
@@ -639,13 +701,13 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                               Column(
                           //                                 crossAxisAlignment: CrossAxisAlignment.start,
                           //                                 children: [
-                          //                                   Text("Abdullah Sholi", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
+                          //                                   Text("Abdullah Sholi", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
                           //                                   Row(
                           //                                     mainAxisAlignment: MainAxisAlignment.start,
                           //                                     children: [
                           //                                       Icon(Icons.date_range, color: Colors.white70,),
                           //                                       SizedBox(width: 10,),
-                          //                                       Text("27/4/2024", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                          //                                       Text("27/4/2024", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                           //                                       SizedBox(width: 15,),
                           //                                       Container(
                           //                                         alignment: Alignment.center,
@@ -674,7 +736,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                               ), onRatingUpdate: (double value) {  },
                           //
                           //                                             ),
-                          //                                             Text("4.5", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                             Text("4.5", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                           ],
                           //                                         ),
                           //                                       )
@@ -692,7 +754,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                               '${storeCartsVal["cartDescription"]}',
                           //                               trimType: TrimType.lines,
                           //                               trim: 3, // trims if text exceeds 20 characters
-                          //                               style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
+                          //                               style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
                           //                               readLessText: 'show less',
                           //                               readMoreText: 'show more',
                           //                             ),
@@ -736,13 +798,13 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                               Column(
                           //                                 crossAxisAlignment: CrossAxisAlignment.start,
                           //                                 children: [
-                          //                                   Text("Abdullah Sholi", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
+                          //                                   Text("Abdullah Sholi", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
                           //                                   Row(
                           //                                     mainAxisAlignment: MainAxisAlignment.start,
                           //                                     children: [
                           //                                       Icon(Icons.date_range, color: Colors.white70,),
                           //                                       SizedBox(width: 10,),
-                          //                                       Text("27/4/2024", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                          //                                       Text("27/4/2024", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                           //                                       SizedBox(width: 15,),
                           //                                       Container(
                           //                                         alignment: Alignment.center,
@@ -771,7 +833,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                                               ), onRatingUpdate: (double value) {  },
                           //
                           //                                             ),
-                          //                                             Text("4.5", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                          //                                             Text("4.5", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                           //                                           ],
                           //                                         ),
                           //                                       )
@@ -789,7 +851,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                               '${storeCartsVal["cartDescription"]}',
                           //                               trimType: TrimType.lines,
                           //                               trim: 3, // trims if text exceeds 20 characters
-                          //                               style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
+                          //                               style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
                           //                               readLessText: 'show less',
                           //                               readMoreText: 'show more',
                           //                             ),
@@ -848,7 +910,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           //                   ],
                           //                   color: Colors.red,
                           //                 ),
-                          //                 child: Text("Rate & Write a review", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
+                          //                 child: Text("Rate & Write a review", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
                           //               ),
                           //
                           //               Container(
@@ -913,8 +975,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(17),
-                            color: Color(0xFF212128)
+                            borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                            color: boxesColor
                           ),
                           width: 80,
                           height: 40,
@@ -923,7 +985,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // SizedBox(width: 10,),
-                              Text("${productAverageRate}", style: TextStyle(color: Colors.white, fontSize: 20),),
+                              Text("${productAverageRate}", style: TextStyle(color: secondaryTextColor, fontSize: 20),),
                               SizedBox(width: 8,),
                               Icon(Icons.star, color: Colors.yellow,)
 
@@ -942,8 +1004,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                         width: 60,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Color(0xFF212128),
-                          borderRadius: BorderRadius.circular(10)
+                          color: boxesColor,
+                          borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius)
                         ),
                         
                         child: IconButton(onPressed: (){
@@ -951,7 +1013,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CustomerChatSystem(customerTokenVal, customerEmailVal, merchantData["merchantname"], merchantData["Avatar"], emailVal, )));
-                        }, icon: Icon(Icons.chat, color: Colors.white, size: 30,)),
+                        }, icon: Icon(Icons.chat, color: secondaryTextColor, size: 30,)),
                       ),
                     ),
                   ),
@@ -962,9 +1024,9 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                       visible: true,
                       child: CircleAvatar(
                         radius: 40,
-                        backgroundColor: Color(0xFF212128),
-                        child: ToggleButton1(onIcon: Icon(Icons.favorite, color: Colors.white, size: 40,),
-                            offIcon: Icon(Icons.favorite_outline, color: Colors.white, size: 40,),
+                        backgroundColor: boxesColor,
+                        child: ToggleButton1(onIcon: Icon(Icons.favorite, color: secondaryTextColor, size: 40,),
+                            offIcon: Icon(Icons.favorite_outline, color: secondaryTextColor, size: 40,),
                             initialValue: storeCartsVal["isFavorite"], onChanged: (_isFavorite) async {
                               if (_isFavorite) {
                                 try {
@@ -1031,10 +1093,10 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height/1.8,
                 decoration: BoxDecoration(
-                    color: Color(0xFF212128),
+                    color: boxesColor,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                    topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                   )
                 ),
                 child: Column(
@@ -1044,8 +1106,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${storeCartsVal["cartName"]}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),)),
-                          Text("${storeCartsVal["cartPrice"]}\$", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),)),
+                          Text("${storeCartsVal["cartName"]}", style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryTextColor, fontSize: 30),)),
+                          Text("${storeCartsVal["cartPrice"]}\$", style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryTextColor, fontSize: 50, fontWeight: FontWeight.bold),)),
                         ],
                       ),
                     ),
@@ -1057,8 +1119,9 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           Row(
                             children: [
                             Material(
+                              color: secondaryTextColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0), // Set border radius here
+                                borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius), // Set border radius here
                               ),
                                 child: IconButton(onPressed: (){
                                   if(counter > 1 ) {
@@ -1067,13 +1130,14 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                                     });
                                   }
 
-                                }, icon: Icon(Icons.remove, color: Color(0xFF212128), size: 30,))),
+                                }, icon: Icon(Icons.remove, color: boxesColor, size: 30,))),
                             SizedBox(width: 10,),
-                            Text("$counter", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35),)),
+                            Text("$counter", style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryTextColor, fontSize: 35),)),
                             SizedBox(width: 10,),
                             Material(
+                                color: secondaryTextColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0), // Set border radius here
+                                  borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius), // Set border radius here
                                 ),
                                 child: IconButton(onPressed: (){
                                   if(counter < storeCartsVal["cartQuantities"]){
@@ -1082,7 +1146,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                                     });
                                   }
 
-                                }, icon: Icon(Icons.add, color: Color(0xFF212128), size: 30,))),
+                                }, icon: Icon(Icons.add, color: boxesColor, size: 30,))),
                           ],),
 
 
@@ -1097,7 +1161,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                           Row(
                             children: [
                               // ExpandableTextWidget(),
-                             Text("${getLang(context, 'description')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),))
+                             Text("${getLang(context, 'description')}", style: GoogleFonts.roboto(textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: secondaryTextColor),))
                             ],),
 
                         ],
@@ -1117,7 +1181,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                                 '${storeCartsVal["cartDescription"]}',
                                 trimType: TrimType.lines,
                                 trim: 6, // trims if text exceeds 20 characters
-                                style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
+                                style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryTextColor),), textAlign: TextAlign.start,
                                 readLessText: 'show less',
                                 readMoreText: 'show more',
                               ),
@@ -1189,12 +1253,13 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height/12,
                     child: Material(
+                      color: secondaryTextColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(0),
                           bottomRight: Radius.circular(0),
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                          topLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                         ) // Set border radius here
                       ),
                       child: TextButton(
@@ -1234,10 +1299,10 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Icon(Icons.add, color: Color(0xFF212128), ),
-                          Text("${getLang(context, 'add_to_cart')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Color(0xFF212128), fontSize: 24, fontWeight: FontWeight.bold),))
+                          Text("${getLang(context, 'add_to_cart')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: boxesColor, fontSize: 24, fontWeight: FontWeight.bold),))
                         ],
                       ),style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          backgroundColor: MaterialStateProperty.all(secondaryTextColor),
                       ),
                       ),
                     ),

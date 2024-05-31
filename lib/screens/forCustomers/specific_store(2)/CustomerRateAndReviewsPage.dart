@@ -365,7 +365,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
             Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal)));
           }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)),
           backgroundColor: Color(0xFF212128),
-          title: Text("${getLang(context, 'rating_reviews')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),),
+          title: Text("${getLang(context, 'rating_reviews')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),),
           centerTitle: true,
           elevation: .1,
         ),
@@ -395,7 +395,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                             children: [
                               Icon(Icons.star, color: Colors.yellow, size: 45,),
                               SizedBox(width: 10,),
-                              Text("${getLang(context, 'rating')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                              Text("${getLang(context, 'rating')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                             ],
                           ),
                           Row(
@@ -408,8 +408,8 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text("${productAverageRate}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 70),)),
-                                    Text("${numberOfRates} ${getLang(context, 'ratings')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                                    Text("${productAverageRate}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 70),)),
+                                    Text("${numberOfRates} ${getLang(context, 'ratings')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                                   ],
                                 ),
                               ),
@@ -458,7 +458,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                             ),
                                           ),
                                           SizedBox(width: 3,),
-                                          Text("${number5Stars}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                          Text("${number5Stars}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                         ],
                                       ),
                                       Row(
@@ -501,7 +501,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                             ),
                                           ),
                                           SizedBox(width: 3,),
-                                          Text("${number4Stars}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                          Text("${number4Stars}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                         ],
                                       ),
                                       Row(
@@ -543,7 +543,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                             ),
                                           ),
                                           SizedBox(width: 3,),
-                                          Text("${number3Stars}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                          Text("${number3Stars}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                         ],
                                       ),
                                       Row(
@@ -585,7 +585,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                             ),
                                           ),
                                           SizedBox(width: 3,),
-                                          Text("${number2Stars}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                          Text("${number2Stars}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                         ],
                                       ),
                                       Row(
@@ -621,7 +621,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                             ),
                                           ),
                                           SizedBox(width: 3,),
-                                          Text("${number1Stars}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                          Text("${number1Stars}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                         ],
                                       ),
                                     ],
@@ -645,7 +645,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                       children: [
                         Icon(Icons.message, color: Colors.yellow, size: 45,),
                         SizedBox(width: 12,),
-                        Text("${getLang(context, 'reviews')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
+                        Text("${getLang(context, 'reviews')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),)
                       ],
                     ),
 
@@ -678,13 +678,13 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(productRateList[index]["customerName"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
+                                          Text(productRateList[index]["customerName"], style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Icon(Icons.date_range, color: Colors.white70,),
                                               SizedBox(width: 10,),
-                                              Text(productRateList[index]["date"], style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+                                              Text(productRateList[index]["date"], style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
                                               SizedBox(width: 15,),
                                               Container(
                                                 alignment: Alignment.center,
@@ -713,7 +713,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                                       ), onRatingUpdate: (double value) {  },
 
                                                     ),
-                                                    Text('${double.parse(productRateList[index]["productRateValue"].toStringAsFixed(1))}', style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+                                                    Text('${double.parse(productRateList[index]["productRateValue"].toStringAsFixed(1))}', style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
                                                   ],
                                                 ),
                                               )
@@ -735,7 +735,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                                         '${productRateList[index]["comment"]}',
                                         trimType: TrimType.lines,
                                         trim: 3, // trims if text exceeds 20 characters
-                                        style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white,), ), textAlign: TextAlign.start,
+                                        style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white,), ), textAlign: TextAlign.start,
                                         readLessText: 'show less',
                                         readMoreText: 'show more',
 
@@ -783,13 +783,13 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
       //                                   Column(
       //                                     crossAxisAlignment: CrossAxisAlignment.start,
       //                                     children: [
-      //                                       Text("Abdullah Sholi", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
+      //                                       Text("Abdullah Sholi", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 25),)),
       //                                       Row(
       //                                         mainAxisAlignment: MainAxisAlignment.start,
       //                                         children: [
       //                                           Icon(Icons.date_range, color: Colors.white70,),
       //                                           SizedBox(width: 10,),
-      //                                           Text("27/4/2024", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
+      //                                           Text("27/4/2024", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),)),
       //                                           SizedBox(width: 15,),
       //                                           Container(
       //                                             alignment: Alignment.center,
@@ -818,7 +818,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
       //                                                   ), onRatingUpdate: (double value) {  },
       //
       //                                                 ),
-      //                                                 Text("4.5", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
+      //                                                 Text("4.5", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 15),))
       //                                               ],
       //                                             ),
       //                                           )
@@ -836,7 +836,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
       //                                   'Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A Addidas-A ',
       //                                   trimType: TrimType.lines,
       //                                   trim: 3, // trims if text exceeds 20 characters
-      //                                   style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
+      //                                   style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white),), textAlign: TextAlign.start,
       //                                   readLessText: 'show less',
       //                                   readMoreText: 'show more',
       //                                 ),
@@ -917,7 +917,7 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
                           ],
                           color: Colors.red,
                         ),
-                        child: Text("${getLang(context, 'rate_write_review')}", style: GoogleFonts.lilitaOne(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
+                        child: Text("${getLang(context, 'rate_write_review')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 30),),textAlign: TextAlign.center,),
                       ),
                     ),
 

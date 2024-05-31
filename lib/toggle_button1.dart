@@ -46,7 +46,7 @@ class _ToggleButton1State extends State<ToggleButton1> {
         padding: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
-          color: _value ? Color(0xFF212128) : Colors.transparent,
+          // color: _value ? Color(0xFF212128) : Colors.transparent,
         ),
         child: _value ? widget.onIcon : widget.offIcon,
       ),

@@ -120,7 +120,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
           ),
         ),
         title: Text("${getLang(context, 'shopping_cart')}",
-            style: GoogleFonts.lilitaOne(
+            style: GoogleFonts.roboto(
               textStyle: TextStyle(
                   color: secondaryColor,
                   fontSize: 24,
@@ -174,7 +174,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                           children: [
                             Text(
                               "${cartList[index]["cartName"]}",
-                              style: GoogleFonts.lilitaOne(
+                              style: GoogleFonts.roboto(
                                 textStyle: TextStyle(
                                   color: secondaryColor,
                                   fontSize: 20,
@@ -186,7 +186,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                             ),
                             Text(
                               "${cartList[index]["cartCategory"]}",
-                              style: GoogleFonts.lilitaOne(
+                              style: GoogleFonts.roboto(
                                 textStyle: TextStyle(
                                     color: secondaryColor,
                                     fontSize: 15,
@@ -204,7 +204,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               children: [
                                 Text(
                                   "\$${cartList[index]["cartPrice"]}",
-                                  style: GoogleFonts.lilitaOne(
+                                  style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                         color: secondaryColor,
                                         fontSize: 30,
@@ -218,7 +218,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                 ),
                                 Text(
                                   "\$400",
-                                  style: GoogleFonts.lilitaOne(
+                                  style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                         color: secondaryColor,
                                         fontSize: 25,
@@ -236,7 +236,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               children: [
                                 Text(
                                   "${getLang(context, 'price')}: ",
-                                  style: GoogleFonts.lilitaOne(
+                                  style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                         color: secondaryColor,
                                         fontSize: 20,
@@ -250,7 +250,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                 ),
                                 Text(
                                   "${cartList[index]["cartPrice"]} * ${cartList[index]["quantities"]} = ${cartList[index]["cartPrice"] * cartList[index]["quantities"]} ",
-                                  style: GoogleFonts.lilitaOne(
+                                  style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                       color: secondaryColor,
                                       fontSize: 15,
@@ -353,7 +353,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                         children: [
                           Text(
                             "${getLang(context, 'total_price')}",
-                            style: GoogleFonts.lilitaOne(
+                            style: GoogleFonts.roboto(
                               textStyle: TextStyle(
                                 color: secondaryColor,
                                 fontSize: 25,
@@ -365,7 +365,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                           ),
                           Text(
                             "${totalPrice}",
-                            style: GoogleFonts.lilitaOne(
+                            style: GoogleFonts.roboto(
                               textStyle: TextStyle(
                                 color: secondaryColor,
                                 fontSize: 25,
@@ -1003,7 +1003,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                               },
                         child: Text(
                           "${getLang(context, 'purchase')}!",
-                          style: GoogleFonts.lilitaOne(
+                          style: GoogleFonts.roboto(
                             textStyle: TextStyle(
                               color: Color(0xFF212128),
                               fontSize: 25,
