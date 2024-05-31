@@ -7,6 +7,7 @@ import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/forCustomers/specific_store(2)/CustomerRateAndReviewsPage.dart';
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/login.dart';
+import 'package:graduate_project/splash_screen.dart';
 import 'package:graduate_project/stripe_payment/stripe_keys.dart';
 
 import 'firebase_options.dart';
@@ -25,8 +26,23 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
 
   // This widget is the root of your application.
   @override
@@ -34,7 +50,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+      home: SplashScreen(),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
