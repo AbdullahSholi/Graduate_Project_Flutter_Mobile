@@ -267,6 +267,13 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                               "activateCategory":categoryVisibilityVal,
                               "activateCarts":cartsVisibilityVal ,
                               "specificStoreCategories":specificStoreCategoriesVal,
+                              "backgroundColor" : "",
+                              "boxesColor" : "",
+                              "primaryTextColor" : "",
+                              "secondaryTextColor" : "",
+                              "clippingColor" : "",
+                              "smoothy" : "",
+                              "design" : "",
                               // "type":tempTypeVal,
 
 

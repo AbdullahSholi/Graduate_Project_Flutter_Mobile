@@ -359,6 +359,13 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
       objectDataVal["activateCategory"] = categoryVisibilityVal;
       objectDataVal["activateCarts"] = cartsVisibilityVal;
       objectDataVal["specificStoreCategories"] = specificStoreCategoriesVal;
+      objectDataVal["backgroundColor"] = _selectedColor1.toString();
+      objectDataVal["boxesColor"] = _selectedColor.toString();
+      objectDataVal["primaryTextColor"] = _selectedColor2.toString();
+      objectDataVal["secondaryTextColor"] = _selectedColor3.toString();
+      objectDataVal["clippingColor"] = _selectedColor4.toString();
+      objectDataVal["smoothy"] = _selectedOptions.toString();
+      objectDataVal["design"] = _selectedOption.toString();
       // objectDataVal["type"] = storeCartsVal;
 
     });
