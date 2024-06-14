@@ -57,7 +57,11 @@ class _CustomerMainPageState extends State<CustomerMainPage>
   late List<dynamic> tempStores = [];
   late List<dynamic> specificCategoryStores = [];
   Future<void> getAllStoresForOneCategory(storeCategory) async {
-    tempStores = [];
+    setState(() {
+
+      specificCategoryStores = [];
+    });
+
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-all-stores-for-one-category/${storeCategory}"),
@@ -76,6 +80,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
 
       setState(() {
         specificCategoryStores = tempStores;
+        tempStores = [];
       });
     } else {
       print("error");
@@ -110,41 +115,67 @@ class _CustomerMainPageState extends State<CustomerMainPage>
       // You can extract the language code from the string if needed
       final String langCode = localeName.split('_').first; // e.g., "en"
 
-      if (langCode != "ar") {
+      // if (langCode != "ar") {
         setState(() {
           getStoreDataVal = [];
           getStoreDataVal = tempStores1;
           tempStores1 = [];
         });
-      }
+      // }
 
-      if (langCode == "ar") {
-        List<Future<dynamic>> translatedData = tempStores1.map((item) async {
-          final translatedName =
-              await translator.translate(item.storeName, to: langCode);
-          final translatedCategory =
-              await translator.translate(item.storeCategory, to: langCode);
-          item.storeName =
-              translatedName.text; // Spread syntax for shallow copy
-          item.storeCategory = translatedCategory.text;
-          return item;
-        }).toList();
-
-        List<dynamic> completedData = await Future.wait(translatedData);
-        print("IIIIIIIIIIIIIIII");
-        // print(getStoreDataVal[0].storeName);
-        print(completedData);
-        print("IIIIIIIIIIIIIIII");
-        setState(() {
-          getStoreDataVal = [];
-          getStoreDataVal = completedData;
-          tempStores1 = [];
-        });
-      }
+      // if (langCode == "ar") {
+      //   List<Future<dynamic>> translatedData = tempStores1.map((item) async {
+      //     final translatedName =
+      //         await translator.translate(item.storeName, to: langCode);
+      //     final translatedCategory =
+      //         await translator.translate(item.storeCategory, to: langCode);
+      //     item.storeName =
+      //         translatedName.text; // Spread syntax for shallow copy
+      //     item.storeCategory = translatedCategory.text;
+      //     return item;
+      //   }).toList();
+      //
+      //   List<dynamic> completedData = await Future.wait(translatedData);
+      //   print("IIIIIIIIIIIIIIII");
+      //   // print(getStoreDataVal[0].storeName);
+      //   print(completedData);
+      //   print("IIIIIIIIIIIIIIII");
+      //   setState(() {
+      //     getStoreDataVal = [];
+      //     getStoreDataVal = completedData;
+      //     tempStores1 = [];
+      //   });
+      // }
     } else {
       print("error");
       throw Exception("Error");
     }
+  }
+
+
+  Future<void> getAdminData() async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/s12027918@stu.najah.edu"),
+    );
+
+    print("uuuuuuuuuuuuXX");
+    print(jsonDecode(userFuture.body)["allCategories"].runtimeType);
+    print("uuuuuuuuuuuuXX");
+    setState(() {
+      List<dynamic> dynamicList = jsonDecode(userFuture.body)["allCategories"];
+      List<String> stringList = dynamicList.map((element) => element.toString()).toList();
+
+      items = stringList;
+      itemsEn = stringList;
+      print(items);
+      print(itemsEn);
+      print("uuuuuuuuuuuuXXXXXXXXXXXXXXXX");
+    });
+
+
+
+
   }
 
   Future<void> saveIndex(index) async {
@@ -192,7 +223,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
   User tempCustomerProfileData = User("", "", "", "", "", "");
   Locale? _currentLocale;
   List<String> items = [];
-  List<String> itemsEn = ["Electronic", "Cars", "Restaurants"];
+  List<String> itemsEn = [];
 
   // final WidgetsBindingObserver _observer = WidgetsBindingObserver();
 
@@ -203,11 +234,13 @@ class _CustomerMainPageState extends State<CustomerMainPage>
     WidgetsBinding.instance.addObserver(this);
     customerEmailVal = widget.email;
     customerTokenVal = widget.token;
+    getAdminData();
     // getStoreDataVal = widget.getStoreData;
     _currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
-    getDataFromTranslator();
+    // getDataFromTranslator();
     getMerchantData();
     getUserByName();
+
   }
 
   @override
@@ -222,32 +255,34 @@ class _CustomerMainPageState extends State<CustomerMainPage>
       // Execute your function here when the app resumes from the background
       // yourFunction();
 
-      getDataFromTranslator();
+      // getDataFromTranslator();
       getMerchantData();
     }
   }
 
-  Future<void> getDataFromTranslator() async {
-    String _currentLocale1 = _currentLocale.toString().split('_').first;
 
-    setState(() {
-      items = ["Electronics", "Cars", "Restaurants"];
-    });
-    final String localeName = Platform.localeName; // e.g., "en_US"
 
-    // You can extract the language code from the string if needed
-    final String langCode = localeName.split('_').first; // e.g., "en"
-
-    final translator = GoogleTranslator();
-    if (langCode == "ar") {
-      var translator1 = await translator.translate("Electronics", to: langCode);
-      var translator2 = await translator.translate("Cars", to: langCode);
-      var translator3 = await translator.translate("Restaurants", to: langCode);
-      setState(() {
-        items = [translator1.text, translator2.text, translator3.text];
-      });
-    }
-  }
+  // Future<void> getDataFromTranslator() async {
+  //   String _currentLocale1 = _currentLocale.toString().split('_').first;
+  //
+  //   setState(() {
+  //     items = ["Electronics", "Cars", "Restaurants"];
+  //   });
+  //   final String localeName = Platform.localeName; // e.g., "en_US"
+  //
+  //   // You can extract the language code from the string if needed
+  //   final String langCode = localeName.split('_').first; // e.g., "en"
+  //
+  //   final translator = GoogleTranslator();
+  //   if (langCode == "ar") {
+  //     var translator1 = await translator.translate("Electronics", to: langCode);
+  //     var translator2 = await translator.translate("Cars", to: langCode);
+  //     var translator3 = await translator.translate("Restaurants", to: langCode);
+  //     setState(() {
+  //       items = [translator1.text, translator2.text, translator3.text];
+  //     });
+  //   }
+  // }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -273,6 +308,14 @@ class _CustomerMainPageState extends State<CustomerMainPage>
       },
       child: Scaffold(
           key: _scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: Color(0xFF212128),
+            leading: IconButton(onPressed: (){
+              _openDrawer();
+            }, icon: Icon(Icons.menu, color: Colors.white, size: 30,)),
+            title: Text("${getLang(context, 'stores')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30)),),
+            centerTitle: true,
+          ),
           drawer: Drawer(
             backgroundColor: Color(0xFF1E1F22),
             width: MediaQuery.of(context).size.width / 1.3,
@@ -545,554 +588,177 @@ class _CustomerMainPageState extends State<CustomerMainPage>
               ),
             ),
           ),
-          body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(
-                      image: NetworkImage(
-                          "https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))),
-            ),
-            vsync: this,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xFF212128),
-                    ),
-                    margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(10),
-                                child: Container(
-                                  decoration: const ShapeDecoration(
-                                    color: Colors
-                                        .white, // Replace with your desired color
-                                    shape: CircleBorder(),
-                                  ),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        _openDrawer();
-                                      },
-                                      icon: Icon(
-                                        Icons.menu,
-                                        color: Colors.black,
-                                        size: 30,
-                                        weight: 800,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width / 1.68,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                    child: Text("${getLang(context, 'stores')}",
-                                        style: GoogleFonts.lilitaOne(
-                                            color: Color(0xFF212128),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 25))),
-                              ),
-                              SizedBox(
-                                width: 0,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 2,
-                            color: Colors.white,
-                          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
 
-                          Container(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            child: SingleChildScrollView(
-                              physics: BouncingScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                0, 20, 0, 0),
-                                            height: 50,
-                                            child: InkWell(
+                    color: Color(0xFF212128),
+                  ),
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 2,
+                          color: Colors.white,
+                        ),
+
+                        Container(
+                          height: MediaQuery.of(context).size.height / 1.1,
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+
+                                  margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                  child: SingleChildScrollView(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              0, 20, 0, 0),
+                                          height: 50,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              setState(() {
+                                                allStoresVisibility = true;
+                                              });
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10),
+                                                  color: Color(0xFFFF2139),
+                                                ),
+                                                width: 120,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "${getLang(context, 'all_stores')}",
+                                                  style:
+                                                      GoogleFonts.lilitaOne(
+                                                          textStyle:
+                                                              TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 22,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                  )),
+                                                  textAlign: TextAlign.center,
+                                                )),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              10, 20, 20, 0),
+                                          // width: MediaQuery.of(context)
+                                          //     .size
+                                          //     .width /
+                                          //     2.1,
+                                          height: 50,
+
+                                          child: ListView.separated(
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: itemsEn.length,
+                                            itemBuilder: (context, index) =>
+                                                InkWell(
                                               onTap: () async {
                                                 setState(() {
-                                                  allStoresVisibility = true;
+                                                  allStoresVisibility = false;
                                                 });
+                                                await getAllStoresForOneCategory(
+                                                    itemsEn[index]);
                                               },
                                               child: Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
-                                                    color: Color(0xFFFF2139),
+                                                    color: Colors.white,
                                                   ),
                                                   width: 120,
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    "${getLang(context, 'all_stores')}",
+                                                    items[index],
                                                     style:
                                                         GoogleFonts.lilitaOne(
                                                             textStyle:
                                                                 TextStyle(
-                                                      color: Colors.white,
+                                                      color:
+                                                          Color(0xFF212128),
                                                       fontSize: 22,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     )),
-                                                    textAlign: TextAlign.center,
+                                                    textAlign:
+                                                        TextAlign.center,
                                                   )),
                                             ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                10, 20, 20, 0),
-                                            // width: MediaQuery.of(context)
-                                            //     .size
-                                            //     .width /
-                                            //     2.1,
-                                            height: 50,
-
-                                            child: ListView.separated(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: itemsEn.length,
-                                              itemBuilder: (context, index) =>
-                                                  InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    allStoresVisibility = false;
-                                                  });
-                                                  await getAllStoresForOneCategory(
-                                                      itemsEn[index]);
-                                                },
-                                                child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: Colors.white,
-                                                    ),
-                                                    width: 120,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      items[index],
-                                                      style:
-                                                          GoogleFonts.lilitaOne(
-                                                              textStyle:
-                                                                  TextStyle(
-                                                        color:
-                                                            Color(0xFF212128),
-                                                        fontSize: 22,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      )),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    )),
-                                              ),
-                                              separatorBuilder:
-                                                  (context, index) => SizedBox(
-                                                width: 10,
-                                              ),
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                              width: 10,
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Visibility(
-                                    visible: allStoresVisibility,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: GridView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount:
-                                              1, // Set the number of columns
-                                          childAspectRatio:
-                                              1.9, // Customize the aspect ratio (width/height) of each tile
+                                ),
+                                SizedBox(height: 20,),
+                                Visibility(
+                                  visible: allStoresVisibility,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: GridView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            1, // Set the number of columns
+                                        childAspectRatio:
+                                            1.9, // Customize the aspect ratio (width/height) of each tile
 
-                                          crossAxisSpacing:
-                                              2.0, // Spacing between columns
-                                        ),
-                                        // storeCartsVal[index]
-                                        itemBuilder: (context, index) =>
-                                            InkWell(
-                                          onTap: () {
-                                            saveIndex(index);
-                                            print(getStoreDataVal[index]
-                                                .specificStoreCategories
-                                                .runtimeType);
-                                            List<String> stringList =
-                                                getStoreDataVal[index]
-                                                    .specificStoreCategories
-                                                    .cast<String>()
-                                                    .toList();
-                                            print(stringList.runtimeType);
-                                            print("777");
-                                            print(getStoreDataVal[index].design);
-                                            if(getStoreDataVal[index].design == "Option 1"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage1(
-                                                              "",
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .email,
-                                                              stringList,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .storeName,
-                                                              [],
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateSlider,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCategory,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCarts,
-                                                              {},
-                                                              customerTokenVal,
-                                                              customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-                                            if(getStoreDataVal[index].design == "Option 2"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage2(
-                                                              "",
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .email,
-                                                              stringList,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .storeName,
-                                                              [],
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateSlider,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCategory,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCarts,
-                                                              {},
-                                                              customerTokenVal,
-                                                              customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-                                            if(getStoreDataVal[index].design == "Option 3"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage3(
-                                                              "",
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .email,
-                                                              stringList,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .storeName,
-                                                              [],
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateSlider,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCategory,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCarts,
-                                                              {},
-                                                              customerTokenVal,
-                                                              customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-
-
-
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                20, 0, 20, 15),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(width: 1),
-                                              color: Color(0xFF212139),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: double.infinity,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2.6,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: Colors.white),
-                                                  child: ClipRRect(
-                                                      borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(20.0),
-                                                        topRight: Radius.circular(20.0),
-                                                        bottomLeft: Radius.circular(20.0),
-                                                        bottomRight: Radius.circular(20.0),
-                                                      ),
-                                                      child: Image.network(
-                                                    getStoreDataVal[index]
-                                                        .storeAvatar,
-                                                    fit: BoxFit.cover,
-                                                  )),
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getStoreDataVal[index].storeName}",
-                                                          style: GoogleFonts
-                                                              .lilitaOne(
-                                                                  textStyle:
-                                                                      TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 25,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          )),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getStoreDataVal[index].storeCategory}",
-                                                          style: GoogleFonts
-                                                              .lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 20),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}",
-                                                          style: GoogleFonts
-                                                              .lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 12),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}",
-                                                          style: GoogleFonts
-                                                              .lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 12),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}",
-                                                          style: GoogleFonts
-                                                              .lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 12),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-
-                                        itemCount: getStoreDataVal.length,
+                                        crossAxisSpacing:
+                                            2.0, // Spacing between columns
                                       ),
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible: !allStoresVisibility,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: GridView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount:
-                                              1, // Set the number of columns
-                                          childAspectRatio:
-                                              1.9, // Customize the aspect ratio (width/height) of each tile
-
-                                          crossAxisSpacing:
-                                              2.0, // Spacing between columns
-                                        ),
-                                        // storeCartsVal[index]
-                                        itemBuilder: (context, index) =>
-                                            InkWell(
-                                          onTap: () {
-                                            print(specificCategoryStores[index]
-                                                .specificStoreCategories
-                                                .runtimeType);
-                                            List<String> stringList =
-                                                specificCategoryStores[index]
-                                                    .specificStoreCategories
-                                                    .cast<String>()
-                                                    .toList();
-                                            print(stringList.runtimeType);
-
-                                            if(getStoreDataVal[index].design == "Option 1"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage1(
+                                      // storeCartsVal[index]
+                                      itemBuilder: (context, index) =>
+                                          InkWell(
+                                        onTap: () {
+                                          saveIndex(index);
+                                          print(getStoreDataVal[index]
+                                              .specificStoreCategories
+                                              .runtimeType);
+                                          List<String> stringList =
+                                              getStoreDataVal[index]
+                                                  .specificStoreCategories
+                                                  .cast<String>()
+                                                  .toList();
+                                          print(stringList.runtimeType);
+                                          print("777");
+                                          print(getStoreDataVal[index].design);
+                                          if(getStoreDataVal[index].design == "Option 1"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage1(
                                                             "",
                                                             getStoreDataVal[
                                                             index]
@@ -1114,322 +780,651 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                             {},
                                                             customerTokenVal,
                                                             customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-                                            if(getStoreDataVal[index].design == "Option 2"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage2(
-                                                              "",
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .email,
-                                                              stringList,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .storeName,
-                                                              [],
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateSlider,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCategory,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCarts,
-                                                              {},
-                                                              customerTokenVal,
-                                                              customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-                                            if(getStoreDataVal[index].design == "Option 3"){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CustomerSpecificStoreMainPage3(
-                                                              "",
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .email,
-                                                              stringList,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .storeName,
-                                                              [],
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateSlider,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCategory,
-                                                              getStoreDataVal[
-                                                              index]
-                                                                  .activateCarts,
-                                                              {},
-                                                              customerTokenVal,
-                                                              customerEmailVal,
-                                                            getStoreDataVal[index].backgroundColor,
-                                                            getStoreDataVal[index].boxesColor,
-                                                            getStoreDataVal[index].primaryTextColor,
-                                                            getStoreDataVal[index].secondaryTextColor,
-                                                            getStoreDataVal[index].clippingColor,
-                                                            getStoreDataVal[index].smoothy,
-                                                            getStoreDataVal[index].design,
-                                                          )));
-                                            }
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                20, 0, 20, 15),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              border: Border.all(width: 1),
-                                              color: Color(0xFF212139),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: double.infinity,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                      2.6,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          20),
-                                                      color: Colors.white),
-                                                  child: ClipRRect(
-                                                      borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(20.0),
-                                                        topRight: Radius.circular(20.0),
-                                                        bottomLeft: Radius.circular(20.0),
-                                                        bottomRight: Radius.circular(20.0),
-                                                      ),
-                                                      child: Image.network(
-                                                        specificCategoryStores[index]
-                                                            .storeAvatar,
-                                                        fit: BoxFit.cover,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+                                          if(getStoreDataVal[index].design == "Option 2"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage2(
+                                                            "",
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .email,
+                                                            stringList,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .storeName,
+                                                            [],
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateSlider,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCategory,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+                                          if(getStoreDataVal[index].design == "Option 3"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage3(
+                                                            "",
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .email,
+                                                            stringList,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .storeName,
+                                                            [],
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateSlider,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCategory,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+
+
+
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              20, 0, 20, 15),
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              4,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            border: Border.all(width: 1),
+                                            color: Color(0xFF212139),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+
+                                                height: double.infinity,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.6,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.white),
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(20.0),
+                                                      topRight: Radius.circular(20.0),
+                                                      bottomLeft: Radius.circular(20.0),
+                                                      bottomRight: Radius.circular(20.0),
+                                                    ),
+                                                    child: Image.network(
+                                                  getStoreDataVal[index]
+                                                      .storeAvatar,
+                                                  fit: BoxFit.cover,
+                                                )),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Container(
+
+
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          2.5,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getStoreDataVal[index].storeName}",
+                                                        style: GoogleFonts
+                                                            .lilitaOne(
+                                                                textStyle:
+                                                                    TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        )),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
                                                       )),
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${specificCategoryStores[index].storeName}",
-                                                          style: GoogleFonts.lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color:
-                                                                Colors.white,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                                fontSize: 25),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${specificCategoryStores[index].storeCategory}",
-                                                          style: GoogleFonts.lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color:
-                                                                Colors.white,
-                                                                fontSize: 20),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}",
-                                                          style: GoogleFonts.lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color:
-                                                                Colors.white,
-                                                                fontSize: 10),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}",
-                                                          style: GoogleFonts.lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color:
-                                                                Colors.white,
-                                                                fontSize: 10),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                        // color: Colors.blue,
-                                                        child: Text(
-                                                          "${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}",
-                                                          style: GoogleFonts.lilitaOne(
-                                                            textStyle: TextStyle(
-                                                                color:
-                                                                Colors.white,
-                                                                fontSize: 10),
-                                                          ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                        )),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          2.5,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getStoreDataVal[index].storeCategory}",
+                                                        style: GoogleFonts
+                                                            .lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize: 20),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          2.5,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}",
+                                                        style: GoogleFonts
+                                                            .lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize: 12),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          2.5,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}",
+                                                        style: GoogleFonts
+                                                            .lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize: 12),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          2.5,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}",
+                                                        style: GoogleFonts
+                                                            .lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontSize: 12),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                ],
+                                              )
+                                            ],
                                           ),
                                         ),
-
-                                        itemCount:
-                                            specificCategoryStores.length,
                                       ),
+
+                                      itemCount: getStoreDataVal.length,
                                     ),
                                   ),
+                                ),
+                                Visibility(
+                                  visible: !allStoresVisibility,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: GridView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            1, // Set the number of columns
+                                        childAspectRatio:
+                                            1.9, // Customize the aspect ratio (width/height) of each tile
 
-                                  // Container(
-                                  //   margin: EdgeInsets.fromLTRB(20,20,20,10),
-                                  //   width: MediaQuery
-                                  //       .of(context)
-                                  //       .size
-                                  //       .width ,
-                                  //   height: MediaQuery
-                                  //       .of(context)
-                                  //       .size
-                                  //       .height / 4,
-                                  //   decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(20),
-                                  //       border: Border.all(width: 1)
-                                  //   ),
-                                  //   child: Row(
-                                  //     mainAxisAlignment: MainAxisAlignment.start,
-                                  //     children: [
-                                  //       Container(
-                                  //         width: MediaQuery.of(context).size.width/2.2,
-                                  //         decoration: BoxDecoration(
-                                  //             borderRadius: BorderRadius.circular(20),
-                                  //             color: Colors.white
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
+                                        crossAxisSpacing:
+                                            2.0, // Spacing between columns
+                                      ),
+                                      // storeCartsVal[index]
+                                      itemBuilder: (context, index) =>
+                                          InkWell(
+                                        onTap: () {
+                                          print(specificCategoryStores[index]
+                                              .specificStoreCategories
+                                              .runtimeType);
+                                          List<String> stringList =
+                                              specificCategoryStores[index]
+                                                  .specificStoreCategories
+                                                  .cast<String>()
+                                                  .toList();
+                                          print(stringList.runtimeType);
+
+                                          if(getStoreDataVal[index].design == "Option 1"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage1(
+                                                          "",
+                                                          getStoreDataVal[
+                                                          index]
+                                                              .email,
+                                                          stringList,
+                                                          getStoreDataVal[
+                                                          index]
+                                                              .storeName,
+                                                          [],
+                                                          getStoreDataVal[
+                                                          index]
+                                                              .activateSlider,
+                                                          getStoreDataVal[
+                                                          index]
+                                                              .activateCategory,
+                                                          getStoreDataVal[
+                                                          index]
+                                                              .activateCarts,
+                                                          {},
+                                                          customerTokenVal,
+                                                          customerEmailVal,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+                                          if(getStoreDataVal[index].design == "Option 2"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage2(
+                                                            "",
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .email,
+                                                            stringList,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .storeName,
+                                                            [],
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateSlider,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCategory,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+                                          if(getStoreDataVal[index].design == "Option 3"){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CustomerSpecificStoreMainPage3(
+                                                            "",
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .email,
+                                                            stringList,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .storeName,
+                                                            [],
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateSlider,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCategory,
+                                                            getStoreDataVal[
+                                                            index]
+                                                                .activateCarts,
+                                                            {},
+                                                            customerTokenVal,
+                                                            customerEmailVal,
+                                                          getStoreDataVal[index].backgroundColor,
+                                                          getStoreDataVal[index].boxesColor,
+                                                          getStoreDataVal[index].primaryTextColor,
+                                                          getStoreDataVal[index].secondaryTextColor,
+                                                          getStoreDataVal[index].clippingColor,
+                                                          getStoreDataVal[index].smoothy,
+                                                          getStoreDataVal[index].design,
+                                                        )));
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              20, 0, 20, 15),
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              4,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            border: Border.all(width: 1),
+                                            color: Color(0xFF212139),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: double.infinity,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                    2.6,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        20),
+                                                    color: Colors.white),
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.only(
+                                                      topLeft: Radius.circular(20.0),
+                                                      topRight: Radius.circular(20.0),
+                                                      bottomLeft: Radius.circular(20.0),
+                                                      bottomRight: Radius.circular(20.0),
+                                                    ),
+                                                    child: Image.network(
+                                                      specificCategoryStores[index]
+                                                          .storeAvatar,
+                                                      fit: BoxFit.cover,
+                                                    )),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          4,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${specificCategoryStores[index].storeName}",
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .bold,
+                                                              fontSize: 25),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          4,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${specificCategoryStores[index].storeCategory}",
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 20),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          4,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}",
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 10),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          4,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}",
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 10),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          4,
+                                                      // color: Colors.blue,
+                                                      child: Text(
+                                                        "${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}",
+                                                        style: GoogleFonts.lilitaOne(
+                                                          textStyle: TextStyle(
+                                                              color:
+                                                              Colors.white,
+                                                              fontSize: 10),
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                      )),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      itemCount:
+                                          specificCategoryStores.length,
+                                    ),
+                                  ),
+                                ),
+
+                                // Container(
+                                //   margin: EdgeInsets.fromLTRB(20,20,20,10),
+                                //   width: MediaQuery
+                                //       .of(context)
+                                //       .size
+                                //       .width ,
+                                //   height: MediaQuery
+                                //       .of(context)
+                                //       .size
+                                //       .height / 4,
+                                //   decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(20),
+                                //       border: Border.all(width: 1)
+                                //   ),
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.start,
+                                //     children: [
+                                //       Container(
+                                //         width: MediaQuery.of(context).size.width/2.2,
+                                //         decoration: BoxDecoration(
+                                //             borderRadius: BorderRadius.circular(20),
+                                //             color: Colors.white
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                              ],
                             ),
                           ),
-                          // Container(
-                          //   width: double.infinity,
-                          //   margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                          //
-                          //     child: Text("", style: GoogleFonts.federo(
-                          //       color: Color(0xFF212128),
-                          //       fontWeight: FontWeight.bold,
-                          //       fontSize: 30,
-                          //
-                          //     ),
-                          //       textAlign: TextAlign.center,
-                          //     ),
-                          //
-                          //
-                          // ),
-                        ],
-                      ),
+                        ),
+                        // Container(
+                        //   width: double.infinity,
+                        //   margin: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                        //
+                        //     child: Text("", style: GoogleFonts.federo(
+                        //       color: Color(0xFF212128),
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 30,
+                        //
+                        //     ),
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //
+                        //
+                        // ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           )),
     );
   }

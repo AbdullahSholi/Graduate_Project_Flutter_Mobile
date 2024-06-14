@@ -74,7 +74,14 @@
 
   "discount": "DISCOUNT",
 
-  "matjarcom": "MATJARCOM"
+  "matjarcom": "MATJARCOM",
+  "latest": "Latest",
+  "all_categories": "All Categories",
+  "products": "Products",
+  "merchantname": "Merchant Name",
+  "store_name": "Store Name",
+  "store_description": "Store Description",
+  "click": "Click"
 
 
 

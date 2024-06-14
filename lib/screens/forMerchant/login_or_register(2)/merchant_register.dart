@@ -4,7 +4,10 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
 
 import '../../../models/merchant/register_page_merchant.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
@@ -34,15 +37,16 @@ class _MerchantRegisterState extends State<MerchantRegister>
   TextEditingController storeDescriptionTextEditingController =
       TextEditingController();
   // Define a list of items for the dropdown
-  List<String> items = ['Electronic', 'Cars', 'Resturant'];
+  List<String> items = ['All Stores', 'Cars', 'Resturant'];
 
   // Define a variable to store the selected item
-  String selectedItem = 'Electronic';
+  String selectedItem = 'All Stores';
 
   String tokenVal = "";
   String emailVal = "";
   bool defaultObsecure = false;
   String emailStatus = "";
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -55,351 +59,363 @@ class _MerchantRegisterState extends State<MerchantRegister>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: ParticleOptions(
-                  particleCount: 100,
-                  image: Image(
-                      image: NetworkImage(
-                          "https://t3.ftcdn.net/jpg/01/70/28/92/240_F_170289223_KNx1FpHz8r5ody9XZq5kMOfNDxsZphLz.jpg"))),
-            ),
-            vsync: this,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Color(0xFF212128),
-              ),
-              margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
-              width: double.infinity,
-              height: double.infinity,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          padding: EdgeInsets.all(10),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.white,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Color(0xFF212128),
-                              ), // Replace with your desired icon
-                              onPressed: () {
-                                Navigator.pop(context);
+        appBar: AppBar(
+          backgroundColor: Color(0xFF212128),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
+          title: Text(
+            "${getLang(context, 'register_page')}",
+            style: GoogleFonts.roboto(
+                textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold)),
+          ),
+          centerTitle: true,
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF212128),
+          ),
+          width: double.infinity,
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 2,
+                  color: Colors.white,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height / 1.1,
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // SizedBox(height:28,),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: merchantnameTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your Merchant Name';
+                                }
+                                return null;
                               },
-                              // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, 'merchantname')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 28,
-                        ),
-                        Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width / 2.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: emailTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter an email';
+                                }
+                                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, 'email_address')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
                           ),
-                          child: Center(
-                              child: Text(
-                            "Register Page",
-                            style: TextStyle(
-                                color: Color(0xFF212128),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          )),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 2,
-                      color: Colors.white,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 1.2,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            // SizedBox(height:28,),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: merchantnameTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.name,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Username is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Merchant name',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.person,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: emailTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Email Address is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Email Address',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.email,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                obscureText: !defaultObsecure,
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: passwordTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.visiblePassword,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Password is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.password,
-                                      color: Colors.white,
-                                    ),
-                                    suffixIcon: IconButton(
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          setState(() {
-                                            defaultObsecure = !defaultObsecure;
-                                          });
-                                        },
-                                        icon: Icon(defaultObsecure
-                                            ? Icons.visibility
-                                            : Icons.visibility_off)),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: phoneTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.phone,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Phone Number is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Phone Number',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.phone,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 28, 0, 20),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: countryTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Country is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Country',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.location_city,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller: storeNameTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Store Name is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Store Name',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.storefront,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                cursorColor: Colors.white,
-                                controller:
-                                    storeDescriptionTextEditingController,
-                                //Making keyboard just for Email
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Store Description is required';
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Store Description',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.white),
-                                    prefixIcon: const Icon(
-                                      Icons.description,
-                                      color: Colors.white,
-                                    ),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    )),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ))),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
-                              width: MediaQuery.of(context).size.width / 1.3,
-                              child: DropdownButton(
-                                borderRadius: BorderRadius.circular(20),
-                                dropdownColor: Color(0xFF36363C),
-                                style: TextStyle(color: Color(0xFF212128)),
-                                value: selectedItem,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedItem = newValue!;
-                                    print(selectedItem);
-                                  });
-                                },
-                                items: items.map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(color: Colors.white),
-                                      ));
-                                }).toList(),
-                              ),
-                            ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              obscureText: !defaultObsecure,
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: passwordTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.visiblePassword,
+                              validator: (value) {
+                                // Check if the value is null or empty
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
 
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2.5,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xFF18181E),
-                              ),
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
-                              child: Center(
-                                child: TextButton(
-                                    onPressed: () async {
+                                // Define a regular expression to match the password criteria
+                                final RegExp passwordRegExp = RegExp(
+                                    r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
+
+                                // Check if the password matches the criteria
+                                if (!passwordRegExp.hasMatch(value)) {
+                                  return 'Password must be at least 8 characters long, '
+                                      'include at least one uppercase letter, one lowercase letter, '
+                                      'one number, and one special character';
+                                }
+
+                                // If all checks pass, return null
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText: '${getLang(context, 'password')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.password,
+                                    color: Colors.white,
+                                  ),
+                                  suffixIcon: IconButton(
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        setState(() {
+                                          defaultObsecure = !defaultObsecure;
+                                        });
+                                      },
+                                      icon: Icon(defaultObsecure
+                                          ? Icons.visibility
+                                          : Icons.visibility_off)),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 28, 0, 0),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: phoneTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                // Check if the value is null or empty
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your phone number';
+                                }
+
+                                // Define a regular expression to match the phone number criteria
+                                final RegExp phoneRegExp = RegExp(r'^05\d{8}$');
+
+                                // Check if the phone number matches the criteria
+                                if (!phoneRegExp.hasMatch(value)) {
+                                  return 'Phone number must start with "05" and be exactly 10 digits long';
+                                }
+
+                                // If all checks pass, return null
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, 'phone_number')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.phone,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 28, 0, 20),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: countryTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Country is required';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText: '${getLang(context, 'country')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.location_city,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: storeNameTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Store Name is required';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, 'store_name')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.storefront,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              controller: storeDescriptionTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.text,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Store Description is required';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, 'store_description')}',
+                                  labelStyle:
+                                      const TextStyle(color: Colors.white),
+                                  prefixIcon: const Icon(
+                                    Icons.description,
+                                    color: Colors.white,
+                                  ),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(10, 10, 20, 10),
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            child: DropdownButton(
+                              borderRadius: BorderRadius.circular(20),
+                              dropdownColor: Color(0xFF36363C),
+                              style: TextStyle(color: Color(0xFF212128)),
+                              value: selectedItem,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedItem = newValue!;
+                                  print(selectedItem);
+                                });
+                              },
+                              items: items.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(color: Colors.white),
+                                    ));
+                              }).toList(),
+                            ),
+                          ),
+
+                          Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xFF18181E),
+                            ),
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 40),
+                            child: Center(
+                              child: TextButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
                                       http.Response userFuture1 =
                                           await http.get(
                                         Uri.parse(
@@ -418,7 +434,8 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                           var email =
                                               emailTextEditingController.text;
                                           var password =
-                                              passwordTextEditingController.text;
+                                              passwordTextEditingController
+                                                  .text;
                                           var merchantname =
                                               merchantnameTextEditingController
                                                   .text;
@@ -427,13 +444,14 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                           var country =
                                               countryTextEditingController.text;
                                           var storeName =
-                                              storeNameTextEditingController.text;
+                                              storeNameTextEditingController
+                                                  .text;
                                           var storeCategory = selectedItem;
                                           var storeDescription =
                                               storeDescriptionTextEditingController
                                                   .text;
                                           http.Response userFuture =
-                                          await http.post(
+                                              await http.post(
                                             Uri.parse(
                                                 "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-register"),
                                             headers: {
@@ -449,15 +467,16 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                                 "storeName": storeName,
                                                 "storeCategory": storeCategory,
                                                 "storeDescription":
-                                                storeDescription,
+                                                    storeDescription,
                                               },
                                             ),
-                                            encoding: Encoding.getByName("utf-8"),
+                                            encoding:
+                                                Encoding.getByName("utf-8"),
                                           );
                                           print(userFuture.body);
                                           var temp =
-                                          RegisterPageMerchant.fromJson(
-                                              json.decode(userFuture.body));
+                                              RegisterPageMerchant.fromJson(
+                                                  json.decode(userFuture.body));
                                           print(temp);
                                           print(temp?.token);
                                           // print(temp?.email);
@@ -504,23 +523,30 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                           //
                                           // }
                                         }
+                                      } else{
+                                        QuickAlert.show(
+                                          context: context,
+                                          type: QuickAlertType.error,
+                                          title: 'Oops...',
+                                          text: 'Sorry, but this Invalid Email.',
+                                        );
                                       }
-
-
-                                    },
-                                    child: Text(
-                                      "Register",
-                                      style: TextStyle(color: Colors.white),
-                                    )),
-                              ),
+                                    }
+                                  },
+                                  child: Text(
+                                    "${getLang(context, 'register')}",
+                                    style: TextStyle(color: Colors.white),
+                                  )),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            )));
+              ],
+            ),
+          ),
+        ));
   }
 }

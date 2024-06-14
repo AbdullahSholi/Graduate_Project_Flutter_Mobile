@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -71,7 +72,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
               size: 30,
             ),
           ),
-          title: Text("Forgot & Reset Password",
+          title: Text("${getLang(context, 'forgot_reset_password')}",
               style: GoogleFonts.lilitaOne(
                 textStyle: TextStyle(
                     color: Colors.white,
@@ -90,7 +91,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20,),
-                Text("Forgot Password",
+                Text("${getLang(context, 'forgot_password')}",
                     style: GoogleFonts.lilitaOne(
                       textStyle: TextStyle(
                           color: Color(0xFF212128),
@@ -98,7 +99,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                           fontWeight: FontWeight.bold),
                     ), textAlign: TextAlign.start,),
                 SizedBox(height: 20,),
-                Text("Enter your email for the verification process, we will send link for reset password to your email",
+                Text("${getLang(context, 'forgot_password_description')}",
                   style: GoogleFonts.lilitaOne(
                     textStyle: TextStyle(
                         color: Color(0xFF212128),
@@ -120,7 +121,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                       }
                     },
                     decoration: InputDecoration(
-                        labelText: 'Email Address',
+                        labelText: '${getLang(context, 'email_address')}',
                         labelStyle: TextStyle(color: Color(0xFF212128)),
                         prefixIcon: Icon(
                           Icons.email,color: Color(0xFF212128),
@@ -186,7 +187,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                       }
 
                     },
-                    child: Text('Send',style: GoogleFonts.lilitaOne(
+                    child: Text('${getLang(context, 'send')}',style: GoogleFonts.lilitaOne(
                         color: Color(0xFFF4F4FB),
                         fontWeight: FontWeight.bold,
                         fontSize: 21),),

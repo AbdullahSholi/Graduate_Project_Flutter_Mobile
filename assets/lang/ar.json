@@ -74,6 +74,13 @@
 
   "discount": "خصم!",
 
-  "matjarcom": "متجركُم"
+  "matjarcom": "متجركُم",
+  "latest": "الاعلانات",
+  "all_categories": "جميع الأصناف",
+  "products": "المنتجات",
+  "merchantname": "اسم التاجر",
+  "store_name": "اسم المتجر",
+  "store_description": "وصف المتجر",
+  "click": "انقر"
 
 }

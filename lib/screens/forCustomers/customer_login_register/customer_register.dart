@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forCustomers/customer_main_page(1)/customer_main_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../models/customer/customer_register_model.dart';
 import '../../../models/merchant/register_page_merchant.dart';
@@ -143,7 +145,12 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Email Address is required';
+                                      return 'Please enter an email';
+                                    }
+                                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                                      return 'Please enter a valid email';
+                                    } else {
+                                      return null;
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -175,9 +182,25 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   //Making keyboard just for Email
                                   keyboardType: TextInputType.visiblePassword,
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Password is required';
+                                    // Check if the value is null or empty
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
                                     }
+
+                                    // Define a regular expression to match the password criteria
+                                    final RegExp passwordRegExp = RegExp(
+                                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+                                    );
+
+                                    // Check if the password matches the criteria
+                                    if (!passwordRegExp.hasMatch(value)) {
+                                      return 'Password must be at least 8 characters long, '
+                                          'include at least one uppercase letter, one lowercase letter, '
+                                          'one number, and one special character';
+                                    }
+
+                                    // If all checks pass, return null
+                                    return null;
                                   },
                                   decoration: InputDecoration(
                                       labelText: "${getLang(context, 'password')}",
@@ -217,9 +240,21 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   //Making keyboard just for Email
                                   keyboardType: TextInputType.phone,
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Phone Number is required';
+                                    // Check if the value is null or empty
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your phone number';
                                     }
+
+                                    // Define a regular expression to match the phone number criteria
+                                    final RegExp phoneRegExp = RegExp(r'^05\d{8}$');
+
+                                    // Check if the phone number matches the criteria
+                                    if (!phoneRegExp.hasMatch(value)) {
+                                      return 'Phone number must start with "05" and be exactly 10 digits long';
+                                    }
+
+                                    // If all checks pass, return null
+                                    return null;
                                   },
                                   decoration: InputDecoration(
                                       labelText: "${getLang(context, 'phone_number')}",
@@ -382,6 +417,13 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                                               temp.token,
                                                               temp.email)));
                                             } catch (error) {}
+                                          } else{
+                                            QuickAlert.show(
+                                              context: context,
+                                              type: QuickAlertType.error,
+                                              title: 'Oops...',
+                                              text: 'Sorry, but this Invalid Email.',
+                                            );
                                           }
                                         }
                 

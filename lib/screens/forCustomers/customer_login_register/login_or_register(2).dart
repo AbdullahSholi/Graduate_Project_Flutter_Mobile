@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 // import 'dart:ffi';
 
@@ -12,6 +13,8 @@ import 'package:graduate_project/screens/forMerchant/store_management(5)/display
 import 'package:graduate_project/screens/home.dart';
 import 'package:graduate_project/screens/register.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 // import '../../../models/merchant/login_page_merchant.dart';
 
@@ -50,6 +53,23 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
   Color secondaryColor = Color(0xFFF4F4FB);
   Color accentColor = Color(0xFF0E1011);
   final _formKey = GlobalKey<FormState>();
+
+  int secondsLeft = 60;
+
+  void startTimer() {
+    Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      if (secondsLeft == 0) {
+        timer.cancel();
+        print("Countdown complete!");
+      } else {
+        print('$secondsLeft seconds left');
+        setState(() {
+          secondsLeft--;
+        });
+
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +158,24 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                       //Making keyboard just for Email
                       keyboardType: TextInputType.visiblePassword,
                       validator: (value) {
+                        // Check if the value is null or empty
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
                         }
+
+                        // Define a regular expression to match the password criteria
+                        final RegExp passwordRegExp = RegExp(
+                            r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+                        );
+
+                        // Check if the password matches the criteria
+                        if (!passwordRegExp.hasMatch(value)) {
+                          return 'Password must be at least 8 characters long, '
+                              'include at least one uppercase letter, one lowercase letter, '
+                              'one number, and one special character';
+                        }
+
+                        // If all checks pass, return null
                         return null;
                       },
                       decoration: InputDecoration(
@@ -209,50 +244,57 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                                   print(emailVal);
                                   if (userFuture.body.toString().trim() ==
                                       "Too many login attempts, please try again after 60 seconds") {
-                                    showDialog(
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (context) => AlertDialog(
+                                    //     title: Row(
+                                    //       children: [
+                                    //         Icon(
+                                    //           Icons.error_outline,
+                                    //           color: Colors.red,
+                                    //           weight: 30,
+                                    //         ),
+                                    //         SizedBox(
+                                    //           width: 10,
+                                    //         ),
+                                    //         Text(
+                                    //           "Error Occurs!",
+                                    //           style: TextStyle(
+                                    //               color: Colors.white),
+                                    //         ),
+                                    //       ],
+                                    //     ),
+                                    //     backgroundColor: Color(0xFF101720),
+                                    //     content: Container(
+                                    //       height: MediaQuery.of(context)
+                                    //               .size
+                                    //               .height /
+                                    //           20,
+                                    //       child: Text(
+                                    //         "${userFuture.body}",
+                                    //         style:
+                                    //             TextStyle(color: Colors.white),
+                                    //       ),
+                                    //     ),
+                                    //     actions: [
+                                    //       TextButton(
+                                    //           onPressed: () {
+                                    //             Navigator.pop(context);
+                                    //           },
+                                    //           child: Text(
+                                    //             "OK",
+                                    //             style: TextStyle(
+                                    //                 color: Colors.white),
+                                    //           ))
+                                    //     ],
+                                    //   ),
+                                    // );
+                                    startTimer();
+                                    QuickAlert.show(
                                       context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline,
-                                              color: Colors.red,
-                                              weight: 30,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Error Occurs!",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                        backgroundColor: Color(0xFF101720),
-                                        content: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              20,
-                                          child: Text(
-                                            "${userFuture.body}",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                "OK",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ))
-                                        ],
-                                      ),
+                                      type: QuickAlertType.error,
+                                      title: 'Oops...',
+                                      text: 'Too many login attempts, please try again after ${secondsLeft} seconds',
                                     );
                                   }
 
@@ -322,7 +364,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                                   builder: (context) => ForgetAndResetPassword(
                                       emailVal, tokenVal)));
                         },
-                        child: Text("Click !",
+                        child: Text("${getLang(context, 'click')} !",
                             style: GoogleFonts.roboto(
                                 textStyle: TextStyle(
                                   decoration: TextDecoration.underline,

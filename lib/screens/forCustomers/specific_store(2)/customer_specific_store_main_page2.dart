@@ -280,7 +280,7 @@ class _CustomerSpecificStoreMainPage2State
       // You can extract the language code from the string if needed
       final String langCode = localeName.split('_').first; // e.g., "en"
 
-      if(langCode != "ar") {
+      // if(langCode != "ar") {
         print("ooooooooooooooo $urls ");
         setState(() {
           specificStoreCategoriesValEn=urls;
@@ -288,31 +288,31 @@ class _CustomerSpecificStoreMainPage2State
           specificStoreCategoriesVal = urls;
           urls=[];
         });
-      }
+      // }
       ///////////////
 
-      if(langCode == "ar") {
-
-        specificStoreCategoriesValEn=urls;
-        List<Future<String>> translatedData = urls.skip(1) // Skip the first element
-            .map((item) async {
-          final translatedCategory = await translator.translate(item, to: langCode);
-          item = translatedCategory.text; // Update the store category
-          return item;
-        }).toList();
-
-        List<String> completedData = await Future.wait(translatedData);
-        completedData.insert(0, urls[0]);
-        print("IIIIIIIIIIIIIIII");
-        // print(getStoreDataVal[0].storeName);
-        print(completedData);
-        print("IIIIIIIIIIIIIIII");
-        setState(() {
-          specificStoreCategoriesVal=[];
-          specificStoreCategoriesVal = completedData;
-          urls=[];
-        });
-      }
+      // if(langCode == "ar") {
+      //
+      //   specificStoreCategoriesValEn=urls;
+      //   List<Future<String>> translatedData = urls.skip(1) // Skip the first element
+      //       .map((item) async {
+      //     final translatedCategory = await translator.translate(item, to: langCode);
+      //     item = translatedCategory.text; // Update the store category
+      //     return item;
+      //   }).toList();
+      //
+      //   List<String> completedData = await Future.wait(translatedData);
+      //   completedData.insert(0, urls[0]);
+      //   print("IIIIIIIIIIIIIIII");
+      //   // print(getStoreDataVal[0].storeName);
+      //   print(completedData);
+      //   print("IIIIIIIIIIIIIIII");
+      //   setState(() {
+      //     specificStoreCategoriesVal=[];
+      //     specificStoreCategoriesVal = completedData;
+      //     urls=[];
+      //   });
+      // }
 
 
       ////////////
@@ -1269,9 +1269,9 @@ class _CustomerSpecificStoreMainPage2State
                                   height: spaceAboveComponent,
                                 ),
                                 Container(
-                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    alignment: Alignment.topLeft,
-                                    child: Text("All Categories", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+                                    margin: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                    width: double.infinity,
+                                    child: Text("${getLang(context, 'all_categories')}", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.start,)),
                                 SizedBox(
                                   height: spaceBelowComponent,
                                 ),
@@ -1376,9 +1376,9 @@ class _CustomerSpecificStoreMainPage2State
                               height: spaceAboveComponent,
                             ),
                             Container(
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                alignment: Alignment.topLeft,
-                                child: Text("Latest", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+                                margin: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                width: double.infinity,
+                                child: Text("${getLang(context, 'latest')}", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.start,)),
                             SizedBox(
                               height: spaceBelowComponent,
                             ),
@@ -1458,27 +1458,30 @@ class _CustomerSpecificStoreMainPage2State
                                             Container(
                                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                                 alignment: Alignment.topLeft,
-                                                child: Text("Products", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
+                                                child: Text("${getLang(context, 'products')}", style: TextStyle(color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontWeight: FontWeight.bold, fontSize: 24),)),
 
-                                            InkWell(
-                                              child: Text(
-                                                "${getLang(context, 'view_all')}",
-                                                style: GoogleFonts.roboto(
-                                                  textStyle: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")))),
+                                            Container(
+                                              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                              child: InkWell(
+                                                child: Text(
+                                                  "${getLang(context, 'view_all')}",
+                                                  style: GoogleFonts.roboto(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")))),
+                                                  ),
                                                 ),
+                                                onTap: () {
+                                                  // _startRefresh();
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CustomerDisplayAllProducts(
+                                                                  customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                                },
                                               ),
-                                              onTap: () {
-                                                // _startRefresh();
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CustomerDisplayAllProducts(
-                                                                customerTokenVal, customerEmailVal, tokenVal, emailVal)));
-                                              },
                                             )
                                           ],
                                         ),
