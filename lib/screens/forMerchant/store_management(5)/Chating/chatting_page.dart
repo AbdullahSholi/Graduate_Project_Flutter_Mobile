@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -305,12 +306,12 @@ class _ChattingPageState extends State<ChattingPage>
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Row(children: [
                         Expanded(child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                           child: TextFormField(
                             controller: _controller,
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: "type your message here ...",
+                              hintText: "${getLang(context, 'type_in_chat')}",
                               hintStyle: GoogleFonts.lilitaOne(
                                 color: Color(0xFFF4F4FB),
                               fontSize: 16),

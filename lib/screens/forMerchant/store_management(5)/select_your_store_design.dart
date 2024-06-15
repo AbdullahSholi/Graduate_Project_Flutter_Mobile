@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_designs/design1.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_designs/design2.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/store_designs/design3.dart';
@@ -418,7 +419,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
-        text: "Your Store Published Successfully!",
+        text: "${getLang(context, 'store_published_successfully')}",
       );
       await notifyYourCustomers();
     }
@@ -454,7 +455,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 30,)),
-        title: Text('Select Design', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold ),),
+        title: Text('${getLang(context, 'select_design')}', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold ),),
         centerTitle: true,
         actions: [
           TextButton(
@@ -552,7 +553,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
 
             },
             child: Text(
-              "Preview!",
+              "${getLang(context, 'preview')}",
               style: TextStyle(color: CupertinoColors.white),
             ),
             style: ButtonStyle(
@@ -572,7 +573,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Text("Store Colors", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                      child: Text("${getLang(context, 'store_color')}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
                   Container(
                     margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                     child: CircleAvatar(
@@ -595,7 +596,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                         Container(
                             width: 150,
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: Text("Background Color ")),
+                            child: Text("${getLang(context, 'background_color')}")),
                   
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -639,7 +640,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                         Container(
                             width: 150,
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: Text("Boxes Color ")),
+                            child: Text("${getLang(context, 'boxes_color')}")),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: _colors.map((color) {
@@ -682,7 +683,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                         Container(
                             width: 150,
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: Text("Primary Text Color ")),
+                            child: Text("${getLang(context, 'primary_text_color')}")),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: _primaryTextColors.map((color) {
@@ -725,7 +726,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                         Container(
                             width: 150,
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: Text("Secondary Text Color ")),
+                            child: Text("${getLang(context, 'secondary_text_color')}")),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: _secondaryTextColors.map((color) {
@@ -768,7 +769,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                         Container(
                             width: 150,
                             margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            child: Text("Clipping Color ")),
+                            child: Text("${getLang(context, 'clipping_color')}")),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: _clippingColor.map((color) {
@@ -907,7 +908,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Text("Store Components", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                      child: Text("${getLang(context, 'store_components')}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
 
                 ],
               ),
@@ -919,7 +920,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                 children: <Widget>[
                   Expanded(
                     child: RadioListTile<String?>(
-                      title: const Text('Smooth'),
+                      title: Text('${getLang(context, 'smooth')}'),
                       value: 'Smooth',
                       groupValue: _selectedOptions,
                       onChanged: (String? value) {
@@ -931,7 +932,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                   ),
                   Expanded(
                     child: RadioListTile<String?>(
-                      title: const Text('Solid'),
+                      title: Text('${getLang(context, 'solid')}'),
                       value: 'Solid',
                       groupValue: _selectedOptions,
                       onChanged: (String? value) {
@@ -956,7 +957,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                 children: [
                   Container(
                       margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Text("Store Designs", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
+                      child: Text("${getLang(context, 'store_designs')}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
 
                 ],
               ),

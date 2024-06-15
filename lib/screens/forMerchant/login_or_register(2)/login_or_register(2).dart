@@ -230,7 +230,14 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
                                   );
 
                                 }
-
+                                else if(jsonDecode(userFuture.body)["message"].toString().trim() == "Invalid email or password"){
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.error,
+                                    title: 'Oops...',
+                                    text: 'Incorrect email or password. Please try again.',
+                                  );
+                                }
                                 var temp = LoginPageMerchant.fromJson(
                                     json.decode(userFuture.body));
 

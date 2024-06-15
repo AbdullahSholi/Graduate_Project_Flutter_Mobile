@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/models/merchant/merchant_connect_store_to_social_media.dart';
@@ -871,8 +872,9 @@ class _Design2State extends State<Design2> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  alignment: Alignment.topLeft,
-                                    child: Text("All Categories", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24),)),
+                                  // alignment: Alignment.topLeft,
+                                    width: double.infinity,
+                                    child: Text("${getLang(context, 'all_categories')}", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.start,)),
                                 SizedBox(
                                   height: spaceBelowComponent,
                                 ),
@@ -936,8 +938,10 @@ class _Design2State extends State<Design2> {
                                 ),
                                 Container(
                                     margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    alignment: Alignment.topLeft,
-                                    child: Text("Latest", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24),)),
+                                    // alignment: Alignment.topLeft,
+
+                                    width: double.infinity,
+                                    child: Text("${getLang(context, 'latest')}", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.start,)),
                                 SizedBox(
                                   height: spaceBelowComponent,
                                 ),
@@ -1003,8 +1007,9 @@ class _Design2State extends State<Design2> {
                                       ),
                                       Container(
                                           margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                          alignment: Alignment.topLeft,
-                                          child: Text("Products", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24),)),
+                                          // alignment: Alignment.topLeft,
+                                          width: double.infinity,
+                                          child: Text("Products", style: TextStyle(color: primaryTextColorVal, fontWeight: FontWeight.bold, fontSize: 24), textAlign: TextAlign.start,)),
                                       SizedBox(
                                         height: spaceBelowComponent,
                                       ),

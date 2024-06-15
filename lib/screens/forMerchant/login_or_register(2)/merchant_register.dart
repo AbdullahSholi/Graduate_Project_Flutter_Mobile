@@ -37,10 +37,28 @@ class _MerchantRegisterState extends State<MerchantRegister>
   TextEditingController storeDescriptionTextEditingController =
       TextEditingController();
   // Define a list of items for the dropdown
-  List<String> items = ['All Stores', 'Cars', 'Resturant'];
-
-  // Define a variable to store the selected item
+  List<String> items = ['All Stores'];
   String selectedItem = 'All Stores';
+
+  Future<void> getAdminData() async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/s12027918@stu.najah.edu"),
+    );
+
+    print("uuuuuuuuuuuuXX");
+    print(jsonDecode(userFuture.body)["allCategories"].runtimeType);
+    print("uuuuuuuuuuuuXX");
+    setState(() {
+      List<dynamic> dynamicList = jsonDecode(userFuture.body)["allCategories"];
+      List<String> stringList = dynamicList.map((element) => element.toString()).toList();
+
+      items.addAll(stringList);
+      print(items);
+      print("uuuuuuuuuuuuXXXXXXXXXXXXXXXX");
+    });
+
+  }
 
   String tokenVal = "";
   String emailVal = "";
@@ -54,6 +72,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
     super.initState();
     tokenVal = widget.token;
     emailVal = widget.email;
+    getAdminData();
   }
 
   @override

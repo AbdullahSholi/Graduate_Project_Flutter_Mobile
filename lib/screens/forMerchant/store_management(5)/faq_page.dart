@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -116,7 +117,7 @@ class _MerchantFaqPageState extends State<MerchantFaqPage>
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           ),
-          title: Text("FAQ", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'faq')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
           centerTitle: true,
         ),
         body: Column(children: [
@@ -138,6 +139,7 @@ class _MerchantFaqPageState extends State<MerchantFaqPage>
                       child: Column(
                     children: [
 
+                      SizedBox(height: 20,),
 
                       Container(
                         height: MediaQuery.of(context).size.height/1.4,

@@ -13,6 +13,7 @@ import "package:flutter/services.dart";
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/models/login_model.dart';
 import 'package:graduate_project/models/merchant/cart_content_model.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
@@ -907,12 +908,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   late String dropdownValue = 'All Products';
 
   ////////
-
+  Locale? _currentLocale;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _currentLocale = WidgetsBinding.instance.platformDispatcher.locale;
     tokenVal = widget.token;
     emailVal = widget.email;
     specificStoreCategoriesVal = widget.specificStoreCategories;
@@ -927,7 +928,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
     objectDataVal = widget.objectData;
+    String _currentLocale1 = _currentLocale.toString().split('_').first;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -950,7 +953,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       Center(
                           child: Text(
                         storeNameVal,
-                        style: GoogleFonts.lilitaOne(
+                        style: GoogleFonts.roboto(
                           textStyle: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -989,8 +992,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Slider",
-                                          style: GoogleFonts.lilitaOne(
+                                          "${getLang(context, 'latest')}",
+                                          style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
                                                 color: Color(0xFF212128),
                                                 fontSize: 24,
@@ -1162,8 +1165,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Category",
-                                          style: GoogleFonts.lilitaOne(
+                                          "${getLang(context, 'all_categories')}",
+                                          style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
                                                 color: Color(0xFF212128),
                                                 fontSize: 24,
@@ -1218,7 +1221,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 10),
                                                         color: specificStoreCategoriesVal[index] == "All Products" ? Colors.red : Color(0xFF212128),
                                                       ),
-                                                      width: 120,
+                                                      width: specificStoreCategoriesVal[index] == "All Products" ? 150 : 120,
                                                       child: TextButton(
                                                           onPressed: () {
                                                             if(specificStoreCategoriesVal[index] != "All Products"){
@@ -1229,7 +1232,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                       (context) {
                                                                     return AlertDialog(
                                                                       title: Text(
-                                                                        "Edit your category",
+                                                                        "${getLang(context, "edit_your_category")}",
                                                                         style: TextStyle(
                                                                             color: Colors
                                                                                 .white),
@@ -1270,7 +1273,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                   return null;
                                                                                 },
                                                                                 decoration: InputDecoration(
-                                                                                    labelText: 'Category name',
+                                                                                    labelText: '${getLang(context, 'category_name')}',
                                                                                     labelStyle: TextStyle(color: Colors.white),
                                                                                     prefixIcon: Icon(
                                                                                       Icons.category_outlined,
@@ -1333,7 +1336,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             },
                                                                             child:
                                                                             Text(
-                                                                              "Update",
+                                                                              "${getLang(context, "update")}",
                                                                               style:
                                                                               TextStyle(color: Colors.white),
                                                                             )),
@@ -1413,7 +1416,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             },
                                                                             child:
                                                                             Text(
-                                                                              "Delete",
+                                                                              "${getLang(context, 'delete')}",
                                                                               style:
                                                                               TextStyle(color: Colors.white),
                                                                             )),
@@ -1424,9 +1427,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
                                                           },
                                                           child: Text(
-                                                            specificStoreCategoriesVal[
-                                                                index],
-                                                            style: GoogleFonts.lilitaOne(
+                                                              specificStoreCategoriesVal[index] == "All Products" ? getLang(context, 'all_products') : specificStoreCategoriesVal[
+                                                                index] ,
+                                                            style: GoogleFonts.roboto(
                                                               textStyle: TextStyle(
                                                                   color:
                                                                   Colors.white,
@@ -1458,8 +1461,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Products",
-                                            style: GoogleFonts.lilitaOne(
+                                            "${getLang(context, 'products')}",
+                                            style: GoogleFonts.roboto(
                                               textStyle: TextStyle(
                                                   color: Color(0xFF212128),
                                                   fontSize: 24,
@@ -1510,7 +1513,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               crossAxisCount:
                                               2, // Set the number of columns
                                               childAspectRatio:
-                                              0.73, // Customize the aspect ratio (width/height) of each tile
+                                              0.77, // Customize the aspect ratio (width/height) of each tile
                                               mainAxisSpacing:
                                               4.0, // Spacing between rows
                                               crossAxisSpacing:
@@ -1685,7 +1688,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                       AlertDialog(
                                                                         backgroundColor: Color(0xFF212128),
                                                                         title: Text(
-                                                                          "Edit Product ",
+                                                                          "${getLang(context, 'edit_product')}",
                                                                           style: TextStyle(color: Colors.white),
                                                                         ),
                                                                         content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
@@ -1698,7 +1701,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                                   children: [
                                                                                     Text(
-                                                                                      "Edit Your Product ",
+                                                                                      "${getLang(context, 'edit_your_product')}",
                                                                                       textAlign: TextAlign.left,
                                                                                       style: TextStyle(color: Colors.white),
                                                                                     ),
@@ -1710,7 +1713,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                         Row(
                                                                                           children: [
                                                                                             Text(
-                                                                                              "Add Images Slider",
+                                                                                              "${getLang(context, 'add_image_to_slider')}",
                                                                                               style: TextStyle(color: Colors.white),
                                                                                             ),
                                                                                             SizedBox(
@@ -1792,7 +1795,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                                             });
                                                                                                                           },
                                                                                                                           child: Text(
-                                                                                                                            "Delete",
+                                                                                                                            "${getLang(context, 'delete')}",
                                                                                                                             style: TextStyle(color: Colors.white),
                                                                                                                           )),
                                                                                                                       SizedBox(
@@ -1803,7 +1806,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                                             Navigator.pop(context);
                                                                                                                           },
                                                                                                                           child: Text(
-                                                                                                                            "Cancel",
+                                                                                                                            "${getLang(context, 'cancel')}",
                                                                                                                             style: TextStyle(color: Colors.white),
                                                                                                                           ))
                                                                                                                     ],
@@ -1848,7 +1851,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               return null;
                                                                                             },
                                                                                             decoration: InputDecoration(
-                                                                                                labelText: 'Product name',
+                                                                                                labelText: '${getLang(context, 'product_name')}',
                                                                                                 labelStyle: TextStyle(color: Colors.white),
                                                                                                 prefixIcon: Icon(
                                                                                                   Icons.category_outlined,
@@ -1882,7 +1885,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               return null;
                                                                                             },
                                                                                             decoration: InputDecoration(
-                                                                                                labelText: 'Product price',
+                                                                                                labelText: '${getLang(context, 'product_price')}',
                                                                                                 labelStyle: TextStyle(color: Colors.white),
                                                                                                 prefixIcon: Icon(
                                                                                                   Icons.price_change,
@@ -1916,7 +1919,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               return null;
                                                                                             },
                                                                                             decoration: InputDecoration(
-                                                                                                labelText: 'Product Quantities',
+                                                                                                labelText: '${getLang(context, 'product_quantities')}',
                                                                                                 labelStyle: TextStyle(color: Colors.white),
                                                                                                 prefixIcon: Icon(
                                                                                                   Icons.production_quantity_limits,
@@ -1950,7 +1953,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               return null;
                                                                                             },
                                                                                             decoration: InputDecoration(
-                                                                                                labelText: 'Product description',
+                                                                                                labelText: '${getLang(context, 'product_description')}',
                                                                                                 labelStyle: TextStyle(color: Colors.white),
                                                                                                 prefixIcon: Icon(
                                                                                                   Icons.description,
@@ -1972,7 +1975,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                         Row(
                                                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                                                           children: [
-                                                                                            Text("Category: ", style: TextStyle(color: Colors.white),),
+                                                                                            Text("${getLang(context, 'category')}: ", style: TextStyle(color: Colors.white),),
                                                                                             Padding(
                                                                                               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                                                                               child: DropdownButton<String>(
@@ -2006,7 +2009,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               Container(
                                                                                                 width: MediaQuery.of(context).size.width / 2.5,
                                                                                                 child: Text(
-                                                                                                  'Activate Discount',
+                                                                                                  '${getLang(context, 'activate_discount')}',
                                                                                                   style: TextStyle(fontSize: 16.0, color: Colors.white),
                                                                                                 ),
                                                                                               ),
@@ -2164,7 +2167,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
                                                                                                 },
                                                                                                 child: Text(
-                                                                                                  "Update Product",
+                                                                                                  "${getLang(context, 'update_product')}",
                                                                                                   style: TextStyle(color: Colors.white),
                                                                                                 ),
                                                                                                 style: ButtonStyle(
@@ -2183,9 +2186,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                     QuickAlert.show(
                                                                                                       context: context,
                                                                                                       type: QuickAlertType.confirm,
-                                                                                                      text: 'Do you want to delete this product?',
-                                                                                                      confirmBtnText: 'Delete',
-                                                                                                      cancelBtnText: 'Cancel',
+                                                                                                      text: '${getLang(context, "do_you_want_delete_this_product")}',
+                                                                                                      confirmBtnText: '${getLang(context, 'delete')}',
+                                                                                                      cancelBtnText: '${getLang(context, "cancel")}',
                                                                                                       confirmBtnColor: Colors.green,
                                                                                                       onConfirmBtnTap: (){
                                                                                                         deleteCart(index);
@@ -2197,7 +2200,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
                                                                                                   },
                                                                                                   child: Text(
-                                                                                                    "Delete Product",
+                                                                                                    "${getLang(context, 'delete_product')}",
                                                                                                     style: TextStyle(color: Colors.white),
                                                                                                   ),
                                                                                                   style: ButtonStyle(
@@ -2366,16 +2369,31 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           ),
                                                         ),
                                                       )),
-                                                  Positioned(right: 10, bottom: 10 ,child: Icon(Icons.edit, color: Colors.white,)),
-                                                  Positioned(right: 10, bottom: 45 ,child: InkWell(onTap: (){
-                                                    final String text = 'Check out this Product: ${storeCartsVal[index]["cartName"]}';
-                                                    final String imageUrl = '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
+                                                  Positioned(
+                                                    right: _currentLocale == "ar" ? 10 : null,
+                                                    left: _currentLocale == "ar" ? null : 10,
+                                                    bottom: 10,
+                                                    child: Icon(Icons.edit, color: Colors.white),
+                                                  ),
+                                                  Positioned(
+                                                    right: _currentLocale == "ar" ? 10 : null,
+                                                    left: _currentLocale == "ar" ? null : 10,
+                                                    bottom: 40,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        final String text = 'Check out this Product: ${storeCartsVal[index]["cartName"]}';
+                                                        final String imageUrl = '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
 
-                                                    // Combine text and URL
-                                                    final String content = '$text $imageUrl';
+                                                        // Combine text and URL
+                                                        final String content = '$text $imageUrl';
 
-                                                    Share.share(content);
-                                                  } ,child: Icon(Icons.share_outlined, color: Colors.white,)))
+                                                        Share.share(content);
+                                                      },
+                                                      child: Icon(Icons.share_outlined, color: Colors.white),
+                                                    ),
+                                                  )
+
+
                                                 ],
                                               ),
                                             ),
@@ -2449,7 +2467,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               color: Colors.white,
                                             ),
                                             child: Text(
-                                              "Activate Components",
+                                              "${getLang(context, 'activate_components')}",
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.federo(
                                                 color: Color(0xFF212128),
@@ -2479,7 +2497,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       2) /
                                                   5,
                                               child: Text(
-                                                "Activate Slider",
+                                                "${getLang(context, 'activate_slider')}",
                                                 style: GoogleFonts.federo(
                                                   color: Colors.white,
                                                   fontSize: 20,
@@ -2539,7 +2557,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       2) /
                                                   5,
                                               child: Text(
-                                                "Activate Category",
+                                                "${getLang(context, 'activate_category')}",
                                                 style: GoogleFonts.federo(
                                                     color: Colors.white,
                                                     fontSize: 20),
@@ -2598,7 +2616,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       2) /
                                                   5,
                                               child: Text(
-                                                "Activate Carts",
+                                                "${getLang(context, 'activate_products')}",
                                                 style: GoogleFonts.federo(
                                                     color: Colors.white,
                                                     fontSize: 20),
@@ -2661,21 +2679,21 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                         Icons.home,
                         color: Colors.white,
                       ),
-                      label: 'Home',
+                      label: '${getLang(context, 'home')}',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
                         Icons.edit,
                         color: Colors.white,
                       ),
-                      label: 'Customize',
+                      label: '${getLang(context, 'customize')}',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.white,
                       ),
-                      label: 'Continue',
+                      label: '${getLang(context, 'continue')}',
                     ),
                   ],
                   selectedItemColor: Colors.white,
@@ -2726,7 +2744,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           builder: (context) => AlertDialog(
                 backgroundColor: Color(0xFF212128),
                 title: Text(
-                  "Category name",
+                  "${getLang(context, 'category_name')}",
                   style: TextStyle(color: Colors.white),
                 ),
                 content: Form(
@@ -2738,7 +2756,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Enter Your Store Category.. ",
+                          "${getLang(context, 'enter_your_store_category')}",
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -2761,7 +2779,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               return null;
                             },
                             decoration: InputDecoration(
-                                labelText: 'Category name',
+                                labelText: '${getLang(context, "category_name")}',
                                 labelStyle: TextStyle(color: Colors.white),
                                 prefixIcon: Icon(
                                   Icons.category_outlined,
@@ -2787,7 +2805,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        "Cancel",
+                        "${getLang(context, "cancel")}",
                         style: TextStyle(color: Colors.white),
                       )),
                   TextButton(
@@ -2853,7 +2871,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       }
 
                     },
-                    child: Text("OK", style: TextStyle(color: Colors.white)),
+                    child: Text("${getLang(context, 'ok')}", style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ));
@@ -2867,7 +2885,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
           builder: (context) => AlertDialog(
                 backgroundColor: Color(0xFF212128),
                 title: Text(
-                  "Product content",
+                  "${getLang(context, 'product_content')}",
                   style: TextStyle(color: Colors.white),
                 ),
                 content: StatefulBuilder(
@@ -2882,7 +2900,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Enter Your Product Details... ",
+                              "${getLang(context, 'enter_product_details')}",
                               textAlign: TextAlign.left,
                               style: TextStyle(color: Colors.white),
                             ),
@@ -2906,7 +2924,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Product name',
+                                        labelText: '${getLang(context, 'product_name')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -2941,7 +2959,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Product price',
+                                        labelText: '${getLang(context, 'product_price')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -2977,7 +2995,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Product Quantities',
+                                        labelText: '${getLang(context, 'product_quantities')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -3013,7 +3031,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Product description',
+                                        labelText: '${getLang(context, 'product_description')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -3036,7 +3054,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("Category: ", style: TextStyle(color: Colors.white),),
+                                    Text("${getLang(context, 'category')}: ", style: TextStyle(color: Colors.white),),
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -3074,7 +3092,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                         width: MediaQuery.of(context).size.width /
                                             2.5,
                                         child: Text(
-                                          'Activate Discount',
+                                          '${getLang(context, 'activate_discount')}',
                                           style: TextStyle(
                                               fontSize: 16.0,
                                               color: Colors.white),
@@ -3300,7 +3318,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
                                     },
                                     child: Text(
-                                      "Add Product",
+                                      "${getLang(context, 'add_product')}",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     style: ButtonStyle(

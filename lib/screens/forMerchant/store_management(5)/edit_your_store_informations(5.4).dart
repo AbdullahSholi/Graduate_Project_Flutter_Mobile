@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/models/merchant/update_store_informations.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
@@ -54,9 +55,28 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
   TextEditingController storeCategoryTextEditingController = TextEditingController();
   TextEditingController storeDescriptionTextEditingController = TextEditingController();
 
-  List<String> items = ['Electronic', 'Cars', 'Resturant'];
-  String selectedItem = 'Electronic';
+  List<String> items = ['All Stores'];
+  String selectedItem = 'All Stores';
 
+  Future<void> getAdminData() async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/s12027918@stu.najah.edu"),
+    );
+
+    print("uuuuuuuuuuuuXX");
+    print(jsonDecode(userFuture.body)["allCategories"].runtimeType);
+    print("uuuuuuuuuuuuXX");
+    setState(() {
+      List<dynamic> dynamicList = jsonDecode(userFuture.body)["allCategories"];
+      List<String> stringList = dynamicList.map((element) => element.toString()).toList();
+
+      items.addAll(stringList);
+      print(items);
+      print("uuuuuuuuuuuuXXXXXXXXXXXXXXXX");
+    });
+
+  }
   final _formKey = GlobalKey<FormState>();
 
   late File _image;
@@ -126,7 +146,9 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
     storeNameVal = widget.storeNameVal;
     storeCategoryVal = widget.storeCategoryVal;
     storeDescriptionVal = widget.storeDescriptionVal;
+    getAdminData();
     userData = getUserByName();
+
   }
 
   Future<Merchant> getUserByName() async{
@@ -167,7 +189,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
               },
               icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
             ),
-            title: Text("Edit Store Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+            title: Text("${getLang(context, 'edit_store_informations')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
             centerTitle: true,
           ),
           body: Container(
@@ -270,7 +292,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Store Name',
+                                        labelText: '${getLang(context, 'store_name')}',
                                         labelStyle: const TextStyle(color: Colors.white),
                                         prefixIcon: const Icon(
                                           Icons.storefront,
@@ -302,7 +324,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Store Description',
+                                        labelText: '${getLang(context, 'store_description')}',
                                         labelStyle: const TextStyle(color: Colors.white),
                                         prefixIcon: const Icon(
                                           Icons.description,
@@ -438,7 +460,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                       }
                                     }
 
-                                  }, child: Text("Update",style: TextStyle(color: Colors.white, fontSize: 18),)),),
+                                  }, child: Text("${getLang(context, 'update')}",style: TextStyle(color: Colors.white, fontSize: 18),)),),
                                 ),
 
 

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_your_store(5.1).dart';
@@ -116,7 +117,7 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           ),
-          title: Text("Store Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'store_informations')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
           centerTitle: true,
         ),
         body: Container(

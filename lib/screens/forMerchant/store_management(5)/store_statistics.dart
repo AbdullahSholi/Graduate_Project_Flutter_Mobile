@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -193,24 +194,15 @@ class _StoreStatisticsState extends State<StoreStatistics>
           },
           // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),
-        title: Container(
-          height: 40,
-          width: MediaQuery.of(context).size.width / 1.56,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Color(0xFFF4F4FB),
-          ),
-          child: Center(
-              child: Text(
-                "Store Statistics",
-                style: GoogleFonts.lilitaOne(
-                    color: Color(0xFF212128),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 21),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              )),
+        title: Text(
+          "${getLang(context, 'store_statistics')}",
+          style: GoogleFonts.roboto(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
         ),
         centerTitle: true,
 

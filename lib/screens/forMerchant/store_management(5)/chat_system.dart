@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/Chating/chat_with_customers.dart';
@@ -335,7 +336,7 @@ class _ChatSystemState extends State<ChatSystem>
             ),
             child: Center(
                 child: Text(
-                  "Chat System",
+                  "${getLang(context, 'chat_system')}",
                   style: GoogleFonts.lilitaOne(
                       color: Color(0xFFF4F4FB),
                       fontWeight: FontWeight.bold,
@@ -378,7 +379,7 @@ class _ChatSystemState extends State<ChatSystem>
                           onPressed: () async {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatWithCustomers(tokenVal, emailVal)));
                           },
-                          child: Text('Chat with Customers',style: GoogleFonts.lilitaOne(
+                          child: Text('${getLang(context, 'chat_with_customers')}',style: GoogleFonts.lilitaOne(
                               color: Color(0xFFF4F4FB),
                               fontWeight: FontWeight.bold,
                               fontSize: 21),),
@@ -401,7 +402,7 @@ class _ChatSystemState extends State<ChatSystem>
 
 
                           },
-                          child: Text('Chat with Admin',style: GoogleFonts.lilitaOne(
+                          child: Text('${getLang(context, 'chat_with_admin')}',style: GoogleFonts.lilitaOne(
                               color: Color(0xFFF4F4FB),
                               fontWeight: FontWeight.bold,
                               fontSize: 21),),

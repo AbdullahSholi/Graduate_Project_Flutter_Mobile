@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/chat_system.dart';
@@ -201,7 +202,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           ),
-          title: Text("Store Management", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'store_management')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
           centerTitle: true,
         ),
 
@@ -335,39 +336,39 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 20,),
-                                    Container(
-                                      height: 70,
-                                      margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.white, width: 1),
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Color(0xFF2A212E)),
-                                      child: Center(
-                                        child: ListTile(
-                                          leading: Icon(
-                                            Icons.view_carousel_outlined,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                          title: Text(
-                                            "Display your store",
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DisplayYourStore(
-                                                            tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
-                                          },
-                                          trailing: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // SizedBox(height: 20,),
+                                    // Container(
+                                    //   height: 70,
+                                    //   margin: EdgeInsets.fromLTRB(30, 20, 30, 5),
+                                    //   decoration: BoxDecoration(
+                                    //       border: Border.all(color: Colors.white, width: 1),
+                                    //       borderRadius: BorderRadius.circular(10),
+                                    //       color: Color(0xFF2A212E)),
+                                    //   child: Center(
+                                    //     child: ListTile(
+                                    //       leading: Icon(
+                                    //         Icons.view_carousel_outlined,
+                                    //         color: Colors.white,
+                                    //         size: 35,
+                                    //       ),
+                                    //       title: Text(
+                                    //         "Display your store",
+                                    //         style: TextStyle(color: Colors.white),
+                                    //       ),
+                                    //       onTap: () {
+                                    //         Navigator.push(context,
+                                    //             MaterialPageRoute(
+                                    //                 builder: (context) =>
+                                    //                     DisplayYourStore(
+                                    //                         tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal,objectData )));
+                                    //       },
+                                    //       trailing: Icon(
+                                    //         Icons.arrow_forward_ios,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     // Container(
                                     //   width: double.infinity,
                                     //   margin: EdgeInsets.fromLTRB(
@@ -416,7 +417,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Edit your store design",
+                                            "${getLang(context, 'edit_your_store_design')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -482,7 +483,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Store informations",
+                                            "${getLang(context, 'store_informations')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -548,7 +549,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Edit store information",
+                                            "${getLang(context, 'edit_store_informations')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -614,7 +615,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Store statistics",
+                                            "${getLang(context, 'store_statistics')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -675,7 +676,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Connect social media",
+                                            "${getLang(context, 'connect_to_social_media')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -738,7 +739,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Chat System",
+                                            "${getLang(context, 'chat_system')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -795,7 +796,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Notify Your Customers",
+                                            "${getLang(context, 'notify_your_customer')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -852,7 +853,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "FAQ",
+                                            "${getLang(context, 'faq')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -909,7 +910,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Delete Store",
+                                            "${getLang(context, 'delete_store')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {
@@ -1015,7 +1016,7 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             size: 35,
                                           ),
                                           title: Text(
-                                            "Logout",
+                                            "${getLang(context, 'logout')}",
                                             style: TextStyle(color: Colors.white),
                                           ),
                                           onTap: () {

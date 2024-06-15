@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/Chating/chatting_page.dart';
@@ -93,7 +94,7 @@ class _ChatWithCustomersState extends State<ChatWithCustomers>
             ),
             child: Center(
                 child: Text(
-              "Chats",
+              "${getLang(context, 'chats')}",
               style: GoogleFonts.lilitaOne(
                   color: Color(0xFFF4F4FB),
                   fontWeight: FontWeight.bold,

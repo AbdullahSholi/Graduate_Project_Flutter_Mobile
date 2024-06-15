@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/customize_store(6)/merchant_payment_information.dart';
@@ -50,7 +51,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
             Navigator.pop(context);
           }, icon: Icon(Icons.arrow_back_ios, color: Colors.white,)),
           centerTitle: true,
-          title: Text("Main Page", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'main_page')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -85,7 +86,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                             size: 35,
                           ),
                           title: Text(
-                            "Personal Informations",
+                            "${getLang(context, 'personal_informations')}",
                             style: TextStyle(color: Colors.white),
                           ),
                           onTap: () {
@@ -141,7 +142,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                             size: 35,
                           ),
                           title: Text(
-                            "Store Management",
+                            "${getLang(context, 'store_management')}",
                             style: TextStyle(color: Colors.white),
                           ),
                           onTap: () {
@@ -197,7 +198,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                             size: 35,
                           ),
                           title: Text(
-                            "Payment Informations",
+                            "${getLang(context, 'payment_informations')}",
                             style: TextStyle(color: Colors.white),
                           ),
                           onTap: () {
@@ -253,7 +254,7 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                             size: 35,
                           ),
                           title: Text(
-                            "Logout",
+                            "${getLang(context, 'logout')}",
                             style: TextStyle(color: Colors.white),
                           ),
                           onTap: () {

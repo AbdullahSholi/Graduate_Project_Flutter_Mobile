@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -247,7 +248,7 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
             ),
             child: Center(
                 child: Text(
-                  "Notify Your Customers",
+                  "${getLang(context, 'notify_your_customer')}",
                   style: GoogleFonts.lilitaOne(
                       color: Color(0xFFF4F4FB),
                       fontWeight: FontWeight.bold,
@@ -292,7 +293,7 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
                             }
                           },
                           decoration: InputDecoration(
-                              labelText: 'Subject',
+                              labelText: '${getLang(context, 'subject')}',
                               labelStyle: GoogleFonts.lilitaOne(
                                   color: Color(0xFFF4F4FB),
                                   fontSize: 16),
@@ -327,7 +328,7 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
                             }
                           },
                           decoration: InputDecoration(
-                              labelText: 'Content',
+                              labelText: '${getLang(context, 'content')}',
                               labelStyle: GoogleFonts.lilitaOne(
                                   color: Color(0xFFF4F4FB),
                                   fontSize: 16),
@@ -368,7 +369,7 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
 
 
                     },
-                    child: Text('Notify',style: GoogleFonts.lilitaOne(
+                    child: Text('${getLang(context, 'notify')}',style: GoogleFonts.lilitaOne(
                         color: Color(0xFFF4F4FB),
                         fontWeight: FontWeight.bold,
                         fontSize: 21),),
