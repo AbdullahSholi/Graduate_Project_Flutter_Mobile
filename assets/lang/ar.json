@@ -157,5 +157,7 @@
   "do_you_want_delete_this_product": "هل انت متأكد من انك تريد حذف هذا المنتج؟",
   "store_published_successfully": "تم نشر متجرك بنجاح",
   "are_you_sure?": "هل أنت متأكد؟",
-  "do_you_want_delete_this_image": "هل انت متأكد من انك تريد حذف هذه الصورة؟"
+  "do_you_want_delete_this_image": "هل انت متأكد من انك تريد حذف هذه الصورة؟",
+
+  "type_your_question_here": "اكتب سؤالك هنا..."
 }

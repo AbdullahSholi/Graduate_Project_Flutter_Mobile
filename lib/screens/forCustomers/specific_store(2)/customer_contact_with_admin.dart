@@ -95,6 +95,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
 
   }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,62 +110,77 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  controller: subjectEditingController,
-                  decoration: InputDecoration(
-                    labelText: '${getLang(context, 'subject')}',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                TextFormField(
-                  controller: contentEditingController,
-                  maxLines: null, // Allows for multiline input
-                  decoration: InputDecoration(
-                    labelText: '${getLang(context, 'content')}',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFF212128),
-                    borderRadius: BorderRadius.circular(8.0), // Adjust the border radius as needed
-                  ),
-                  child: TextButton(
-                    onPressed: () async {
-                      http.Response userFuture = await http.post(
-                        Uri.parse(
-                            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-email-to-admin/s12027918@stu.najah.edu"),
-                        headers: {
-                          "Content-Type": "application/json"
-                        },
-                        body: jsonEncode(
-                          {
-                            "email": customerEmailVal,
-                            "subject": subjectEditingController.text,
-                            "content":contentEditingController.text
-                          },
-                        ),
-                        encoding: Encoding.getByName("utf-8"),
-                      );
-
-                      setState(() {
-                        subjectEditingController.text="";
-                        contentEditingController.text="";
-                      });
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    controller: subjectEditingController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Subject is required';
+                      }
                     },
-                    child: Text(
-                      '${getLang(context, 'send')}',
-                      style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: '${getLang(context, 'subject')}',
+                      border: OutlineInputBorder(),
                     ),
                   ),
-                )
-              ],
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    controller: contentEditingController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Content is required';
+                      }
+                    },
+                    maxLines: null, // Allows for multiline input
+                    decoration: InputDecoration(
+                      labelText: '${getLang(context, 'content')}',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF212128),
+                      borderRadius: BorderRadius.circular(8.0), // Adjust the border radius as needed
+                    ),
+                    child: TextButton(
+                      onPressed: () async {
+    if(_formKey.currentState!.validate()) {
+      http.Response userFuture = await http.post(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-email-to-admin/s12027918@stu.najah.edu"),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: jsonEncode(
+          {
+            "email": customerEmailVal,
+            "subject": subjectEditingController.text,
+            "content": contentEditingController.text
+          },
+        ),
+        encoding: Encoding.getByName("utf-8"),
+      );
+
+      setState(() {
+        subjectEditingController.text = "";
+        contentEditingController.text = "";
+      });
+    }
+                      },
+                      child: Text(
+                        '${getLang(context, 'send')}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
