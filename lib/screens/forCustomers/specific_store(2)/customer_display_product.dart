@@ -47,7 +47,7 @@ class CustomerDisplayProduct extends StatefulWidget {
 class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with WidgetsBindingObserver {
 
   Map<String, dynamic> storeCartsVal = {};
-  int counter = 1;
+  int counter = 0;
   String customerTokenVal = "";
   String customerEmailVal = "";
   String emailVal = "";
@@ -1264,33 +1264,43 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                       ),
                       child: TextButton(
                         onPressed: () async {
-                          QuickAlert.show(
-                            context: context,
-                            type: QuickAlertType.success,
-                            text: 'Product Added Successfully!',
-                          );
+
                           try {
-                            http.Response
-                            userFuture =
-                                await http.post(
-                              Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-cart-list/${customerEmailVal}"),
-                              headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer ${customerTokenVal}"
-                              },
-                              body: jsonEncode(
-                                {
-                                  "cartList": storeCartsVal,
-                                  "quantities": counter
+                            if(counter > 0){
+                              http.Response
+                              userFuture =
+                              await http.post(
+                                Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-cart-list/${customerEmailVal}"),
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Authorization": "Bearer ${customerTokenVal}"
                                 },
-                              ),
-                              encoding: Encoding.getByName("utf-8"),
-                            );
+                                body: jsonEncode(
+                                  {
+                                    "cartList": storeCartsVal,
+                                    "quantities": counter
+                                  },
+                                ),
+                                encoding: Encoding.getByName("utf-8"),
+                              );
 
-                            print(userFuture.body);
+                              print(userFuture.body);
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.success,
+                                text: 'Product Added Successfully!',
+                              );
+                              print("0000000000000000000000000");
+                              print(storeCartsVal);
+                            } else{
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.error,
+                                title: 'Oops...',
+                                text: 'Sorry, stock is empty!!',
+                              );
+                            }
 
-                            print("0000000000000000000000000");
-                            print(storeCartsVal);
 
 
 
