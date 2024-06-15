@@ -61,6 +61,9 @@ class _LoginOrRegisterState extends State<LoginOrRegister> with TickerProviderSt
       if (secondsLeft == 0) {
         timer.cancel();
         print("Countdown complete!");
+        setState(() {
+          secondsLeft=60;
+        });
       } else {
         print('$secondsLeft seconds left');
         setState(() {
