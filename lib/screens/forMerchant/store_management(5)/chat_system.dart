@@ -23,6 +23,7 @@ import '../../../models/merchant/merchant_connect_store_to_social_media.dart';
 import '../../../models/merchant/merchant_profile.dart';
 import '../merchant_home_page(3)/merchant_home_page.dart';
 import '../personal_information(4)/personal_information(4).dart';
+import 'Chating/chat_with_admin.dart';
 import 'edit_your_store_informations(5.4).dart';
 
 class ChatSystem extends StatefulWidget {
@@ -399,7 +400,7 @@ class _ChatSystemState extends State<ChatSystem>
                             ),
                           ),
                           onPressed: () async {
-
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatWithAdmin(tokenVal, emailVal)));
 
                           },
                           child: Text('${getLang(context, 'chat_with_admin')}',style: GoogleFonts.lilitaOne(

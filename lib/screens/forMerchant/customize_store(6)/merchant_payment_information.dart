@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import "package:http/http.dart" as http;
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -79,11 +80,11 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           ),
-          title: Text("Payment Informations", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'payment_informations')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
           centerTitle: true,
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
@@ -100,7 +101,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
 
                       SizedBox(
@@ -131,7 +132,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Publishable Key',
+                                    labelText: '${getLang(context, 'publishable_key')}',
                                     labelStyle:
                                     TextStyle(color: Colors.white),
                                     prefixIcon: Icon(
@@ -170,7 +171,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
 
                                 },
                                 decoration: InputDecoration(
-                                    labelText: 'Secret Key',
+                                    labelText: '${getLang(context, 'secret_key')}',
                                     labelStyle: const TextStyle(
                                         color: Colors.white),
                                     prefixIcon: const Icon(
@@ -234,7 +235,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
 
                             },
                             child: Text(
-                              "Add",
+                              "${getLang(context, 'add')}",
                               style: GoogleFonts.roboto(
                                 color: Colors.white,
                                 fontSize: 20,

@@ -23,6 +23,9 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
   List<dynamic> cartList = [];
   double totalPrice = 0;
 
+  TextEditingController subjectEditingController = TextEditingController();
+  TextEditingController contentEditingController = TextEditingController();
+
   List<dynamic> cartListPaymentInformations = [];
 
 
@@ -111,6 +114,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
+                  controller: subjectEditingController,
                   decoration: InputDecoration(
                     labelText: '${getLang(context, 'subject')}',
                     border: OutlineInputBorder(),
@@ -118,6 +122,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
+                  controller: contentEditingController,
                   maxLines: null, // Allows for multiline input
                   decoration: InputDecoration(
                     labelText: '${getLang(context, 'content')}',
@@ -131,7 +136,28 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                     borderRadius: BorderRadius.circular(8.0), // Adjust the border radius as needed
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      http.Response userFuture = await http.post(
+                        Uri.parse(
+                            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-email-to-admin/s12027918@stu.najah.edu"),
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        body: jsonEncode(
+                          {
+                            "email": customerEmailVal,
+                            "subject": subjectEditingController.text,
+                            "content":contentEditingController.text
+                          },
+                        ),
+                        encoding: Encoding.getByName("utf-8"),
+                      );
+
+                      setState(() {
+                        subjectEditingController.text="";
+                        contentEditingController.text="";
+                      });
+                    },
                     child: Text(
                       '${getLang(context, 'send')}',
                       style: TextStyle(color: Colors.white),

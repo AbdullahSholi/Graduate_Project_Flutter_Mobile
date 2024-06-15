@@ -69,6 +69,8 @@ class _ChatWithCustomersState extends State<ChatWithCustomers>
     return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,81 +109,97 @@ class _ChatWithCustomersState extends State<ChatWithCustomers>
           ),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            Divider(
-              height: 1,
-              thickness: 1,
-              color: Colors.white,
-            ),
-            Expanded(
-              child: Container(
-                  color: Color(0xFF212128),
-                  width: double.infinity,
-                  // height: double.infinity,
-                  child: FutureBuilder<List<Map<String, dynamic>>>(
-                    future: fetchUsers(),
-                    builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return Center(child: Text('No Data Found'));
-                      }
-                      List<Map<String, dynamic>> users = snapshot.data!;
-                      return ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> ChattingPage(tokenVal, emailVal, users[index]["name"], users[index]["Avatar"], users[index]["email"])));
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 80,
-                              // color: Colors.blue,
-                              margin: EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Colors.white,
-                                          width: 3), // Customize the border color
-                                    ),
-                                    child: CircleAvatar(
-                                        radius: 25,
-                                        child: ClipOval(
-                                            child: Image.network(
-                                              "${users[index]["Avatar"]}",
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.cover,
-                                            ))),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('chats')
+              .doc("chatId")
+              .collection('messages')
+              .orderBy('timestamp')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+            var messages = snapshot.data!.docs;
+            return Column(
+              children: [
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.white,
+                ),
+                Expanded(
+                  child: Container(
+                      color: Color(0xFF212128),
+                      width: double.infinity,
+                      // height: double.infinity,
+                      child: FutureBuilder<List<Map<String, dynamic>>>(
+                        future: fetchUsers(),
+                        builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          }
+                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return Center(child: Text('No Data Found'));
+                          }
+                          List<Map<String, dynamic>> users = snapshot.data!;
+                          return ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (context, index) => InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ChattingPage(tokenVal, emailVal, users[index]["name"], users[index]["Avatar"], users[index]["email"])));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 80,
+                                  // color: Colors.blue,
+                                  // color: Colors.blue,
+                                  margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white,
+                                              width: 3), // Customize the border color
+                                        ),
+                                        child: CircleAvatar(
+                                            radius: 25,
+                                            child: ClipOval(
+                                                child: Image.network(
+                                                  "${users[index]["Avatar"]}",
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ))),
+                                      ),
+                                      SizedBox(width: 15,),
+                                      Text("${users[index]["name"]}",style: GoogleFonts.lilitaOne(
+                                          color: Color(0xFFF4F4FB),
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 18),)
+                                    ],
                                   ),
-                                  SizedBox(width: 15,),
-                                  Text("${users[index]["name"]}",style: GoogleFonts.lilitaOne(
-                                      color: Color(0xFFF4F4FB),
-                                      fontWeight: FontWeight.w200,
-                                      fontSize: 18),)
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          separatorBuilder: (context, index) => Divider(
-                            thickness: 1,
-                            color: Colors.white.withOpacity(.2),
-                          ),
-                          itemCount: users.length);
-                    },
+                              separatorBuilder: (context, index) => Divider(
+                                thickness: 1,
+                                color: Colors.white.withOpacity(.2),
+                              ),
+                              itemCount: users.length);
+                        },
 
-                  )),
-            ),
-          ],
+                      )),
+                ),
+              ],
+            );
+          }
+
         ));
   }
 }

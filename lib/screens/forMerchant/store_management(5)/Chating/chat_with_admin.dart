@@ -18,29 +18,27 @@ import 'package:graduate_project/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CustomerChatSystem extends StatefulWidget {
+class ChatWithAdmin extends StatefulWidget {
   // const MyProfilePage({super.key});
   final String token;
   final String email;
-  final String name;
-  final String Avatar;
-  final String receiverEmail;
 
-  CustomerChatSystem(
+
+  ChatWithAdmin(
       this.token,
-      this.email, this.name, this.Avatar, this.receiverEmail
+      this.email
       );
 
   @override
-  State<CustomerChatSystem> createState() => _CustomerChatSystemState();
+  State<ChatWithAdmin> createState() => _CustomerChatSystemState();
 }
 
-class _CustomerChatSystemState extends State<CustomerChatSystem>
+class _CustomerChatSystemState extends State<ChatWithAdmin>
     with TickerProviderStateMixin {
   String tokenVal = "";
   String emailVal = "";
   String nameVal = "";
-  String AvatarVal = "";
+  String AvatarVal = "https://th.bing.com/th/id/R.24001ddf59b1177dc7a9912062af7380?rik=8FmmUza0wlsG5Q&pid=ImgRaw&r=0";
   String receiverEmail = "";
   List<dynamic> listOfQuestions = [];
   List<dynamic> listOfAnsweredQuestions = [];
@@ -56,20 +54,45 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
   TextEditingController subjectTextEditingController = TextEditingController();
   TextEditingController contentTextEditingController = TextEditingController();
 
+
+  Future<void> getAdminData() async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/s12027918@stu.najah.edu"),
+    );
+
+    print("uuuuuuuuuuuuXX");
+    print(jsonDecode(userFuture.body)["allCategories"].runtimeType);
+    print("uuuuuuuuuuuuXX");
+    setState(() {
+      List<dynamic> dynamicList = jsonDecode(userFuture.body)["allCategories"];
+      List<String> stringList = dynamicList.map((element) => element.toString()).toList();
+      nameVal = jsonDecode(userFuture.body)["username"];
+      AvatarVal = jsonDecode(userFuture.body)['Avatar'];
+      receiverEmail = jsonDecode(userFuture.body)['email'];
+
+
+      print("uuuuuuuuuuuuXXXXXXXXXXXXXXXX");
+    });
+
+
+
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tokenVal = widget.token;
     emailVal = widget.email;
-    nameVal = widget.name;
-    AvatarVal = widget.Avatar;
-    receiverEmail = widget.receiverEmail;
+    getAdminData();
+
   }
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<Map<String, dynamic>>> fetchUsers() async {
-    QuerySnapshot querySnapshot = await _firestore.collection('users').get();
+    QuerySnapshot querySnapshot = await _firestore.collection('merchants').get();
     print(querySnapshot);
     return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
   }
@@ -80,8 +103,8 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
     if (_controller.text.isEmpty) return;
 
     await FirebaseFirestore.instance
-        .collection('chats')
-        .doc("chatId")
+        .collection('chats1')
+        .doc("chatId1")
         .collection('messages')
         .add({
       'sender': '$emailVal', // Change as needed
@@ -182,8 +205,8 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                         // color: Colors.blue,
                         child: StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
-                              .collection('chats')
-                              .doc("chatId")
+                              .collection('chats1')
+                              .doc("chatId1")
                               .collection('messages')
                               .orderBy('timestamp')
                               .snapshots(),
@@ -209,8 +232,8 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                                             topLeft: Radius.circular(10),
                                             topRight: Radius.circular(10)
                                         ),
-                                        color: Color(0xFF3C9542),
 
+                                        color: Color(0xFF3C9542),
                                       ),
                                       padding: EdgeInsets.symmetric(
                                           vertical: 5,
@@ -234,6 +257,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                                             topRight: Radius.circular(10)
                                         ),
                                         color: Color(0xFF3A3A3A),
+
                                       ),
                                       padding: EdgeInsets.symmetric(
                                           vertical: 5,
@@ -246,7 +270,7 @@ class _CustomerChatSystemState extends State<CustomerChatSystem>
                                     ),
                                   ));
                                 }
-                                temp.add(SizedBox(height: 10,));
+                                temp.add(SizedBox(height: 20,));
                               }
                             }
 

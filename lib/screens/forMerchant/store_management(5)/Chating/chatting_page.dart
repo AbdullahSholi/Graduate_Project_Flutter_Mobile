@@ -201,11 +201,35 @@ class _ChattingPageState extends State<ChattingPage>
 
                                 if (messages[i]["sender"] == emailVal) {
                                   temp.add(Align(
-                                    alignment: Alignment.centerLeft,
+                                    alignment: Alignment.centerRight,
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                             bottomRight: Radius.circular(10),
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10)
+                                        ),
+                                        color: Color(0xFF3C9542),
+
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 5,
+                                          horizontal: 10
+                                      ),
+                                      child: Text("${messages[i]['text']}",
+                                        style: GoogleFonts.lilitaOne(
+                                            color: Color(0xFFF4F4FB),
+                                            fontSize: 16),),
+                                    ),
+                                  ));
+                                }
+                                else if (messages[i]["sender"] == receiverEmail) {
+                                  temp.add(Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
                                             topLeft: Radius.circular(10),
                                             topRight: Radius.circular(10)
                                         ),
@@ -222,30 +246,7 @@ class _ChattingPageState extends State<ChattingPage>
                                     ),
                                   ));
                                 }
-                                else if (messages[i]["sender"] == receiverEmail) {
-                                  temp.add(Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(10),
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10)
-                                        ),
-                                        color: Color(0xFF3C9542),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 10
-                                      ),
-                                      child: Text("${messages[i]['text']}",
-                                        style: GoogleFonts.lilitaOne(
-                                            color: Color(0xFFF4F4FB),
-                                            fontSize: 16),),
-                                    ),
-                                  ));
-                                }
-                                temp.add(SizedBox(height: 20,));
+                                temp.add(SizedBox(height: 10,));
                               }
                             }
 
