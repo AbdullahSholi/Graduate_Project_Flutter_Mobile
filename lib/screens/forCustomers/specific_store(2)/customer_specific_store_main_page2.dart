@@ -43,6 +43,7 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:translator/translator.dart';
 
+import '../../../discount_icon.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
@@ -1715,7 +1716,14 @@ class _CustomerSpecificStoreMainPage2State
                                                                               'Is Favorite $_isFavorite');
                                                                         }),
                                                                   )),
-                                                            )
+                                                            ),
+                                                            Positioned(
+                                                              left: 5,
+                                                              top: 5,
+                                                              child: CustomPaint(
+                                                                size: Size(45, 45),
+                                                                painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                              ),)
                                                           ],
                                                         ),
                                                         Positioned(
@@ -1783,10 +1791,10 @@ class _CustomerSpecificStoreMainPage2State
                                                                             .fromLTRB(
                                                                             10,
                                                                             0,
-                                                                            2,
+                                                                            10,
                                                                             0),
                                                                         child: Text(
-                                                                          "${storeCartsVal[index]["cartPrice"].toString()}",
+                                                                          "${storeCartsVal[index]["cartPrice"].toString()}\$",
                                                                           overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
@@ -1813,7 +1821,7 @@ class _CustomerSpecificStoreMainPage2State
                                                                             "null"
                                                                             ? Text("")
                                                                             : Text(
-                                                                          "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                          "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
                                                                           overflow:
                                                                           TextOverflow.ellipsis,
                                                                           maxLines:
@@ -2053,6 +2061,13 @@ class _CustomerSpecificStoreMainPage2State
                                                               )
                                                                   : Container(),
                                                             ),
+                                                            Positioned(
+                                                              left: 5,
+                                                              top: 5,
+                                                              child: CustomPaint(
+                                                                size: Size(45, 45),
+                                                                painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                              ),)
                                                           ],
                                                         ),
                                                         Positioned(
@@ -2146,7 +2161,7 @@ class _CustomerSpecificStoreMainPage2State
                                                                             "null"
                                                                             ? Text("")
                                                                             : Text(
-                                                                            "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                            "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
                                                                             overflow: TextOverflow
                                                                                 .ellipsis,
                                                                             maxLines:
@@ -2218,6 +2233,8 @@ class _CustomerSpecificStoreMainPage2State
                                                                       ),
                                                                     ),
                                                                   ),
+
+
                                                                 ],
                                                               ),
                                                             )),

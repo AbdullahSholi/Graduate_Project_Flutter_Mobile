@@ -10,6 +10,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../custom_button.dart';
+import '../../../discount_icon.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
@@ -173,7 +174,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                       ),
                     )
                         : Container(
-                      width: MediaQuery.of(context).size.width/1.7,
+                      width: MediaQuery.of(context).size.width/2,
                           child: Text(
                              "${getLang(context, 'favorite_products')}",
                              style: GoogleFonts.roboto(textStyle: TextStyle(
@@ -221,7 +222,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // Set the number of columns
                       childAspectRatio:
-                      0.73, // Customize the aspect ratio (width/height) of each tile
+                      0.78, // Customize the aspect ratio (width/height) of each tile
                       mainAxisSpacing: 4.0, // Spacing between rows
                       crossAxisSpacing: 2.0, // Spacing between columns
                     ),
@@ -316,8 +317,8 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                       Visibility(
                                         visible: storeCartsVal[index]["cartFavourite"],
                                         child: Positioned(
-                                            top: 5,
-                                            right: 5,
+                                            top: 0,
+                                            right: 0,
                                             child: CustomButton(CustomIcon: Icon(Icons.remove_circle, size: 40, color: Colors.red,),onClick: (_isFavorite) async {
                                                 if(!_isFavorite){
                                                   try {
@@ -345,7 +346,14 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                 }
                                                   print('Is Favorite $_isFavorite');
                                                 })),
-                                      )
+                                      ),
+                                      Positioned(
+                                        left: 5,
+                                        top: 5,
+                                        child: CustomPaint(
+                                          size: Size(45, 45),
+                                          painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                        ),)
                                     ],
                                   ),
                                   Positioned(
@@ -389,7 +397,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                               children: [
                                                 Container(
                                                   padding: EdgeInsets.fromLTRB(
-                                                      10, 0, 2, 0),
+                                                      10, 0, 10, 0),
                                                   child: Text(
                                                     "${filteredProducts[index]["cartPrice"].toString()}",
                                                     overflow:
@@ -411,7 +419,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                       "null"
                                                       ? Text("")
                                                       : Text(
-                                                    "${filteredProducts[index]["cartPriceAfterDiscount"].toString()}",
+                                                    "${filteredProducts[index]["cartPrice"]/ (1-(filteredProducts[index]["discountValue"]/100))}",
                                                     overflow: TextOverflow
                                                         .ellipsis,
                                                     maxLines: 1,
@@ -557,7 +565,14 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                   }
                                                   print('Is Favorite $_isFavorite');
                                                 })),
-                                      )
+                                      ),
+                                      Positioned(
+                                        left: 5,
+                                        top: 5,
+                                        child: CustomPaint(
+                                          size: Size(45, 45),
+                                          painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                        ),)
                                     ],
                                   ),
                                   Positioned(
@@ -565,7 +580,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                       left: 0,
                                       right: 0,
                                       child: Container(
-                                        height: 77,
+                                        height: 71,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                             bottomRight: Radius.circular(20),
@@ -601,7 +616,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                               children: [
                                                 Container(
                                                   padding: EdgeInsets.fromLTRB(
-                                                      10, 0, 2, 0),
+                                                      10, 0, 10, 0),
                                                   child: Text(
                                                     "${storeCartsVal[index]["cartPrice"].toString()}",
                                                     overflow:

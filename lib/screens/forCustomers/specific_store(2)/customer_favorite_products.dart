@@ -10,6 +10,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../custom_button.dart';
+import '../../../discount_icon.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
@@ -294,7 +295,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         ),
                       )
                           : Container(
-                        width: MediaQuery.of(context).size.width/1.7,
+                        width: MediaQuery.of(context).size.width/2,
                             child: Text(
                                "${getLang(context, 'favorite_products')}",
                                style: GoogleFonts.roboto(textStyle: TextStyle(
@@ -466,7 +467,14 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   }
                                                     print('Is Favorite $_isFavorite');
                                                   })),
-                                        )
+                                        ),
+                                        Positioned(
+                                          left: 5,
+                                          top: 5,
+                                          child: CustomPaint(
+                                            size: Size(45, 45),
+                                            painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                          ),)
                                       ],
                                     ),
                                     Positioned(
@@ -510,7 +518,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                 children: [
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
-                                                        10, 0, 2, 0),
+                                                        10, 0, 10, 0),
                                                     child: Text(
                                                       "${filteredProducts[index]["cartPrice"].toString()}",
                                                       overflow:
@@ -532,7 +540,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                         "null"
                                                         ? Text("")
                                                         : Text(
-                                                      "${filteredProducts[index]["cartPriceAfterDiscount"].toString()}",
+                                                      "${filteredProducts[index]["cartPrice"]/ (1-(filteredProducts[index]["discountValue"]/100))}",
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                       maxLines: 1,
@@ -678,7 +686,14 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     }
                                                     print('Is Favorite $_isFavorite');
                                                   })),
-                                        )
+                                        ),
+                                        Positioned(
+                                          left: 5,
+                                          top: 5,
+                                          child: CustomPaint(
+                                            size: Size(45, 45),
+                                            painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                          ),)
                                       ],
                                     ),
                                     Positioned(
@@ -722,7 +737,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                 children: [
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
-                                                        10, 0, 2, 0),
+                                                        10, 0, 10, 0),
                                                     child: Text(
                                                       "${storeCartsVal[index]["cartPrice"].toString()}",
                                                       overflow:
@@ -744,7 +759,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                         "null"
                                                         ? Text("")
                                                         : Text(
-                                                      "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                      "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
                                                       overflow: TextOverflow
                                                           .ellipsis,
                                                       maxLines: 1,

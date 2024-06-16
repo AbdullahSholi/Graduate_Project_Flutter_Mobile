@@ -12,6 +12,7 @@ import 'package:graduate_project/components/applocal.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../constants/constants.dart';
+import '../../../discount_icon.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
@@ -647,7 +648,14 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       'Is Favorite $_isFavorite');
                                                 }),
                                               )),
-                                        )
+                                        ),
+                                        Positioned(
+                                          left: 5,
+                                          top: 5,
+                                          child: CustomPaint(
+                                            size: Size(45, 45),
+                                            painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                          ),)
                                       ],
                                     ),
                                     Positioned(
@@ -691,7 +699,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                 children: [
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
-                                                        10, 0, 2, 0),
+                                                        10, 0, 10, 0),
                                                     child: Text(
                                                       "${filteredProducts[index]["cartPrice"].toString()}",
                                                       overflow:
@@ -904,7 +912,14 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                       'Is Favorite $_isFavorite');
                                                 }),
                                               )),
-                                        )
+                                        ),
+                                        Positioned(
+                                          left: 5,
+                                          top: 5,
+                                          child: CustomPaint(
+                                            size: Size(45, 45),
+                                            painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                          ),)
                                       ],
                                     ),
                                     Positioned(
@@ -948,7 +963,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                                 children: [
                                                   Container(
                                                     padding: EdgeInsets.fromLTRB(
-                                                        10, 0, 2, 0),
+                                                        10, 0, 10, 0),
                                                     child: Text(
                                                       "${storeCartsVal[index]["cartPrice"].toString()}",
                                                       overflow:
