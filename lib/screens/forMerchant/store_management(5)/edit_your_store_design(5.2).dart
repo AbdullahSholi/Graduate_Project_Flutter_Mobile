@@ -28,6 +28,7 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
+import '../../../discount_icon.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
@@ -1689,7 +1690,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             'Is Favorite $_isFavorite');
                                                                       }),
                                                             )),
-                                                      )
+                                                      ),
+                                                      Positioned(
+                                                        left: 5,
+                                                        top: 5,
+                                                        child: CustomPaint(
+                                                        size: Size(45, 45),
+                                                        painter: DiscountPainter(cartDiscountBool ? double.parse(percentageEditingController.text) : storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                      ),)
                                                     ],
                                                   ),
                                                   Positioned(
@@ -1870,8 +1878,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             //Making keyboard just for Email
                                                                                             keyboardType: TextInputType.emailAddress,
                                                                                             validator: (value) {
-                                                                                              if (value!.isEmpty) {
-                                                                                                return 'Product Name is required';
+                                                                                              if (value != null && value.isNotEmpty && !RegExp(r'^[a-zA-Z]').hasMatch(value!)) {
+                                                                                                return 'Product Name must start with a letter';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -1904,8 +1912,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             //Making keyboard just for Email
                                                                                             keyboardType: TextInputType.text,
                                                                                             validator: (value) {
-                                                                                              if (value!.isEmpty) {
-                                                                                                return 'Product Price is required';
+                                                                                              if (value != null && value.isNotEmpty && !RegExp(r'^\d+$').hasMatch(value!)) {
+                                                                                                return 'Only numeric values are allowed';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -1938,8 +1946,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             //Making keyboard just for Email
                                                                                             keyboardType: TextInputType.text,
                                                                                             validator: (value) {
-                                                                                              if (value!.isEmpty) {
-                                                                                                return 'Product Quantities is required';
+                                                                                              if (value != null && value.isNotEmpty && !RegExp(r'^\d+$').hasMatch(value)) {
+                                                                                                return 'Only numeric values are allowed';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -1972,8 +1980,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             //Making keyboard just for Email
                                                                                             keyboardType: TextInputType.emailAddress,
                                                                                             validator: (value) {
-                                                                                              if (value!.isEmpty) {
-                                                                                                return 'Product Descrption is required';
+                                                                                              if (value != null && value.isNotEmpty && !RegExp(r'^[a-zA-Z]').hasMatch(value!)) {
+                                                                                                return 'Product Description must start with a letter';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -2071,7 +2079,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                     }
 
                                                                                                     final double? discount = double.tryParse(value);
-                                                                                                    if (discount == null || discount < 0 || discount > 100) {
+                                                                                                    if (cartDiscountBool && (discount == null || discount < 1 || discount > 100)) {
+                                                                                                      QuickAlert.show(
+                                                                                                        context: context,
+                                                                                                        type: QuickAlertType.error,
+                                                                                                        title: 'Oops...',
+                                                                                                        text: 'Sorry, Please enter a valid discount percentage (0-100)',
+                                                                                                      );
                                                                                                       return 'Please enter a valid discount percentage (0-100)';
                                                                                                     }
 
@@ -2179,14 +2193,15 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                               "index": index,
                                                                                                               "email": emailVal,
                                                                                                               "cartName": cartNameTextEditingController.text,
-                                                                                                              "cartPrice": cartDiscountBool ? ( double.parse(cartPriceTextEditingController.text) - ((double.parse(cartPriceTextEditingController.text) * int.parse(percentageEditingController.text))/100) ) : cartPriceTextEditingController.text ,
+                                                                                                              "cartPrice": cartDiscountBool ? ( storeCartsVal[index]["cartPrice"] - ((storeCartsVal[index]["cartPrice"] * int.parse(percentageEditingController.text))/100) ) : (cartPriceTextEditingController.text=="" ? storeCartsVal[index]["cartPrice"] : double.parse(cartPriceTextEditingController.text) ),
                                                                                                               "cartDiscount": cartDiscountBool,
                                                                                                               "cartLiked": cartLikedBool,
                                                                                                               "cartFavourite": cartFavouriteBool,
                                                                                                               "cartDescription": cartDescriptionTextEditingController.text,
                                                                                                               "cartCategory": dropdownValue.toString(),
                                                                                                               "cartQuantities": cartQuantitiesTextEditingController.text,
-                                                                                                              "cartRate": rateVal
+                                                                                                              "cartRate": rateVal,
+                                                                                                              "discountValue":cartDiscountBool ? percentageEditingController.text : storeCartsVal[index]["discountValue"]
                                                                                                             },
                                                                                                           ),
                                                                                                           encoding: Encoding.getByName("utf-8"),
@@ -2295,30 +2310,43 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 CrossAxisAlignment
                                                                     .end,
                                                             children: [
-                                                              Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .fromLTRB(
-                                                                            10,
-                                                                            8,
-                                                                            10,
-                                                                            0),
-                                                                child: Text(
-                                                                    "${storeCartsVal[index]["cartName"].toString()}",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    maxLines: 1,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          22,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    )),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  Container(
+                                                                    width: 120,
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .fromLTRB(
+                                                                                5,
+                                                                                8,
+                                                                                5,
+                                                                                0),
+                                                                    child: Text(
+                                                                        "${storeCartsVal[index]["cartName"].toString()}",
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        maxLines: 1,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              22,
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                          color: Colors
+                                                                              .white,
+                                                                        )),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Container(
+                                                                      margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                                                      child: Icon(Icons.edit,
+                                                                          color: Colors.white),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                               // Container(
                                                               //   padding: EdgeInsets
@@ -2343,70 +2371,100 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                               //             Colors.white,
                                                               //       )),
                                                               // ),
-                                                              Container(
-                                                                margin: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        10,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .baseline,
-                                                                  textBaseline:
-                                                                      TextBaseline
-                                                                          .alphabetic,
-                                                                  children: [
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .fromLTRB(
-                                                                              10,
-                                                                              0,
-                                                                              2,
-                                                                              0),
-                                                                      child: Text(
-                                                                          "${storeCartsVal[index]["cartPrice"].toString()} \$",
-                                                                          overflow: TextOverflow
-                                                                              .ellipsis,
-                                                                          maxLines:
-                                                                              1,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                13,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color:
-                                                                                Colors.white,
-                                                                          )),
+
+
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                children: [
+                                                                  Container(
+                                                                    width: 105,
+                                                                    margin: EdgeInsets
+                                                                        .fromLTRB(
+                                                                            5,
+                                                                            0,
+                                                                            5,
+                                                                            0),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .start,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .baseline,
+                                                                      textBaseline:
+                                                                          TextBaseline
+                                                                              .alphabetic,
+                                                                      children: [
+                                                                        Container(
+                                                                          padding: EdgeInsets
+                                                                              .fromLTRB(
+                                                                                  0,
+                                                                                  0,
+                                                                                  0,
+                                                                                  0),
+                                                                          child: Text(
+                                                                              "${storeCartsVal[index]["cartPrice"].toString()} \$",
+                                                                              overflow: TextOverflow
+                                                                                  .ellipsis,
+                                                                              maxLines:
+                                                                                  1,
+                                                                              style:
+                                                                                  TextStyle(
+                                                                                fontSize:
+                                                                                    13,
+                                                                                fontWeight:
+                                                                                    FontWeight.bold,
+                                                                                color:
+                                                                                    Colors.white,
+                                                                              )),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 5,
+                                                                        ),
+                                                                        Container(
+                                                                          // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                          child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                                  "null"
+                                                                              ? Text(
+                                                                                  "")
+                                                                              : Text(
+                                                                                  "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))} ",
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  maxLines: 1,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 11,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    decoration: TextDecoration.lineThrough,
+                                                                                    decorationThickness: 3,
+                                                                                    color: Colors.white,
+                                                                                  )),
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    SizedBox(
-                                                                      width: 5,
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Container(
+                                                                      margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                                                      child: InkWell(
+                                                                        onTap: () {
+                                                                          final String text =
+                                                                              'Check out this Product: ${storeCartsVal[index]["cartName"]}';
+                                                                          final String imageUrl =
+                                                                              '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
+                                                                    
+                                                                          // Combine text and URL
+                                                                          final String content =
+                                                                              '$text $imageUrl';
+                                                                    
+                                                                          Share.share(content);
+                                                                        },
+                                                                        child: Icon(
+                                                                            Icons.share_outlined,
+                                                                            color: Colors.white),
+                                                                      ),
                                                                     ),
-                                                                    // Container(
-                                                                    //   // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                    //   child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                    //           "null"
-                                                                    //       ? Text(
-                                                                    //           "")
-                                                                    //       : Text(
-                                                                    //           "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                    //           overflow: TextOverflow.ellipsis,
-                                                                    //           maxLines: 1,
-                                                                    //           style: TextStyle(
-                                                                    //             fontSize: 11,
-                                                                    //             fontWeight: FontWeight.bold,
-                                                                    //             decoration: TextDecoration.lineThrough,
-                                                                    //             decorationThickness: 3,
-                                                                    //             color: Colors.white,
-                                                                    //           )),
-                                                                    // ),
-                                                                  ],
-                                                                ),
+                                                                  )
+                                                                ],
                                                               ),
                                                               Visibility(
                                                                 visible: false,
@@ -2466,47 +2524,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           ),
                                                         ),
                                                       )),
-                                                  Positioned(
-                                                    right:
-                                                        _currentLocale1 == "ar"
-                                                            ? 10
-                                                            : null,
-                                                    left:
-                                                        _currentLocale1 == "ar"
-                                                            ? null
-                                                            : 10,
-                                                    bottom: 10,
-                                                    child: Icon(Icons.edit,
-                                                        color: Colors.white),
-                                                  ),
-                                                  Positioned(
-                                                    right:
-                                                        _currentLocale1 == "ar"
-                                                            ? 10
-                                                            : null,
-                                                    left:
-                                                        _currentLocale1 == "ar"
-                                                            ? null
-                                                            : 10,
-                                                    bottom: 40,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        final String text =
-                                                            'Check out this Product: ${storeCartsVal[index]["cartName"]}';
-                                                        final String imageUrl =
-                                                            '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
 
-                                                        // Combine text and URL
-                                                        final String content =
-                                                            '$text $imageUrl';
-
-                                                        Share.share(content);
-                                                      },
-                                                      child: Icon(
-                                                          Icons.share_outlined,
-                                                          color: Colors.white),
-                                                    ),
-                                                  )
                                                 ],
                                               ),
                                             ),
@@ -3269,7 +3287,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             }
 
                                             final double? discount = double.tryParse(value);
-                                            if (discount == null || discount < 0 || discount > 100) {
+                                            if (cartDiscountBool && (discount == null || discount < 1 || discount > 100)) {
+                                              QuickAlert.show(
+                                                context: context,
+                                                type: QuickAlertType.error,
+                                                title: 'Oops...',
+                                                text: 'Sorry, Please enter a valid discount percentage (0-100)',
+                                              );
                                               return 'Please enter a valid discount percentage (0-100)';
                                             }
 
@@ -3448,7 +3472,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                     "cartQuantities":
                                                         cartQuantitiesTextEditingController
                                                             .text,
-                                                    "cartRate": rateVal
+                                                    "cartRate": rateVal,
+                                                    "discountValue":percentageEditingController.text
                                                   },
                                                 ),
                                                 encoding:
