@@ -8,12 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+import '../../../constants/constants.dart';
 import '../../../custom_button.dart';
 import '../../../discount_icon.dart';
 import '../../../models/Stores/display-all-stores.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../toggle_button.dart';
+import 'customer_display_product.dart';
 import 'customer_specific_store_main_page1.dart';
 import 'customer_specific_store_main_page2.dart';
 import 'customer_specific_store_main_page3.dart';
@@ -55,6 +59,63 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
   late double solidDesignBorderRadius = 2;
   double spaceAboveComponent = 20;
   double spaceBelowComponent = 10;
+
+  Future<void> incrementProductViews(index) async {
+    await getStatisticsAboutProducts(index);
+
+    Constants.mostViewed++;
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/increment-most-viewed/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+          "forMostViewed": Constants.mostViewed
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+
+  }
+  Future<void> getStatisticsAboutProducts(index) async {
+    print("--------------------------");
+    print(emailVal);
+    print(index);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-products/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "productIndex":index,
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+    setState(() {
+      Constants.mostViewed = jsonDecode(userFuture.body)["mostViewed"];
+    });
+
+
+
+  }
 
 
 
@@ -356,7 +417,25 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         child: ScaleAnimation(
                           child: FadeInAnimation(
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () async {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.loading,
+                                  title: 'Loading',
+                                  text: 'Fetching your data',
+                                );
+
+                                // PaymentManager.makePayment(20,"USD");
+                                // PaymentManager.makePayment(20,"USD");
+
+                                // await getSpecificStoreCart(emailVal);
+                                // print("+++++++++++++++++++++");
+                                // print(storeCartsVal[index]);
+                                // print("+++++++++++++++++++++");
+
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                              },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
@@ -578,7 +657,23 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                         child: ScaleAnimation(
                           child: FadeInAnimation(
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () async {
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.loading,
+                                  title: 'Loading',
+                                  text: 'Fetching your data',
+                                );
+                                await incrementProductViews(index);
+                                // PaymentManager.makePayment(20,"USD");
+
+                                // await getSpecificStoreCart(emailVal);
+                                print("+++++++++++++++++++++");
+                                print(storeCartsVal[index]);
+                                print("+++++++++++++++++++++");
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                              },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
