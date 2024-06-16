@@ -19,7 +19,7 @@ class DiscountPainter extends CustomPainter {
     // Draw the percentage text
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
-        text: '${discountPercentage.toInt()}%',
+        text: '-${discountPercentage.toInt()}%',
         style: TextStyle(
           color: Colors.white,
           fontSize: radius / 1.5,
