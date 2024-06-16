@@ -54,7 +54,8 @@ class EditYourStoreDesign extends StatefulWidget {
       this.storeCartsVal,
       this.sliderVisibility,
       this.categoryVisibility,
-      this.cartsVisibility, this.objectData,
+      this.cartsVisibility,
+      this.objectData,
       {super.key});
   @override
   State<EditYourStoreDesign> createState() => _EditYourStoreDesignState();
@@ -92,9 +93,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   final Dio _dio = Dio();
   List<dynamic> devicesId = [];
   Future<void> getDevicesIdList() async {
-
-    http.Response userFuture1 =
-    await http.get(
+    http.Response userFuture1 = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-device-id-list/$emailVal"),
       headers: {
@@ -111,25 +110,20 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     print(devicesId);
 
-    http.Response userFuture =
-    await http.post(
+    http.Response userFuture = await http.post(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-notification-to-device"),
       headers: {
         "Content-Type": "application/json",
       },
       body: jsonEncode(
-        {
-          "storeName": storeNameVal,
-          "devices": devicesId
-        },
+        {"storeName": storeNameVal, "devices": devicesId},
       ),
-      encoding:
-      Encoding.getByName("utf-8"),
+      encoding: Encoding.getByName("utf-8"),
     );
   }
 
-  Map<String, dynamic> merchant ={};
+  Map<String, dynamic> merchant = {};
 
   Future<void> addStoreToDatabase() async {
     print("XPPPPPPPPPPPPX");
@@ -143,19 +137,16 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       objectDataVal["activateCarts"] = cartsVisibilityVal;
       objectDataVal["specificStoreCategories"] = specificStoreCategoriesVal;
       // objectDataVal["type"] = storeCartsVal;
-
     });
     print(objectDataVal);
     print("PPPPPPPPPPPP");
     print("PPPPPPPPPPPP");
-
 
     var storeDataToAddVal = objectDataVal;
 
     http.Response userFuture1 = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
-
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -173,31 +164,26 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
         text: 'You must add your payment informations...',
       );
     } else {
-
-    http.Response userFuture =
-    await http.post(
-      Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer $tokenVal",
-      },
-      body: jsonEncode(
-        {
-          "stores": storeDataToAddVal
+      http.Response userFuture = await http.post(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $tokenVal",
         },
-      ),
-      encoding:
-      Encoding.getByName("utf-8"),
-    );
-    print(userFuture.body);
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.success,
-      text: "Your Store Published Successfully!",
-    );
-    await notifyYourCustomers();
-  }
+        body: jsonEncode(
+          {"stores": storeDataToAddVal},
+        ),
+        encoding: Encoding.getByName("utf-8"),
+      );
+      print(userFuture.body);
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: "Your Store Published Successfully!",
+      );
+      await notifyYourCustomers();
+    }
   }
 
   Future<void> _pickAndUploadImage() async {
@@ -210,7 +196,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       });
 
       // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-      final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-slider-images';
+      final url =
+          'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/store-slider-images';
       print("$emailVal ssssssssssssssssss");
       // Extract the file name from the path
       String fileName = _image.path.split('/').last;
@@ -373,8 +360,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     }
   }
 
-
-
   Future<void> deleteImageFromSlider(urlVal) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
     final url =
@@ -490,7 +475,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     http.Response userFuture = await http.get(
       Uri.parse(
           "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
-
       headers: {
         "Authorization": "Bearer $tokenVal", // Add the token to the headers
       },
@@ -601,7 +585,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
-          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
       },
     );
@@ -613,9 +597,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     if (response.statusCode == 200) {
       print('Slider Activate');
       // getSliderImages();
-      setState(() {
-
-      });
+      setState(() {});
 
       // print(imageSliderVal);
     } else {
@@ -639,7 +621,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
-          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
       },
     );
@@ -676,7 +658,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       headers: {
         'Content-Type': 'application/json',
 
-          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
 
         // Add any other headers if needed
       },
@@ -724,7 +706,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
   Future<void> deleteCart(index) async {
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-cart/$emailVal';
+    final url =
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-cart/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     print(url);
@@ -737,7 +720,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
-          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
         // Add any other headers if needed
         // Add any other headers if needed
       },
@@ -763,7 +746,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   Future<void> deleteCategoryConnectedToCarts(index) async {
     print(index);
     // Replace 'YOUR_SERVER_ENDPOINT' with your actual server endpoint
-    final url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-category-connected-to-cart/$emailVal';
+    final url =
+        'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-category-connected-to-cart/$emailVal';
     print("$emailVal ssssssssssssssssss");
     // Extract the file name from the path
     // print(url);
@@ -776,17 +760,17 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     Options options = Options(
       headers: {
         'Content-Type': 'application/json',
-          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
 
         // Add any other headers if needed
         // Add any other headers if needed
       },
     );
 
-    if(storeCartsVal.length != 0) {
+    if (storeCartsVal.length != 0) {
       // Make the POST request using dio
       Response response =
-      await _dio.delete(url, data: requestData, options: options);
+          await _dio.delete(url, data: requestData, options: options);
       // Check the response status
       if (response.statusCode == 200) {
         print('Category Deleted Successfully!!');
@@ -794,14 +778,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
         setState(() async {
           // storeCartsVal = await getSpecificStoreCart();
           // await deleteSpecificStoreCategory(index);
-           await getSpecificStoreCategories();
-           getSpecificStoreCart();
+          await getSpecificStoreCategories();
+          getSpecificStoreCart();
         });
         // print(imageSliderVal);
       } else {
         print('Failed to delete category. Status code: ${response.statusCode}');
       }
-    } else{
+    } else {
       await deleteSpecificStoreCategory(index);
       // showDialog(context: context, builder: (context)=>AlertDialog(
       //   title: Text("Information Message"),
@@ -833,23 +817,23 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
     // Make the POST request using dio
     Response response =
-    await _dio.delete(url, data: requestData, options: options);
+        await _dio.delete(url, data: requestData, options: options);
     // Check the response status
     if (response.statusCode == 200) {
       print('Category Deleted Successfully!!');
       showDialog(
           context: context,
           builder: (context) => const AlertDialog(
-            backgroundColor: Color(0xFF212128),
-            title: Text(
-              "Success",
-              style: TextStyle(color: Colors.white),
-            ),
-            content: Text(
-              "Category Deleted Successfully!!",
-              style: TextStyle(color: Colors.white),
-            ),
-          ));
+                backgroundColor: Color(0xFF212128),
+                title: Text(
+                  "Success",
+                  style: TextStyle(color: Colors.white),
+                ),
+                content: Text(
+                  "Category Deleted Successfully!!",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ));
 
       // getSliderImages();
 
@@ -857,7 +841,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     } else {
       print('Failed to delete category. Status code: ${response.statusCode}');
     }
-
   }
 
   bool _isSearching = false;
@@ -903,12 +886,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   TextEditingController cartCategoryTextEditing = TextEditingController();
   TextEditingController cartQuantitiesTextEditingController =
       TextEditingController();
+  TextEditingController percentageEditingController = TextEditingController(text: "00");
   double rateVal = 3;
 
   late String dropdownValue = 'All Products';
 
   ////////
   Locale? _currentLocale;
+  String _currentLocale1 = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -928,14 +913,12 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
     objectDataVal = widget.objectData;
-    String _currentLocale1 = _currentLocale.toString().split('_').first;
+    _currentLocale1 = _currentLocale.toString().split('_').first;
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -951,26 +934,22 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                          child: Text(
-                        storeNameVal,
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30),
-                        )
-                      )),
+                          child: Text(storeNameVal,
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30),
+                              ))),
                     ],
                   ),
                 ),
-
                 FutureBuilder<List>(
                     future: sliderImages,
                     builder:
                         (BuildContext context, AsyncSnapshot<List> snapshot) {
                       return Container(
-
-                        height: MediaQuery.of(context).size.height/1.15,
+                        height: MediaQuery.of(context).size.height / 1.15,
                         margin: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
@@ -991,15 +970,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "${getLang(context, 'latest')}",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
+                                        Text("${getLang(context, 'latest')}",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
                                                 color: Color(0xFF212128),
                                                 fontSize: 24,
-                                                ),
-                                          )
-                                        ),
+                                              ),
+                                            )),
                                         SizedBox(
                                           width: 10,
                                         ),
@@ -1037,13 +1014,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           ),
                                           items: imageUrls.map((url) {
                                             return Builder(
-                                              builder:
-                                                  (BuildContext context) {
+                                              builder: (BuildContext context) {
                                                 return Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   child: ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -1051,20 +1026,27 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                     child: InkWell(
                                                       onTap: () {
                                                         QuickAlert.show(
-                                                          context: context,
-                                                          type: QuickAlertType.confirm,
-                                                          text: 'Do you want to Delete this image from slider ?',
-                                                          confirmBtnText: 'Delete',
-                                                          cancelBtnText: 'Cancel',
-                                                          confirmBtnColor: Colors.green,
-                                                          onConfirmBtnTap: () async {
-                                                            await deleteImageFromSlider(url);
-                                                            await getSliderImages();
-                                                          },
-                                                          onCancelBtnTap: (){
-                                                            Navigator.pop(context);
-                                                          }
-                                                        );
+                                                            context: context,
+                                                            type: QuickAlertType
+                                                                .confirm,
+                                                            text:
+                                                                'Do you want to Delete this image from slider ?',
+                                                            confirmBtnText:
+                                                                'Delete',
+                                                            cancelBtnText:
+                                                                'Cancel',
+                                                            confirmBtnColor:
+                                                                Colors.green,
+                                                            onConfirmBtnTap:
+                                                                () async {
+                                                              await deleteImageFromSlider(
+                                                                  url);
+                                                              await getSliderImages();
+                                                            },
+                                                            onCancelBtnTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
                                                         // showDialog(
                                                         //     context: context,
                                                         //     builder:
@@ -1125,15 +1107,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                         //               ],
                                                         //             ));
                                                       },
-                                                      child:
-                                                          CachedNetworkImage(
+                                                      child: CachedNetworkImage(
                                                         imageUrl: url,
                                                         placeholder: (context,
                                                                 url) =>
                                                             SimpleCircularProgressBar(
                                                           mergeMode: true,
-                                                          animationDuration:
-                                                              1,
+                                                          animationDuration: 1,
                                                         ),
                                                         errorWidget: (context,
                                                                 url, error) =>
@@ -1165,14 +1145,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${getLang(context, 'all_categories')}",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
+                                            "${getLang(context, 'all_categories')}",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
                                                 color: Color(0xFF212128),
                                                 fontSize: 24,
-                                                ),
-                                          )
-                                        ),
+                                              ),
+                                            )),
                                         SizedBox(
                                           width: 10,
                                         ),
@@ -1180,8 +1159,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           radius: 18,
                                           backgroundColor: Color(0xFF3B3B47),
                                           child: IconButton(
-                                            onPressed:
-                                                defaultCategoryContainer,
+                                            onPressed: defaultCategoryContainer,
                                             icon: Icon(
                                               Icons.add,
                                               color: Colors.white,
@@ -1201,246 +1179,262 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     builder: (BuildContext context,
                                         AsyncSnapshot<List> snapshot) {
                                       return Container(
-                                        width: MediaQuery.of(context)
-                                                .size
-                                                .width /
-                                            1.13,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.13,
                                         height: 50,
                                         child: ListView.separated(
                                           scrollDirection: Axis.horizontal,
                                           itemCount:
-                                              specificStoreCategoriesVal
-                                                  .length,
+                                              specificStoreCategoriesVal.length,
                                           itemBuilder: (context, index) =>
                                               Stack(
-                                                children: [
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
-                                                        color: specificStoreCategoriesVal[index] == "All Products" ? Colors.red : Color(0xFF212128),
-                                                      ),
-                                                      width: specificStoreCategoriesVal[index] == "All Products" ? 150 : 120,
-                                                      child: TextButton(
-                                                          onPressed: () {
-                                                            if(specificStoreCategoriesVal[index] != "All Products"){
-                                                              print(index);
-                                                              showDialog(
-                                                                  context: context,
-                                                                  builder:
-                                                                      (context) {
-                                                                    return AlertDialog(
-                                                                      title: Text(
-                                                                        "${getLang(context, "edit_your_category")}",
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .white),
-                                                                      ),
-                                                                      backgroundColor:
+                                            children: [
+                                              Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color:
+                                                        specificStoreCategoriesVal[
+                                                                    index] ==
+                                                                "All Products"
+                                                            ? Colors.red
+                                                            : Color(0xFF212128),
+                                                  ),
+                                                  width:
+                                                      specificStoreCategoriesVal[
+                                                                  index] ==
+                                                              "All Products"
+                                                          ? 150
+                                                          : 120,
+                                                  child: TextButton(
+                                                      onPressed: () {
+                                                        if (specificStoreCategoriesVal[
+                                                                index] !=
+                                                            "All Products") {
+                                                          print(index);
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return AlertDialog(
+                                                                  title: Text(
+                                                                    "${getLang(context, "edit_your_category")}",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                  backgroundColor:
                                                                       Color(
                                                                           0xff212128),
-                                                                      content:
-                                                                      Form(
-                                                                        key: _formKey1,
-                                                                        child: Container(
-                                                                          height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height /
+                                                                  content: Form(
+                                                                    key:
+                                                                        _formKey1,
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          MediaQuery.of(context).size.height /
                                                                               7,
-                                                                          child:
+                                                                      child:
                                                                           Column(
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                height:
+                                                                        children: [
+                                                                          SizedBox(
+                                                                            height:
                                                                                 20,
-                                                                              ),
-                                                                              TextFormField(
-                                                                                cursorColor:
-                                                                                Colors.white,
-                                                                                style:
-                                                                                TextStyle(color: Colors.white),
-                                                                                controller:
-                                                                                specificStoreCategoriesTextEditingController,
-                                                                                //Making keyboard just for Email
-                                                                                keyboardType:
-                                                                                TextInputType.emailAddress,
-                                                                                validator:
-                                                                                    (value) {
-                                                                                  if (value!.isEmpty) {
-                                                                                    return 'Category is required';
-                                                                                  }
-                                                                                  return null;
-                                                                                },
-                                                                                decoration: InputDecoration(
-                                                                                    labelText: '${getLang(context, 'category_name')}',
-                                                                                    labelStyle: TextStyle(color: Colors.white),
-                                                                                    prefixIcon: Icon(
-                                                                                      Icons.category_outlined,
-                                                                                      color: Colors.white,
-                                                                                    ),
-                                                                                    border: OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                          color: Colors.white,
-                                                                                        )),
-                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                        borderSide: BorderSide(
-                                                                                          color: Colors.white,
-                                                                                        ))),
-                                                                              ),
-                                                                            ],
                                                                           ),
-                                                                        ),
-                                                                      ),
-                                                                      actions: [
-                                                                        TextButton(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              if(_formKey1.currentState!.validate()){
-                                                                                if (specificStoreCategoriesVal[index] !=
-                                                                                    "All Products"){
-                                                                                  bool doesCategoryExist = specificStoreCategoriesVal.any((category) => category.toLowerCase() == specificStoreCategoriesTextEditingController.text.toLowerCase());
-                                                                                  if(doesCategoryExist){
-                                                                                    QuickAlert.show(
-                                                                                      context: context,
-                                                                                      type: QuickAlertType.error,
-                                                                                      title: 'Oops...',
-                                                                                      text: "Failed to Update, You have Category with this name!!",
-                                                                                    );
-                                                                                  } else{
-                                                                                    await updateSpecificStoreCategory(
-                                                                                        index,
-                                                                                        specificStoreCategoriesTextEditingController.text);
-                                                                                    await getSpecificStoreCategories();
-                                                                                    QuickAlert.show(
-                                                                                      context: context,
-                                                                                      type: QuickAlertType.success,
-                                                                                      text: 'Category Updated Successfully!',
-                                                                                    );
-                                                                                    specificStoreCategoriesTextEditingController.clear();
-                                                                                  }
-
-                                                                                } else {
-                                                                                  QuickAlert.show(
-                                                                                    context: context,
-                                                                                    type: QuickAlertType.error,
-                                                                                    title: 'Oops...',
-                                                                                    text: "Failed to Update 'All products' category",
-                                                                                  );
-                                                                                }
+                                                                          TextFormField(
+                                                                            cursorColor:
+                                                                                Colors.white,
+                                                                            style:
+                                                                                TextStyle(color: Colors.white),
+                                                                            controller:
+                                                                                specificStoreCategoriesTextEditingController,
+                                                                            //Making keyboard just for Email
+                                                                            keyboardType:
+                                                                                TextInputType.emailAddress,
+                                                                            validator:
+                                                                                (value) {
+                                                                              if (value!.isEmpty) {
+                                                                                return 'Category is required';
                                                                               }
-
-
-
-
+                                                                              return null;
                                                                             },
-                                                                            child:
-                                                                            Text(
-                                                                              "${getLang(context, "update")}",
-                                                                              style:
-                                                                              TextStyle(color: Colors.white),
-                                                                            )),
-                                                                        TextButton(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              print(
-                                                                                  specificStoreCategoriesVal[index]);
-                                                                              if (specificStoreCategoriesVal[index] !=
-                                                                                  "All Products") {
-                                                                                QuickAlert.show(
-                                                                                    context: context,
-                                                                                    type: QuickAlertType.confirm,
-                                                                                    text: "This action will delete all carts connected with this category",
-                                                                                    confirmBtnText: 'Delete',
-                                                                                    cancelBtnText: 'Cancel',
-                                                                                    confirmBtnColor: Colors.green,
-                                                                                    onConfirmBtnTap: () async {
-                                                                                      await deleteCategoryConnectedToCarts(index);
-                                                                                      // await deleteSpecificStoreCategory(index);
-                                                                                      await getSpecificStoreCategories();
-                                                                                      Navigator.pop(context);
-                                                                                    },
-                                                                                    onCancelBtnTap: ()  {
-                                                                                      Navigator.pop(context);
-                                                                                    }
-
-                                                                                );
-                                                                                // showDialog(context: context, builder: (context)=>AlertDialog(
-                                                                                //   title: Text("Information Message"),
-                                                                                //   content: Container(
-                                                                                //     height: MediaQuery.of(context).size.height/18,
-                                                                                //     child: Column(
-                                                                                //       children: [
-                                                                                //         Text("This action will delete all carts connected with this category"),
-                                                                                //       ],
-                                                                                //     ),
-                                                                                //   ),
-                                                                                //   actions: [
-                                                                                //     TextButton(onPressed: (){
-                                                                                //       Navigator.pop(context);
-                                                                                //     }, child: Text("Cancel")),
-                                                                                //     TextButton(onPressed: () async{
-                                                                                //
-                                                                                //       await deleteCategoryConnectedToCarts(index);
-                                                                                //       // await deleteSpecificStoreCategory(index);
-                                                                                //       await getSpecificStoreCategories();
-                                                                                //     }, child: Text("Delete any way")),
-                                                                                //
-                                                                                //   ],
-                                                                                // ));
-
-                                                                              } else {
+                                                                            decoration: InputDecoration(
+                                                                                labelText: '${getLang(context, 'category_name')}',
+                                                                                labelStyle: TextStyle(color: Colors.white),
+                                                                                prefixIcon: Icon(
+                                                                                  Icons.category_outlined,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                                border: OutlineInputBorder(
+                                                                                    borderSide: BorderSide(
+                                                                                  color: Colors.white,
+                                                                                )),
+                                                                                focusedBorder: OutlineInputBorder(
+                                                                                    borderSide: BorderSide(
+                                                                                  color: Colors.white,
+                                                                                ))),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          if (_formKey1
+                                                                              .currentState!
+                                                                              .validate()) {
+                                                                            if (specificStoreCategoriesVal[index] !=
+                                                                                "All Products") {
+                                                                              bool doesCategoryExist = specificStoreCategoriesVal.any((category) => category.toLowerCase() == specificStoreCategoriesTextEditingController.text.toLowerCase());
+                                                                              if (doesCategoryExist) {
                                                                                 QuickAlert.show(
                                                                                   context: context,
                                                                                   type: QuickAlertType.error,
                                                                                   title: 'Oops...',
-                                                                                  text: "Failed to Delete 'All products' category",
+                                                                                  text: "Failed to Update, You have Category with this name!!",
                                                                                 );
-                                                                                // showDialog(
-                                                                                //     context: context,
-                                                                                //     builder: (context) => AlertDialog(
-                                                                                //           backgroundColor: Color(0xFF212128),
-                                                                                //           title: Text(
-                                                                                //             "Failed",
-                                                                                //             style: TextStyle(color: Colors.white),
-                                                                                //           ),
-                                                                                //           content: Container(
-                                                                                //               width: MediaQuery.of(context).size.width,
-                                                                                //               height: MediaQuery.of(context).size.height / 15,
-                                                                                //               child: Text(
-                                                                                //                 "Failed to Delete 'All products' category",
-                                                                                //                 style: TextStyle(color: Colors.white),
-                                                                                //               )),
-                                                                                //         ));
+                                                                              } else {
+                                                                                await updateSpecificStoreCategory(index, specificStoreCategoriesTextEditingController.text);
+                                                                                await getSpecificStoreCategories();
+                                                                                QuickAlert.show(
+                                                                                  context: context,
+                                                                                  type: QuickAlertType.success,
+                                                                                  text: 'Category Updated Successfully!',
+                                                                                );
+                                                                                specificStoreCategoriesTextEditingController.clear();
                                                                               }
-                                                                            },
-                                                                            child:
+                                                                            } else {
+                                                                              QuickAlert.show(
+                                                                                context: context,
+                                                                                type: QuickAlertType.error,
+                                                                                title: 'Oops...',
+                                                                                text: "Failed to Update 'All products' category",
+                                                                              );
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        child:
                                                                             Text(
-                                                                              "${getLang(context, 'delete')}",
-                                                                              style:
+                                                                          "${getLang(context, "update")}",
+                                                                          style:
                                                                               TextStyle(color: Colors.white),
-                                                                            )),
-                                                                      ],
-                                                                    );
-                                                                  });
-                                                            }
-
-                                                          },
-                                                          child: Text(
-                                                              specificStoreCategoriesVal[index] == "All Products" ? getLang(context, 'all_products') : specificStoreCategoriesVal[
-                                                                index] ,
-                                                            style: GoogleFonts.roboto(
-                                                              textStyle: TextStyle(
-                                                                  color:
-                                                                  Colors.white,
-                                                                  fontSize: 18),
-                                                            )
-                                                          ))),
-                                                  specificStoreCategoriesVal[index] != "All Products" ? Positioned(right: 1, top: 1 ,child: Icon(Icons.edit,color: Colors.white, )) : Container()
-                                                ],
-                                              ),
-                                          separatorBuilder:
-                                              (context, index) => SizedBox(
+                                                                        )),
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          print(
+                                                                              specificStoreCategoriesVal[index]);
+                                                                          if (specificStoreCategoriesVal[index] !=
+                                                                              "All Products") {
+                                                                            QuickAlert.show(
+                                                                                context: context,
+                                                                                type: QuickAlertType.confirm,
+                                                                                text: "This action will delete all carts connected with this category",
+                                                                                confirmBtnText: 'Delete',
+                                                                                cancelBtnText: 'Cancel',
+                                                                                confirmBtnColor: Colors.green,
+                                                                                onConfirmBtnTap: () async {
+                                                                                  await deleteCategoryConnectedToCarts(index);
+                                                                                  // await deleteSpecificStoreCategory(index);
+                                                                                  await getSpecificStoreCategories();
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                onCancelBtnTap: () {
+                                                                                  Navigator.pop(context);
+                                                                                });
+                                                                            // showDialog(context: context, builder: (context)=>AlertDialog(
+                                                                            //   title: Text("Information Message"),
+                                                                            //   content: Container(
+                                                                            //     height: MediaQuery.of(context).size.height/18,
+                                                                            //     child: Column(
+                                                                            //       children: [
+                                                                            //         Text("This action will delete all carts connected with this category"),
+                                                                            //       ],
+                                                                            //     ),
+                                                                            //   ),
+                                                                            //   actions: [
+                                                                            //     TextButton(onPressed: (){
+                                                                            //       Navigator.pop(context);
+                                                                            //     }, child: Text("Cancel")),
+                                                                            //     TextButton(onPressed: () async{
+                                                                            //
+                                                                            //       await deleteCategoryConnectedToCarts(index);
+                                                                            //       // await deleteSpecificStoreCategory(index);
+                                                                            //       await getSpecificStoreCategories();
+                                                                            //     }, child: Text("Delete any way")),
+                                                                            //
+                                                                            //   ],
+                                                                            // ));
+                                                                          } else {
+                                                                            QuickAlert.show(
+                                                                              context: context,
+                                                                              type: QuickAlertType.error,
+                                                                              title: 'Oops...',
+                                                                              text: "Failed to Delete 'All products' category",
+                                                                            );
+                                                                            // showDialog(
+                                                                            //     context: context,
+                                                                            //     builder: (context) => AlertDialog(
+                                                                            //           backgroundColor: Color(0xFF212128),
+                                                                            //           title: Text(
+                                                                            //             "Failed",
+                                                                            //             style: TextStyle(color: Colors.white),
+                                                                            //           ),
+                                                                            //           content: Container(
+                                                                            //               width: MediaQuery.of(context).size.width,
+                                                                            //               height: MediaQuery.of(context).size.height / 15,
+                                                                            //               child: Text(
+                                                                            //                 "Failed to Delete 'All products' category",
+                                                                            //                 style: TextStyle(color: Colors.white),
+                                                                            //               )),
+                                                                            //         ));
+                                                                          }
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "${getLang(context, 'delete')}",
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
+                                                                        )),
+                                                                  ],
+                                                                );
+                                                              });
+                                                        }
+                                                      },
+                                                      child: Text(
+                                                          specificStoreCategoriesVal[
+                                                                      index] ==
+                                                                  "All Products"
+                                                              ? getLang(context,
+                                                                  'all_products')
+                                                              : specificStoreCategoriesVal[
+                                                                  index],
+                                                          style: GoogleFonts
+                                                              .roboto(
+                                                            textStyle: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 18),
+                                                          )))),
+                                              specificStoreCategoriesVal[
+                                                          index] !=
+                                                      "All Products"
+                                                  ? Positioned(
+                                                      right: 1,
+                                                      top: 1,
+                                                      child: Icon(
+                                                        Icons.edit,
+                                                        color: Colors.white,
+                                                      ))
+                                                  : Container()
+                                            ],
+                                          ),
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
                                             width: 5,
                                           ),
                                         ),
@@ -1454,31 +1448,28 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 child: Column(
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          20, 10, 20, 0),
+                                      margin:
+                                          EdgeInsets.fromLTRB(20, 10, 20, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${getLang(context, 'products')}",
-                                            style: GoogleFonts.roboto(
-                                              textStyle: TextStyle(
+                                              "${getLang(context, 'products')}",
+                                              style: GoogleFonts.roboto(
+                                                textStyle: TextStyle(
                                                   color: Color(0xFF212128),
                                                   fontSize: 24,
-                                                  ),
-                                            )
-                                          ),
+                                                ),
+                                              )),
                                           SizedBox(
                                             width: 10,
                                           ),
                                           CircleAvatar(
                                             radius: 18,
-                                            backgroundColor:
-                                                Color(0xFF3B3B47),
+                                            backgroundColor: Color(0xFF3B3B47),
                                             child: IconButton(
-                                              onPressed:
-                                                  defaultCartContainer,
+                                              onPressed: defaultCartContainer,
                                               icon: Icon(
                                                 Icons.add,
                                                 color: Colors.white,
@@ -1497,59 +1488,53 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               snapshot) {
                                         // print("zzzzz ${storeCartsVal[0]["cartName"]}");
                                         return Container(
-                                          padding: EdgeInsets.fromLTRB(0, 0, 0, 70),
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width,
-
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 0, 0, 70),
+                                          width:
+                                              MediaQuery.of(context).size.width,
                                           child: GridView.builder(
-                                            scrollDirection:
-                                                Axis.vertical,
+                                            scrollDirection: Axis.vertical,
                                             physics:
                                                 NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount:
-                                              2, // Set the number of columns
+                                                  2, // Set the number of columns
                                               childAspectRatio:
-                                              0.77, // Customize the aspect ratio (width/height) of each tile
+                                                  0.77, // Customize the aspect ratio (width/height) of each tile
                                               mainAxisSpacing:
-                                              4.0, // Spacing between rows
+                                                  4.0, // Spacing between rows
                                               crossAxisSpacing:
-                                              2.0, // Spacing between columns
+                                                  2.0, // Spacing between columns
                                             ),
                                             // storeCartsVal[index]
-                                            itemBuilder:
-                                                (context, index) =>
-                                                    Container(
+                                            itemBuilder: (context, index) =>
+                                                Container(
                                               margin: EdgeInsets.fromLTRB(
                                                   10, 0, 10, 0),
-                                              padding:
-                                                  EdgeInsets.fromLTRB(
-                                                      5, 0, 5, 10),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 0, 5, 10),
                                               child: Stack(
                                                 children: [
                                                   Stack(
                                                     children: [
                                                       Container(
                                                         padding:
-                                                            EdgeInsets
-                                                                .all(1),
+                                                            EdgeInsets.all(1),
                                                         decoration:
                                                             BoxDecoration(
                                                           borderRadius:
-                                                              BorderRadius
-                                                                  .only(
-                                                            topRight: Radius
-                                                                .circular(
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
                                                                     20),
-                                                            topLeft: Radius
-                                                                .circular(
+                                                            topLeft:
+                                                                Radius.circular(
                                                                     20),
                                                           ),
-                                                          color: Color(
-                                                              0xF2222128),
+                                                          color:
+                                                              Color(0xF2222128),
                                                         ),
                                                         height: 180,
                                                         child: InkWell(
@@ -1558,65 +1543,79 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             _pickAndUploadImageForCart(
                                                                 index);
                                                           },
-                                                          child:
-                                                              ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      20),
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      20),
-                                                            ),
-                                                            child: (storeCartsVal[index]["cartPrimaryImage"].toString() ==
-                                                                        "null" ||
-                                                                    storeCartsVal[index]["cartPrimaryImage"].toString() ==
-                                                                        "")
-                                                                // https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0
-                                                                ? CachedNetworkImage(
-                                                                    imageUrl:
-                                                                        "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
-                                                                  height: 180,
-                                                                    placeholder: (context, url) =>
-                                                                        SimpleCircularProgressBar(
-                                                                      mergeMode:
-                                                                          true,
-                                                                      animationDuration:
-                                                                          1,
-                                                                    ),
-                                                                    errorWidget: (context, url, error) =>
-                                                                        Icon(Icons.error),
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  )
-                                                            // storeCartsVal[index]["cartPrimaryImage"]
-                                                                : CachedNetworkImage(
-                                                              imageUrl:
-                                                              storeCartsVal[index]["cartPrimaryImage"],
-                                                              height: 180,
-                                                              placeholder: (context, url) =>
-                                                                  SimpleCircularProgressBar(
-                                                                    mergeMode:
-                                                                    true,
-                                                                    animationDuration:
-                                                                    1,
-                                                                  ),
-                                                              errorWidget: (context, url, error) =>
-                                                                  Icon(Icons.error),
-                                                              fit: BoxFit
-                                                                  .cover,
-                                                              // height: 120,
-                                                              width: double.infinity,
-                                                            )
-                                                          ),
+                                                          child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        20),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        20),
+                                                              ),
+                                                              child: (storeCartsVal[index]["cartPrimaryImage"]
+                                                                              .toString() ==
+                                                                          "null" ||
+                                                                      storeCartsVal[index]["cartPrimaryImage"]
+                                                                              .toString() ==
+                                                                          "")
+                                                                  // https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0
+                                                                  ? CachedNetworkImage(
+                                                                      imageUrl:
+                                                                          "https://th.bing.com/th/id/R.2cdd64d3370db75b36e9b02259d1832a?rik=w2QxlPJgMEIzXQ&pid=ImgRaw&r=0",
+                                                                      height:
+                                                                          180,
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              SimpleCircularProgressBar(
+                                                                        mergeMode:
+                                                                            true,
+                                                                        animationDuration:
+                                                                            1,
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    )
+                                                                  // storeCartsVal[index]["cartPrimaryImage"]
+                                                                  : CachedNetworkImage(
+                                                                      imageUrl:
+                                                                          storeCartsVal[index]
+                                                                              [
+                                                                              "cartPrimaryImage"],
+                                                                      height:
+                                                                          180,
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              SimpleCircularProgressBar(
+                                                                        mergeMode:
+                                                                            true,
+                                                                        animationDuration:
+                                                                            1,
+                                                                      ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          Icon(Icons
+                                                                              .error),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      // height: 120,
+                                                                      width: double
+                                                                          .infinity,
+                                                                    )),
                                                         ),
                                                       ),
                                                       Positioned(
                                                         bottom: 0,
                                                         left: 0,
-                                                        child: storeCartsVal[index]
+                                                        child: storeCartsVal[
+                                                                            index]
                                                                         [
                                                                         "cartDiscount"]
                                                                     .toString() ==
@@ -1631,45 +1630,64 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   borderRadius:
-                                                                      BorderRadius.circular(3),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              3),
                                                                   color: Colors
                                                                       .red,
                                                                 ),
                                                                 width: 60,
-                                                                height:
-                                                                    20,
+                                                                height: 20,
                                                                 child:
                                                                     Container(
-                                                                  padding: const EdgeInsets
-                                                                      .all(
-                                                                      2.0),
-                                                                  child:
-                                                                      Text(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          2.0),
+                                                                  child: Text(
                                                                     "DISCOUNT",
                                                                     style: TextStyle(
-                                                                        color: Colors.white,
-                                                                        fontSize: 11,
-                                                                        fontWeight: FontWeight.bold),
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            11,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
                                                                   ),
                                                                 ),
                                                               )
                                                             : Container(),
                                                       ),
                                                       Visibility(
-                                                        visible: storeCartsVal[index]["cartFavourite"],
+                                                        visible: storeCartsVal[
+                                                                index]
+                                                            ["cartFavourite"],
                                                         child: Positioned(
                                                             top: 5,
                                                             right: 5,
                                                             child: CircleAvatar(
                                                               radius: 23,
                                                               backgroundColor:
-                                                              Colors.red,
-                                                              child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
-                                                                  offIcon: Icon(Icons.favorite_outline, color: Colors.black),
-                                                                  initialValue: false, onChanged: (_isFavorite) async {
-                                                                    print(
-                                                                        'Is Favorite $_isFavorite');
-                                                                  }),
+                                                                  Colors.red,
+                                                              child:
+                                                                  ToggleButton(
+                                                                      onIcon: Icon(
+                                                                          Icons
+                                                                              .favorite,
+                                                                          color: Colors
+                                                                              .black),
+                                                                      offIcon: Icon(
+                                                                          Icons
+                                                                              .favorite_outline,
+                                                                          color: Colors
+                                                                              .black),
+                                                                      initialValue:
+                                                                          false,
+                                                                      onChanged:
+                                                                          (_isFavorite) async {
+                                                                        print(
+                                                                            'Is Favorite $_isFavorite');
+                                                                      }),
                                                             )),
                                                       )
                                                     ],
@@ -1681,20 +1699,27 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       child: InkWell(
                                                         onTap: () {
                                                           showDialog(
-                                                              context:
-                                                                  context,
+                                                              context: context,
                                                               builder:
                                                                   (context) =>
                                                                       AlertDialog(
-                                                                        backgroundColor: Color(0xFF212128),
-                                                                        title: Text(
+                                                                        backgroundColor:
+                                                                            Color(0xFF212128),
+                                                                        title:
+                                                                            Text(
                                                                           "${getLang(context, 'edit_product')}",
-                                                                          style: TextStyle(color: Colors.white),
+                                                                          style:
+                                                                              TextStyle(color: Colors.white),
                                                                         ),
-                                                                        content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                                                                        content: StatefulBuilder(builder: (BuildContext
+                                                                                context,
+                                                                            StateSetter
+                                                                                setState) {
                                                                           return Form(
-                                                                            key: _formKey2,
-                                                                            child: Container(
+                                                                            key:
+                                                                                _formKey2,
+                                                                            child:
+                                                                                Container(
                                                                               child: SingleChildScrollView(
                                                                                 child: Column(
                                                                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -1975,7 +2000,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                         Row(
                                                                                           mainAxisAlignment: MainAxisAlignment.start,
                                                                                           children: [
-                                                                                            Text("${getLang(context, 'category')}: ", style: TextStyle(color: Colors.white),),
+                                                                                            Text(
+                                                                                              "${getLang(context, 'category')}: ",
+                                                                                              style: TextStyle(color: Colors.white),
+                                                                                            ),
                                                                                             Padding(
                                                                                               padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                                                                               child: DropdownButton<String>(
@@ -2007,7 +2035,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                                                             children: [
                                                                                               Container(
-                                                                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                                                                width: MediaQuery.of(context).size.width / 3,
                                                                                                 child: Text(
                                                                                                   '${getLang(context, 'activate_discount')}',
                                                                                                   style: TextStyle(fontSize: 16.0, color: Colors.white),
@@ -2026,6 +2054,33 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                 // Color when checked
                                                                                                 fillColor: MaterialStateProperty.all<Color>(Colors.white),
                                                                                               ),
+                                                                                              SizedBox(width: 20,),
+                                                                                              Container(
+                                                                                                width:20,
+                                                                                                child: TextFormField(
+                                                                                                  controller: percentageEditingController,
+                                                                                                  style: TextStyle(color: Colors.white),
+                                                                                                  keyboardType: TextInputType.number,
+                                                                                                  inputFormatters: [
+                                                                                                    FilteringTextInputFormatter.digitsOnly,
+                                                                                                    LengthLimitingTextInputFormatter(2),
+                                                                                                  ],
+                                                                                                  validator: (value) {
+                                                                                                    if (value == null || value.isEmpty) {
+                                                                                                      return 'Please enter a discount percentage';
+                                                                                                    }
+
+                                                                                                    final double? discount = double.tryParse(value);
+                                                                                                    if (discount == null || discount < 0 || discount > 100) {
+                                                                                                      return 'Please enter a valid discount percentage (0-100)';
+                                                                                                    }
+
+                                                                                                    return null;
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                              SizedBox(width: 10,),
+                                                                                              Text("%", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),)
                                                                                             ],
                                                                                           ),
                                                                                         ),
@@ -2100,7 +2155,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                               width: MediaQuery.of(context).size.width / 3,
                                                                                               child: TextButton(
                                                                                                 onPressed: () async {
-                                                                                                  if(_formKey2.currentState!.validate()){
+                                                                                                  if (_formKey2.currentState!.validate()) {
                                                                                                     int counter2 = 0;
                                                                                                     for (int i = 0; i < storeCartsVal.length; i++) {
                                                                                                       if (storeCartsVal[i]["cartName"].toString() == cartNameTextEditingController.text.toString()) {
@@ -2124,14 +2179,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                               "index": index,
                                                                                                               "email": emailVal,
                                                                                                               "cartName": cartNameTextEditingController.text,
-                                                                                                              "cartPrice": cartPriceTextEditingController.text,
+                                                                                                              "cartPrice": cartDiscountBool ? ( double.parse(cartPriceTextEditingController.text) - ((double.parse(cartPriceTextEditingController.text) * int.parse(percentageEditingController.text))/100) ) : cartPriceTextEditingController.text ,
                                                                                                               "cartDiscount": cartDiscountBool,
                                                                                                               "cartLiked": cartLikedBool,
                                                                                                               "cartFavourite": cartFavouriteBool,
                                                                                                               "cartDescription": cartDescriptionTextEditingController.text,
                                                                                                               "cartCategory": dropdownValue.toString(),
                                                                                                               "cartQuantities": cartQuantitiesTextEditingController.text,
-                                                                                                              "cartRate":rateVal
+                                                                                                              "cartRate": rateVal
                                                                                                             },
                                                                                                           ),
                                                                                                           encoding: Encoding.getByName("utf-8"),
@@ -2151,20 +2206,19 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                         showDialog(
                                                                                                             context: context,
                                                                                                             builder: (context) => AlertDialog(
-                                                                                                              title: Text("Failed"),
-                                                                                                              content: Text("Something go wrong !!"),
-                                                                                                            ));
+                                                                                                                  title: Text("Failed"),
+                                                                                                                  content: Text("Something go wrong !!"),
+                                                                                                                ));
                                                                                                       }
                                                                                                     } else {
                                                                                                       showDialog(
                                                                                                           context: context,
                                                                                                           builder: (context) => AlertDialog(
-                                                                                                            title: Text("Failed"),
-                                                                                                            content: Text("Failed: inserted data not suitable with it's field!"),
-                                                                                                          ));
+                                                                                                                title: Text("Failed"),
+                                                                                                                content: Text("Failed: inserted data not suitable with it's field!"),
+                                                                                                              ));
                                                                                                     }
                                                                                                   }
-
                                                                                                 },
                                                                                                 child: Text(
                                                                                                   "${getLang(context, 'update_product')}",
@@ -2184,20 +2238,18 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                 child: TextButton(
                                                                                                   onPressed: () async {
                                                                                                     QuickAlert.show(
-                                                                                                      context: context,
-                                                                                                      type: QuickAlertType.confirm,
-                                                                                                      text: '${getLang(context, "do_you_want_delete_this_product")}',
-                                                                                                      confirmBtnText: '${getLang(context, 'delete')}',
-                                                                                                      cancelBtnText: '${getLang(context, "cancel")}',
-                                                                                                      confirmBtnColor: Colors.green,
-                                                                                                      onConfirmBtnTap: (){
-                                                                                                        deleteCart(index);
-                                                                                                      },
-                                                                                                      onCancelBtnTap: (){
-                                                                                                        Navigator.pop(context);
-                                                                                                      }
-                                                                                                    );
-
+                                                                                                        context: context,
+                                                                                                        type: QuickAlertType.confirm,
+                                                                                                        text: '${getLang(context, "do_you_want_delete_this_product")}',
+                                                                                                        confirmBtnText: '${getLang(context, 'delete')}',
+                                                                                                        cancelBtnText: '${getLang(context, "cancel")}',
+                                                                                                        confirmBtnColor: Colors.green,
+                                                                                                        onConfirmBtnTap: () {
+                                                                                                          deleteCart(index);
+                                                                                                        },
+                                                                                                        onCancelBtnTap: () {
+                                                                                                          Navigator.pop(context);
+                                                                                                        });
                                                                                                   },
                                                                                                   child: Text(
                                                                                                     "${getLang(context, 'delete_product')}",
@@ -2229,11 +2281,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                 BorderRadius
                                                                     .only(
                                                               bottomRight:
-                                                                  Radius.circular(
-                                                                      20),
-                                                              bottomLeft:
-                                                                  Radius.circular(
-                                                                      20),
+                                                                  Radius
+                                                                      .circular(
+                                                                          20),
+                                                              bottomLeft: Radius
+                                                                  .circular(20),
                                                             ),
                                                             color: Color(
                                                                 0xF2222128),
@@ -2241,29 +2293,31 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                           child: Column(
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
-                                                                    .start,
+                                                                    .end,
                                                             children: [
                                                               Container(
-                                                                padding: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        10,
-                                                                        8,
-                                                                        10,
-                                                                        0),
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .fromLTRB(
+                                                                            10,
+                                                                            8,
+                                                                            10,
+                                                                            0),
                                                                 child: Text(
                                                                     "${storeCartsVal[index]["cartName"].toString()}",
-                                                                    overflow: TextOverflow
-                                                                        .ellipsis,
-                                                                    maxLines:
-                                                                        1,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    maxLines: 1,
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:
                                                                           22,
                                                                       fontWeight:
-                                                                          FontWeight.bold,
-                                                                      color:
-                                                                          Colors.white,
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: Colors
+                                                                          .white,
                                                                     )),
                                                               ),
                                                               // Container(
@@ -2289,116 +2343,174 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                               //             Colors.white,
                                                               //       )),
                                                               // ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .baseline,
-                                                                textBaseline:
-                                                                    TextBaseline
-                                                                        .alphabetic,
-                                                                children: [
-                                                                  Container(
-                                                                    padding: EdgeInsets.fromLTRB(
+                                                              Container(
+                                                                margin: EdgeInsets
+                                                                    .fromLTRB(
                                                                         10,
                                                                         0,
-                                                                        2,
+                                                                        10,
                                                                         0),
-                                                                    child: Text(
-                                                                        "${storeCartsVal[index]["cartPrice"].toString()}",
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        maxLines: 1,
-                                                                        style: TextStyle(
-                                                                          fontSize: 13,
-                                                                          fontWeight: FontWeight.bold,
-                                                                          color: Colors.white,
-                                                                        )),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .baseline,
+                                                                  textBaseline:
+                                                                      TextBaseline
+                                                                          .alphabetic,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: EdgeInsets
+                                                                          .fromLTRB(
+                                                                              10,
+                                                                              0,
+                                                                              2,
+                                                                              0),
+                                                                      child: Text(
+                                                                          "${storeCartsVal[index]["cartPrice"].toString()} \$",
+                                                                          overflow: TextOverflow
+                                                                              .ellipsis,
+                                                                          maxLines:
+                                                                              1,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                13,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          )),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    // Container(
+                                                                    //   // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                    //   child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                    //           "null"
+                                                                    //       ? Text(
+                                                                    //           "")
+                                                                    //       : Text(
+                                                                    //           "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
+                                                                    //           overflow: TextOverflow.ellipsis,
+                                                                    //           maxLines: 1,
+                                                                    //           style: TextStyle(
+                                                                    //             fontSize: 11,
+                                                                    //             fontWeight: FontWeight.bold,
+                                                                    //             decoration: TextDecoration.lineThrough,
+                                                                    //             decorationThickness: 3,
+                                                                    //             color: Colors.white,
+                                                                    //           )),
+                                                                    // ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Visibility(
+                                                                visible: false,
+                                                                child:
+                                                                    Container(
+                                                                  padding: EdgeInsets
+                                                                      .fromLTRB(
+                                                                          7,
+                                                                          2,
+                                                                          0,
+                                                                          0),
+                                                                  child: RatingBar
+                                                                      .builder(
+                                                                    initialRating:
+                                                                        3,
+                                                                    minRating:
+                                                                        1,
+                                                                    direction: Axis
+                                                                        .horizontal,
+                                                                    allowHalfRating:
+                                                                        true,
+                                                                    itemCount:
                                                                         5,
-                                                                  ),
-                                                                  Container(
-                                                                    // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                    child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" == "null"
-                                                                        ? Text("")
-                                                                        : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            maxLines: 1,
-                                                                            style: TextStyle(
-                                                                              fontSize: 11,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              decoration: TextDecoration.lineThrough,
-                                                                              decorationThickness: 3,
-                                                                              color: Colors.white,
-                                                                            )),
-                                                                  ),
+                                                                    itemSize:
+                                                                        20,
+                                                                    unratedColor:
+                                                                        Colors
+                                                                            .white,
+                                                                    itemPadding:
+                                                                        EdgeInsets.symmetric(
+                                                                            horizontal:
+                                                                                4.0),
+                                                                    itemBuilder:
+                                                                        (context,
+                                                                                _) =>
+                                                                            Icon(
+                                                                      Icons
+                                                                          .favorite,
+                                                                      color: Colors
+                                                                          .yellow,
+                                                                    ),
+                                                                    onRatingUpdate:
+                                                                        (rating) {
+                                                                      setState(
+                                                                          () {
+                                                                        rateVal =
+                                                                            rating;
+                                                                      });
 
-                                                                ],
+                                                                      print(
+                                                                          rating);
+                                                                    },
+                                                                  ),
+                                                                ),
                                                               ),
-                                                            Visibility(
-                                                          visible: false,
-                                                          child: Container(
-                                                            padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                            child: RatingBar.builder(
-                                                              initialRating: 3,
-                                                              minRating: 1,
-                                                              direction: Axis.horizontal,
-                                                              allowHalfRating: true,
-                                                              itemCount: 5,
-                                                              itemSize: 20,
-                                                              unratedColor: Colors.white,
-                                                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                              itemBuilder: (context, _) => Icon(
-                                                                Icons.favorite,
-                                                                color: Colors.yellow,
-                                                              ),
-                                                              onRatingUpdate: (rating) {
-                                                                setState(() {
-                                                                  rateVal = rating;
-                                                                });
-
-                                                                print(rating);
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ),
                                                             ],
                                                           ),
                                                         ),
                                                       )),
                                                   Positioned(
-                                                    right: _currentLocale == "ar" ? 10 : null,
-                                                    left: _currentLocale == "ar" ? null : 10,
+                                                    right:
+                                                        _currentLocale1 == "ar"
+                                                            ? 10
+                                                            : null,
+                                                    left:
+                                                        _currentLocale1 == "ar"
+                                                            ? null
+                                                            : 10,
                                                     bottom: 10,
-                                                    child: Icon(Icons.edit, color: Colors.white),
+                                                    child: Icon(Icons.edit,
+                                                        color: Colors.white),
                                                   ),
                                                   Positioned(
-                                                    right: _currentLocale == "ar" ? 10 : null,
-                                                    left: _currentLocale == "ar" ? null : 10,
+                                                    right:
+                                                        _currentLocale1 == "ar"
+                                                            ? 10
+                                                            : null,
+                                                    left:
+                                                        _currentLocale1 == "ar"
+                                                            ? null
+                                                            : 10,
                                                     bottom: 40,
                                                     child: InkWell(
                                                       onTap: () {
-                                                        final String text = 'Check out this Product: ${storeCartsVal[index]["cartName"]}';
-                                                        final String imageUrl = '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
+                                                        final String text =
+                                                            'Check out this Product: ${storeCartsVal[index]["cartName"]}';
+                                                        final String imageUrl =
+                                                            '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
 
                                                         // Combine text and URL
-                                                        final String content = '$text $imageUrl';
+                                                        final String content =
+                                                            '$text $imageUrl';
 
                                                         Share.share(content);
                                                       },
-                                                      child: Icon(Icons.share_outlined, color: Colors.white),
+                                                      child: Icon(
+                                                          Icons.share_outlined,
+                                                          color: Colors.white),
                                                     ),
                                                   )
-
-
                                                 ],
                                               ),
                                             ),
-                                            itemCount:
-                                                storeCartsVal.length,
+                                            itemCount: storeCartsVal.length,
                                           ),
                                         );
                                       },
@@ -2667,10 +2779,20 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 ));
                       });
                     } else if (index == 2) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectYourStoreDesign(tokenVal,emailVal,specificStoreCategoriesVal,storeNameVal, storeCartsVal,sliderVisibilityVal,categoryVisibilityVal,cartsVisibilityVal, objectDataVal)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SelectYourStoreDesign(
+                                  tokenVal,
+                                  emailVal,
+                                  specificStoreCategoriesVal,
+                                  storeNameVal,
+                                  storeCartsVal,
+                                  sliderVisibilityVal,
+                                  categoryVisibilityVal,
+                                  cartsVisibilityVal,
+                                  objectDataVal)));
                       // addStoreToDatabase();
-
-
                     }
                   },
                   items: [
@@ -2702,7 +2824,6 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
               ),
             ),
           ),
-
         ],
       ),
       // bottomNavigationBar: Container(
@@ -2779,7 +2900,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               return null;
                             },
                             decoration: InputDecoration(
-                                labelText: '${getLang(context, "category_name")}',
+                                labelText:
+                                    '${getLang(context, "category_name")}',
                                 labelStyle: TextStyle(color: Colors.white),
                                 prefixIcon: Icon(
                                   Icons.category_outlined,
@@ -2810,24 +2932,26 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       )),
                   TextButton(
                     onPressed: () async {
-                      if(_formKey.currentState!.validate()){
-                        int counterCat=0;
+                      if (_formKey.currentState!.validate()) {
+                        int counterCat = 0;
                         setState(() async {
-                          for(int i = 0; i<specificStoreCategoriesVal.length; i++){
-                            if(specificStoreCategoriesVal[i].toString() == specificStoreCategoriesTextEditingController.text){
+                          for (int i = 0;
+                              i < specificStoreCategoriesVal.length;
+                              i++) {
+                            if (specificStoreCategoriesVal[i].toString() ==
+                                specificStoreCategoriesTextEditingController
+                                    .text) {
                               counterCat++;
                             }
                           }
-                          if(counterCat != 0){
+                          if (counterCat != 0) {
                             QuickAlert.show(
                               context: context,
                               type: QuickAlertType.error,
                               title: 'Oops...',
                               text: 'Failed: Duplicate category name',
                             );
-
-
-                          }else {
+                          } else {
                             await insertSpecificStoreCategory();
                             await getSpecificStoreCategories();
                             QuickAlert.show(
@@ -2865,13 +2989,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                             //                 ))
                             //           ],
                             //         ));
-                            specificStoreCategoriesTextEditingController.clear();
+                            specificStoreCategoriesTextEditingController
+                                .clear();
                           }
                         });
                       }
-
                     },
-                    child: Text("${getLang(context, 'ok')}", style: TextStyle(color: Colors.white)),
+                    child: Text("${getLang(context, 'ok')}",
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ));
@@ -2910,7 +3035,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                             Column(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 1.3,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     cursorColor: Colors.white,
                                     style: TextStyle(color: Colors.white),
@@ -2924,7 +3050,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: '${getLang(context, 'product_name')}',
+                                        labelText:
+                                            '${getLang(context, 'product_name')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -2945,7 +3072,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 1.3,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     cursorColor: Colors.white,
                                     style: TextStyle(color: Colors.white),
@@ -2959,7 +3087,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: '${getLang(context, 'product_price')}',
+                                        labelText:
+                                            '${getLang(context, 'product_price')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -2980,7 +3109,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 1.3,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     cursorColor: Colors.white,
                                     style: TextStyle(color: Colors.white),
@@ -2995,7 +3125,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: '${getLang(context, 'product_quantities')}',
+                                        labelText:
+                                            '${getLang(context, 'product_quantities')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -3016,7 +3147,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   height: 20,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 1.3,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.3,
                                   child: TextFormField(
                                     cursorColor: Colors.white,
                                     style: TextStyle(color: Colors.white),
@@ -3031,7 +3163,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: '${getLang(context, 'product_description')}',
+                                        labelText:
+                                            '${getLang(context, 'product_description')}',
                                         labelStyle:
                                             TextStyle(color: Colors.white),
                                         prefixIcon: Icon(
@@ -3054,7 +3187,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text("${getLang(context, 'category')}: ", style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      "${getLang(context, 'category')}: ",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(8, 0, 8, 0),
@@ -3084,13 +3220,15 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width: MediaQuery.of(context).size.width /
-                                            2.5,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                3,
                                         child: Text(
                                           '${getLang(context, 'activate_discount')}',
                                           style: TextStyle(
@@ -3103,6 +3241,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                         onChanged: (bool? value) {
                                           setState(() {
                                             cartDiscountBool = value!;
+                                            print(cartDiscountBool);
                                             getSpecificStoreCart();
                                           });
                                         },
@@ -3113,6 +3252,33 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             MaterialStateProperty.all<Color>(
                                                 Colors.white),
                                       ),
+                                      SizedBox(width: 20,),
+                                      Container(
+                                        width:20,
+                                        child: TextFormField(
+                                          controller: percentageEditingController,
+                                          style: TextStyle(color: Colors.white),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                            LengthLimitingTextInputFormatter(2),
+                                          ],
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'Please enter a discount percentage';
+                                            }
+
+                                            final double? discount = double.tryParse(value);
+                                            if (discount == null || discount < 0 || discount > 100) {
+                                              return 'Please enter a valid discount percentage (0-100)';
+                                            }
+
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text("%", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),)
                                     ],
                                   ),
                                 ),
@@ -3195,15 +3361,16 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   width: MediaQuery.of(context).size.width / 2,
                                   child: TextButton(
                                     onPressed: () async {
-                                      if(_formKey3.currentState!.validate()){
+                                      if (_formKey3.currentState!.validate()) {
                                         try {
                                           int counter1 = 0;
                                           for (int i = 0;
-                                          i < storeCartsVal.length;
-                                          i++) {
+                                              i < storeCartsVal.length;
+                                              i++) {
                                             if (storeCartsVal[i]["cartName"]
-                                                .toString() ==
-                                                cartNameTextEditingController.text
+                                                    .toString() ==
+                                                cartNameTextEditingController
+                                                    .text
                                                     .toString()) {
                                               counter1++;
                                             }
@@ -3212,82 +3379,85 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           if (counter1 != 0) {
                                             showDialog(
                                                 context: context,
-                                                builder: (context) => AlertDialog(
-                                                  title: Text("Failed!!"),
-                                                  content: Text(
-                                                      "Failed: There is another cart with same name "),
-                                                ));
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                      title: Text("Failed!!"),
+                                                      content: Text(
+                                                          "Failed: There is another cart with same name "),
+                                                    ));
                                           } else {
                                             if ((cartPriceTextEditingController
-                                                .text
-                                                .trim()
-                                                .isNotEmpty &&
-                                                isNumeric(
-                                                    cartPriceTextEditingController
+                                                        .text
+                                                        .trim()
+                                                        .isNotEmpty &&
+                                                    isNumeric(cartPriceTextEditingController
                                                         .text
                                                         .trim())) &&
                                                 (cartQuantitiesTextEditingController
-                                                    .text
-                                                    .trim()
-                                                    .isNotEmpty &&
-                                                    isNumeric(
-                                                        cartQuantitiesTextEditingController
-                                                            .text
-                                                            .trim())) &&
+                                                        .text
+                                                        .trim()
+                                                        .isNotEmpty &&
+                                                    isNumeric(cartQuantitiesTextEditingController
+                                                        .text
+                                                        .trim())) &&
                                                 (cartDescriptionTextEditingController
-                                                    .text
-                                                    .trim()
-                                                    .isNotEmpty &&
+                                                        .text
+                                                        .trim()
+                                                        .isNotEmpty &&
                                                     isString(
                                                         cartDescriptionTextEditingController
                                                             .text
                                                             .trim())) &&
-                                                (cartNameTextEditingController.text
-                                                    .trim()
-                                                    .isNotEmpty &&
+                                                (cartNameTextEditingController
+                                                        .text
+                                                        .trim()
+                                                        .isNotEmpty &&
                                                     isString(
                                                         cartNameTextEditingController
                                                             .text
                                                             .trim()))) {
                                               http.Response userFuture =
-                                              await http.post(
+                                                  await http.post(
                                                 Uri.parse(
                                                     "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-specific-cart/$emailVal"),
                                                 headers: {
-                                                  "Content-Type": "application/json",
-                                                  "Authorization": "Bearer $tokenVal",
+                                                  "Content-Type":
+                                                      "application/json",
+                                                  "Authorization":
+                                                      "Bearer $tokenVal",
                                                 },
                                                 body: jsonEncode(
                                                   {
                                                     "email": emailVal,
                                                     "cartName":
-                                                    cartNameTextEditingController
-                                                        .text,
+                                                        cartNameTextEditingController
+                                                            .text,
                                                     "cartPrice":
-                                                    cartPriceTextEditingController
-                                                        .text,
+                                                    cartDiscountBool ? ( double.parse(cartPriceTextEditingController.text) - ((double.parse(cartPriceTextEditingController.text) * int.parse(percentageEditingController.text))/100) ) : cartPriceTextEditingController.text,
                                                     "cartDiscount":
-                                                    cartDiscountBool,
+                                                        cartDiscountBool,
                                                     "cartLiked": cartLikedBool,
                                                     "cartFavourite":
-                                                    cartFavouriteBool,
+                                                        cartFavouriteBool,
                                                     "cartDescription":
-                                                    cartDescriptionTextEditingController
-                                                        .text,
+                                                        cartDescriptionTextEditingController
+                                                            .text,
                                                     "cartCategory":
-                                                    dropdownValue.toString(),
+                                                        dropdownValue
+                                                            .toString(),
                                                     "cartQuantities":
-                                                    cartQuantitiesTextEditingController
-                                                        .text,
-                                                    "cartRate":rateVal
+                                                        cartQuantitiesTextEditingController
+                                                            .text,
+                                                    "cartRate": rateVal
                                                   },
                                                 ),
                                                 encoding:
-                                                Encoding.getByName("utf-8"),
+                                                    Encoding.getByName("utf-8"),
                                               );
                                               print(userFuture.body);
-                                              var temp = CartContentModel.fromJson(
-                                                  json.decode(userFuture.body));
+                                              var temp =
+                                                  CartContentModel.fromJson(json
+                                                      .decode(userFuture.body));
                                               print(temp.message);
                                               setState(() async {
                                                 // storeCartsVal = await getSpecificStoreCart();
@@ -3304,18 +3474,18 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             } else {
                                               showDialog(
                                                   context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    title: Text("Failed"),
-                                                    content: Text(
-                                                        "Failed: inserted data not suitable with it's field!"),
-                                                  ));
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: Text("Failed"),
+                                                        content: Text(
+                                                            "Failed: inserted data not suitable with it's field!"),
+                                                      ));
                                             }
                                           }
 
                                           // print(temp?.email);
                                         } catch (error) {}
                                       }
-
                                     },
                                     child: Text(
                                       "${getLang(context, 'add_product')}",

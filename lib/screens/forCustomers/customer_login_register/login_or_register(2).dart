@@ -299,6 +299,13 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                                       title: 'Oops...',
                                       text: 'Too many login attempts, please try again after ${secondsLeft} seconds',
                                     );
+                                  } else if(jsonDecode(userFuture.body)["message"].toString().trim() == "Invalid email or password"){
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.error,
+                                      title: 'Oops...',
+                                      text: 'Incorrect email or password. Please try again.',
+                                    );
                                   }
 
                                   var temp = CustomerLoginPage.fromJson(
