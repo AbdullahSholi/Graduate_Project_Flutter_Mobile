@@ -790,6 +790,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                         )));
                                           }
                                           if(getStoreDataVal[index].design == "Option 2"){
+
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

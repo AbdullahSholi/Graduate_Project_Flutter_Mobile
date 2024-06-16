@@ -42,6 +42,7 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:translator/translator.dart';
 
+import '../../../discount_icon.dart';
 import '../../../models/merchant/get_cart_content_model.dart';
 import '../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../models/merchant/merchant_store_slider_images.dart';
@@ -1738,7 +1739,14 @@ class _CustomerSpecificStoreMainPage1State
                                                                     'Is Favorite $_isFavorite');
                                                               }),
                                                             )),
-                                                      )
+                                                      ),
+                                                      storeCartsVal[index]["cartDiscount"] ? Positioned(
+                                                        left: 5,
+                                                        top: 5,
+                                                        child: CustomPaint(
+                                                          size: Size(45, 45),
+                                                          painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                        ),) : Container()
                                                     ],
                                                   ),
                                                   Positioned(
@@ -1830,30 +1838,33 @@ class _CustomerSpecificStoreMainPage1State
                                                                 SizedBox(
                                                                   width: 5,
                                                                 ),
-                                                                Container(
-                                                                  // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                  child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                          "null"
-                                                                      ? Text("")
-                                                                      : Text(
-                                                                          "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                          maxLines:
-                                                                              1,
-                                                                          style: GoogleFonts.roboto(
-                                                                              textStyle: TextStyle(
-                                                                            fontSize:
-                                                                                11,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            decoration:
-                                                                                TextDecoration.lineThrough,
-                                                                            decorationThickness:
-                                                                                3,
-                                                                            color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                          )),
-                                                                        ),
+                                                                Visibility(
+                                                                  visible: storeCartsVal[index]["cartDiscount"],
+                                                                  child: Container(
+                                                                    // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                    child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                            "null"
+                                                                        ? Text("")
+                                                                        : Text(
+                                                                            "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            maxLines:
+                                                                                1,
+                                                                            style: GoogleFonts.roboto(
+                                                                                textStyle: TextStyle(
+                                                                              fontSize:
+                                                                                  11,
+                                                                              fontWeight:
+                                                                                  FontWeight.bold,
+                                                                              decoration:
+                                                                                  TextDecoration.lineThrough,
+                                                                              decorationThickness:
+                                                                                  3,
+                                                                              color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                            )),
+                                                                          ),
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -2076,6 +2087,13 @@ class _CustomerSpecificStoreMainPage1State
                                                               )
                                                             : Container(),
                                                       ),
+                                                      CartsForOneCategoryVal[index]["cartDiscount"] ? Positioned(
+                                                        left: 5,
+                                                        top: 5,
+                                                        child: CustomPaint(
+                                                          size: Size(45, 45),
+                                                          painter: DiscountPainter(CartsForOneCategoryVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                        ),) : Container()
                                                     ],
                                                   ),
                                                   Positioned(
@@ -2162,29 +2180,32 @@ class _CustomerSpecificStoreMainPage1State
                                                                 SizedBox(
                                                                   width: 5,
                                                                 ),
-                                                                Container(
-                                                                  // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                  child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                          "null"
-                                                                      ? Text("")
-                                                                      : Text(
-                                                                          "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                          overflow: TextOverflow
-                                                                              .ellipsis,
-                                                                          maxLines:
-                                                                              1,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                11,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            decoration:
-                                                                                TextDecoration.lineThrough,
-                                                                            decorationThickness:
-                                                                                3,
-                                                                            color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                          )),
+                                                                Visibility(
+                                                                  visible: CartsForOneCategoryVal[index]["cartDiscount"],
+                                                                  child: Container(
+                                                                    // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                    child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                            "null"
+                                                                        ? Text("")
+                                                                        : Text(
+                                                                            "${CartsForOneCategoryVal[index]["cartPrice"]/ (1-(CartsForOneCategoryVal[index]["discountValue"]/100))}",
+                                                                            overflow: TextOverflow
+                                                                                .ellipsis,
+                                                                            maxLines:
+                                                                                1,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize:
+                                                                                  11,
+                                                                              fontWeight:
+                                                                                  FontWeight.bold,
+                                                                              decoration:
+                                                                                  TextDecoration.lineThrough,
+                                                                              decorationThickness:
+                                                                                  3,
+                                                                              color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                            )),
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),

@@ -468,13 +468,13 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     print('Is Favorite $_isFavorite');
                                                   })),
                                         ),
-                                        Positioned(
+                                        filteredProducts[index]["cartDiscount"] ? Positioned(
                                           left: 5,
                                           top: 5,
                                           child: CustomPaint(
                                             size: Size(45, 45),
-                                            painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
-                                          ),)
+                                            painter: DiscountPainter(filteredProducts[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                          ),) : Container()
                                       ],
                                     ),
                                     Positioned(
@@ -534,27 +534,30 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Container(
-                                                    // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                    child: "${filteredProducts[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                        "null"
-                                                        ? Text("")
-                                                        : Text(
-                                                      "${filteredProducts[index]["cartPrice"]/ (1-(filteredProducts[index]["discountValue"]/100))}",
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                      maxLines: 1,
-                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        decoration:
-                                                        TextDecoration
-                                                            .lineThrough,
-                                                        decorationThickness:
-                                                        3,
-                                                        color: secondaryTextColor,
-                                                      )),),
+                                                  Visibility(
+                                                    visible: filteredProducts[index]["cartDiscount"],
+                                                    child: Container(
+                                                      // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                      child: "${filteredProducts[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                          "null"
+                                                          ? Text("")
+                                                          : Text(
+                                                        "${filteredProducts[index]["cartPrice"]/ (1-(filteredProducts[index]["discountValue"]/100))}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          decoration:
+                                                          TextDecoration
+                                                              .lineThrough,
+                                                          decorationThickness:
+                                                          3,
+                                                          color: secondaryTextColor,
+                                                        )),),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -687,13 +690,13 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                     print('Is Favorite $_isFavorite');
                                                   })),
                                         ),
-                                        Positioned(
+                                        storeCartsVal[index]["cartDiscount"] ? Positioned(
                                           left: 5,
                                           top: 5,
                                           child: CustomPaint(
                                             size: Size(45, 45),
                                             painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
-                                          ),)
+                                          ),) : Container()
                                       ],
                                     ),
                                     Positioned(
@@ -753,27 +756,30 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Container(
-                                                    // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                    child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                        "null"
-                                                        ? Text("")
-                                                        : Text(
-                                                      "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                      maxLines: 1,
-                                                      style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                        fontSize: 11,
-                                                        fontWeight:
-                                                        FontWeight.bold,
-                                                        decoration:
-                                                        TextDecoration
-                                                            .lineThrough,
-                                                        decorationThickness:
-                                                        3,
-                                                        color: secondaryTextColor,
-                                                      )),),
+                                                  Visibility(
+                                                    visible: storeCartsVal[index]["cartDiscount"],
+                                                    child: Container(
+                                                      // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                      child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                          "null"
+                                                          ? Text("")
+                                                          : Text(
+                                                        "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 1,
+                                                        style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                          fontSize: 11,
+                                                          fontWeight:
+                                                          FontWeight.bold,
+                                                          decoration:
+                                                          TextDecoration
+                                                              .lineThrough,
+                                                          decorationThickness:
+                                                          3,
+                                                          color: secondaryTextColor,
+                                                        )),),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

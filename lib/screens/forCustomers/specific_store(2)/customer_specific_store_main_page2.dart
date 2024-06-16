@@ -1717,13 +1717,13 @@ class _CustomerSpecificStoreMainPage2State
                                                                         }),
                                                                   )),
                                                             ),
-                                                            Positioned(
+                                                            storeCartsVal[index]["cartDiscount"] ? Positioned(
                                                               left: 5,
                                                               top: 5,
                                                               child: CustomPaint(
                                                                 size: Size(45, 45),
                                                                 painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
-                                                              ),)
+                                                              ),) : Container()
                                                           ],
                                                         ),
                                                         Positioned(
@@ -1815,29 +1815,32 @@ class _CustomerSpecificStoreMainPage2State
                                                                       SizedBox(
                                                                         width: 5,
                                                                       ),
-                                                                      Container(
-                                                                        // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                        child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                            "null"
-                                                                            ? Text("")
-                                                                            : Text(
-                                                                          "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
-                                                                          overflow:
-                                                                          TextOverflow.ellipsis,
-                                                                          maxLines:
-                                                                          1,
-                                                                          style: GoogleFonts.roboto(
-                                                                              textStyle: TextStyle(
-                                                                                fontSize:
-                                                                                11,
-                                                                                fontWeight:
-                                                                                FontWeight.bold,
-                                                                                decoration:
-                                                                                TextDecoration.lineThrough,
-                                                                                decorationThickness:
-                                                                                3,
-                                                                                color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                              )),
+                                                                      Visibility(
+                                                                        visible: storeCartsVal[index]["cartDiscount"],
+                                                                        child: Container(
+                                                                          // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                          child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                              "null"
+                                                                              ? Text("")
+                                                                              : Text(
+                                                                            "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
+                                                                            overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                            maxLines:
+                                                                            1,
+                                                                            style: GoogleFonts.roboto(
+                                                                                textStyle: TextStyle(
+                                                                                  fontSize:
+                                                                                  11,
+                                                                                  fontWeight:
+                                                                                  FontWeight.bold,
+                                                                                  decoration:
+                                                                                  TextDecoration.lineThrough,
+                                                                                  decorationThickness:
+                                                                                  3,
+                                                                                  color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                                )),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ],
@@ -2061,13 +2064,13 @@ class _CustomerSpecificStoreMainPage2State
                                                               )
                                                                   : Container(),
                                                             ),
-                                                            Positioned(
+                                                            CartsForOneCategoryVal[index]["cartDiscount"] ? Positioned(
                                                               left: 5,
                                                               top: 5,
                                                               child: CustomPaint(
                                                                 size: Size(45, 45),
-                                                                painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
-                                                              ),)
+                                                                painter: DiscountPainter(CartsForOneCategoryVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                              ),) : Container()
                                                           ],
                                                         ),
                                                         Positioned(
@@ -2155,29 +2158,32 @@ class _CustomerSpecificStoreMainPage2State
                                                                       SizedBox(
                                                                         width: 5,
                                                                       ),
-                                                                      Container(
-                                                                        // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                        child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                            "null"
-                                                                            ? Text("")
-                                                                            : Text(
-                                                                            "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
-                                                                            overflow: TextOverflow
-                                                                                .ellipsis,
-                                                                            maxLines:
-                                                                            1,
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize:
-                                                                              11,
-                                                                              fontWeight:
-                                                                              FontWeight.bold,
-                                                                              decoration:
-                                                                              TextDecoration.lineThrough,
-                                                                              decorationThickness:
-                                                                              3,
-                                                                              color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                            )),
+                                                                      Visibility(
+                                                                        visible: CartsForOneCategoryVal[index]["cartDiscount"],
+                                                                        child: Container(
+                                                                          // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                          child: "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                              "null"
+                                                                              ? Text("")
+                                                                              : Text(
+                                                                              "${CartsForOneCategoryVal[index]["cartPrice"]/ (1-(CartsForOneCategoryVal[index]["discountValue"]/100))}",
+                                                                              overflow: TextOverflow
+                                                                                  .ellipsis,
+                                                                              maxLines:
+                                                                              1,
+                                                                              style:
+                                                                              TextStyle(
+                                                                                fontSize:
+                                                                                11,
+                                                                                fontWeight:
+                                                                                FontWeight.bold,
+                                                                                decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                                decorationThickness:
+                                                                                3,
+                                                                                color:Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                              )),
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),

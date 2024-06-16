@@ -112,7 +112,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
   };
 
   // The currently selected option
-  String? _selectedOption;
+  String? _selectedOption="Option 1";
   List<String> opt = ["Smooth", "Solid"];
   String? _selectedOptions = "Smooth";
   late Color? _selectedColor = Color(0xFF212128);
@@ -354,17 +354,35 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
     print(sliderVisibilityVal);
     print(categoryVisibilityVal);
     print(cartsVisibilityVal);
+    print(_selectedColor1);
+    print(_selectedColor);
+    print(_selectedColor2);
+    print(_selectedColor3);
+    print(_selectedColor4);
+    print(_selectedOptions);
+    print(_selectedOption);
     print("PPPPPPPPPPPP");
+
+    String colorToString(Color color) {
+      return 'Color(0x${color.value.toRadixString(16).padLeft(8, '0')})';
+    }
+
+    String x_selectedColor1 = colorToString(_selectedColor1!);
+    String x_selectedColor = colorToString(_selectedColor!);
+    String x_selectedColor2 = colorToString(_selectedColor2!);
+    String x_selectedColor3 = colorToString(_selectedColor3!);
+    String x_selectedColor4 = colorToString(_selectedColor4!);
+
     setState(() {
       objectDataVal["activateSlider"] = sliderVisibilityVal;
       objectDataVal["activateCategory"] = categoryVisibilityVal;
       objectDataVal["activateCarts"] = cartsVisibilityVal;
       objectDataVal["specificStoreCategories"] = specificStoreCategoriesVal;
-      objectDataVal["backgroundColor"] = _selectedColor1.toString();
-      objectDataVal["boxesColor"] = _selectedColor.toString();
-      objectDataVal["primaryTextColor"] = _selectedColor2.toString();
-      objectDataVal["secondaryTextColor"] = _selectedColor3.toString();
-      objectDataVal["clippingColor"] = _selectedColor4.toString();
+      objectDataVal["backgroundColor"] = x_selectedColor1;
+      objectDataVal["boxesColor"] = x_selectedColor;
+      objectDataVal["primaryTextColor"] = x_selectedColor2;
+      objectDataVal["secondaryTextColor"] = x_selectedColor3;
+      objectDataVal["clippingColor"] = x_selectedColor4;
       objectDataVal["smoothy"] = _selectedOptions.toString();
       objectDataVal["design"] = _selectedOption.toString();
       // objectDataVal["type"] = storeCartsVal;
