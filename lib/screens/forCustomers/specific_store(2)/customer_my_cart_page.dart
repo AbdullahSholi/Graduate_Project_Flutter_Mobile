@@ -24,6 +24,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
   String customerEmailVal = "";
   String customerTokenVal = "";
   List<dynamic> cartList = [];
+  List<dynamic> forProfitList = [];
   double totalPrice = 0;
 
   List<dynamic> cartListPaymentInformations = [];
@@ -60,7 +61,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
       setState(() {
         cartList = json.decode(userFuture.body);
       });
-
+      // The Key of solution here ...
       for (int i = 0; i < cartList.length; i++) {
         setState(() {
           totalPrice += cartList[i]["cartPrice"] * cartList[i]["quantities"];
@@ -837,6 +838,10 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                       print(
                                                                           "*************");
 
+                                                                      setState(() {
+                                                                        forProfitList = cartList;
+                                                                      });
+
                                                                       for (int j =
                                                                               0;
                                                                           j < cartListPaymentInformations.length;
@@ -1018,6 +1023,33 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                             'Transaction Completed Successfully!',
                                                                       );
 
+                                                                      DateTime now = DateTime.now();
+                                                                      int currentMonth = now.month;
+
+                                                                      print(currentMonth);
+                                                                      print(forProfitList);
+                                                                      for(int k =0; k<forProfitList.length; k++){
+                                                                        http.Response userFuture6 = await http.post(
+                                                                          Uri.parse(
+                                                                              "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/statistics-add-to-revenue/${forProfitList[k]["merchant"]}"),
+                                                                          headers: {
+                                                                            "Content-Type": "application/json",
+
+                                                                          },
+                                                                          encoding: Encoding.getByName("utf-8"),
+                                                                          body: jsonEncode(
+                                                                            {
+                                                                              "month": currentMonth,
+                                                                              "revenue": forProfitList[k]["cartPrice"] * forProfitList[k]["quantities"]
+                                                                            },
+                                                                          ),
+                                                                        );
+                                                                      }
+
+
+
+
+
                                                                       setState(
                                                                           () {
                                                                         Constants
@@ -1057,13 +1089,17 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   print(cartListPaymentInformations);
                                   print("*************");
 
+                                  setState(() {
+                                    forProfitList = cartList;
+                                  });
+
                                   for (int j = 0;
                                       j < cartListPaymentInformations.length;
                                       j++) {
                                     for (int i = 0; i < cartList.length; i++) {
-                                      print(cartList[i]["merchant"]);
-                                      print(cartListPaymentInformations[j]
-                                          ["merchant"]);
+                                      print(cartList);
+                                      print(cartListPaymentInformations);
+
                                       if (cartList[i]["merchant"] ==
                                           cartListPaymentInformations[j]
                                               ["merchant"]) {
@@ -1072,6 +1108,8 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                 .toInt();
                                         print(price);
                                       }
+
+
                                     }
                                     forPay.add({
                                       "merchantId":
@@ -1178,6 +1216,30 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   print("555555555");
                                   print(userFuture2.body);
                                   print("555555555");
+
+                                  DateTime now = DateTime.now();
+                                  int currentMonth = now.month;
+
+                                  print(currentMonth);
+                                  print(forProfitList);
+                                  for(int k =0; k<forProfitList.length; k++){
+                                    http.Response userFuture4 = await http.post(
+                                      Uri.parse(
+                                          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/statistics-add-to-revenue/${forProfitList[k]["merchant"]}"),
+                                      headers: {
+                                        "Content-Type": "application/json",
+
+                                      },
+                                      encoding: Encoding.getByName("utf-8"),
+                                      body: jsonEncode(
+                                        {
+                                          "month": currentMonth,
+                                          "revenue": forProfitList[k]["cartPrice"] * forProfitList[k]["quantities"]
+                                        },
+                                      ),
+                                    );
+                                  }
+
 
                                   QuickAlert.show(
                                     context: context,

@@ -251,46 +251,30 @@ class _StoreStatisticsState extends State<StoreStatistics>
     return max;
   }
   Future<void> fetchDataForRevenue() async {
-    // Sample data
-    List<Map<String, dynamic>> revenueData = [
-      {'month': 1, 'revenue': 3},
-      {'month': 2, 'revenue': 7},
-      {'month': 3, 'revenue': 5},
-      {'month': 4, 'revenue': 1},
-      {'month': 5, 'revenue': 8},
-      {'month': 6, 'revenue': 1.7},
-      {'month': 7, 'revenue': 3},
-      {'month': 8, 'revenue': 4},
-      {'month': 9, 'revenue': 6},
-      {'month': 10, 'revenue': 7},
-      {'month': 11, 'revenue': 8},
-      {'month': 12, 'revenue': 10},
-    ];
+    final response = await http.get(Uri.parse('https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${tokenVal}',
+      },
+    );
 
-    setState(() {
-      line1Spots = revenueData.map<FlSpot>((entry) {
-        double x = entry['month'].toDouble(); // Assuming month is an integer from 1 to 12
-        double y = entry['revenue'].toDouble();
-        return FlSpot(x, y);
-      }).toList();
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      // Assume the data structure is a list of maps with 'month' and 'revenue'
+      List<dynamic> revenueData = data['totalProfit'];
 
-      // Sample data for second line
-      List<Map<String, dynamic>> anotherRevenueData = [
-        {'month': 1, 'revenue': 2},
-        {'month': 2, 'revenue': 4},
-        {'month': 3, 'revenue': 6},
-        {'month': 4, 'revenue': 3},
-        {'month': 5, 'revenue': 7},
-        {'month': 6, 'revenue': 2.5},
-        {'month': 7, 'revenue': 1},
-        {'month': 8, 'revenue': 5},
-        {'month': 9, 'revenue': 3.5},
-        {'month': 10, 'revenue': 6.5},
-        {'month': 11, 'revenue': 7.5},
-        {'month': 12, 'revenue': 9},
-      ];
+      setState(() {
+        line1Spots = revenueData.map<FlSpot>((entry) {
+          double x = entry['month'].toDouble(); // Assuming month is an integer from 1 to 12
+          double y = entry['revenue'].toDouble();
+          return FlSpot(x, y);
+        }).toList();
 
-    });
+
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 
 
