@@ -218,7 +218,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "\$400",
+                                  "\$${cartList[index]["cartPrice"]/ (1-(cartList[index]["discountValue"]/100))}",
                                   style: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                         color: secondaryColor,

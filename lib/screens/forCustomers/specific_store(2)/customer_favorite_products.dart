@@ -418,12 +418,12 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                           child: FadeInAnimation(
                             child: InkWell(
                               onTap: () async {
-                                QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.loading,
-                                  title: 'Loading',
-                                  text: 'Fetching your data',
-                                );
+                                // QuickAlert.show(
+                                //   context: context,
+                                //   type: QuickAlertType.loading,
+                                //   title: 'Loading',
+                                //   text: 'Fetching your data',
+                                // );
 
                                 // PaymentManager.makePayment(20,"USD");
                                 // PaymentManager.makePayment(20,"USD");
@@ -434,7 +434,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                 // print("+++++++++++++++++++++");
 
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                               },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -658,12 +658,12 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                           child: FadeInAnimation(
                             child: InkWell(
                               onTap: () async {
-                                QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.loading,
-                                  title: 'Loading',
-                                  text: 'Fetching your data',
-                                );
+                                // QuickAlert.show(
+                                //   context: context,
+                                //   type: QuickAlertType.loading,
+                                //   title: 'Loading',
+                                //   text: 'Fetching your data',
+                                // );
                                 await incrementProductViews(index);
                                 // PaymentManager.makePayment(20,"USD");
 
@@ -672,7 +672,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                 print(storeCartsVal[index]);
                                 print("+++++++++++++++++++++");
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
                               },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
