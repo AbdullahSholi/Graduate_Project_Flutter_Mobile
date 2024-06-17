@@ -577,6 +577,67 @@ class _CustomerSpecificStoreMainPage1State
 
   }
 
+  Future<void> getStatisticsAboutCategory(category) async {
+    print("--------------------------");
+    print(emailVal);
+
+    http.Response userFuture = await http.post(
+      Uri.parse(
+        "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-statistics-about-category/${emailVal}",
+
+
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "cartCategory": category,
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print("XXXXXXXXXXXXX");
+
+    print(jsonDecode(userFuture.body)["forMostViewed"]);
+    print("XXXXXXXXXXXXX");
+
+    setState(() {
+      Constants.numberOfViewedCategory = jsonDecode(userFuture.body)["forMostViewed"];
+    });
+
+
+
+  }
+  Future<void> increaseCategoryViewers( cartCategory) async {
+
+    await getStatisticsAboutCategory(cartCategory);
+    print("OOOOOOOOOOOOOOOO");
+    Constants.numberOfViewedCategory++;
+
+    http.Response userFuture =
+    await http.post(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/statistics-increase-number-of-customer-category/$emailVal"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $tokenVal",
+      },
+      body: jsonEncode(
+        {
+          "forMostViewed": Constants.numberOfViewedCategory,
+          "cartCategory": cartCategory
+        },
+      ),
+      encoding:
+      Encoding.getByName("utf-8"),
+    );
+    print(userFuture.body);
+
+  }
+
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
 
@@ -1426,6 +1487,8 @@ class _CustomerSpecificStoreMainPage1State
                                                             false;
                                                       });
                                                     } else {
+                                                      await increaseCategoryViewers(specificStoreCategoriesValEn[
+                                                      index]);
                                                       await getCartsForOneCategory(
                                                           emailVal,
                                                           specificStoreCategoriesValEn[
@@ -1963,7 +2026,10 @@ class _CustomerSpecificStoreMainPage1State
                                                 title: 'Loading',
                                                 text: 'Fetching your data',
                                               );
+
                                               await incrementProductViewsForCategory(index, CartsForOneCategoryVal[index]["cartCategory"]);
+
+
                                               // PaymentManager.makePayment(20,"USD");
                                               // PaymentManager.makePayment(20,"USD");
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:animated_background/animated_background.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -28,9 +29,11 @@ class StoreStatistics extends StatefulWidget {
   final String token;
   final String email;
 
+
   StoreStatistics(
     this.token,
     this.email,
+
   );
 
   @override
@@ -48,11 +51,56 @@ class _StoreStatisticsState extends State<StoreStatistics>
   bool isAnswered = false;
   int touchedIndex = -1;
 
+
+  late List<String> xAxisList;
+  late List<double> yAxisList;
+  late String xAxisName;
+  late String yAxisName;
+  late double interval;
+
   final List<Color> gradientColors = [
     const Color(0xFF18FF8B),
     const Color(0xFFA618F3),
     const Color(0xFF10B8F9),
   ];
+
+  List<dynamic> barChartForCategory = [];
+
+
+  Future<void> fetchData() async {
+    try {
+      String url = 'https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}';
+
+      // Make GET request
+      var response = await http.get(Uri.parse(url), headers: {
+        'Authorization': 'Bearer $tokenVal',  // Replace with your actual authorization token
+        'Content-Type': 'application/json',
+      });
+
+
+      // Check if the request was successful
+      if (response.statusCode == 200) {
+        // Decode JSON response
+        var data = jsonDecode(response.body);
+        print("-----------------------------");
+        print(data["forMostCategory"]);
+
+        setState(() {
+          barChartForCategory = data["forMostCategory"];
+        });
+      } else {
+        // Handle errors
+        // setState(() {
+        //   responseMessage = 'Error fetching data: ${response.statusCode}';
+        // });
+      }
+    } catch (e) {
+      // Handle exceptions
+      // setState(() {
+      //   responseMessage = 'Error: $e';
+      // });
+    }
+  }
 
   @override
   void initState() {
@@ -60,8 +108,10 @@ class _StoreStatisticsState extends State<StoreStatistics>
     super.initState();
     tokenVal = widget.token;
     emailVal = widget.email;
+    fetchData();
     userData = getUserByName();
     getListOfQuestions();
+
   }
 
   Future<void> getListOfQuestions() async {
@@ -176,6 +226,19 @@ class _StoreStatisticsState extends State<StoreStatistics>
       }
     });
   }
+
+  int get maxForMostViewed {
+    // Calculate the maximum forMostViewed value in barChartForCategory
+    int max = 0;
+    for (var category in barChartForCategory) {
+      int forMostViewed = category['forMostViewed'];
+      if (forMostViewed > max) {
+        max = forMostViewed;
+      }
+    }
+    return max;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -421,13 +484,68 @@ class _StoreStatisticsState extends State<StoreStatistics>
                 ),
 
                 const SizedBox(
-                  width: 28,
+                  height: 28,
                 ),
+
+                Container(
+                  height: 400,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: BarChart(BarChartData(
+                        borderData: FlBorderData(
+                            border: const Border(
+                              top: BorderSide.none,
+                              right: BorderSide.none,
+                              left: BorderSide(width: 1),
+                              bottom: BorderSide(width: 1),
+                            )),
+                        groupsSpace: 10,
+                        barGroups: _buildBarGroups(),
+                        titlesData: FlTitlesData(
+
+
+                          leftTitles: AxisTitles(
+
+                              sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 22,
+                                  getTitlesWidget: barWidgetColors
+                                // margin: 8,
+                              )),
+
+                          bottomTitles: AxisTitles(
+
+                              sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 22,
+                                  getTitlesWidget: barWidgetColorsBottom
+                                // margin: 8,
+                              )),
+                          rightTitles: AxisTitles(
+
+                              sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 0,
+                                  getTitlesWidget: barWidgetColors
+                                // margin: 8,
+                              )),
+                        )
+
+
+                    )),
+                  ),
+                ),
+
+
+
+
               ],
                 ),
 
 
             )));
+
   }
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -554,4 +672,77 @@ class _StoreStatisticsState extends State<StoreStatistics>
 
     return Text(text, style: style, textAlign: TextAlign.center);
   }
+
+  Widget barWidgetColors(double value, TitleMeta meta) {
+    const style = TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+        color: Color(0xFFF4F4FB)
+    );
+    String text;
+    // Ensure the index is within the range of categories list
+    int maxValue = barChartForCategory.length; // You need to define this function
+
+    // Generate a list of titles from 0 to 'maxValue'
+    if (value % (maxValue / 1) == 0) { // Adjust the division factor as needed
+      return Text(value.toString(), style: style, textAlign: TextAlign.center);
+    } else {
+      return Container(); // Return empty container for other values
+    }
+
+    // return Text(text, style: style, textAlign: TextAlign.center);
+  }
+  Widget barWidgetColorsBottom(double value, TitleMeta meta) {
+    const style = TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+        color: Color(0xFFF4F4FB)
+    );
+    String text = ''; // Initialize text variable
+
+    // Ensure the index is within the range of categories list
+    if (value >= 0 && value < barChartForCategory.length) {
+      String categoryName = barChartForCategory[value.toInt()]['cartCategory'];
+
+      // Generate text based on category name
+      text = categoryName; // Display only cartCategory
+    } else {
+      return Container(); // Return empty container if index is out of range
+    }
+
+
+    return Text(text, style: style, textAlign: TextAlign.center);
+  }
+
+  List<BarChartGroupData> _buildBarGroups() {
+    List<BarChartGroupData> barGroups = [];
+
+    // Loop through barChartForCategory and create BarChartGroupData for each item
+    for (int i = 0; i < barChartForCategory.length; i++) {
+      dynamic categoryData = barChartForCategory[i];
+      double value = categoryData['forMostViewed'].toDouble(); // Convert to double
+
+      // Create BarChartRodData for this category
+      List<BarChartRodData> rods = [
+        BarChartRodData(
+          toY: value,
+          color: Colors.amber, // Set your desired color here
+          width: 15,
+        ),
+      ];
+
+      // Add BarChartGroupData to barGroups list
+      barGroups.add(
+        BarChartGroupData(
+          x: i,
+          barRods: rods,
+        ),
+      );
+    }
+
+    return barGroups;
+  }
 }
+
+
+
