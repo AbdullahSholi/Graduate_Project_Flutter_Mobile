@@ -135,6 +135,7 @@ class _StoreStatisticsState extends State<StoreStatistics>
     emailVal = widget.email;
     fetchData();
     fetchDataForProducts();
+    fetchDataForRevenue();
     userData = getUserByName();
     getListOfQuestions();
 
@@ -249,6 +250,51 @@ class _StoreStatisticsState extends State<StoreStatistics>
     }
     return max;
   }
+  Future<void> fetchDataForRevenue() async {
+    // Sample data
+    List<Map<String, dynamic>> revenueData = [
+      {'month': 1, 'revenue': 3},
+      {'month': 2, 'revenue': 7},
+      {'month': 3, 'revenue': 5},
+      {'month': 4, 'revenue': 1},
+      {'month': 5, 'revenue': 8},
+      {'month': 6, 'revenue': 1.7},
+      {'month': 7, 'revenue': 3},
+      {'month': 8, 'revenue': 4},
+      {'month': 9, 'revenue': 6},
+      {'month': 10, 'revenue': 7},
+      {'month': 11, 'revenue': 8},
+      {'month': 12, 'revenue': 10},
+    ];
+
+    setState(() {
+      line1Spots = revenueData.map<FlSpot>((entry) {
+        double x = entry['month'].toDouble(); // Assuming month is an integer from 1 to 12
+        double y = entry['revenue'].toDouble();
+        return FlSpot(x, y);
+      }).toList();
+
+      // Sample data for second line
+      List<Map<String, dynamic>> anotherRevenueData = [
+        {'month': 1, 'revenue': 2},
+        {'month': 2, 'revenue': 4},
+        {'month': 3, 'revenue': 6},
+        {'month': 4, 'revenue': 3},
+        {'month': 5, 'revenue': 7},
+        {'month': 6, 'revenue': 2.5},
+        {'month': 7, 'revenue': 1},
+        {'month': 8, 'revenue': 5},
+        {'month': 9, 'revenue': 3.5},
+        {'month': 10, 'revenue': 6.5},
+        {'month': 11, 'revenue': 7.5},
+        {'month': 12, 'revenue': 9},
+      ];
+
+    });
+  }
+
+
+  List<FlSpot> line1Spots = [];
 
 
   @override
@@ -299,111 +345,147 @@ class _StoreStatisticsState extends State<StoreStatistics>
                       // physics: NeverScrollableScrollPhysics(),
                       child: Column(
                     children: [
+
                       Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                         width: double.infinity,
                         child:
                         Text("Total Revenue", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, ),),),
+
                       Container(
                         height: MediaQuery.of(context).size.height / 3.5,
                         width: MediaQuery.of(context).size.width / 1,
-                        child: LineChart(
-                          LineChartData(
-                              minX: 0,
-                              maxX: 11,
+                        child:Container(
+                          height: MediaQuery.of(context).size.height / 3.5,
+                          width: MediaQuery.of(context).size.width,
+                          child: LineChart(
+                            LineChartData(
+                              minX: 1,
+                              maxX: 12,
                               minY: 0,
-                              maxY: 11,
+                              // You might want to set a maxY based on your data
                               titlesData: FlTitlesData(
-                                  rightTitles: AxisTitles(
-                  
-                                      sideTitles: SideTitles(
-                                          showTitles: true,
-                                          reservedSize: 22,
-                                          getTitlesWidget: rightTitleWidgets
-                                        // margin: 8,
-                                      )),
-                                  topTitles: AxisTitles(
-                  
-                                      sideTitles: SideTitles(
-                                          showTitles: true,
-                                          reservedSize: 22,
-                                          getTitlesWidget: topTitleWidgets
-                                        // margin: 8,
-                                      )),
-                                  bottomTitles: AxisTitles(
-                  
-                                      sideTitles: SideTitles(
-                                          showTitles: true,
-                                          reservedSize: 22,
-                                          getTitlesWidget: bottomTitleWidgets
-                                        // margin: 8,
-                                      )),
-                                  show: true,
-                                  leftTitles: AxisTitles(
-                  
-                                      sideTitles: SideTitles(
-                                          showTitles: true,
-                                          reservedSize: 22,
-                                          getTitlesWidget: leftTitleWidgets
-                                        // margin: 8,
-                                      ))),
-                  
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 22,
+                                    getTitlesWidget: rightTitleWidgets,
+                                  ),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 22,
+                                    getTitlesWidget: topTitleWidgets,
+                                  ),
+                                ),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 22,
+                                    getTitlesWidget: (value, meta) {
+                                      const style = TextStyle(
+                                        color: Color(0xff68737d),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      );
+                                      Widget text;
+                                      switch (value.toInt()) {
+                                        case 1:
+                                          text = Text('Jan', style: style);
+                                          break;
+                                        case 2:
+                                          text = Text('Feb', style: style);
+                                          break;
+                                        case 3:
+                                          text = Text('Mar', style: style);
+                                          break;
+                                        case 4:
+                                          text = Text('Apr', style: style);
+                                          break;
+                                        case 5:
+                                          text = Text('May', style: style);
+                                          break;
+                                        case 6:
+                                          text = Text('Jun', style: style);
+                                          break;
+                                        case 7:
+                                          text = Text('Jul', style: style);
+                                          break;
+                                        case 8:
+                                          text = Text('Aug', style: style);
+                                          break;
+                                        case 9:
+                                          text = Text('Sep', style: style);
+                                          break;
+                                        case 10:
+                                          text = Text('Oct', style: style);
+                                          break;
+                                        case 11:
+                                          text = Text('Nov', style: style);
+                                          break;
+                                        case 12:
+                                          text = Text('Dec', style: style);
+                                          break;
+                                        default:
+                                          text = Text('', style: style);
+                                          break;
+                                      }
+                                      return SideTitleWidget(
+                                        axisSide: meta.axisSide,
+                                        space: 8.0,
+                                        child: text,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 22,
+                                    getTitlesWidget: leftTitleWidgets,
+                                  ),
+                                ),
+                              ),
                               gridData: FlGridData(
                                 show: true,
                                 getDrawingHorizontalLine: (value) {
                                   return FlLine(
-                                      color: Color(0xff37434d),
-                                      strokeWidth: 1);
+                                    color: Color(0xff37434d),
+                                    strokeWidth: 1,
+                                  );
                                 },
                                 drawHorizontalLine: true,
                                 getDrawingVerticalLine: (value) {
                                   return FlLine(
-                                      color: Color(0xff37434d),
-                                      strokeWidth: 1);
+                                    color: Color(0xff37434d),
+                                    strokeWidth: 1,
+                                  );
                                 },
                                 drawVerticalLine: true,
                               ),
                               borderData: FlBorderData(
-                                  show: true,
-                                  border: Border.all(
-                                      color: Color(0xFF37434d), width: 1)),
+                                show: true,
+                                border: Border.all(
+                                  color: Color(0xFF37434d),
+                                  width: 1,
+                                ),
+                              ),
                               lineBarsData: [
                                 LineChartBarData(
-                                    spots: [
-                                      FlSpot(1, 3),
-                                      FlSpot(2.6, 7),
-                                      FlSpot(4.9, 5),
-                                      FlSpot(6.8, 1),
-                                      FlSpot(8, 8),
-                                      FlSpot(9.5, 1.7),
-                                      FlSpot(11, 3),
-                                    ],
-                                    isCurved: true,
-                                    color: gradientColors[0],
-                                    // dotData: FlDotData(show: false),
-                                    barWidth: 3,
-                                    belowBarData: BarAreaData(
-                                        show: true,
-                                        color: gradientColors[1]
-                                            .withOpacity(.2))),
-                  
-                                LineChartBarData(
-                                    spots: [
-                                      FlSpot(1, 1),
-                                      FlSpot(3, 2),
-                                      FlSpot(6, 2.5),
-                                      FlSpot(7, 4),
-                                      FlSpot(8, 5),
-                                      FlSpot(9.5, 10),
-                                      FlSpot(11, 5),
-                                    ],
-                                    isCurved: true,
-                                    barWidth: 3,
-                                    belowBarData: BarAreaData(
-                                        show: true,
-                                        color: gradientColors[1]
-                                            .withOpacity(.2))),
-                              ]),
+                                  spots: line1Spots,
+                                  isCurved: true,
+                                  color: gradientColors[0],
+                                  barWidth: 3,
+                                  belowBarData: BarAreaData(
+                                    show: true,
+                                    color: gradientColors[1].withOpacity(.2),
+                                  ),
+                                ),
+                                // Add other LineChartBarData if you have more lines
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       Divider(
