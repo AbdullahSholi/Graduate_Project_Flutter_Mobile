@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduate_project/components/applocal.dart';
@@ -162,68 +163,26 @@ class _StoreStatisticsState extends State<StoreStatistics>
       throw Exception("Error");
     }
   }
-  List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+
+  List<PieChartSectionData> showingSections(List<dynamic> data, double radius, double fontSize, List<Shadow> shadows) {
+    List<Color> colors = [Color(0xFF0087F4), Color(0xFFFEA42C), Color(0xFF8047F6), Color(0xFF00D27C), Color(0xFF00E676)];
+
+    return List.generate(data.length, (i) {
+      final categoryData = data[i];
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Color(0xFF0087F4),
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFFFDFF),
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Color(0xFFFEA42C),
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFFFDFF),
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: Color(0xFF8047F6),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFFFDFF),
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Color(0xFF00D27C),
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFFFFDFF),
-              shadows: shadows,
-            ),
-          );
-        default:
-          throw Error();
-      }
+      final double radiusSize = isTouched ? radius + 10 : radius;
+      return PieChartSectionData(
+        color: colors[i % colors.length],
+        value: categoryData['forMostViewed'].toDouble(),
+        title: '${categoryData['forMostViewed']}%',
+        radius: radiusSize,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFFFFFDFF),
+          shadows: shadows,
+        ),
+      );
     });
   }
 
@@ -414,77 +373,44 @@ class _StoreStatisticsState extends State<StoreStatistics>
                             ),
                             sectionsSpace: 0,
                             centerSpaceRadius: 50,
-                            sections: showingSections(),
+                            sections: showingSections( barChartForCategory ,50.0,16.0,
+                            [
+                            Shadow(
+                            blurRadius: 2,
+                              color: Color(0xFF000000),
+                            ),
+                              ]),
                           )
                         ),
                       ),
-                      Expanded(
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(barChartForCategory.length, (i) {
+                  List<Color> colors = [Color(0xFF0087F4), Color(0xFFFEA42C), Color(0xFF8047F6), Color(0xFF00D27C), Color(0xFF00E676)];
 
-                        child: Container(
-                          // color: Colors.red,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: [
-                                  Container(width: 15, height: 15,color: Color(0xFF0087F4),),
-                                  SizedBox(width: 5,),
-                                  Text('First', style: TextStyle(color: Colors.white),),
-
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-
-                              Row(
-                                children: [
-                                  Container(width: 15, height: 15,color: Color(0xFFFEA42C),),
-                                  SizedBox(width: 5,),
-                                  Text('Second', style: TextStyle(color: Colors.white),),
-
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-
-                              Row(
-                                children: [
-                                  Container(width: 15, height: 15,color: Color(0xFF8047F6),),
-                                  SizedBox(width: 5,),
-                                  Text('Third', style: TextStyle(color: Colors.white),),
-
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-
-                              Row(
-                                children: [
-                                  Container(width: 15, height: 15,color: Color(0xFF00D27C),),
-                                  SizedBox(width: 5,),
-                                  Text('Fourth', style: TextStyle(color: Colors.white),),
-
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-
-
-                            ],
-                          ),
-                        ),
-                      ),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    child: Row(
+                      children: [
+                        Container(width: 15, height: 15, color: colors[i % colors.length]),
+                        SizedBox(width: 5),
+                        Text(barChartForCategory[i]['cartCategory'], style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),)
                     ],
                   ),
                 ),
 
                 const SizedBox(
-                  height: 28,
+                  height: 20,
                 ),
 
                 Container(
