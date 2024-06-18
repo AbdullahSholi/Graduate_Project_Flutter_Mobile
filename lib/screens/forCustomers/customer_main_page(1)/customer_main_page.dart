@@ -154,9 +154,18 @@ class _CustomerMainPageState extends State<CustomerMainPage>
 
 
   Future<void> getAdminData() async {
+    http.Response userFuture5 = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admins-list"),
+    );
+    print("qqqqqqqqqqqqqqqqqqq");
+    print(jsonDecode(userFuture5.body)["email"]);
+    print("qqqqqqqqqqqqqqqqqqq");
+
+
     http.Response userFuture = await http.get(
       Uri.parse(
-          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/s12027918@stu.najah.edu"),
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admin-data/${jsonDecode(userFuture5.body)["email"]}"),
     );
 
     print("uuuuuuuuuuuuXX");
@@ -302,8 +311,8 @@ class _CustomerMainPageState extends State<CustomerMainPage>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LogAllPage()));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => LogAllPage()));
         return Future.value(true);
       },
       child: Scaffold(

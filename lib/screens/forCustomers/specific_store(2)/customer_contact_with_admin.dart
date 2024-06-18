@@ -151,9 +151,14 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                     child: TextButton(
                       onPressed: () async {
     if(_formKey.currentState!.validate()) {
+      http.Response userFuture5 = await http.get(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/admins-list"),
+      );
+
       http.Response userFuture = await http.post(
         Uri.parse(
-            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-email-to-admin/s12027918@stu.najah.edu"),
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/send-email-to-admin/${jsonDecode(userFuture5.body)["email"]}"),
         headers: {
           "Content-Type": "application/json"
         },
