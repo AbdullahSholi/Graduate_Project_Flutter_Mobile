@@ -844,6 +844,28 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
     }
   }
 
+  Future<void> getProducts(index)async {
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/test-get-merchant-cart/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+    print("&&&&&&&&&&&&&&&");
+    print(jsonDecode(userFuture.body)["type"]);
+
+    setState(() {
+      cartNameTextEditingController.text = jsonDecode(userFuture.body)["type"][index]["cartName"].toString();
+      cartPriceTextEditingController.text = jsonDecode(userFuture.body)["type"][index]["cartPriceAfterDiscount"].toString();
+      cartQuantitiesTextEditingController.text = jsonDecode(userFuture.body)["type"][index]["cartQuantities"].toString();
+      cartDescriptionTextEditingController.text = jsonDecode(userFuture.body)["type"][index]["cartDescription"].toString();
+    });
+
+
+
+  }
+
   bool _isSearching = false;
   TextEditingController _searchController = TextEditingController();
 
@@ -1708,6 +1730,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                       right: 0,
                                                       child: InkWell(
                                                         onTap: () {
+                                                          getProducts(index);
                                                           showDialog(
                                                               context: context,
                                                               builder:
