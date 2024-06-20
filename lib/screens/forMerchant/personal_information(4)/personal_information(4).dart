@@ -33,12 +33,134 @@ class _PersonalInformationState extends State<PersonalInformation>
   bool defaultObsecure = false;
   final _formKey = GlobalKey<FormState>();
 
+  Future<void> getMerchantData() async{
+    print("$emailVal tttttttttt");
+    http.Response userFuture = await http.get(
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+    print(userFuture.statusCode);
+    if(userFuture.statusCode == 200){
+      merchantnameTextEditingController.text = jsonDecode(userFuture.body)["merchantname"];
+      phoneTextEditingController.text = jsonDecode(userFuture.body)["phone"];
+      countryTextEditingController.text = jsonDecode(userFuture.body)["country"];
+    }
+    else{
+      throw Exception("Error");
+    }
+  }
+
+
+  late Map<String, dynamic> objectData;
+  Future<void> addStoreToDatabase() async {
+
+    http.Response userFuture3 = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-specific-store/${emailVal}"),
+
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+
+    print("YYYYYYYYYYYYYYYYY");
+    // print(userFuture3.body);
+    // print(jsonDecode(userFuture3.body));
+    print("YYYYYYYYYYYYYYYYY");
+
+    // if(userFuture3.body == ""){
+    //   print()
+    // }
+
+
+    if(userFuture3.body == ""){
+      print("Store not published yet!!");
+    } else{
+      objectData = {
+        "merchantname":merchantnameTextEditingController.text,
+        "email":jsonDecode(userFuture3.body)["email"],
+        "phone":phoneTextEditingController.text,
+        "country": countryTextEditingController.text,
+        "Avatar":jsonDecode(userFuture3.body)["Avatar"],
+        "storeName": jsonDecode(userFuture3.body)["storeName"],
+        "storeAvatar":jsonDecode(userFuture3.body)["storeAvatar"],
+        "storeCategory":jsonDecode(userFuture3.body)["storeCategory"],
+        "storeSliderImages":jsonDecode(userFuture3.body)["storeSliderImages"],
+        "storeProductImages":jsonDecode(userFuture3.body)["storeProductImages"],
+        "storeDescription": jsonDecode(userFuture3.body)["storeDescription"],
+        "storeSocialMediaAccounts":jsonDecode(userFuture3.body)["storeSocialMediaAccounts"],
+        "activateSlider":jsonDecode(userFuture3.body)["activateSlider"],
+        "activateCategory":jsonDecode(userFuture3.body)["activateCategory"],
+        "activateCarts":jsonDecode(userFuture3.body)["activateCarts"],
+        "specificStoreCategories":jsonDecode(userFuture3.body)["specificStoreCategories"],
+        "backgroundColor" : jsonDecode(userFuture3.body)["backgroundColor"],
+        "boxesColor" : jsonDecode(userFuture3.body)["boxesColor"],
+        "primaryTextColor" : jsonDecode(userFuture3.body)["primaryTextColor"],
+        "secondaryTextColor" : jsonDecode(userFuture3.body)["secondaryTextColor"],
+        "clippingColor" : jsonDecode(userFuture3.body)["clippingColor"],
+        "smoothy" : jsonDecode(userFuture3.body)["smoothy"],
+        "design" : jsonDecode(userFuture3.body)["design"],
+        // "type":tempTypeVal,
+
+
+      };
+
+
+      var storeDataToAddVal = objectData;
+      Map<String, dynamic> merchant = {};
+
+      http.Response userFuture1 = await http.get(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
+
+        headers: {
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        },
+      );
+      setState(() {
+        merchant = jsonDecode(userFuture1.body);
+      });
+
+      print(merchant["secretKey"]);
+      http.Response userFuture =
+      await http.post(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $tokenVal",
+        },
+        body: jsonEncode(
+          {
+            "stores": storeDataToAddVal
+          },
+        ),
+        encoding:
+        Encoding.getByName("utf-8"),
+      );
+      print(userFuture.body);
+      // QuickAlert.show(
+      //   context: context,
+      //   type: QuickAlertType.success,
+      //   text: "${getLang(context, 'store_published_successfully')}",
+      // );
+      // await notifyYourCustomers();
+    }
+
+
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tokenVal = widget.token;
     emailVal = widget.email;
+    getMerchantData();
+
   }
 
   TextEditingController emailTextEditingController = TextEditingController();
@@ -146,27 +268,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                   //Making keyboard just for Email
                                   keyboardType:
                                       TextInputType.visiblePassword,
-                                  validator: (value) {
-                                    // Check if the value is null or empty
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your password';
-                                    }
 
-                                    // Define a regular expression to match the password criteria
-                                    final RegExp passwordRegExp = RegExp(
-                                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
-                                    );
-
-                                    // Check if the password matches the criteria
-                                    if (!passwordRegExp.hasMatch(value)) {
-                                      return 'Password must be at least 8 characters long, '
-                                          'include at least one uppercase letter, one lowercase letter, '
-                                          'one number, and one special character';
-                                    }
-
-                                    // If all checks pass, return null
-                                    return null;
-                                  },
                                   decoration: InputDecoration(
                                       labelText: '${getLang(context, 'password')}',
                                       labelStyle: const TextStyle(
@@ -329,15 +431,17 @@ class _PersonalInformationState extends State<PersonalInformation>
                                               json.decode(userFuture.body));
                                           print(temp);
                   
-                                          merchantnameTextEditingController.text="";
-                                          passwordTextEditingController.text="";
-                                          phoneTextEditingController.text="";
-                                          countryTextEditingController.text="";
+                                          // merchantnameTextEditingController.text="";
+                                          // passwordTextEditingController.text="";
+                                          // phoneTextEditingController.text="";
+                                          // countryTextEditingController.text="";
                                           QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.success,
                                             text: "Your Information's Updated Successfully!",
                                           );
+
+                                          addStoreToDatabase();
                                         } catch (error) {
                                           //   showDialog<void>(
                                           //     context: context,

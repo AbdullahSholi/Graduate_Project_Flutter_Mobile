@@ -86,6 +86,124 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
     });
 
   }
+
+  Future<void> getStoreData() async {
+
+    http.Response userFuture = await http.get(
+      Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+
+    setState(() {
+      storeNameTextEditingController.text = jsonDecode(userFuture.body)["storeName"];
+      storeDescriptionTextEditingController.text = jsonDecode(userFuture.body)["storeDescription"];
+      selectedItem = jsonDecode(userFuture.body)["storeCategory"];
+    });
+
+  }
+
+  late Map<String, dynamic> objectData;
+  Future<void> addStoreToDatabase() async {
+
+    http.Response userFuture3 = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-specific-store/${emailVal}"),
+
+      headers: {
+        "Authorization": "Bearer $tokenVal", // Add the token to the headers
+      },
+    );
+
+    print("YYYYYYYYYYYYYYYYY");
+    // print(jsonDecode(userFuture3.body));
+    print("YYYYYYYYYYYYYYYYY");
+
+    if(userFuture3.body == ""){
+      print("Store not published yet!!");
+    } else {
+
+      objectData = {
+        "merchantname":jsonDecode(userFuture3.body)["merchantname"],
+        "email":jsonDecode(userFuture3.body)["email"],
+        "phone":jsonDecode(userFuture3.body)["phone"],
+        "country":jsonDecode(userFuture3.body)["country"],
+        "Avatar":jsonDecode(userFuture3.body)["Avatar"],
+        "storeName": storeNameTextEditingController.text,
+        "storeAvatar":jsonDecode(userFuture3.body)["storeAvatar"],
+        "storeCategory":selectedItem,
+        "storeSliderImages":jsonDecode(userFuture3.body)["storeSliderImages"],
+        "storeProductImages":jsonDecode(userFuture3.body)["storeProductImages"],
+        "storeDescription": storeDescriptionTextEditingController.text,
+        "storeSocialMediaAccounts":jsonDecode(userFuture3.body)["storeSocialMediaAccounts"],
+        "activateSlider":jsonDecode(userFuture3.body)["activateSlider"],
+        "activateCategory":jsonDecode(userFuture3.body)["activateCategory"],
+        "activateCarts":jsonDecode(userFuture3.body)["activateCarts"],
+        "specificStoreCategories":jsonDecode(userFuture3.body)["specificStoreCategories"],
+        "backgroundColor" : jsonDecode(userFuture3.body)["backgroundColor"],
+        "boxesColor" : jsonDecode(userFuture3.body)["boxesColor"],
+        "primaryTextColor" : jsonDecode(userFuture3.body)["primaryTextColor"],
+        "secondaryTextColor" : jsonDecode(userFuture3.body)["secondaryTextColor"],
+        "clippingColor" : jsonDecode(userFuture3.body)["clippingColor"],
+        "smoothy" : jsonDecode(userFuture3.body)["smoothy"],
+        "design" : jsonDecode(userFuture3.body)["design"],
+        // "type":tempTypeVal,
+
+
+      };
+
+      print("UUUUUUUUUUUUUUUUU");
+      print(objectData);
+      print("UUUUUUUUUUUUUUUUU");
+
+
+      var storeDataToAddVal = objectData;
+      Map<String, dynamic> merchant = {};
+
+      http.Response userFuture1 = await http.get(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-profile/${emailVal}"),
+
+        headers: {
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        },
+      );
+      setState(() {
+        merchant = jsonDecode(userFuture1.body);
+      });
+
+      print(merchant["secretKey"]);
+      http.Response userFuture =
+      await http.post(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/merchant-add-store-to-database/$emailVal"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $tokenVal",
+        },
+        body: jsonEncode(
+          {
+            "stores": storeDataToAddVal
+          },
+        ),
+        encoding:
+        Encoding.getByName("utf-8"),
+      );
+      print(userFuture.body);
+      // QuickAlert.show(
+      //   context: context,
+      //   type: QuickAlertType.success,
+      //   text: "${getLang(context, 'store_published_successfully')}",
+      // );
+      // await notifyYourCustomers();
+    }
+
+
+
+  }
+
+
   final _formKey = GlobalKey<FormState>();
 
   late File _image;
@@ -156,6 +274,7 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
     storeCategoryVal = widget.storeCategoryVal;
     storeDescriptionVal = widget.storeDescriptionVal;
     getAdminData();
+    getStoreData();
     userData = getUserByName();
 
   }
@@ -294,12 +413,12 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                     controller: storeNameTextEditingController,
                                     //Making keyboard just for Email
                                     keyboardType: TextInputType.text,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Store Name is required';
-                                      }
-                                      return null;
-                                    },
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Store Name is required';
+                                    //   }
+                                    //   return null;
+                                    // },
                                     decoration: InputDecoration(
                                         labelText: '${getLang(context, 'store_name')}',
                                         labelStyle: const TextStyle(color: Colors.white),
@@ -326,12 +445,12 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                     controller: storeDescriptionTextEditingController,
                                     //Making keyboard just for Email
                                     keyboardType: TextInputType.text,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Store Description is required';
-                                      }
-                                      return null;
-                                    },
+                                    // validator: (value) {
+                                    //   if (value!.isEmpty) {
+                                    //     return 'Store Description is required';
+                                    //   }
+                                    //   return null;
+                                    // },
                                     decoration: InputDecoration(
                                         labelText: '${getLang(context, 'store_description')}',
                                         labelStyle: const TextStyle(color: Colors.white),
@@ -416,11 +535,11 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                         var temp = UpdateStoreInformations.fromJson(
                                             json.decode(userFuture.body));
                                         print(temp);
-                                        storeNameTextEditingController.text="";
-                                        storeDescriptionTextEditingController.text="";
+
 
 
                                         // print(temp?.email);
+                                        addStoreToDatabase();
 
                                         QuickAlert.show(
                                           context: context,
