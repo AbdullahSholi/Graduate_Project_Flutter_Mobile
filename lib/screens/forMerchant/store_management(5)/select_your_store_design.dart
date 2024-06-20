@@ -445,6 +445,67 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
 
 
 
+  Future<void> getColors() async {
+    print("--------------------------");
+    print(emailVal);
+
+    try {
+      http.Response userFuture = await http.get(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-specific-store/${emailVal}"),
+        headers: {
+          "Authorization": "Bearer $tokenVal", // Add the token to the headers
+        },
+      );
+
+      print("EEEEEEEEEEEEEEEE");
+      var responseBody = jsonDecode(userFuture.body);
+
+      // Print out all the colors for debugging
+      print(responseBody["backgroundColor"]);
+      print(responseBody["boxesColor"]);
+      print(responseBody["primaryTextColor"]);
+      print(responseBody["secondaryTextColor"]);
+      print(responseBody["clippingColor"]);
+      print("EEEEEEEEEEEEEEEE");
+
+      setState(() {
+        // Convert each color string to a Color? type
+        _selectedColor1 = parseColorString(responseBody["backgroundColor"]);
+        _selectedColor = parseColorString(responseBody["boxesColor"]);
+        _selectedColor2 = parseColorString(responseBody["primaryTextColor"]);
+        _selectedColor3 = parseColorString(responseBody["secondaryTextColor"]);
+        _selectedColor4 = parseColorString(responseBody["clippingColor"]);
+      });
+
+    } catch (e) {
+      print("Error occurred while fetching colors: $e");
+    }
+  }
+
+// Helper function to parse a color string like "Color(0xffffffff)" to a Color object
+  Color? parseColorString(String colorString) {
+    try {
+      // Extract the hexadecimal part of the string using regex
+      RegExp colorRegExp = RegExp(r'0x([0-9a-fA-F]+)');
+      Match? match = colorRegExp.firstMatch(colorString);
+
+      if (match != null) {
+        // Get the hexadecimal part from the first group of the match
+        String hexColor = match.group(0)!.replaceAll("0x", ""); // Remove the '0x' prefix
+        // Convert the hex part to an integer
+        int colorValue = int.parse(hexColor, radix: 16);
+        // Return the Color object
+        return Color(colorValue);
+      }
+    } catch (e) {
+      print("Error parsing color string '$colorString': $e");
+    }
+    // If the string does not match the expected pattern or any error occurs, return null
+    return null;
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -463,6 +524,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
     objectDataVal = widget.objectData;
+    getColors();
   }
 
   @override
