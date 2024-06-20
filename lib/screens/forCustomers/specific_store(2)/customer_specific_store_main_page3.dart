@@ -1837,7 +1837,7 @@ class _CustomerSpecificStoreMainPage3State
                                                                                   "null"
                                                                                   ? Text("")
                                                                                   : Text(
-                                                                                "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))}",
+                                                                                "${storeCartsVal[index]["cartPriceAfterDiscount"]}",
                                                                                 overflow:
                                                                                 TextOverflow.ellipsis,
                                                                                 maxLines:
@@ -2180,7 +2180,7 @@ class _CustomerSpecificStoreMainPage3State
                                                                                   "null"
                                                                                   ? Text("")
                                                                                   : Text(
-                                                                                  "${CartsForOneCategoryVal[index]["cartPrice"]/ (1-(CartsForOneCategoryVal[index]["discountValue"]/100))}",
+                                                                                  "${CartsForOneCategoryVal[index]["cartPriceAfterDiscount"]}",
                                                                                   overflow: TextOverflow
                                                                                       .ellipsis,
                                                                                   maxLines:

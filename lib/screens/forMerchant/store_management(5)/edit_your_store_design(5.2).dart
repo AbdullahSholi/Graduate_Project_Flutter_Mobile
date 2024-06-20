@@ -945,6 +945,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       body: Stack(
         children: [
           SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 Container(
@@ -952,7 +953,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                       20, MediaQuery.of(context).size.height / 20, 20, 0),
                   decoration: BoxDecoration(
                       color: Color(0xFF212128),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(15)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -972,7 +973,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                     builder:
                         (BuildContext context, AsyncSnapshot<List> snapshot) {
                       return Container(
-                        height: MediaQuery.of(context).size.height / 1.15,
+                        height: MediaQuery.of(context).size.height / 1.05,
                         margin: EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
@@ -2483,11 +2484,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                               'Check out this Product: ${storeCartsVal[index]["cartName"]}';
                                                                           final String imageUrl =
                                                                               '${storeCartsVal[index]["cartPrimaryImage"].toString()}';
-                                                                    
+
                                                                           // Combine text and URL
                                                                           final String content =
                                                                               '$text $imageUrl';
-                                                                    
+
                                                                           Share.share(content);
                                                                         },
                                                                         child: Icon(
