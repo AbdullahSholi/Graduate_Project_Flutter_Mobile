@@ -1221,7 +1221,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                   (context) {
                                                                 return AlertDialog(
                                                                   title: Text(
-                                                                    "${getLang(context, "edit_your_category")}",
+                                                                    "${getLang(context, "edit_category")}",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .white),
@@ -1236,7 +1236,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                         Container(
                                                                       height:
                                                                           MediaQuery.of(context).size.height /
-                                                                              7,
+                                                                              10,
                                                                       child:
                                                                           Column(
                                                                         children: [
@@ -1244,38 +1244,40 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             height:
                                                                                 20,
                                                                           ),
-                                                                          TextFormField(
-                                                                            cursorColor:
-                                                                                Colors.white,
-                                                                            style:
-                                                                                TextStyle(color: Colors.white),
-                                                                            controller:
-                                                                                specificStoreCategoriesTextEditingController,
-                                                                            //Making keyboard just for Email
-                                                                            keyboardType:
-                                                                                TextInputType.emailAddress,
-                                                                            validator:
-                                                                                (value) {
-                                                                              if (value!.isEmpty) {
-                                                                                return 'Category is required';
-                                                                              }
-                                                                              return null;
-                                                                            },
-                                                                            decoration: InputDecoration(
-                                                                                labelText: '${getLang(context, 'category_name')}',
-                                                                                labelStyle: TextStyle(color: Colors.white),
-                                                                                prefixIcon: Icon(
-                                                                                  Icons.category_outlined,
-                                                                                  color: Colors.white,
-                                                                                ),
-                                                                                border: OutlineInputBorder(
-                                                                                    borderSide: BorderSide(
-                                                                                  color: Colors.white,
-                                                                                )),
-                                                                                focusedBorder: OutlineInputBorder(
-                                                                                    borderSide: BorderSide(
-                                                                                  color: Colors.white,
-                                                                                ))),
+                                                                          Expanded(
+                                                                            child: TextFormField(
+                                                                              cursorColor:
+                                                                                  Colors.white,
+                                                                              style:
+                                                                                  TextStyle(color: Colors.white),
+                                                                              controller:
+                                                                                  specificStoreCategoriesTextEditingController,
+                                                                              //Making keyboard just for Email
+                                                                              keyboardType:
+                                                                                  TextInputType.emailAddress,
+                                                                              validator:
+                                                                                  (value) {
+                                                                                if (value!.isEmpty) {
+                                                                                  return 'Category is required';
+                                                                                }
+                                                                                return null;
+                                                                              },
+                                                                              decoration: InputDecoration(
+                                                                                  labelText: '${getLang(context, 'category_name')}',
+                                                                                  labelStyle: TextStyle(color: Colors.white),
+                                                                                  prefixIcon: Icon(
+                                                                                    Icons.category_outlined,
+                                                                                    color: Colors.white,
+                                                                                  ),
+                                                                                  border: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                    color: Colors.white,
+                                                                                  )),
+                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                      borderSide: BorderSide(
+                                                                                    color: Colors.white,
+                                                                                  ))),
+                                                                            ),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -1691,13 +1693,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                       }),
                                                             )),
                                                       ),
-                                                      Positioned(
+                                                      storeCartsVal[index]["cartDiscount"] ? Positioned(
                                                         left: 5,
                                                         top: 5,
                                                         child: CustomPaint(
                                                         size: Size(45, 45),
                                                         painter: DiscountPainter(cartDiscountBool ? double.parse(percentageEditingController.text) : storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
-                                                      ),)
+                                                      ),) : Container()
                                                     ],
                                                   ),
                                                   Positioned(
@@ -2193,7 +2195,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                               "index": index,
                                                                                                               "email": emailVal,
                                                                                                               "cartName": cartNameTextEditingController.text,
-                                                                                                              "cartPrice": cartDiscountBool ? ( storeCartsVal[index]["cartPrice"] - ((storeCartsVal[index]["cartPrice"] * int.parse(percentageEditingController.text))/100) ) : (cartPriceTextEditingController.text=="" ? storeCartsVal[index]["cartPrice"] : double.parse(cartPriceTextEditingController.text) ),
+                                                                                                              "cartPrice": cartDiscountBool ? ( storeCartsVal[index]["cartPriceAfterDiscount"] - ((storeCartsVal[index]["cartPriceAfterDiscount"] * int.parse(percentageEditingController.text))/100) ) : (cartPriceTextEditingController.text=="" ? storeCartsVal[index]["cartPriceAfterDiscount"] : double.parse(cartPriceTextEditingController.text) ),
                                                                                                               "cartDiscount": cartDiscountBool,
                                                                                                               "cartLiked": cartLikedBool,
                                                                                                               "cartFavourite": cartFavouriteBool,
@@ -2218,20 +2220,26 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
 
                                                                                                         // print(temp?.email);
                                                                                                       } else {
-                                                                                                        showDialog(
-                                                                                                            context: context,
-                                                                                                            builder: (context) => AlertDialog(
-                                                                                                                  title: Text("Failed"),
-                                                                                                                  content: Text("Something go wrong !!"),
-                                                                                                                ));
+
+                                                                                                        QuickAlert.show(
+                                                                                                          context: context,
+                                                                                                          type: QuickAlertType.error,
+                                                                                                          title: 'Oops...',
+                                                                                                          text: 'Sorry, something went wrong',
+                                                                                                        );
+
+
                                                                                                       }
                                                                                                     } else {
-                                                                                                      showDialog(
-                                                                                                          context: context,
-                                                                                                          builder: (context) => AlertDialog(
-                                                                                                                title: Text("Failed"),
-                                                                                                                content: Text("Failed: inserted data not suitable with it's field!"),
-                                                                                                              ));
+
+                                                                                                      QuickAlert.show(
+                                                                                                        context: context,
+                                                                                                        type: QuickAlertType.error,
+                                                                                                        title: 'Oops...',
+                                                                                                        text: 'Sorry, Inserted data not suitable with its field!',
+                                                                                                      );
+
+
                                                                                                     }
                                                                                                   }
                                                                                                 },
@@ -2421,14 +2429,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                         SizedBox(
                                                                           width: 5,
                                                                         ),
-                                                                        Container(
+                                                                        storeCartsVal[index]["cartDiscount"] ? Container(
                                                                           // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                                                           child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
                                                                                   "null"
                                                                               ? Text(
                                                                                   "")
                                                                               : Text(
-                                                                                  "${storeCartsVal[index]["cartPrice"]/ (1-(storeCartsVal[index]["discountValue"]/100))} ",
+                                                                                  "${storeCartsVal[index]["cartPriceAfterDiscount"]} ",
                                                                                   overflow: TextOverflow.ellipsis,
                                                                                   maxLines: 1,
                                                                                   style: TextStyle(
@@ -2438,6 +2446,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                     decorationThickness: 3,
                                                                                     color: Colors.white,
                                                                                   )),
+                                                                        ) : Container(
                                                                         ),
                                                                       ],
                                                                     ),
@@ -2889,7 +2898,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                 content: Form(
                   key: _formKey,
                   child: Container(
-                    height: MediaQuery.of(context).size.height / 5,
+                    height: MediaQuery.of(context).size.height / 7.5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2902,37 +2911,39 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                         SizedBox(
                           height: 30,
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          child: TextFormField(
-                            cursorColor: Colors.white,
-                            style: TextStyle(color: Colors.white),
-                            controller:
-                                specificStoreCategoriesTextEditingController,
-                            //Making keyboard just for Email
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Category is required';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText:
-                                    '${getLang(context, "category_name")}',
-                                labelStyle: TextStyle(color: Colors.white),
-                                prefixIcon: Icon(
-                                  Icons.category_outlined,
-                                  color: Colors.white,
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Colors.white,
-                                )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                  color: Colors.white,
-                                ))),
+                        Expanded(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 1.3,
+                            child: TextFormField(
+                              cursorColor: Colors.white,
+                              style: TextStyle(color: Colors.white),
+                              controller:
+                                  specificStoreCategoriesTextEditingController,
+                              //Making keyboard just for Email
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Category is required';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                  labelText:
+                                      '${getLang(context, "category_name")}',
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  prefixIcon: Icon(
+                                    Icons.category_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                    color: Colors.white,
+                                  ))),
+                            ),
                           ),
                         ),
                       ],
@@ -3401,14 +3412,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           }
 
                                           if (counter1 != 0) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    AlertDialog(
-                                                      title: Text("Failed!!"),
-                                                      content: Text(
-                                                          "Failed: There is another cart with same name "),
-                                                    ));
+                                            QuickAlert.show(
+                                              context: context,
+                                              type: QuickAlertType.error,
+                                              title: 'Oops...',
+                                              text: 'Sorry, There is another cart with same name',
+                                            );
+
+
                                           } else {
                                             if ((cartPriceTextEditingController
                                                         .text
@@ -3458,6 +3469,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             .text,
                                                     "cartPrice":
                                                     cartDiscountBool ? ( double.parse(cartPriceTextEditingController.text) - ((double.parse(cartPriceTextEditingController.text) * int.parse(percentageEditingController.text))/100) ) : cartPriceTextEditingController.text,
+                                                    "cartPriceAfterDiscount": cartPriceTextEditingController.text,
                                                     "cartDiscount":
                                                         cartDiscountBool,
                                                     "cartLiked": cartLikedBool,
@@ -3497,14 +3509,14 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                 await getSpecificStoreCart();
                                               });
                                             } else {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        title: Text("Failed"),
-                                                        content: Text(
-                                                            "Failed: inserted data not suitable with it's field!"),
-                                                      ));
+                                              QuickAlert.show(
+                                                context: context,
+                                                type: QuickAlertType.error,
+                                                title: 'Oops...',
+                                                text: 'Sorry, Inserted data not suitable with its field!',
+                                              );
+
+
                                             }
                                           }
 
