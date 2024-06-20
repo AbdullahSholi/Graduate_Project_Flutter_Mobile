@@ -70,7 +70,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back_ios, color: secondaryColor,)),
-        title: Text("${getLang(context, 'register_page')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryColor, fontSize: 30, fontWeight: FontWeight.bold) ,),),
+        title: Text("${getLang(context, 'register_page')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: secondaryColor, fontSize: 25, fontWeight: FontWeight.bold) ,),),
         centerTitle: true,
       ),
         body: Container(

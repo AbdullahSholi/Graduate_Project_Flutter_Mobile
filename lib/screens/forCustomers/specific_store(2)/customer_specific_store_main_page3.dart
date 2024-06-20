@@ -1076,35 +1076,7 @@ class _CustomerSpecificStoreMainPage3State
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                    color: Color(0xFF2A212E)),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.chat,
-                    color: Colors.white,
-                    size: 35,
-                  ),
-                  title: Text(
-                    "${getLang(context, 'chat_system')}",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {
-                    print("My Profile");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CustomerChatSystem(customerTokenVal, customerEmailVal, merchantData["merchantname"], merchantData["Avatar"], emailVal)));
-                  },
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+
               Container(
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(

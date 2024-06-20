@@ -1005,38 +1005,7 @@ class _CustomerSpecificStoreMainPage1State
                       ],
                     )),
               ),
-              Container(
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1),
-                    borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                    color: Color(0xFF2A212E)),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 35,
-                  ),
-                  title: Text(
-                    "${getLang(context, 'my_profile')}",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {
-                    print("My Profile");
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyProfilePage(
-                                customerTokenVal,
-                                customerEmailVal,
-                                tempCustomerProfileData)));
-                  },
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+
               Container(
                 margin: EdgeInsets.all(15),
                 decoration: BoxDecoration(

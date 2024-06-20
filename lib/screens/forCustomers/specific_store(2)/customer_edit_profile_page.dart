@@ -134,6 +134,27 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
     }
   }
 
+  void getUserData() async {
+    print("ppppppppppppppppppp");
+    print(emailVal);
+    print("ppppppppppppppppppp");
+
+    http.Response userFuture = await http.get(
+        Uri.parse(
+            "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/profile/${emailVal}"),
+        headers: {"Authorization": "Bearer ${tokenVal}"});
+    if (userFuture.statusCode == 200) {
+      setState(() {
+        usernameTextEditingController.text = jsonDecode(userFuture.body)["username"];
+        phoneTextEditingController.text = jsonDecode(userFuture.body)["phone"];
+        countryTextEditingController.text = jsonDecode(userFuture.body)["country"];
+        streetTextEditingController.text = jsonDecode(userFuture.body)["street"];
+      });
+    } else {
+      throw Exception("Error");
+    }
+  }
+
   late User tempCustomerProfileData = User("", "", "", "", "",
       "http://res.cloudinary.com/dsuaio9tv/image/upload/v1713135590/j6pvuhvorzgf5wnlqne3.jpg");
   final _formKey = GlobalKey<FormState>();
@@ -146,6 +167,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
     emailVal = widget.email;
     // tempCustomerProfileData = widget.tempCustomerProfileData;
     getUserByName();
+    getUserData();
   }
 
   @override
@@ -313,26 +335,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                             style: TextStyle(color: Colors.white),
                             cursorColor: Colors.white,
                             controller: passwordTextEditingController,
-                            validator: (value) {
-                              // Check if the value is null or empty
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
 
-                              // Define a regular expression to match the password criteria
-                              final RegExp passwordRegExp = RegExp(
-                                  r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-
-                              // Check if the password matches the criteria
-                              if (!passwordRegExp.hasMatch(value)) {
-                                return 'Password must be at least 8 characters long, '
-                                    'include at least one uppercase letter, one lowercase letter, '
-                                    'one number, and one special character';
-                              }
-
-                              // If all checks pass, return null
-                              return null;
-                            },
                             //Making keyboard just for Email
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
