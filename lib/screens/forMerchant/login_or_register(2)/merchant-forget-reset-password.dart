@@ -73,7 +73,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
             ),
           ),
           title: Text("${getLang(context, 'forgot_reset_password')}",
-              style: GoogleFonts.lilitaOne(
+              style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -92,7 +92,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
               children: [
                 SizedBox(height: 20,),
                 Text("${getLang(context, 'forgot_password')}",
-                    style: GoogleFonts.lilitaOne(
+                    style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                           color: Color(0xFF212128),
                           fontSize: 24,
@@ -100,7 +100,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                     ), textAlign: TextAlign.start,),
                 SizedBox(height: 20,),
                 Text("${getLang(context, 'forgot_password_description')}",
-                  style: GoogleFonts.lilitaOne(
+                  style: GoogleFonts.roboto(
                     textStyle: TextStyle(
                         color: Color(0xFF212128),
                         fontSize: 18,
@@ -187,7 +187,7 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                       }
 
                     },
-                    child: Text('${getLang(context, 'send')}',style: GoogleFonts.lilitaOne(
+                    child: Text('${getLang(context, 'send')}',style: GoogleFonts.roboto(
                         color: Color(0xFFF4F4FB),
                         fontWeight: FontWeight.bold,
                         fontSize: 21),),

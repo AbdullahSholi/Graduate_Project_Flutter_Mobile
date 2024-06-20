@@ -383,7 +383,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                       children: [
                                         Text(
                                           "${tempCustomerProfileData.username}",
-                                          style: GoogleFonts.lilitaOne(
+                                          style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 35),
@@ -393,7 +393,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                         ),
                                         Text(
                                           "${tempCustomerProfileData.phone}",
-                                          style: GoogleFonts.lilitaOne(
+                                          style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20),
@@ -656,7 +656,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                 child: Text(
                                                   "${getLang(context, 'all_stores')}",
                                                   style:
-                                                      GoogleFonts.lilitaOne(
+                                                      GoogleFonts.roboto(
                                                           textStyle:
                                                               TextStyle(
                                                     color: Colors.white,
@@ -704,7 +704,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                   child: Text(
                                                     items[index],
                                                     style:
-                                                        GoogleFonts.lilitaOne(
+                                                        GoogleFonts.roboto(
                                                             textStyle:
                                                                 TextStyle(
                                                       color:
@@ -946,7 +946,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       child: Text(
                                                         "${getStoreDataVal[index].storeName}",
                                                         style: GoogleFonts
-                                                            .lilitaOne(
+                                                            .roboto(
                                                                 textStyle:
                                                                     TextStyle(
                                                           color: Colors.white,
@@ -971,7 +971,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       child: Text(
                                                         "${getStoreDataVal[index].storeCategory}",
                                                         style: GoogleFonts
-                                                            .lilitaOne(
+                                                            .roboto(
                                                           textStyle: TextStyle(
                                                               color: Colors
                                                                   .white,
@@ -994,7 +994,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       child: Text(
                                                         "${getLang(context, 'owned_by')}: ${getStoreDataVal[index].merchantname}",
                                                         style: GoogleFonts
-                                                            .lilitaOne(
+                                                            .roboto(
                                                           textStyle: TextStyle(
                                                               color: Colors
                                                                   .white,
@@ -1017,7 +1017,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       child: Text(
                                                         "${getLang(context, 'email_address')}: ${getStoreDataVal[index].email}",
                                                         style: GoogleFonts
-                                                            .lilitaOne(
+                                                            .roboto(
                                                           textStyle: TextStyle(
                                                               color: Colors
                                                                   .white,
@@ -1040,7 +1040,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       child: Text(
                                                         "${getLang(context, 'phone_number')}: ${getStoreDataVal[index].phone}",
                                                         style: GoogleFonts
-                                                            .lilitaOne(
+                                                            .roboto(
                                                           textStyle: TextStyle(
                                                               color: Colors
                                                                   .white,
@@ -1269,7 +1269,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       // color: Colors.blue,
                                                       child: Text(
                                                         "${specificCategoryStores[index].storeName}",
-                                                        style: GoogleFonts.lilitaOne(
+                                                        style: GoogleFonts.roboto(
                                                           textStyle: TextStyle(
                                                               color:
                                                               Colors.white,
@@ -1294,7 +1294,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       // color: Colors.blue,
                                                       child: Text(
                                                         "${specificCategoryStores[index].storeCategory}",
-                                                        style: GoogleFonts.lilitaOne(
+                                                        style: GoogleFonts.roboto(
                                                           textStyle: TextStyle(
                                                               color:
                                                               Colors.white,
@@ -1316,7 +1316,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       // color: Colors.blue,
                                                       child: Text(
                                                         "${getLang(context, 'owned_by')}: ${specificCategoryStores[index].merchantname}",
-                                                        style: GoogleFonts.lilitaOne(
+                                                        style: GoogleFonts.roboto(
                                                           textStyle: TextStyle(
                                                               color:
                                                               Colors.white,
@@ -1338,7 +1338,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       // color: Colors.blue,
                                                       child: Text(
                                                         "${getLang(context, 'email_address')}: ${specificCategoryStores[index].email}",
-                                                        style: GoogleFonts.lilitaOne(
+                                                        style: GoogleFonts.roboto(
                                                           textStyle: TextStyle(
                                                               color:
                                                               Colors.white,
@@ -1360,7 +1360,7 @@ class _CustomerMainPageState extends State<CustomerMainPage>
                                                       // color: Colors.blue,
                                                       child: Text(
                                                         "${getLang(context, 'phone_number')}: ${specificCategoryStores[index].phone}",
-                                                        style: GoogleFonts.lilitaOne(
+                                                        style: GoogleFonts.roboto(
                                                           textStyle: TextStyle(
                                                               color:
                                                               Colors.white,
