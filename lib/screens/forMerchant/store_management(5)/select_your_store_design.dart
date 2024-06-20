@@ -112,7 +112,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
   };
 
   // The currently selected option
-  String? _selectedOption="Option 1";
+  String? _selectedOption="Option 2";
   List<String> opt = ["Smooth", "Solid"];
   String? _selectedOptions = "Smooth";
   late Color? _selectedColor = Color(0xFF212128);
@@ -505,6 +505,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                               _selectedColor1,
                               _selectedColor2,
                               _selectedColor3,
+                              clipPathColor
                             )));
               }
               if (_selectedOption == "Option 2") {
@@ -534,6 +535,7 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
                               _selectedColor1,
                               _selectedColor2,
                               _selectedColor3,
+                                clipPathColor
                             )));
               }
               if (_selectedOption == "Option 3") {

@@ -56,10 +56,12 @@ class Design2 extends StatefulWidget {
   final Color? _selectedColor1;
   final Color? _selectedColor2;
   final Color? _selectedColor3;
-  const Design2(
+  late Color? clipPathColor;
+
+  Design2(
       this.token, this.email, this.specificStoreCategories, this.storeName, this.storeCartsVal, this.sliderVisibility, this.categoryVisibility, this.cartsVisibility, this.objectData,
       this.textColor, this.topBarBackgroundColor, this.specificStoreCategoriesColor, this.specificStoreProductsColor, this.bottomBarBackgroundColor, this._selectedOptions, this._selectedColor ,
-      this.backGroundColor, this.primaryTextColor, this.secondaryTextColor, this._selectedColor1, this._selectedColor2, this._selectedColor3,{super.key});
+      this.backGroundColor, this.primaryTextColor, this.secondaryTextColor, this._selectedColor1, this._selectedColor2, this._selectedColor3, this.clipPathColor,{super.key});
   @override
   State<Design2> createState() => _Design2State();
 }
@@ -94,6 +96,7 @@ class _Design2State extends State<Design2> {
   late Color? _selectedColor1Val;
   late Color? _selectedColor2Val;
   late Color? _selectedColor3Val;
+  late Color? clipPathColorVal;
 
 
 
@@ -768,7 +771,7 @@ class _Design2State extends State<Design2> {
   double rateVal = 3;
   late String dropdownValue= 'All Products' ;
 
-  double smoothDesignBorderRadius = 20;
+  double smoothDesignBorderRadius = 15;
   double solidDesignBorderRadius = 2;
   double spaceAboveComponent = 20;
   double spaceBelowComponent = 10;
@@ -805,6 +808,7 @@ class _Design2State extends State<Design2> {
     _selectedColor1Val = widget._selectedColor1;
     _selectedColor2Val = widget._selectedColor2;
     _selectedColor3Val = widget._selectedColor3;
+    clipPathColorVal = widget.clipPathColor;
 
     backGroundColorVal = widget.backGroundColor;
     primaryTextColorVal = widget.primaryTextColor;
@@ -831,7 +835,8 @@ class _Design2State extends State<Design2> {
       appBar: AppBar(
         backgroundColor: topBarBackgroundColorVal,
         leading: IconButton(onPressed: (){
-        }, icon: Icon(Icons.menu, color: textColorVal, size: 30,),),
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back_ios, color: textColorVal, size: 30,),),
         title: Text("${storeNameVal}", style: TextStyle(color: secondaryTextColorVal, fontSize: 24, fontWeight: FontWeight.bold), ),
         centerTitle: true,
         actions: [
@@ -901,9 +906,13 @@ class _Design2State extends State<Design2> {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                   BorderRadius.circular(_selectedOptionsVal == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                  color: specificStoreCategoriesColorVal,
+                                                  color: specificStoreCategoriesVal[
+                                                  index] ==
+                                                      "All Products" ? clipPathColorVal : specificStoreCategoriesColorVal,
                                                 ),
-                                                width: 120,
+                                                width: specificStoreCategoriesVal[
+                                                index] ==
+                                                    "All Products" ? 150 : 120,
                                                 child: TextButton(
                                                     onPressed: () {
 
