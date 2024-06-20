@@ -26,6 +26,7 @@ import "package:flutter/gestures.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
+import '../../../../discount_icon.dart';
 import '../../../../models/merchant/get_cart_content_model.dart';
 import '../../../../models/merchant/merchant_specific_store_categories.dart';
 import '../../../../models/merchant/merchant_store_slider_images.dart';
@@ -1209,7 +1210,14 @@ class _Design3State extends State<Design3> {
                                                                               'Is Favorite $_isFavorite');
                                                                         }),
                                                                   )),
-                                                            )
+                                                            ),
+                                                            storeCartsVal[index]["cartDiscount"] ? Positioned(
+                                                              left: 5,
+                                                              top: 5,
+                                                              child: CustomPaint(
+                                                                size: Size(45, 45),
+                                                                painter: DiscountPainter(storeCartsVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
+                                                              ),) : Container()
                                                           ],
                                                         ),
                                                         Positioned(
@@ -1316,20 +1324,33 @@ class _Design3State extends State<Design3> {
                                                                           width:
                                                                           5,
                                                                         ),
-                                                                        Container(
-                                                                          // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                                          child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" == "null"
-                                                                              ? Text("")
-                                                                              : Text("${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}",
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              maxLines: 1,
-                                                                              style: TextStyle(
-                                                                                fontSize: 11,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                decoration: TextDecoration.lineThrough,
-                                                                                decorationThickness: 3,
-                                                                                color: secondaryTextColorVal,
-                                                                              )),
+                                                                        Visibility(
+                                                                          visible: storeCartsVal[index]["cartDiscount"],
+                                                                          child: Container(
+                                                                            // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                                            child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                                "null"
+                                                                                ? Text("")
+                                                                                : Text(
+                                                                              "${storeCartsVal[index]["cartPriceAfterDiscount"]}",
+                                                                              overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                              maxLines:
+                                                                              1,
+                                                                              style: GoogleFonts.roboto(
+                                                                                  textStyle: TextStyle(
+                                                                                    fontSize:
+                                                                                    11,
+                                                                                    fontWeight:
+                                                                                    FontWeight.bold,
+                                                                                    decoration:
+                                                                                    TextDecoration.lineThrough,
+                                                                                    decorationThickness:
+                                                                                    3,
+                                                                                    color:secondaryTextColorVal,
+                                                                                  )),
+                                                                            ),
+                                                                          ),
                                                                         ),
 
                                                                       ],
