@@ -2074,8 +2074,7 @@ class _CustomerSpecificStoreMainPage3State
                                                                       bottomLeft:
                                                                       Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                                     ),
-                                                                    color:
-                                                                    Color(0xF2222128),
+                                                                    color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
                                                                   ),
                                                                   child: Column(
                                                                     crossAxisAlignment:
