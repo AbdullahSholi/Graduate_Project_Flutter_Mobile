@@ -524,11 +524,11 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                                       var temp = UpdatePage.fromJson(
                                           json.decode(userFuture.body));
                                       print(temp.Message);
-                                      usernameTextEditingController.text = "";
-                                      passwordTextEditingController.text = "";
-                                      phoneTextEditingController.text = "";
-                                      countryTextEditingController.text = "";
-                                      streetTextEditingController.text = "";
+                                      // usernameTextEditingController.text = "";
+                                      // passwordTextEditingController.text = "";
+                                      // phoneTextEditingController.text = "";
+                                      // countryTextEditingController.text = "";
+                                      // streetTextEditingController.text = "";
 
                                       QuickAlert.show(
                                         context: context,
