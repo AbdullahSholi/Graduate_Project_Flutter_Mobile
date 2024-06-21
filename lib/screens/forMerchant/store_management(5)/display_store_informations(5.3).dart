@@ -253,8 +253,9 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   QuickAlert.show(
                                                     context: context,
                                                     type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                    title: '${getLang(context, 'oops')}',
+                                                    text: '${getLang(context, 'al_store_information')}',
+                                                    confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
 
@@ -281,10 +282,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },
@@ -309,10 +311,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },
@@ -337,10 +340,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },
@@ -372,10 +376,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },
@@ -400,10 +405,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },
@@ -428,10 +434,11 @@ class _DisplayStoreInformationsState extends State<DisplayStoreInformations> wit
                                                   }
                                                 } else{
                                                   QuickAlert.show(
-                                                    context: context,
-                                                    type: QuickAlertType.error,
-                                                    title: 'Oops...',
-                                                    text: 'Sorry, but link not provided!!',
+                                                      context: context,
+                                                      type: QuickAlertType.error,
+                                                      title: '${getLang(context, 'oops')}',
+                                                      text: '${getLang(context, 'al_store_information')}',
+                                                      confirmBtnText: "${getLang(context, "al_ok")}"
                                                   );
                                                 }
                                               },

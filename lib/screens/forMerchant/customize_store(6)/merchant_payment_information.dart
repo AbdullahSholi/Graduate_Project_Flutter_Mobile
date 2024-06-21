@@ -127,7 +127,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                                 keyboardType: TextInputType.text,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Your Publish Key is required';
+                                    return '${getLang(context, 'va_publish_key')}';
                                   }
                                   return null;
                                 },
@@ -165,7 +165,7 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                                 TextInputType.visiblePassword,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Secret Key is required';
+                                    return '${getLang(context, 'va_secret_key')}';
                                   }
                                   return null;
 
@@ -218,12 +218,14 @@ class _MerchantPaymentInformationState extends State<MerchantPaymentInformation>
                                     'secretKey': secretKeyTextEditingController.text,
                                   }),
                                 );
-                                publishableKeyTextEditingController.text="";
-                                secretKeyTextEditingController.text="";
+                                // publishableKeyTextEditingController.text="";
+                                // secretKeyTextEditingController.text="";
                                 QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.success,
-                                  text: "Your Payment Information's Added Successfully!",
+                                  title: "${getLang(context, 'success')}",
+                                  text: "${getLang(context, 'al_payment_information_successfully')}",
+                                  confirmBtnText: "${getLang(context, 'al_ok')}"
                                 );
 
                                 ///////////////////////

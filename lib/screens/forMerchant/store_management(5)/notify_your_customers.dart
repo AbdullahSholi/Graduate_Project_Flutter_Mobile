@@ -364,7 +364,9 @@ class _NotifyYourCustomersState extends State<NotifyYourCustomers>
                       QuickAlert.show(
                         context: context,
                         type: QuickAlertType.success,
-                        text: 'Notify Sent Successfully!',
+                        title: "${getLang(context, 'success')}",
+                        text: '${getLang(context, 'al_notify')}',
+                        confirmBtnText: "${getLang(context, 'al_ok')}"
                       );
 
 

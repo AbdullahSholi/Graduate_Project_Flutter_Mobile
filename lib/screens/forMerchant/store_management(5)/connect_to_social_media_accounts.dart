@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduate_project/components/applocal.dart';
 import 'package:graduate_project/screens/Login/logallpage.dart';
 import 'package:graduate_project/screens/editprofilepage.dart';
 import 'package:graduate_project/screens/forMerchant/store_management(5)/display_store_informations(5.3).dart';
@@ -102,7 +103,7 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
           ),
-          title: Text("Connect social media accounts", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
+          title: Text("${getLang(context, 'connect_to_social_media')}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),
           centerTitle: true,
         ),
         body: Column(
@@ -479,7 +480,9 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
                                               QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.success,
-                                                text: 'Your Social Media Account/s Successfully!',
+                                                title: "${getLang(context, 'success')}",
+                                                text: '${getLang(context, 'al_social_media')}',
+                                                confirmBtnText: "${getLang(context, 'al_ok')}"
                                               );
 
                                             }
@@ -487,7 +490,7 @@ class _ConnectToSocialMediaAccountsState extends State<ConnectToSocialMediaAccou
 
                                             }
                                           },
-                                          child: Text("Connect",
+                                          child: Text("${getLang(context, 'add')}",
                                             style: TextStyle(
                                                 color: Colors.white),)),),
                                     ),

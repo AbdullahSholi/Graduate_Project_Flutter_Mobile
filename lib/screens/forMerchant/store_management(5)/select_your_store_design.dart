@@ -412,8 +412,10 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: 'Oops...',
-        text: 'You must add your payment informations...',
+
+        title: '${getLang(context, "oops")}',
+        text: '${getLang(context, "must_add_information")}',
+        confirmBtnText: "${getLang(context, "al_ok")}"
       );
     } else {
 
@@ -437,7 +439,9 @@ class _SelectYourStoreDesignState extends State<SelectYourStoreDesign> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
+        title: "${getLang(context, 'success')}",
         text: "${getLang(context, 'store_published_successfully')}",
+        confirmBtnText: "${getLang(context, 'al_ok')}"
       );
       await notifyYourCustomers();
     }

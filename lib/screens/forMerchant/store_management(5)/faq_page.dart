@@ -152,7 +152,7 @@ class _MerchantFaqPageState extends State<MerchantFaqPage>
                                         context: context,
                                         builder: (context) => AlertDialog(
                                               title: Text(
-                                                "Type your answer...",
+                                                "${getLang(context, 'type_answer')}",
                                                 style: GoogleFonts.lilitaOne(
                                                     textStyle: TextStyle(
                                                         color: Color(

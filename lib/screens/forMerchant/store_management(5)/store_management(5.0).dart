@@ -917,9 +917,10 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                             QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.confirm,
-                                                text: 'Do you want to delete your store?  ( This action will delete your store with all its details!! )',
-                                                confirmBtnText: 'Yes',
-                                                cancelBtnText: 'No',
+                                                title: "",
+                                                text: '${getLang(context, 'al_store_delete')}',
+                                                confirmBtnText: '${getLang(context, 'al_yes')}',
+                                                cancelBtnText: '${getLang(context, 'al_no')}',
                                                 confirmBtnColor: Colors.green,
                                                 onConfirmBtnTap: (){
                                                   deleteStore();
@@ -1024,9 +1025,10 @@ class _StoreManagementState extends State<StoreManagement> with TickerProviderSt
                                               QuickAlert.show(
                                                   context: context,
                                                   type: QuickAlertType.confirm,
-                                                  text: 'Do you want to logout',
-                                                  confirmBtnText: 'Yes',
-                                                  cancelBtnText: 'No',
+                                                  text: "",
+                                                  title: '${getLang(context, 'al_logout')}',
+                                                  confirmBtnText: '${getLang(context, 'al_yes')}',
+                                                  cancelBtnText: '${getLang(context, 'al_no')}',
                                                   confirmBtnColor: Colors.green,
                                                   onConfirmBtnTap: (){
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));

@@ -231,7 +231,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Your name is required';
+                                      return '${getLang(context, 'va_merchantname')}';
                                     }
                                     return null;
                                   },
@@ -314,7 +314,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                   validator: (value) {
                                     // Check if the value is null or empty
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your phone number';
+                                      return '${getLang(context, 'va_phone')}';
                                     }
 
                                     // Define a regular expression to match the phone number criteria
@@ -322,7 +322,7 @@ class _PersonalInformationState extends State<PersonalInformation>
 
                                     // Check if the phone number matches the criteria
                                     if (!phoneRegExp.hasMatch(value)) {
-                                      return 'Phone number must start with "05" and be exactly 10 digits long';
+                                      return '${getLang(context, 'va_phone1')}';
                                     }
 
                                     // If all checks pass, return null
@@ -361,7 +361,7 @@ class _PersonalInformationState extends State<PersonalInformation>
                                       TextInputType.visiblePassword,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Country is required';
+                                      return '${getLang(context, 'va_country')}';
                                     }
                                     return null;
                                   },
@@ -438,7 +438,9 @@ class _PersonalInformationState extends State<PersonalInformation>
                                           QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.success,
-                                            text: "Your Information's Updated Successfully!",
+                                            title: "${getLang(context, 'success')}",
+                                            text: "${getLang(context, 'al_update_merchant_information')}",
+                                            confirmBtnText: "${getLang(context, 'al_ok')}"
                                           );
 
                                           addStoreToDatabase();

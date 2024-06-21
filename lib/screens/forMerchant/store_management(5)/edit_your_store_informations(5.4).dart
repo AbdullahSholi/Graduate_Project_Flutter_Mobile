@@ -544,7 +544,9 @@ class _EditYourStoreInformationsState extends State<EditYourStoreInformations> w
                                         QuickAlert.show(
                                           context: context,
                                           type: QuickAlertType.success,
-                                          text: "Your Information's Updated Successfully!",
+                                          title: "${getLang(context, 'success')}",
+                                          text: "${getLang(context, 'al_update_store_information')}",
+                                          confirmBtnText: "${getLang(context, 'al_ok')}"
                                         );
                                       }
                                       catch(error) {

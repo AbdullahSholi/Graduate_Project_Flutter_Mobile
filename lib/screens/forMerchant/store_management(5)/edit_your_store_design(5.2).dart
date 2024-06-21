@@ -161,8 +161,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: 'Oops...',
-        text: 'You must add your payment informations...',
+        title: '${getLang(context, "oops")}',
+        text: '${getLang(context, "must_add_information")}',
+        confirmBtnText: "${getLang(context, "al_ok")}"
       );
     } else {
       http.Response userFuture = await http.post(
@@ -181,7 +182,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.success,
-        text: "Your Store Published Successfully!",
+        title: "${getLang(context, 'success')}",
+        text: "${getLang(context, 'store_published_successfully')}",
+        confirmBtnText: "${getLang(context, 'al_ok')}"
       );
       await notifyYourCustomers();
     }
@@ -1053,12 +1056,13 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                             context: context,
                                                             type: QuickAlertType
                                                                 .confirm,
+                                                            title: "",
                                                             text:
-                                                                'Do you want to Delete this image from slider ?',
+                                                                '${getLang(context, 'do_you_want_delete_this_image')}',
                                                             confirmBtnText:
-                                                                'Delete',
+                                                                '${getLang(context, 'delete')}',
                                                             cancelBtnText:
-                                                                'Cancel',
+                                                                '${getLang(context, 'cancel')}',
                                                             confirmBtnColor:
                                                                 Colors.green,
                                                             onConfirmBtnTap:
@@ -1244,7 +1248,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                   (context) {
                                                                 return AlertDialog(
                                                                   title: Text(
-                                                                    "${getLang(context, "edit_category")}",
+                                                                    "${getLang(context, "edit_your_category")}",
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .white),
@@ -1281,7 +1285,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                               validator:
                                                                                   (value) {
                                                                                 if (value!.isEmpty) {
-                                                                                  return 'Category is required';
+                                                                                  return '${getLang(context, "va_category")}';
                                                                                 }
                                                                                 return null;
                                                                               },
@@ -1320,8 +1324,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                 QuickAlert.show(
                                                                                   context: context,
                                                                                   type: QuickAlertType.error,
-                                                                                  title: 'Oops...',
-                                                                                  text: "Failed to Update, You have Category with this name!!",
+                                                                                  title: '${getLang(context, "oops")}',
+                                                                                  text: "${getLang(context, 'al_failed_update')}",
                                                                                 );
                                                                               } else {
                                                                                 await updateSpecificStoreCategory(index, specificStoreCategoriesTextEditingController.text);
@@ -1329,7 +1333,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                 QuickAlert.show(
                                                                                   context: context,
                                                                                   type: QuickAlertType.success,
-                                                                                  text: 'Category Updated Successfully!',
+                                                                                  title: "${getLang(context, 'success')}",
+                                                                                  text: '${getLang(context, 'al_category_updated')}',
+                                                                                  confirmBtnText: "${getLang(context, 'al_ok')}"
                                                                                 );
                                                                                 specificStoreCategoriesTextEditingController.clear();
                                                                               }
@@ -1337,8 +1343,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                               QuickAlert.show(
                                                                                 context: context,
                                                                                 type: QuickAlertType.error,
-                                                                                title: 'Oops...',
-                                                                                text: "Failed to Update 'All products' category",
+                                                                                title: '${getLang(context, 'oops')}',
+                                                                                text: "${getLang(context, 'al_failed_update_all_products')}",
+                                                                                confirmBtnText: "${getLang(context, 'al_ok')}"
                                                                               );
                                                                             }
                                                                           }
@@ -1359,9 +1366,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                             QuickAlert.show(
                                                                                 context: context,
                                                                                 type: QuickAlertType.confirm,
-                                                                                text: "This action will delete all carts connected with this category",
-                                                                                confirmBtnText: 'Delete',
-                                                                                cancelBtnText: 'Cancel',
+                                                                                text: "${getLang(context, 'al_delete_category')}",
+                                                                                confirmBtnText: '${getLang(context, 'delete')}',
+                                                                                cancelBtnText: '${getLang(context, 'cancel')}',
+                                                                                title: "",
                                                                                 confirmBtnColor: Colors.green,
                                                                                 onConfirmBtnTap: () async {
                                                                                   await deleteCategoryConnectedToCarts(index);
@@ -1905,7 +1913,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             keyboardType: TextInputType.emailAddress,
                                                                                             validator: (value) {
                                                                                               if (value != null && value.isNotEmpty && !RegExp(r'^[a-zA-Z]').hasMatch(value!)) {
-                                                                                                return 'Product Name must start with a letter';
+                                                                                                return '${getLang(context, 'va_product_name1')}';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -1939,7 +1947,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             keyboardType: TextInputType.text,
                                                                                             validator: (value) {
                                                                                               if (value != null && value.isNotEmpty && !RegExp(r'^\d+$').hasMatch(value!)) {
-                                                                                                return 'Only numeric values are allowed';
+                                                                                                return '${getLang(context, 'va_product_price1')}';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -1973,7 +1981,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             keyboardType: TextInputType.text,
                                                                                             validator: (value) {
                                                                                               if (value != null && value.isNotEmpty && !RegExp(r'^\d+$').hasMatch(value)) {
-                                                                                                return 'Only numeric values are allowed';
+                                                                                                return '${getLang(context, 'va_product_price1')}';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -2007,7 +2015,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                             keyboardType: TextInputType.emailAddress,
                                                                                             validator: (value) {
                                                                                               if (value != null && value.isNotEmpty && !RegExp(r'^[a-zA-Z]').hasMatch(value!)) {
-                                                                                                return 'Product Description must start with a letter';
+                                                                                                return '${getLang(context, 'va_product_description1')}';
                                                                                               }
                                                                                               return null;
                                                                                             },
@@ -2101,7 +2109,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                   ],
                                                                                                   validator: (value) {
                                                                                                     if (value == null || value.isEmpty) {
-                                                                                                      return 'Please enter a discount percentage';
+                                                                                                      return '${getLang(context, 'va_discount_percentage')}';
                                                                                                     }
 
                                                                                                     final double? discount = double.tryParse(value);
@@ -2109,10 +2117,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                       QuickAlert.show(
                                                                                                         context: context,
                                                                                                         type: QuickAlertType.error,
-                                                                                                        title: 'Oops...',
-                                                                                                        text: 'Sorry, Please enter a valid discount percentage (0-100)',
+                                                                                                        title: '${getLang(context, 'oops')}',
+                                                                                                        text: '${getLang(context, 'va_discount_percentage1')}',
+                                                                                                        confirmBtnText: "${getLang(context, 'al_ok')}"
                                                                                                       );
-                                                                                                      return 'Please enter a valid discount percentage (0-100)';
+                                                                                                      return '${getLang(context, 'va_discount_percentage1')}';
                                                                                                     }
 
                                                                                                     return null;
@@ -2248,8 +2257,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                         QuickAlert.show(
                                                                                                           context: context,
                                                                                                           type: QuickAlertType.error,
-                                                                                                          title: 'Oops...',
-                                                                                                          text: 'Sorry, something went wrong',
+                                                                                                          title: '${getLang(context, 'oops')}',
+                                                                                                          text: '${getLang(context, 'al_something_wrong')}',
+                                                                                                          confirmBtnText: "${getLang(context, "al_ok")}"
                                                                                                         );
 
 
@@ -2259,8 +2269,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                       QuickAlert.show(
                                                                                                         context: context,
                                                                                                         type: QuickAlertType.error,
-                                                                                                        title: 'Oops...',
-                                                                                                        text: 'Sorry, Inserted data not suitable with its field!',
+                                                                                                          title: '${getLang(context, 'oops')}',
+                                                                                                          text: '${getLang(context, 'al_field_data')}',
+                                                                                                          confirmBtnText: "${getLang(context, "al_ok")}"
                                                                                                       );
 
 
@@ -2287,6 +2298,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                     QuickAlert.show(
                                                                                                         context: context,
                                                                                                         type: QuickAlertType.confirm,
+                                                                                                        title: "",
                                                                                                         text: '${getLang(context, "do_you_want_delete_this_product")}',
                                                                                                         confirmBtnText: '${getLang(context, 'delete')}',
                                                                                                         cancelBtnText: '${getLang(context, "cancel")}',
@@ -2566,6 +2578,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                         );
                                       },
                                     ),
+                                    SizedBox(height: 50,)
                                   ],
                                 ),
                               ),
@@ -2947,7 +2960,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Category is required';
+                                  return '${getLang(context, 'va_category')}';
                                 }
                                 return null;
                               },
@@ -3001,8 +3014,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                             QuickAlert.show(
                               context: context,
                               type: QuickAlertType.error,
-                              title: 'Oops...',
-                              text: 'Failed: Duplicate category name',
+                                title: '${getLang(context, 'oops')}',
+                                text: '${getLang(context, 'al_duplicate_category')}',
+                                confirmBtnText: "${getLang(context, "al_ok")}"
                             );
                           } else {
                             await insertSpecificStoreCategory();
@@ -3010,7 +3024,10 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                             QuickAlert.show(
                               context: context,
                               type: QuickAlertType.success,
-                              text: 'Category added Successfully!!',
+                              title: '${getLang(context, 'success')}',
+                              text: '${getLang(context, 'al_category_added')}',
+                                confirmBtnText: "${getLang(context, "al_ok")}"
+
                             );
                             // showDialog(
                             //     context: context,
@@ -3098,7 +3115,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Product Name is required';
+                                        return '${getLang(context, "va_product_name")}';
                                       }
                                       return null;
                                     },
@@ -3135,7 +3152,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     keyboardType: TextInputType.text,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Product Price is required';
+                                        return '${getLang(context, "va_product_price")}';
                                       }
                                       return null;
                                     },
@@ -3173,7 +3190,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     keyboardType: TextInputType.text,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Product Quantities is required';
+                                        return '${getLang(context, "va_product_quantity")}';
                                       }
                                       return null;
                                     },
@@ -3211,7 +3228,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Product Descrption is required';
+                                        return '${getLang(context, "va_product_description")}';
                                       }
                                       return null;
                                     },
@@ -3318,7 +3335,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                           ],
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
-                                              return 'Please enter a discount percentage';
+                                              return '${getLang(context, "va_discount_percentage")}';
                                             }
 
                                             final double? discount = double.tryParse(value);
@@ -3326,10 +3343,11 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.error,
-                                                title: 'Oops...',
-                                                text: 'Sorry, Please enter a valid discount percentage (0-100)',
+                                                title: '${getLang(context, "oops")}',
+                                                text: '${getLang(context, "va_discount_percentage")}',
+                                                confirmBtnText: "${getLang(context, "al_ok")}"
                                               );
-                                              return 'Please enter a valid discount percentage (0-100)';
+                                              return '${getLang(context, "va_discount_percentage")}';
                                             }
 
                                             return null;
@@ -3439,8 +3457,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                             QuickAlert.show(
                                               context: context,
                                               type: QuickAlertType.error,
-                                              title: 'Oops...',
-                                              text: 'Sorry, There is another cart with same name',
+                                              title: '${getLang(context, "oops")}',
+                                              text: '${getLang(context, "al_product_duplicate")}',
+                                              confirmBtnText: "${getLang(context, "al_ok")}"
                                             );
 
 
@@ -3536,8 +3555,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                               QuickAlert.show(
                                                 context: context,
                                                 type: QuickAlertType.error,
-                                                title: 'Oops...',
-                                                text: 'Sorry, Inserted data not suitable with its field!',
+                                                title: '${getLang(context, "oops")}',
+                                                text: '${getLang(context, "al_field_data")}',
+                                                confirmBtnText: "${getLang(context, "al_ok")}"
                                               );
 
 

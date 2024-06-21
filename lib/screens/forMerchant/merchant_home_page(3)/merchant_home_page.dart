@@ -261,9 +261,10 @@ class _MerchantHomeState extends State<MerchantHome> with TickerProviderStateMix
                             QuickAlert.show(
                                 context: context,
                                 type: QuickAlertType.confirm,
-                                text: 'Do you want to logout',
-                                confirmBtnText: 'Yes',
-                                cancelBtnText: 'No',
+                                // title: "",
+                                title: '${getLang(context, 'al_logout')}',
+                                confirmBtnText: '${getLang(context, 'al_yes')}',
+                                cancelBtnText: '${getLang(context, 'al_no')}',
                                 confirmBtnColor: Colors.green,
                                 onConfirmBtnTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerLoginOrRegister("", "")));

@@ -140,7 +140,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               keyboardType: TextInputType.name,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your Merchant Name';
+                                  return '${getLang(context, 'va_merchantname')}';
                                 }
                                 return null;
                               },
@@ -174,11 +174,11 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Please enter an email';
+                                  return '${getLang(context, 'va_email')}';
                                 }
                                 if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
                                     .hasMatch(value)) {
-                                  return 'Please enter a valid email';
+                                  return '${getLang(context, 'va_email')}';
                                 } else {
                                   return null;
                                 }
@@ -215,7 +215,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               validator: (value) {
                                 // Check if the value is null or empty
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
+                                  return '${getLang(context, 'va_password')}';
                                 }
 
                                 // Define a regular expression to match the password criteria
@@ -224,9 +224,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
 
                                 // Check if the password matches the criteria
                                 if (!passwordRegExp.hasMatch(value)) {
-                                  return 'Password must be at least 8 characters long, '
-                                      'include at least one uppercase letter, one lowercase letter, '
-                                      'one number, and one special character';
+                                  return '${getLang(context, 'va_password1')}';
                                 }
 
                                 // If all checks pass, return null
@@ -272,7 +270,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               validator: (value) {
                                 // Check if the value is null or empty
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your phone number';
+                                  return '${getLang(context, 'va_phone')}';
                                 }
 
                                 // Define a regular expression to match the phone number criteria
@@ -280,7 +278,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
 
                                 // Check if the phone number matches the criteria
                                 if (!phoneRegExp.hasMatch(value)) {
-                                  return 'Phone number must start with "05" and be exactly 10 digits long';
+                                  return '${getLang(context, 'va_phone1')}';
                                 }
 
                                 // If all checks pass, return null
@@ -316,7 +314,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Country is required';
+                                  return '${getLang(context, 'va_country')}';
                                 }
                                 return null;
                               },
@@ -349,7 +347,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Store Name is required';
+                                  return '${getLang(context, 'va_store_name')}';
                                 }
                                 return null;
                               },
@@ -383,7 +381,7 @@ class _MerchantRegisterState extends State<MerchantRegister>
                               keyboardType: TextInputType.text,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Store Description is required';
+                                  return '${getLang(context, 'va_store_description')}';
                                 }
                                 return null;
                               },
@@ -555,8 +553,8 @@ class _MerchantRegisterState extends State<MerchantRegister>
                                         QuickAlert.show(
                                           context: context,
                                           type: QuickAlertType.error,
-                                          title: 'Oops...',
-                                          text: 'Sorry, but this Invalid Email.',
+                                          title: '${getLang(context, 'oops')}',
+                                          text: '${getLang(context, 'invalid_email')}',
                                         );
                                       }
                                     }
