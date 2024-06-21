@@ -533,8 +533,10 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                                       QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.success,
+                                        title: "${getLang(context, 'success')}",
                                         text:
-                                            "Your Information's Updated Successfully!",
+                                            "${getLang(context, 'al_customer_information')}",
+                                        confirmBtnText: "${getLang(context, 'al_ok')}"
                                       );
                                     } catch (error) {}
                                   }
