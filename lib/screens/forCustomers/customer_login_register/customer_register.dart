@@ -113,7 +113,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   keyboardType: TextInputType.name,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Username is required';
+                                      return '${getLang(context, 'va_username')}';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -145,10 +145,10 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please enter an email';
+                                      return '${getLang(context, 'va_invalid_email')}';
                                     }
                                     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                                      return 'Please enter a valid email';
+                                      return '${getLang(context, 'va_invalid_email')}';
                                     } else {
                                       return null;
                                     }
@@ -184,7 +184,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   validator: (value) {
                                     // Check if the value is null or empty
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your password';
+                                      return '${getLang(context, 'va_password')}';
                                     }
 
                                     // Define a regular expression to match the password criteria
@@ -194,9 +194,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
 
                                     // Check if the password matches the criteria
                                     if (!passwordRegExp.hasMatch(value)) {
-                                      return 'Password must be at least 8 characters long, '
-                                          'include at least one uppercase letter, one lowercase letter, '
-                                          'one number, and one special character';
+                                      return '${getLang(context, 'va_password1')}';
                                     }
 
                                     // If all checks pass, return null
@@ -242,7 +240,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   validator: (value) {
                                     // Check if the value is null or empty
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your phone number';
+                                      return '${getLang(context, 'va_phone')}';
                                     }
 
                                     // Define a regular expression to match the phone number criteria
@@ -250,7 +248,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
 
                                     // Check if the phone number matches the criteria
                                     if (!phoneRegExp.hasMatch(value)) {
-                                      return 'Phone number must start with "05" and be exactly 10 digits long';
+                                      return '${getLang(context, 'va_phone1')}';
                                     }
 
                                     // If all checks pass, return null
@@ -285,7 +283,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Country is required';
+                                      return '${getLang(context, 'va_country')}';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -317,7 +315,7 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                   keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'street is required';
+                                      return '${getLang(context, 'va_street')}';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -421,8 +419,8 @@ class _CustomerRegisterState extends State<CustomerRegister>
                                             QuickAlert.show(
                                               context: context,
                                               type: QuickAlertType.error,
-                                              title: 'Oops...',
-                                              text: 'Sorry, but this Invalid Email.',
+                                              title: '${getLang(context, 'oops')}',
+                                              text: '${getLang(context, 'invalid_email')}',
                                             );
                                           }
                                         }

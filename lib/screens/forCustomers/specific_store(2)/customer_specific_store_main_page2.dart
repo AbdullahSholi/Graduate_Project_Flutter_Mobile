@@ -1278,8 +1278,8 @@ class _CustomerSpecificStoreMainPage2State
                                                       QuickAlert.show(
                                                         context: context,
                                                         type: QuickAlertType.loading,
-                                                        title: 'Loading',
-                                                        text: 'Fetching your data',
+                                                        title: '${getLang(context, 'loading')}',
+                                                        text: '${getLang(context, 'fetch_data')}',
                                                       );
                                                       timer = Timer(const Duration(milliseconds: 2000), () {
                                                         // Simulate data fetching completion (replace with actual logic)
@@ -1489,8 +1489,8 @@ class _CustomerSpecificStoreMainPage2State
                                                     QuickAlert.show(
                                                       context: context,
                                                       type: QuickAlertType.loading,
-                                                      title: 'Loading',
-                                                      text: 'Fetching your data',
+                                                      title: '${getLang(context, 'loading')}',
+                                                      text: '${getLang(context, 'fetch_data')}',
                                                     );
                                                     await incrementProductViews(index);
                                                     // PaymentManager.makePayment(20,"USD");
@@ -1893,7 +1893,7 @@ class _CustomerSpecificStoreMainPage2State
                                               crossAxisCount:
                                               2, // Set the number of columns
                                               childAspectRatio:
-                                              0.73, // Customize the aspect ratio (width/height) of each tile
+                                              0.77, // Customize the aspect ratio (width/height) of each tile
                                               mainAxisSpacing:
                                               4.0, // Spacing between rows
                                               crossAxisSpacing:
@@ -1906,8 +1906,8 @@ class _CustomerSpecificStoreMainPage2State
                                                     QuickAlert.show(
                                                       context: context,
                                                       type: QuickAlertType.loading,
-                                                      title: 'Loading',
-                                                      text: 'Fetching your data',
+                                                      title: '${getLang(context, 'loading')}',
+                                                      text: '${getLang(context, 'fetch_data')}',
                                                     );
                                                     await incrementProductViewsForCategory(index, CartsForOneCategoryVal[index]["cartCategory"]);
                                                     // PaymentManager.makePayment(20,"USD");

@@ -278,7 +278,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                             controller: usernameTextEditingController,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Username is required';
+                                return '${getLang(context, 'va_username')}';
                               }
                             },
                             //Making keyboard just for Email
@@ -376,7 +376,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                             validator: (value) {
                               // Check if the value is null or empty
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your phone number';
+                                return '${getLang(context, 'va_phone')}';
                               }
 
                               // Define a regular expression to match the phone number criteria
@@ -384,7 +384,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
 
                               // Check if the phone number matches the criteria
                               if (!phoneRegExp.hasMatch(value)) {
-                                return 'Phone number must start with "05" and be exactly 10 digits long';
+                                return '${getLang(context, 'va_phone1')}';
                               }
 
                               // If all checks pass, return null
@@ -422,7 +422,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Country is required';
+                                return '${getLang(context, 'va_country')}';
                               }
                             },
                             decoration: InputDecoration(
@@ -452,7 +452,7 @@ class _CustomerEditProfilePageState extends State<CustomerEditProfilePage>
                             controller: streetTextEditingController,
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Street is required';
+                                return '${getLang(context, 'va_street')}';
                               }
                             },
                             //Making keyboard just for Email

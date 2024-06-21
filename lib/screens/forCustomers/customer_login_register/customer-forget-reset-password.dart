@@ -161,8 +161,8 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.error,
-                          title: 'Oops...',
-                          text: 'User with this email does not exist',
+                          title: '${getLang(context, 'oops')}',
+                          text: '${getLang(context, 'user_not_exist')}',
                         );
                       }
                       if(userFuture.body == "Password reset link sent to your email account"){
@@ -172,7 +172,8 @@ class _ForgetAndResetPasswordState extends State<ForgetAndResetPassword> {
                         QuickAlert.show(
                           context: context,
                           type: QuickAlertType.success,
-                          text: 'Password reset link sent to your email account',
+                          title: "${getLang(context, 'success')}",
+                          text: '${getLang(context, 'password_reset_link')}',
                         );
                       }
 

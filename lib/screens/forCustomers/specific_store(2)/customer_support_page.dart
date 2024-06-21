@@ -342,7 +342,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage>
                                   controller: addQuestion,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Question is required';
+                                      return '${getLang(context, 'va_question')}';
                                     }
                                   },
                                   decoration: InputDecoration(
@@ -373,8 +373,9 @@ class _CustomerSupportPageState extends State<CustomerSupportPage>
                                           QuickAlert.show(
                                             context: context,
                                             type: QuickAlertType.success,
+                                            title: "${getLang(context, 'success')}",
                                             text:
-                                                'Your Question Sent Successfully!',
+                                                '${getLang(context, 'question_successfully')}',
                                           );
 
                                           print(userFuture.body);

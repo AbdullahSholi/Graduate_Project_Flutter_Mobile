@@ -120,7 +120,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                     controller: subjectEditingController,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Subject is required';
+                        return '${getLang(context, 'va_subject')}';
                       }
                     },
                     decoration: InputDecoration(
@@ -133,7 +133,7 @@ class _CustomerContactWithAdminState extends State<CustomerContactWithAdmin> {
                     controller: contentEditingController,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Content is required';
+                        return '${getLang(context, 'va_content')}';
                       }
                     },
                     maxLines: null, // Allows for multiline input

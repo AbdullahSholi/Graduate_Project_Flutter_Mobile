@@ -120,10 +120,10 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
 
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter an email';
+                          return '${getLang(context, 'va_invalid_email')}';
                         }
                         if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return 'Please enter a valid email';
+                          return '${getLang(context, 'va_invalid_email')}';
                         } else {
                           return null;
                         }
@@ -163,7 +163,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                       validator: (value) {
                         // Check if the value is null or empty
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return '${getLang(context, 'va_password')}';
                         }
 
                         // Define a regular expression to match the password criteria
@@ -173,9 +173,7 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
 
                         // Check if the password matches the criteria
                         if (!passwordRegExp.hasMatch(value)) {
-                          return 'Password must be at least 8 characters long, '
-                              'include at least one uppercase letter, one lowercase letter, '
-                              'one number, and one special character';
+                          return '${getLang(context, 'va_password1')}';
                         }
 
                         // If all checks pass, return null
@@ -296,15 +294,15 @@ class _CustomerLoginOrRegisterState extends State<CustomerLoginOrRegister>
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.error,
-                                      title: 'Oops...',
-                                      text: 'Too many login attempts, please try again after ${secondsLeft} seconds',
+                                      title: '${getLang(context, 'oops')}',
+                                      text: '${getLang(context, 'too_many_attempts')} ${secondsLeft} ${getLang(context, 'seconds')}',
                                     );
                                   } else if(jsonDecode(userFuture.body)["message"].toString().trim() == "Invalid email or password"){
                                     QuickAlert.show(
                                       context: context,
                                       type: QuickAlertType.error,
-                                      title: 'Oops...',
-                                      text: 'Incorrect email or password. Please try again.',
+                                      title: '${getLang(context, 'oops')}',
+                                      text: '${getLang(context, 'incorrect_email_or_password')}',
                                     );
                                   }
 

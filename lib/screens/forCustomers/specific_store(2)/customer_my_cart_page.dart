@@ -432,13 +432,13 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                 .emailAddress,
                                                         validator: (value) {
                                                           if (value!.isEmpty) {
-                                                            return 'Please enter an email';
+                                                            return '${getLang(context, 'va_email')}';
                                                           }
                                                           if (!RegExp(
                                                                   r'^[^@]+@[^@]+\.[^@]+')
                                                               .hasMatch(
                                                                   value)) {
-                                                            return 'Please enter a valid email';
+                                                            return '${getLang(context, 'va_email')}';
                                                           } else {
                                                             return null;
                                                           }
@@ -465,7 +465,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                         null ||
                                                                     value
                                                                         .isEmpty) {
-                                                                  return 'Please enter a card number';
+                                                                  return '${getLang(context, 'va_card')}';
                                                                 }
                                                                 value = value
                                                                     .replaceAll(
@@ -479,7 +479,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                     !RegExp(r'^[0-9]+$')
                                                                         .hasMatch(
                                                                             value)) {
-                                                                  return 'Invalid card number';
+                                                                  return '${getLang(context, 'va_card1')}';
                                                                 }
 
                                                                 // Luhn algorithm
@@ -507,7 +507,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
 
                                                                 if (sum % 10 !=
                                                                     0) {
-                                                                  return 'Invalid card number';
+                                                                  return '${getLang(context, 'va_card1')}';
                                                                 }
 
                                                                 return null;
@@ -619,14 +619,14 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                         null ||
                                                                     value
                                                                         .isEmpty) {
-                                                                  return 'Please enter an expiry month';
+                                                                  return '${getLang(context, 'va_exp_month')}';
                                                                 }
 
                                                                 if (!RegExp(
                                                                         r'^(0[1-9]|1[0-2])$')
                                                                     .hasMatch(
                                                                         value)) {
-                                                                  return 'Invalid expiry month';
+                                                                  return '${getLang(context, 'va_exp_month1')}';
                                                                 }
 
                                                                 return null;
@@ -662,14 +662,14 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                         null ||
                                                                     value
                                                                         .isEmpty) {
-                                                                  return 'Please enter an expiry year';
+                                                                  return '${getLang(context, 'va_exp_year')}';
                                                                 }
 
                                                                 if (!RegExp(
                                                                         r'^[0-9]{2}$')
                                                                     .hasMatch(
                                                                         value)) {
-                                                                  return 'Invalid expiry year';
+                                                                  return '${getLang(context, 'va_exp_year1')}';
                                                                 }
 
                                                                 final int
@@ -684,7 +684,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
 
                                                                 if (enteredYear <
                                                                     currentYear) {
-                                                                  return 'Expiry year cannot be in the past';
+                                                                  return '${getLang(context, 'va_exp_year1')}';
                                                                 }
 
                                                                 return null;
@@ -710,7 +710,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                         validator: (value) {
                                                           if (value == null ||
                                                               value.isEmpty) {
-                                                            return 'Please enter a CVC';
+                                                            return '${getLang(context, 'va_cvc')}';
                                                           }
 
                                                           // Check if all characters are digits and length is correct
@@ -718,7 +718,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                   r'^[0-9]{3}$')
                                                               .hasMatch(
                                                                   value)) {
-                                                            return 'Invalid CVC';
+                                                            return '${getLang(context, 'va_cvc1')}';
                                                           }
 
                                                           return null;
@@ -741,7 +741,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                         validator: (value) {
                                                           if (value == null ||
                                                               value.isEmpty) {
-                                                            return 'Please enter your account name';
+                                                            return '${getLang(context, "va_account_name")}';
                                                           }
                                                           // return null;
                                                         },
@@ -763,7 +763,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                           // Check if the value is null or empty
                                                           if (value == null ||
                                                               value.isEmpty) {
-                                                            return 'Please enter your phone number';
+                                                            return '${getLang(context, 'va_phone')}';
                                                           }
 
                                                           // Define a regular expression to match the phone number criteria
@@ -776,7 +776,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                           if (!phoneRegExp
                                                               .hasMatch(
                                                                   value)) {
-                                                            return 'Phone number must start with "05" and be exactly 10 digits long';
+                                                            return '${getLang(context, 'va_phone1')}';
                                                           }
 
                                                           // If all checks pass, return null
@@ -821,9 +821,9 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                         type: QuickAlertType
                                                                             .error,
                                                                         title:
-                                                                            'Oops...',
+                                                                            '${getLang(context, 'oops')}',
                                                                         text:
-                                                                            'No Products To Buy!!',
+                                                                            '${getLang(context, 'no_product')}',
                                                                       );
                                                                     } else {
                                                                       // If the form is valid, proceed with submission
@@ -1019,8 +1019,9 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                             context,
                                                                         type: QuickAlertType
                                                                             .success,
+                                                                        title: "${getLang(context, 'success')}",
                                                                         text:
-                                                                            'Transaction Completed Successfully!',
+                                                                            '${getLang(context, 'transaction_successfully')}',
                                                                       );
 
                                                                       DateTime now = DateTime.now();
@@ -1244,13 +1245,15 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.success,
-                                    text: 'Transaction Completed Successfully!',
+                                    title: getLang(context, 'success'),
+                                    text: '${getLang(context, 'transaction_successfully')}',
                                   );
                                 } else {
                                   QuickAlert.show(
                                     context: context,
                                     type: QuickAlertType.error,
-                                    text: 'Cart is empty',
+                                    title: "${getLang(context, 'oops')}",
+                                    text: '${getLang(context, 'no_product')}',
                                   );
                                 }
                               },

@@ -1288,7 +1288,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                               QuickAlert.show(
                                 context: context,
                                 type: QuickAlertType.success,
-                                text: 'Product Added Successfully!',
+                                title: "${getLang(context, 'success')}",
+                                text: '${getLang(context, 'product_added_successfully')}',
                               );
                               print("0000000000000000000000000");
                               print(storeCartsVal);
@@ -1296,8 +1297,8 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
                               QuickAlert.show(
                                 context: context,
                                 type: QuickAlertType.error,
-                                title: 'Oops...',
-                                text: 'Sorry, stock is empty!!',
+                                title: '${getLang(context, 'oops')}',
+                                text: '${getLang(context, 'stock_empty')}',
                               );
                             }
 
