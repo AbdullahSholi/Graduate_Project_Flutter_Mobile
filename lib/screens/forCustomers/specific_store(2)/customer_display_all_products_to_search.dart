@@ -27,7 +27,8 @@ class CustomerDisplayAllProducts extends StatefulWidget {
   late String customerEmailVal;
   late String tokenVal;
   late String emailVal;
-  CustomerDisplayAllProducts( this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, {super.key});
+  late int storeIndexVal;
+  CustomerDisplayAllProducts( this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, this.storeIndexVal, {super.key});
 
   @override
   State<CustomerDisplayAllProducts> createState() => _CustomerDisplayAllProductsState();
@@ -201,6 +202,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
         favoriteList = json.decode(userFuture.body);
 
       });
+      getStoreIndex();
     } else {
       throw Exception("Error");
     }
@@ -255,9 +257,11 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
       // getCustomerFavoriteList();
       print("vvvvvvvvvvvv $storeCartsVal");
     });
+    getStoreIndex();
+
   }
 
-  int storeIndexVal = 0;
+  int storeIndexVal = 100000;
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {
@@ -286,6 +290,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
         smoothy = getStoreDataVal[storeIndexVal].smoothy;
 
       });
+
+      getStoreIndex();
 
     } else {
       print("error");
@@ -318,15 +324,17 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
   void initState() {
     // TODO: implement initState
     super.initState();
+    getStoreIndex();
+
     // storeCartsVal = widget.storeCartsVal;
     customerEmailVal = widget.customerEmailVal;
     customerTokenVal = widget.customerTokenVal;
     tokenVal = widget.tokenVal;
     emailVal = widget.emailVal;
+    storeIndexVal=widget.storeIndexVal;
     getCustomerFavoriteList();
     getSpecificStoreCart(emailVal);
     getMerchantData();
-    getStoreIndex();
   }
 
 
@@ -500,7 +508,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                 print(filteredProducts[index]);
                                 print("+++++++++++++++++++++");
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(filteredProducts[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                               },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -768,7 +776,7 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
                                 print(storeCartsVal[index]);
                                 print("+++++++++++++++++++++");
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                               },
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),

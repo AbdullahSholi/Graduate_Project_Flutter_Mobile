@@ -27,7 +27,8 @@ class CustomerFavoriteProducts extends StatefulWidget {
   String customerEmailVal;
   String tokenVal;
   String emailVal;
-  CustomerFavoriteProducts( this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal,  {super.key});
+  int storeIndexVal;
+  CustomerFavoriteProducts( this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, this.storeIndexVal,  {super.key});
 
   @override
   State<CustomerFavoriteProducts> createState() => _CustomerFavoriteProductsState();
@@ -136,6 +137,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
         storeCartsVal = json.decode(userFuture.body);
 
       });
+      getStoreIndex();
     } else {
       throw Exception("Error");
     }
@@ -143,7 +145,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
 
   }
 
-  int storeIndexVal = 0;
+  int storeIndexVal = 10000;
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {
@@ -172,6 +174,8 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
         smoothy = getStoreDataVal[storeIndexVal].smoothy;
       });
 
+      getStoreIndex();
+
 
 
     } else {
@@ -194,6 +198,8 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
         storeIndexVal=temp["value"];
       });
 
+
+
     } else {
       print("error");
       throw Exception("Error");
@@ -204,14 +210,16 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getStoreIndex();
     customerEmailVal = widget.customerEmailVal;
     customerTokenVal = widget.customerTokenVal;
     tokenVal = widget.tokenVal;
     emailVal = widget.emailVal;
+    storeIndexVal=widget.storeIndexVal;
     // storeCartsVal = widget.storeCartsVal;
     getCustomerFavoriteList();
     getMerchantData();
-    getStoreIndex();
+
   }
 
 

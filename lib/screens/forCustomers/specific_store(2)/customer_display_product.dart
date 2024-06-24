@@ -38,7 +38,8 @@ class CustomerDisplayProduct extends StatefulWidget {
   String customerEmailVal ;
   String emailVal;
   String tokenVal;
-  CustomerDisplayProduct(this.storeCartsVal, this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, {super.key});
+  int storeIndexVal;
+  CustomerDisplayProduct(this.storeCartsVal, this.customerTokenVal, this.customerEmailVal, this.tokenVal, this.emailVal, this.storeIndexVal, {super.key});
 
   @override
   State<CustomerDisplayProduct> createState() => _CustomerDisplayProductState();
@@ -66,7 +67,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
   double spaceBelowComponent = 10;
 
 
-  int storeIndexVal = 0;
+  int storeIndexVal = 100000;
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {
@@ -94,6 +95,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
         secondaryTextColor = Color(int.parse(getStoreDataVal[storeIndexVal].secondaryTextColor.replaceAll("Color(", "").replaceAll(")", "")));
         smoothy = getStoreDataVal[storeIndexVal].smoothy;
       });
+      getStoreIndex();
 
     } else {
       print("error");
@@ -144,6 +146,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
 
     print("%%%%%%%%%%%%%%%%%%%%%%%");
     print("%%%%%%%%%%%%%%%%%%%%%%%");
+    getStoreIndex();
 
   }
 
@@ -205,6 +208,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
       print("IIIIIIIIIIIIIIIIIIIIIII");
       print(productAverageRate);
       print("IIIIIIIIIIIIIIIIIIIIIII");
+      getStoreIndex();
 
     } else {
       print("error");
@@ -260,20 +264,24 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
   @override
   void initState() {
     // TODO: implement initState
+    getStoreIndex();
     super.initState();
+    getStoreIndex();
+    getStoreIndex();
     WidgetsBinding.instance.addObserver(this);
     storeCartsVal = widget.storeCartsVal;
     customerEmailVal = widget.customerEmailVal;
     customerTokenVal = widget.customerTokenVal;
     emailVal = widget.emailVal;
     tokenVal = widget.tokenVal;
+    storeIndexVal = widget.storeIndexVal;
 
     print("*********************");
     print(customerTokenVal);
     print("*********************");
 
     getMerchantData();
-    getStoreIndex();
+
     getAverageProductRate();
     getMerchantProfile();
     translateProductDescription();

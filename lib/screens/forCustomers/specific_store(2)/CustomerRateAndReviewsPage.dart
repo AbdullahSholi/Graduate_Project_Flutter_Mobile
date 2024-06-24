@@ -59,7 +59,27 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   double number1StarsRatio = 0;
 
 
+  int storeIndexVal = 0;
+  Future<void> getStoreIndex() async {
 
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-store-index/"),
+    );
+    print(userFuture.body);
+    var temp = json.decode(userFuture.body);
+    print(temp["value"]);
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        storeIndexVal=temp["value"];
+      });
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
 
   @override
   void initState() {
@@ -356,13 +376,13 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     return WillPopScope(
 
       onWillPop: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
         return Future.value(true);
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
           }, icon: Icon(Icons.arrow_back_ios_new, color: Colors.white,)),
           backgroundColor: Color(0xFF212128),
           title: Text("${getLang(context, 'rating_reviews')}", style: GoogleFonts.roboto(textStyle: TextStyle(color: Colors.white, fontSize: 35)),),

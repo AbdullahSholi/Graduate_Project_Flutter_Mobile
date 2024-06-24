@@ -142,7 +142,27 @@ class _CustomerSpecificStoreMainPage2State
   double spaceAboveComponent = 20;
   double spaceBelowComponent = 10;
 
+  int storeIndexVal = 100000000;
+  Future<void> getStoreIndex() async {
 
+    http.Response userFuture = await http.get(
+      Uri.parse(
+          "https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/get-store-index/"),
+    );
+    print(userFuture.body);
+    var temp = json.decode(userFuture.body);
+    print(temp["value"]);
+    if (userFuture.statusCode == 200) {
+      print("${userFuture.statusCode}");
+      setState(() {
+        storeIndexVal=temp["value"];
+      });
+
+    } else {
+      print("error");
+      throw Exception("Error");
+    }
+  }
   //////////////
 
   // for Images Slider
@@ -1037,7 +1057,7 @@ class _CustomerSpecificStoreMainPage2State
                         context,
                         MaterialPageRoute(
                             builder: (context) => CustomerFavoriteProducts(
-                                customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -1203,7 +1223,7 @@ class _CustomerSpecificStoreMainPage2State
                 context,
                 MaterialPageRoute(
                     builder: (context) => CustomerFavoriteProducts(
-                        customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                        customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
           }, icon: Icon(Icons.favorite_outline, color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), size: 30,)),
           SizedBox(width: 10,),
         ],
@@ -1449,7 +1469,7 @@ class _CustomerSpecificStoreMainPage2State
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               CustomerDisplayAllProducts(
-                                                                  customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                                                  customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                                                 },
                                               ),
                                             )
@@ -1500,7 +1520,7 @@ class _CustomerSpecificStoreMainPage2State
                                                     print(storeCartsVal[index]);
                                                     print("+++++++++++++++++++++");
 
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.fromLTRB(
@@ -1919,7 +1939,7 @@ class _CustomerSpecificStoreMainPage2State
                                                     print("+++++++++++++++++++++");
 
 
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal)));
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.fromLTRB(

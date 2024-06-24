@@ -891,6 +891,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                         return accumulator;
                                                                       });
                                                                       // print(price);
+                                                                      print("XXXXXXXXXXXXXXXXXXXU");
                                                                       print(
                                                                           uniqueList);
 
@@ -919,7 +920,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                                                               "account_name": _accountNameController.text,
                                                                               "phone": _phoneNumberController.text,
                                                                               "cvv": _cvvController.text,
-                                                                              "amount": uniqueList[i]["price"] * 100,
+                                                                              "amount": uniqueList[i]["price"] * 100 * cartList[i]["quantities"],
                                                                               "currency": "USD",
                                                                               "card_type": selectedItem,
                                                                               // Add card type
@@ -1138,7 +1139,9 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                     return accumulator;
                                   });
                                   // print(price);
+                                  print("RRRRRRRRRRRRRRRRRXXXX");
                                   print(uniqueList);
+                                  print(cartList);
 
                                   for (int i = 0; i < uniqueList.length; i++) {
                                     http.Response userFuture = await http.post(
@@ -1163,7 +1166,7 @@ class _CustomerMyCartPageState extends State<CustomerMyCartPage> {
                                           "phone": _phoneNumberController.text,
                                           "cvv": _cvvController.text,
                                           "amount":
-                                              uniqueList[i]["price"] * 100,
+                                              uniqueList[i]["price"] * 100 * cartList[i]["quantities"],
                                           "currency": "USD",
                                           "card_type": selectedItem,
                                           // Add card type
