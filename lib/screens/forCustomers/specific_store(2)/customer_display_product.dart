@@ -67,7 +67,7 @@ class _CustomerDisplayProductState extends State<CustomerDisplayProduct> with Wi
   double spaceBelowComponent = 10;
 
 
-  int storeIndexVal = 100000;
+  late int storeIndexVal ;
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {

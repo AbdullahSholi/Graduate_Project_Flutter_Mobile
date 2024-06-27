@@ -142,7 +142,8 @@ class _CustomerSpecificStoreMainPage2State
   double spaceAboveComponent = 20;
   double spaceBelowComponent = 10;
 
-  int storeIndexVal = 100000000;
+  late int storeIndexVal ;
+
   Future<void> getStoreIndex() async {
 
     http.Response userFuture = await http.get(
@@ -1051,8 +1052,9 @@ class _CustomerSpecificStoreMainPage2State
                     "${getLang(context, 'my_favorites')}",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     print("My Profile");
+                    await getStoreIndex();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1218,7 +1220,9 @@ class _CustomerSpecificStoreMainPage2State
         title: Text("${storeNameVal}", style: TextStyle(color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))), fontSize: 24, fontWeight: FontWeight.bold), ),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
+          IconButton(onPressed: () async {
+            await getStoreIndex();
+
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -1462,8 +1466,9 @@ class _CustomerSpecificStoreMainPage2State
                                                         color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")))),
                                                   ),
                                                 ),
-                                                onTap: () {
+                                                onTap: () async {
                                                   // _startRefresh();
+                                                  await getStoreIndex();
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -1519,6 +1524,7 @@ class _CustomerSpecificStoreMainPage2State
                                                     print("+++++++++++++++++++++");
                                                     print(storeCartsVal[index]);
                                                     print("+++++++++++++++++++++");
+                                                    await getStoreIndex();
 
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                                                   },
@@ -1937,6 +1943,7 @@ class _CustomerSpecificStoreMainPage2State
                                                     print("+++++++++++++++++++++");
                                                     print(storeCartsVal[index]);
                                                     print("+++++++++++++++++++++");
+                                                    await getStoreIndex();
 
 
                                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));

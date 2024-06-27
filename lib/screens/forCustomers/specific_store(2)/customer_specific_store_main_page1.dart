@@ -659,7 +659,7 @@ class _CustomerSpecificStoreMainPage1State
   ];
   List<Widget> containersCarts = [];
 
-  int storeIndexVal = 100000000;
+  late int storeIndexVal ;
 
   Future<void> getStoreIndex() async {
 
@@ -870,11 +870,11 @@ class _CustomerSpecificStoreMainPage1State
     smoothy = widget.smoothy;
     design = widget.design;
 
+
     print(emailVal);
     // userData = getUserByName();
     sliderImages = getSliderImages();
     specificStoreCategories = getSpecificStoreCategories();
-
     sliderVisibilityVal = widget.sliderVisibility;
     categoryVisibilityVal = widget.categoryVisibility;
     cartsVisibilityVal = widget.cartsVisibility;
@@ -1106,8 +1106,9 @@ class _CustomerSpecificStoreMainPage1State
                     "${getLang(context, 'my_favorites')}",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     print("My Profile");
+                    await getStoreIndex();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1309,8 +1310,10 @@ class _CustomerSpecificStoreMainPage1State
                     width: 20,
                   ),
                   IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         // _startRefresh();
+                        await getStoreIndex();
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -1551,8 +1554,10 @@ class _CustomerSpecificStoreMainPage1State
                                                       color: Color(int.parse(primaryTextColor.replaceAll("Color(", "").replaceAll(")", "")))),
                                                 ),
                                               ),
-                                              onTap: () {
+                                              onTap: () async {
                                                 // _startRefresh();
+                                                await getStoreIndex();
+
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -1608,6 +1613,8 @@ class _CustomerSpecificStoreMainPage1State
                                               print("+++++++++++++++++++++");
                                               print(storeCartsVal[index]);
                                               print("+++++++++++++++++++++");
+                                              await getStoreIndex();
+
 
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(storeCartsVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
                                             },
@@ -2029,6 +2036,8 @@ class _CustomerSpecificStoreMainPage1State
                                               print("+++++++++++++++++++++");
                                               print(storeCartsVal[index]);
                                               print("+++++++++++++++++++++");
+                                              await getStoreIndex();
+
 
 
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDisplayProduct(CartsForOneCategoryVal[index], customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));

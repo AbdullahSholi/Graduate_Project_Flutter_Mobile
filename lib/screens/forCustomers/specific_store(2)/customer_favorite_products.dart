@@ -145,7 +145,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
 
   }
 
-  int storeIndexVal = 10000;
+  late int storeIndexVal;
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {

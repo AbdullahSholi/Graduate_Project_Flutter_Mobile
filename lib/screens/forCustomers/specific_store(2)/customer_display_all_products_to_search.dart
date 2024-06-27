@@ -261,7 +261,8 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
 
   }
 
-  int storeIndexVal = 100000;
+  late int storeIndexVal ;
+
   late List<dynamic> getStoreDataVal=[];
   late List<dynamic> tempStores1=[];
   Future<void> getMerchantData() async {

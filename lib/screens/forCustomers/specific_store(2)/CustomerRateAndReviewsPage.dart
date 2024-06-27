@@ -59,7 +59,8 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
   double number1StarsRatio = 0;
 
 
-  int storeIndexVal = 0;
+  late int storeIndexVal ;
+
   Future<void> getStoreIndex() async {
 
     http.Response userFuture = await http.get(

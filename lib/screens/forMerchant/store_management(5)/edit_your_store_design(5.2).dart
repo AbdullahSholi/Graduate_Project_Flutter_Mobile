@@ -945,39 +945,327 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFEF7FF),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF212128),
+
+        title: Text("${storeNameVal}", style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold), ),
+        centerTitle: true,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(15),
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF212128),
+        onTap: (index) {
+          print(index);
+          if (index == 0) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MerchantHome(tokenVal, emailVal)));
+          } else if (index == 1) {
+            setState(() {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    contentPadding: EdgeInsets.all(0),
+                    content: Container(
+
+                      height:
+                      MediaQuery.of(context).size.height / 2.5,
+                      // width: 50,
+                      // margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        // border: Border.all(color: Colors.red,width: 5),
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color(0xFF212128),
+                      ),
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.fromLTRB(
+                                  20, 20, 20, 0),
+                              alignment: Alignment.center,
+                              width: (MediaQuery.of(context)
+                                  .size
+                                  .width *
+                                  5) /
+                                  8,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              child: Text(
+                                "${getLang(context, 'activate_components')}",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.federo(
+                                  color: Color(0xFF212128),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width,
+                            color: Colors.white,
+                            height: 2,
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(
+                                20, 30, 10, 10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                              Container(
+                                width: (MediaQuery.of(context)
+                                    .size
+                                    .width *
+                                    2) /
+                                    5,
+                                child: Text(
+                                  "${getLang(context, 'activate_slider')}",
+                                  style: GoogleFonts.federo(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.green,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        sliderVisibilityVal =
+                                        true;
+                                        activateStoreSlider();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.done,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context)
+                                    .size
+                                    .width /
+                                    20,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 20,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        sliderVisibilityVal =
+                                        false;
+                                        activateStoreSlider();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ]),
+                          ),
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.fromLTRB(
+                                20, 30, 10, 10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                              Container(
+                                width: (MediaQuery.of(context)
+                                    .size
+                                    .width *
+                                    2) /
+                                    5,
+                                child: Text(
+                                  "${getLang(context, 'activate_category')}",
+                                  style: GoogleFonts.federo(
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.green,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        categoryVisibilityVal =
+                                        true;
+                                        activateStoreCategory();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.done,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context)
+                                    .size
+                                    .width /
+                                    20,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 20,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        categoryVisibilityVal =
+                                        false;
+                                        activateStoreCategory();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ]),
+                          ),
+                          Container(
+                            width:
+                            MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.fromLTRB(
+                                20, 30, 10, 10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                              Container(
+                                width: (MediaQuery.of(context)
+                                    .size
+                                    .width *
+                                    2) /
+                                    5,
+                                child: Text(
+                                  "${getLang(context, 'activate_products')}",
+                                  style: GoogleFonts.federo(
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.green,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        cartsVisibilityVal = true;
+                                        activateStoreCarts();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.done,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context)
+                                    .size
+                                    .width /
+                                    20,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 20,
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        cartsVisibilityVal =
+                                        false;
+                                        activateStoreCarts();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ));
+            });
+          } else if (index == 2) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SelectYourStoreDesign(
+                        tokenVal,
+                        emailVal,
+                        specificStoreCategoriesVal,
+                        storeNameVal,
+                        storeCartsVal,
+                        sliderVisibilityVal,
+                        categoryVisibilityVal,
+                        cartsVisibilityVal,
+                        objectDataVal)));
+            // addStoreToDatabase();
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            label: '${getLang(context, 'home')}',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            label: '${getLang(context, 'customize')}',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
+            label: '${getLang(context, 'continue')}',
+          ),
+        ],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color(0xFF717389),
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             child: Column(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      20, MediaQuery.of(context).size.height / 20, 20, 0),
-                  decoration: BoxDecoration(
-                      color: Color(0xFF212128),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: Text(storeNameVal,
-                              style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30),
-                              ))),
-                    ],
-                  ),
-                ),
+                // SizedBox(height: 20,),
                 FutureBuilder<List>(
                     future: sliderImages,
                     builder:
                         (BuildContext context, AsyncSnapshot<List> snapshot) {
                       return Container(
-                        height: MediaQuery.of(context).size.height / 1.05,
-                        margin: EdgeInsets.all(5),
+                        height: MediaQuery.of(context).size.height ,
+                        margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           // color: Colors.cyan
@@ -988,11 +1276,9 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                               Visibility(
                                 visible: sliderVisibilityVal,
                                 child: Column(children: [
-                                  SizedBox(
-                                    height: 5,
-                                  ),
+
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -1483,7 +1769,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   children: [
                                     Container(
                                       margin:
-                                          EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                          EdgeInsets.fromLTRB(20, 30, 20, 15),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -2582,6 +2868,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                   ],
                                 ),
                               ),
+                              SizedBox(height: 70,)
                             ],
                           ),
                         ),
@@ -2590,304 +2877,304 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
               ],
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: BottomNavigationBar(
-                  backgroundColor: Color(0xFF212128),
-                  onTap: (index) {
-                    print(index);
-                    if (index == 0) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  MerchantHome(tokenVal, emailVal)));
-                    } else if (index == 1) {
-                      setState(() {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  contentPadding: EdgeInsets.all(0),
-                                  content: Container(
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-                                    // width: 50,
-                                    // margin: EdgeInsets.all(20),
-                                    decoration: BoxDecoration(
-                                      // border: Border.all(color: Colors.red,width: 5),
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Color(0xFF212128),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                20, 20, 20, 0),
-                                            alignment: Alignment.center,
-                                            width: (MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    5) /
-                                                8,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Colors.white,
-                                            ),
-                                            child: Text(
-                                              "${getLang(context, 'activate_components')}",
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.federo(
-                                                color: Color(0xFF212128),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          color: Colors.white,
-                                          height: 2,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              20, 30, 10, 10),
-                                          child: Row(children: [
-                                            Container(
-                                              width: (MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      2) /
-                                                  5,
-                                              child: Text(
-                                                "${getLang(context, 'activate_slider')}",
-                                                style: GoogleFonts.federo(
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ),
-                                            CircleAvatar(
-                                              radius: 20,
-                                              backgroundColor: Colors.green,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      sliderVisibilityVal =
-                                                          true;
-                                                      activateStoreSlider();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              radius: 20,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      sliderVisibilityVal =
-                                                          false;
-                                                      activateStoreSlider();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                          ]),
-                                        ),
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          margin: EdgeInsets.fromLTRB(
-                                              20, 30, 10, 10),
-                                          child: Row(children: [
-                                            Container(
-                                              width: (MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      2) /
-                                                  5,
-                                              child: Text(
-                                                "${getLang(context, 'activate_category')}",
-                                                style: GoogleFonts.federo(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                            ),
-                                            CircleAvatar(
-                                              radius: 20,
-                                              backgroundColor: Colors.green,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      categoryVisibilityVal =
-                                                          true;
-                                                      activateStoreCategory();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              radius: 20,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      categoryVisibilityVal =
-                                                          false;
-                                                      activateStoreCategory();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                          ]),
-                                        ),
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          margin: EdgeInsets.fromLTRB(
-                                              20, 30, 10, 10),
-                                          child: Row(children: [
-                                            Container(
-                                              width: (MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      2) /
-                                                  5,
-                                              child: Text(
-                                                "${getLang(context, 'activate_products')}",
-                                                style: GoogleFonts.federo(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                            ),
-                                            CircleAvatar(
-                                              radius: 20,
-                                              backgroundColor: Colors.green,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      cartsVisibilityVal = true;
-                                                      activateStoreCarts();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.done,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              radius: 20,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      cartsVisibilityVal =
-                                                          false;
-                                                      activateStoreCarts();
-                                                    });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                  )),
-                                            ),
-                                          ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ));
-                      });
-                    } else if (index == 2) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SelectYourStoreDesign(
-                                  tokenVal,
-                                  emailVal,
-                                  specificStoreCategoriesVal,
-                                  storeNameVal,
-                                  storeCartsVal,
-                                  sliderVisibilityVal,
-                                  categoryVisibilityVal,
-                                  cartsVisibilityVal,
-                                  objectDataVal)));
-                      // addStoreToDatabase();
-                    }
-                  },
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                      ),
-                      label: '${getLang(context, 'home')}',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
-                      label: '${getLang(context, 'customize')}',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      ),
-                      label: '${getLang(context, 'continue')}',
-                    ),
-                  ],
-                  selectedItemColor: Colors.white,
-                  unselectedItemColor: Color(0xFF717389),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   left: 0,
+          //   right: 0,
+          //   bottom: 0,
+          //   child: Container(
+          //     padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+          //     child: ClipRRect(
+          //       borderRadius: BorderRadius.circular(20),
+          //       child: BottomNavigationBar(
+          //         backgroundColor: Color(0xFF212128),
+          //         onTap: (index) {
+          //           print(index);
+          //           if (index == 0) {
+          //             Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                     builder: (context) =>
+          //                         MerchantHome(tokenVal, emailVal)));
+          //           } else if (index == 1) {
+          //             setState(() {
+          //               showDialog(
+          //                   context: context,
+          //                   builder: (context) => AlertDialog(
+          //                         contentPadding: EdgeInsets.all(0),
+          //                         content: Container(
+          //                           height:
+          //                               MediaQuery.of(context).size.height / 2,
+          //                           // width: 50,
+          //                           // margin: EdgeInsets.all(20),
+          //                           decoration: BoxDecoration(
+          //                             // border: Border.all(color: Colors.red,width: 5),
+          //                             borderRadius: BorderRadius.circular(20),
+          //                             color: Color(0xFF212128),
+          //                           ),
+          //                           child: Column(
+          //                             children: [
+          //                               Center(
+          //                                 child: Container(
+          //                                   margin: EdgeInsets.fromLTRB(
+          //                                       20, 20, 20, 0),
+          //                                   alignment: Alignment.center,
+          //                                   width: (MediaQuery.of(context)
+          //                                               .size
+          //                                               .width *
+          //                                           5) /
+          //                                       8,
+          //                                   height: 40,
+          //                                   decoration: BoxDecoration(
+          //                                     borderRadius:
+          //                                         BorderRadius.circular(20),
+          //                                     color: Colors.white,
+          //                                   ),
+          //                                   child: Text(
+          //                                     "${getLang(context, 'activate_components')}",
+          //                                     textAlign: TextAlign.center,
+          //                                     style: GoogleFonts.federo(
+          //                                       color: Color(0xFF212128),
+          //                                       fontSize: 20,
+          //                                       fontWeight: FontWeight.bold,
+          //                                     ),
+          //                                   ),
+          //                                 ),
+          //                               ),
+          //                               SizedBox(
+          //                                 height: 20,
+          //                               ),
+          //                               Container(
+          //                                 width:
+          //                                     MediaQuery.of(context).size.width,
+          //                                 color: Colors.white,
+          //                                 height: 2,
+          //                               ),
+          //                               Container(
+          //                                 margin: EdgeInsets.fromLTRB(
+          //                                     20, 30, 10, 10),
+          //                                 child: Row(children: [
+          //                                   Container(
+          //                                     width: (MediaQuery.of(context)
+          //                                                 .size
+          //                                                 .width *
+          //                                             2) /
+          //                                         5,
+          //                                     child: Text(
+          //                                       "${getLang(context, 'activate_slider')}",
+          //                                       style: GoogleFonts.federo(
+          //                                         color: Colors.white,
+          //                                         fontSize: 20,
+          //                                       ),
+          //                                     ),
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     radius: 20,
+          //                                     backgroundColor: Colors.green,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             sliderVisibilityVal =
+          //                                                 true;
+          //                                             activateStoreSlider();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.done,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: MediaQuery.of(context)
+          //                                             .size
+          //                                             .width /
+          //                                         20,
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     backgroundColor: Colors.red,
+          //                                     radius: 20,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             sliderVisibilityVal =
+          //                                                 false;
+          //                                             activateStoreSlider();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.close,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                 ]),
+          //                               ),
+          //                               Container(
+          //                                 width:
+          //                                     MediaQuery.of(context).size.width,
+          //                                 margin: EdgeInsets.fromLTRB(
+          //                                     20, 30, 10, 10),
+          //                                 child: Row(children: [
+          //                                   Container(
+          //                                     width: (MediaQuery.of(context)
+          //                                                 .size
+          //                                                 .width *
+          //                                             2) /
+          //                                         5,
+          //                                     child: Text(
+          //                                       "${getLang(context, 'activate_category')}",
+          //                                       style: GoogleFonts.federo(
+          //                                           color: Colors.white,
+          //                                           fontSize: 20),
+          //                                     ),
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     radius: 20,
+          //                                     backgroundColor: Colors.green,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             categoryVisibilityVal =
+          //                                                 true;
+          //                                             activateStoreCategory();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.done,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: MediaQuery.of(context)
+          //                                             .size
+          //                                             .width /
+          //                                         20,
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     backgroundColor: Colors.red,
+          //                                     radius: 20,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             categoryVisibilityVal =
+          //                                                 false;
+          //                                             activateStoreCategory();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.close,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                 ]),
+          //                               ),
+          //                               Container(
+          //                                 width:
+          //                                     MediaQuery.of(context).size.width,
+          //                                 margin: EdgeInsets.fromLTRB(
+          //                                     20, 30, 10, 10),
+          //                                 child: Row(children: [
+          //                                   Container(
+          //                                     width: (MediaQuery.of(context)
+          //                                                 .size
+          //                                                 .width *
+          //                                             2) /
+          //                                         5,
+          //                                     child: Text(
+          //                                       "${getLang(context, 'activate_products')}",
+          //                                       style: GoogleFonts.federo(
+          //                                           color: Colors.white,
+          //                                           fontSize: 20),
+          //                                     ),
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     radius: 20,
+          //                                     backgroundColor: Colors.green,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             cartsVisibilityVal = true;
+          //                                             activateStoreCarts();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.done,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                   SizedBox(
+          //                                     width: MediaQuery.of(context)
+          //                                             .size
+          //                                             .width /
+          //                                         20,
+          //                                   ),
+          //                                   CircleAvatar(
+          //                                     backgroundColor: Colors.red,
+          //                                     radius: 20,
+          //                                     child: IconButton(
+          //                                         onPressed: () {
+          //                                           setState(() {
+          //                                             cartsVisibilityVal =
+          //                                                 false;
+          //                                             activateStoreCarts();
+          //                                           });
+          //                                         },
+          //                                         icon: Icon(
+          //                                           Icons.close,
+          //                                           color: Colors.white,
+          //                                         )),
+          //                                   ),
+          //                                 ]),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                       ));
+          //             });
+          //           } else if (index == 2) {
+          //             Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                     builder: (context) => SelectYourStoreDesign(
+          //                         tokenVal,
+          //                         emailVal,
+          //                         specificStoreCategoriesVal,
+          //                         storeNameVal,
+          //                         storeCartsVal,
+          //                         sliderVisibilityVal,
+          //                         categoryVisibilityVal,
+          //                         cartsVisibilityVal,
+          //                         objectDataVal)));
+          //             // addStoreToDatabase();
+          //           }
+          //         },
+          //         items: [
+          //           BottomNavigationBarItem(
+          //             icon: Icon(
+          //               Icons.home,
+          //               color: Colors.white,
+          //             ),
+          //             label: '${getLang(context, 'home')}',
+          //           ),
+          //           BottomNavigationBarItem(
+          //             icon: Icon(
+          //               Icons.edit,
+          //               color: Colors.white,
+          //             ),
+          //             label: '${getLang(context, 'customize')}',
+          //           ),
+          //           BottomNavigationBarItem(
+          //             icon: Icon(
+          //               Icons.arrow_forward_ios,
+          //               color: Colors.white,
+          //             ),
+          //             label: '${getLang(context, 'continue')}',
+          //           ),
+          //         ],
+          //         selectedItemColor: Colors.white,
+          //         unselectedItemColor: Color(0xFF717389),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       // bottomNavigationBar: Container(
