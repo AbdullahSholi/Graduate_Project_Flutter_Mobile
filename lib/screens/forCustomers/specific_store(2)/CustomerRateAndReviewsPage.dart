@@ -95,9 +95,10 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     numberOfRates = widget.numberOfRates;
     index1 = widget.index1;
     storeCartsVal = widget.storeCartsVal;
-
+    getStoreIndex();
     getCustomerName();
     getProductRateList();
+    getStoreIndex();
 
 
 
@@ -376,7 +377,8 @@ class _CustomerRateAndReviewsPageState extends State<CustomerRateAndReviewsPage>
     // TODO: implement build
     return WillPopScope(
 
-      onWillPop: () {
+      onWillPop: () async {
+        await getStoreIndex();
         Navigator.push(context, MaterialPageRoute(builder: (context)=> CustomerDisplayProduct(storeCartsVal, customerTokenVal, customerEmailVal, tokenVal, emailVal, storeIndexVal)));
         return Future.value(true);
       },

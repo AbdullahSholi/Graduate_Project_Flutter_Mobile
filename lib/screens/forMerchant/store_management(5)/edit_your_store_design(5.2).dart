@@ -2186,40 +2186,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                 }).toList(),
                                                                                               ),
                                                                                             )),
-                                                                                        SizedBox(
-                                                                                          height: 20,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          width: MediaQuery.of(context).size.width / 1.3,
-                                                                                          child: TextFormField(
-                                                                                            cursorColor: Colors.white,
-                                                                                            style: TextStyle(color: Colors.white),
-                                                                                            controller: cartNameTextEditingController,
-                                                                                            //Making keyboard just for Email
-                                                                                            keyboardType: TextInputType.emailAddress,
-                                                                                            validator: (value) {
-                                                                                              if (value != null && value.isNotEmpty && !RegExp(r'^[a-zA-Z]').hasMatch(value!)) {
-                                                                                                return '${getLang(context, 'va_product_name1')}';
-                                                                                              }
-                                                                                              return null;
-                                                                                            },
-                                                                                            decoration: InputDecoration(
-                                                                                                labelText: '${getLang(context, 'product_name')}',
-                                                                                                labelStyle: TextStyle(color: Colors.white),
-                                                                                                prefixIcon: Icon(
-                                                                                                  Icons.category_outlined,
-                                                                                                  color: Colors.white,
-                                                                                                ),
-                                                                                                border: OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                )),
-                                                                                                focusedBorder: OutlineInputBorder(
-                                                                                                    borderSide: BorderSide(
-                                                                                                  color: Colors.white,
-                                                                                                ))),
-                                                                                          ),
-                                                                                        ),
+
                                                                                         SizedBox(
                                                                                           height: 20,
                                                                                         ),
@@ -2492,11 +2459,7 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                 onPressed: () async {
                                                                                                   if (_formKey2.currentState!.validate()) {
                                                                                                     int counter2 = 0;
-                                                                                                    for (int i = 0; i < storeCartsVal.length; i++) {
-                                                                                                      if (storeCartsVal[i]["cartName"].toString() == cartNameTextEditingController.text.toString()) {
-                                                                                                        counter2++;
-                                                                                                      }
-                                                                                                    }
+
                                                                                                     print(counter2);
 
                                                                                                     if (counter2 == 0) {
@@ -2514,7 +2477,8 @@ class _EditYourStoreDesignState extends State<EditYourStoreDesign> {
                                                                                                               "index": index,
                                                                                                               "email": emailVal,
                                                                                                               "cartName": cartNameTextEditingController.text,
-                                                                                                              "cartPrice": cartDiscountBool ? ( storeCartsVal[index]["cartPriceAfterDiscount"] - ((storeCartsVal[index]["cartPriceAfterDiscount"] * int.parse(percentageEditingController.text))/100) ) : (cartPriceTextEditingController.text=="" ? storeCartsVal[index]["cartPriceAfterDiscount"] : double.parse(cartPriceTextEditingController.text) ),
+                                                                                                              "cartPrice": cartDiscountBool ? ( double.parse(cartPriceTextEditingController.text) - ((double.parse(cartPriceTextEditingController.text) * int.parse(percentageEditingController.text))/100) ) : cartPriceTextEditingController.text,
+                                                                                                              "cartPriceAfterDiscount": cartPriceTextEditingController.text,
                                                                                                               "cartDiscount": cartDiscountBool,
                                                                                                               "cartLiked": cartLikedBool,
                                                                                                               "cartFavourite": cartFavouriteBool,

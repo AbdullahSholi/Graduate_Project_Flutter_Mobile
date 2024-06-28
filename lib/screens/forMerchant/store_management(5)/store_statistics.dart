@@ -526,7 +526,6 @@ class _StoreStatisticsState extends State<StoreStatistics>
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -655,7 +654,6 @@ class _StoreStatisticsState extends State<StoreStatistics>
                             ),
                             Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
