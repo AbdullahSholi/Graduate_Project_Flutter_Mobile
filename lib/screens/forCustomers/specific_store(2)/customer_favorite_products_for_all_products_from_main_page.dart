@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:graduate_project/components/applocal.dart';
 import 'package:http/http.dart' as http;
 import 'package:favorite_button/favorite_button.dart';
@@ -129,86 +130,86 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF212128),
+        leading: IconButton(
+          onPressed: () {
+
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xFF212128),
+            size: 30,
+          ),
+        ),
+        title: Container(
+          child: Center(
+            child: _isSearching
+                ? Container(
+              width: 200, // Example width
+              height: 50, // Example height
+              child: TextField(
+                controller: _searchController,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                onChanged: (value) {
+                  filterProducts(value);
+                  print(filteredProducts);
+                },
+              ),
+            )
+                : Container(
+              width: MediaQuery.of(context).size.width/2,
+              child: Text(
+                "${getLang(context, 'favorite_products')}",
+                style: GoogleFonts.roboto(textStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30),
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isSearching = !_isSearching;
+                  if (!_isSearching) {
+                    _searchController.clear();
+                    // filterProducts('');
+                  }
+                });
+              },
+              icon: Icon(
+                _isSearching ? Icons.close : Icons.search,
+                size: 30,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(15),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(
-                  20, MediaQuery.of(context).size.height / 20, 20, 0),
-              decoration: BoxDecoration(
-                color: Color(0xFF212128),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
 
-                    child: IconButton(
-                      onPressed: () {
-
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Color(0xFF212128),
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: _isSearching
-                        ? Container(
-                      width: 200, // Example width
-                      height: 50, // Example height
-                      child: TextField(
-                        controller: _searchController,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Search...',
-                          hintStyle: TextStyle(color: Colors.white),
-                        ),
-                        onChanged: (value) {
-                          filterProducts(value);
-                          print(filteredProducts);
-                        },
-                      ),
-                    )
-                        : Container(
-                      width: MediaQuery.of(context).size.width/2,
-                          child: Text(
-                             "${getLang(context, 'favorite_products')}",
-                             style: GoogleFonts.roboto(textStyle: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30),
-                                                ),
-                                              maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                        ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _isSearching = !_isSearching;
-                          if (!_isSearching) {
-                            _searchController.clear();
-                            // filterProducts('');
-                          }
-                        });
-                      },
-                      icon: Icon(
-                        _isSearching ? Icons.close : Icons.search,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
             Visibility(
               visible: true,
               child: Container(
@@ -239,7 +240,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                             child: Container(
                               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                              child: Stack(
+                              child: Column(
                                 children: [
                                   Stack(
                                     children: [
@@ -356,38 +357,36 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                         ),) : Container()
                                     ],
                                   ),
-                                  Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: Container(
-                                        height: 77,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(20),
-                                            bottomLeft: Radius.circular(20),
-                                          ),
-                                          color: Color(0xF2222128),
+                                  Expanded(
+                                    child: Container(
+                                      height: 77,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10, 8, 10, 0),
-                                              child: Text(
-                                                "${filteredProducts[index]["cartName"].toString()}",
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                )),),
-                                            ),
-
-                                            Row(
+                                        color: Color(0xF2222128),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 8, 10, 0),
+                                            child: Text(
+                                              "${filteredProducts[index]["cartName"].toString()}",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              )),),
+                                          ),
+                                    
+                                          Expanded(
+                                            child: Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment.start,
                                               crossAxisAlignment:
@@ -440,9 +439,11 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -461,7 +462,7 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                             child: Container(
                               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                              child: Stack(
+                              child: Column(
                                 children: [
                                   Stack(
                                     children: [
@@ -578,38 +579,36 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                         ),) : Container()
                                     ],
                                   ),
-                                  Positioned(
-                                      bottom: 0,
-                                      left: 0,
-                                      right: 0,
-                                      child: Container(
-                                        height: 71,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(20),
-                                            bottomLeft: Radius.circular(20),
-                                          ),
-                                          color: Color(0xF2222128),
+                                  Expanded(
+                                    child: Container(
+                                      height: 71,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20),
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10, 8, 10, 0),
-                                              child: Text(
-                                                "${storeCartsVal[index]["cartName"].toString()}",
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                )),),
-                                            ),
-
-                                            Row(
+                                        color: Color(0xF2222128),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                10, 8, 10, 0),
+                                            child: Text(
+                                              "${storeCartsVal[index]["cartName"].toString()}",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              )),),
+                                          ),
+                                    
+                                          Expanded(
+                                            child: Row(
                                               mainAxisAlignment:
                                               MainAxisAlignment.start,
                                               crossAxisAlignment:
@@ -662,36 +661,38 @@ class _CustomerFavoriteProductsForAllProductsFromMainPageState extends State<Cus
                                                 ),
                                               ],
                                             ),
-                                            Visibility(
-                                              visible: false,
-                                              child: Container(
-                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                child: RatingBar.builder(
-                                                  initialRating: 3,
-                                                  minRating: 1,
-                                                  direction: Axis.horizontal,
-                                                  allowHalfRating: true,
-                                                  itemCount: 5,
-                                                  itemSize: 20,
-                                                  unratedColor: Colors.white,
-                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                  itemBuilder: (context, _) => Icon(
-                                                    Icons.favorite,
-                                                    color: Colors.yellow,
-                                                  ),
-                                                  onRatingUpdate: (rating) {
-                                                    setState(() {
-                                                      rateVal = rating;
-                                                    });
-
-                                                    print(rating);
-                                                  },
+                                          ),
+                                          Visibility(
+                                            visible: false,
+                                            child: Container(
+                                              padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                              child: RatingBar.builder(
+                                                initialRating: 3,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemSize: 20,
+                                                unratedColor: Colors.white,
+                                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                itemBuilder: (context, _) => Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.yellow,
                                                 ),
+                                                onRatingUpdate: (rating) {
+                                                  setState(() {
+                                                    rateVal = rating;
+                                                  });
+                                    
+                                                  print(rating);
+                                                },
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

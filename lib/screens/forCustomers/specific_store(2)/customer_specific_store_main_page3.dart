@@ -1554,7 +1554,7 @@ class _CustomerSpecificStoreMainPage3State
                                                             10, 0, 10, 0),
                                                         padding: EdgeInsets.fromLTRB(
                                                             5, 0, 5, 10),
-                                                        child: Stack(
+                                                        child: Column(
                                                           children: [
                                                             Stack(
                                                               children: [
@@ -1743,56 +1743,54 @@ class _CustomerSpecificStoreMainPage3State
 
                                                               ],
                                                             ),
-                                                            Positioned(
-                                                                bottom: 0,
-                                                                left: 0,
-                                                                right: 0,
-                                                                child: Container(
-                                                                  height: 71,
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.only(
-                                                                      bottomRight:
-                                                                      Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                      bottomLeft:
-                                                                      Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                    ),
-                                                                    color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                            Expanded(
+                                                              child: Container(
+                                                                height: 71,
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.only(
+                                                                    bottomRight:
+                                                                    Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                                                    bottomLeft:
+                                                                    Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                                   ),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                    children: [
-                                                                      Container(
-                                                                        padding:
-                                                                        EdgeInsets
-                                                                            .fromLTRB(
-                                                                            10,
-                                                                            8,
-                                                                            10,
-                                                                            0),
-                                                                        child: Text(
-                                                                          "${storeCartsVal[index]["cartName"].toString()}",
-                                                                          overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                          maxLines: 1,
-                                                                          style: GoogleFonts
-                                                                              .roboto(
-                                                                              textStyle:
-                                                                              TextStyle(
-                                                                                fontSize: 22,
-                                                                                fontWeight:
-                                                                                FontWeight
-                                                                                    .bold,
-                                                                                color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                              )),
-                                                                        ),
+                                                                  color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding:
+                                                                      EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          0),
+                                                                      child: Text(
+                                                                        "${storeCartsVal[index]["cartName"].toString()}",
+                                                                        overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                        maxLines: 1,
+                                                                        style: GoogleFonts
+                                                                            .roboto(
+                                                                            textStyle:
+                                                                            TextStyle(
+                                                                              fontSize: 22,
+                                                                              fontWeight:
+                                                                              FontWeight
+                                                                                  .bold,
+                                                                              color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                            )),
                                                                       ),
-
-                                                                      Row(
+                                                                    ),
+                                                              
+                                                                    Expanded(
+                                                                      child: Row(
                                                                         mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .start,
@@ -1862,60 +1860,62 @@ class _CustomerSpecificStoreMainPage3State
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      Visibility(
-                                                                        visible:false,
-                                                                        child: Container(
-                                                                          padding:
-                                                                          EdgeInsets
-                                                                              .fromLTRB(
-                                                                              7,
-                                                                              2,
-                                                                              0,
-                                                                              0),
-                                                                          child: RatingBar
-                                                                              .builder(
-                                                                            initialRating:
-                                                                            3,
-                                                                            minRating: 1,
-                                                                            direction: Axis
-                                                                                .horizontal,
-                                                                            allowHalfRating:
-                                                                            true,
-                                                                            itemCount: 5,
-                                                                            itemSize: 20,
-                                                                            unratedColor:
-                                                                            Colors
-                                                                                .white,
-                                                                            itemPadding: EdgeInsets
-                                                                                .symmetric(
-                                                                                horizontal:
-                                                                                4.0),
-                                                                            itemBuilder:
-                                                                                (context,
-                                                                                _) =>
-                                                                                Icon(
-                                                                                  Icons
-                                                                                      .favorite,
-                                                                                  color: Colors
-                                                                                      .yellow,
-                                                                                ),
-                                                                            onRatingUpdate:
-                                                                                (rating) {
-                                                                              setState(
-                                                                                      () {
-                                                                                    rateVal =
-                                                                                        rating;
-                                                                                  });
-
-                                                                              print(
-                                                                                  rating);
-                                                                            },
-                                                                          ),
+                                                                    ),
+                                                                    Visibility(
+                                                                      visible:false,
+                                                                      child: Container(
+                                                                        padding:
+                                                                        EdgeInsets
+                                                                            .fromLTRB(
+                                                                            7,
+                                                                            2,
+                                                                            0,
+                                                                            0),
+                                                                        child: RatingBar
+                                                                            .builder(
+                                                                          initialRating:
+                                                                          3,
+                                                                          minRating: 1,
+                                                                          direction: Axis
+                                                                              .horizontal,
+                                                                          allowHalfRating:
+                                                                          true,
+                                                                          itemCount: 5,
+                                                                          itemSize: 20,
+                                                                          unratedColor:
+                                                                          Colors
+                                                                              .white,
+                                                                          itemPadding: EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal:
+                                                                              4.0),
+                                                                          itemBuilder:
+                                                                              (context,
+                                                                              _) =>
+                                                                              Icon(
+                                                                                Icons
+                                                                                    .favorite,
+                                                                                color: Colors
+                                                                                    .yellow,
+                                                                              ),
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            setState(
+                                                                                    () {
+                                                                                  rateVal =
+                                                                                      rating;
+                                                                                });
+                                                              
+                                                                            print(
+                                                                                rating);
+                                                                          },
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                )),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
@@ -1976,7 +1976,7 @@ class _CustomerSpecificStoreMainPage3State
                                                             10, 0, 10, 0),
                                                         padding: EdgeInsets.fromLTRB(
                                                             5, 0, 5, 10),
-                                                        child: Stack(
+                                                        child: Column(
                                                           children: [
                                                             Stack(
                                                               children: [
@@ -2090,56 +2090,128 @@ class _CustomerSpecificStoreMainPage3State
                                                                     size: Size(45, 45),
                                                                     painter: DiscountPainter(CartsForOneCategoryVal[index]["discountValue"] * 1.0), // Change this value to set the discount percentage
                                                                   ),) : Container()
+                                                                ,Visibility(
+                                                                  visible: CartsForOneCategoryVal[index]["cartFavourite"],
+                                                                  child: Positioned(
+                                                                      top: 5,
+                                                                      right: 5,
+                                                                      child: CircleAvatar(
+                                                                        radius: 23,
+                                                                        backgroundColor:
+                                                                        Colors.red,
+                                                                        child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
+                                                                            offIcon: Icon(Icons.favorite_outline, color: Colors.black),
+                                                                            initialValue: CartsForOneCategoryVal[index]["isFavorite"], onChanged: (_isFavorite) async {
+                                                                              if (_isFavorite) {
+                                                                                try {
+                                                                                  setState(() {
+                                                                                    CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
+                                                                                  });
+
+                                                                                  http.Response
+                                                                                  userFuture =
+                                                                                  await http.post(
+                                                                                    Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
+                                                                                    headers: {
+                                                                                      "Content-Type": "application/json",
+                                                                                      "Authorization": "Bearer ${customerTokenVal}"
+                                                                                    },
+                                                                                    body: jsonEncode(
+                                                                                      {
+                                                                                        "favouriteList": CartsForOneCategoryVal[index],
+                                                                                      },
+                                                                                    ),
+                                                                                    encoding: Encoding.getByName("utf-8"),
+                                                                                  );
+
+                                                                                  print(userFuture.body);
+                                                                                  getCustomerFavoriteList();
+                                                                                  print("0000000000000000000000000");
+                                                                                  print(CartsForOneCategoryVal[index]["cartCategory"]);
+                                                                                  getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
+
+                                                                                } catch (error) {}
+                                                                              } else {
+                                                                                try {
+
+                                                                                  CartsForOneCategoryVal[index]["isFavorite"] = !_isFavorite;
+                                                                                  http.Response
+                                                                                  userFuture =
+                                                                                  await http.delete(
+                                                                                    Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
+                                                                                    headers: {
+                                                                                      "Content-Type": "application/json",
+                                                                                      "Authorization": "Bearer ${customerTokenVal}"
+                                                                                    },
+                                                                                    body: jsonEncode(
+                                                                                      {
+                                                                                        "cartName": CartsForOneCategoryVal[index]["cartName"],
+                                                                                        "merchant": CartsForOneCategoryVal[index]["merchant"],
+                                                                                      },
+                                                                                    ),
+                                                                                    encoding: Encoding.getByName("utf-8"),
+                                                                                  );
+
+                                                                                  print(userFuture.body);
+                                                                                  getCustomerFavoriteList();
+                                                                                  print(CartsForOneCategoryVal[index]["cartCategory"]);
+                                                                                  getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
+
+                                                                                } catch (error) {}
+                                                                              }
+                                                                              print(
+                                                                                  'Is Favorite $_isFavorite');
+                                                                            }),
+                                                                      )),
+                                                                ),
                                                               ],
                                                             ),
-                                                            Positioned(
-                                                                bottom: 0,
-                                                                left: 0,
-                                                                right: 0,
-                                                                child: Container(
-                                                                  height: 70,
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius.only(
-                                                                      bottomRight:
-                                                                      Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                      bottomLeft:
-                                                                      Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                    ),
-                                                                    color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                            Expanded(
+                                                              child: Container(
+                                                                height: 70,
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                  borderRadius:
+                                                                  BorderRadius.only(
+                                                                    bottomRight:
+                                                                    Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                                                    bottomLeft:
+                                                                    Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                                   ),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                    children: [
-                                                                      Container(
-                                                                        padding:
-                                                                        EdgeInsets
-                                                                            .fromLTRB(
-                                                                            10,
-                                                                            8,
-                                                                            10,
-                                                                            0),
-                                                                        child: Text(
-                                                                            "${CartsForOneCategoryVal[index]["cartName"].toString()}",
-                                                                            overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                            maxLines: 1,
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontSize:
-                                                                              22,
-                                                                              fontWeight:
-                                                                              FontWeight
-                                                                                  .bold,
-                                                                              color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
-                                                                            )),
-                                                                      ),
-
-                                                                      Row(
+                                                                  color:Color(int.parse(boxesColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                ),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding:
+                                                                      EdgeInsets
+                                                                          .fromLTRB(
+                                                                          10,
+                                                                          8,
+                                                                          10,
+                                                                          0),
+                                                                      child: Text(
+                                                                          "${CartsForOneCategoryVal[index]["cartName"].toString()}",
+                                                                          overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                          maxLines: 1,
+                                                                          style:
+                                                                          TextStyle(
+                                                                            fontSize:
+                                                                            22,
+                                                                            fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                            color: Color(int.parse(secondaryTextColor.replaceAll("Color(", "").replaceAll(")", ""))),
+                                                                          )),
+                                                                    ),
+                                                              
+                                                                    Expanded(
+                                                                      child: Row(
                                                                         mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .start,
@@ -2205,135 +2277,64 @@ class _CustomerSpecificStoreMainPage3State
                                                                           ),
                                                                         ],
                                                                       ),
-
-                                                                      Visibility(
-                                                                        visible: false,
-                                                                        child: Container(
-                                                                          padding:
-                                                                          EdgeInsets
-                                                                              .fromLTRB(
-                                                                              7,
-                                                                              2,
-                                                                              0,
-                                                                              0),
-                                                                          child: RatingBar
-                                                                              .builder(
-                                                                            initialRating:
-                                                                            3,
-                                                                            minRating: 1,
-                                                                            direction: Axis
-                                                                                .horizontal,
-                                                                            allowHalfRating:
-                                                                            true,
-                                                                            itemCount: 5,
-                                                                            itemSize: 20,
-                                                                            unratedColor:
-                                                                            Colors
-                                                                                .white,
-                                                                            itemPadding: EdgeInsets
-                                                                                .symmetric(
-                                                                                horizontal:
-                                                                                4.0),
-                                                                            itemBuilder:
-                                                                                (context,
-                                                                                _) =>
-                                                                                Icon(
-                                                                                  Icons
-                                                                                      .favorite,
-                                                                                  color: Colors
-                                                                                      .yellow,
-                                                                                ),
-                                                                            onRatingUpdate:
-                                                                                (rating) {
-                                                                              setState(
-                                                                                      () {
-                                                                                    rateVal =
-                                                                                        rating;
-                                                                                  });
-
-                                                                              print(
-                                                                                  rating);
-                                                                            },
-                                                                          ),
+                                                                    ),
+                                                              
+                                                                    Visibility(
+                                                                      visible: false,
+                                                                      child: Container(
+                                                                        padding:
+                                                                        EdgeInsets
+                                                                            .fromLTRB(
+                                                                            7,
+                                                                            2,
+                                                                            0,
+                                                                            0),
+                                                                        child: RatingBar
+                                                                            .builder(
+                                                                          initialRating:
+                                                                          3,
+                                                                          minRating: 1,
+                                                                          direction: Axis
+                                                                              .horizontal,
+                                                                          allowHalfRating:
+                                                                          true,
+                                                                          itemCount: 5,
+                                                                          itemSize: 20,
+                                                                          unratedColor:
+                                                                          Colors
+                                                                              .white,
+                                                                          itemPadding: EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal:
+                                                                              4.0),
+                                                                          itemBuilder:
+                                                                              (context,
+                                                                              _) =>
+                                                                              Icon(
+                                                                                Icons
+                                                                                    .favorite,
+                                                                                color: Colors
+                                                                                    .yellow,
+                                                                              ),
+                                                                          onRatingUpdate:
+                                                                              (rating) {
+                                                                            setState(
+                                                                                    () {
+                                                                                  rateVal =
+                                                                                      rating;
+                                                                                });
+                                                              
+                                                                            print(
+                                                                                rating);
+                                                                          },
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                )),
-                                                            Visibility(
-                                                              visible: CartsForOneCategoryVal[index]["cartFavourite"],
-                                                              child: Positioned(
-                                                                  top: 5,
-                                                                  right: 5,
-                                                                  child: CircleAvatar(
-                                                                    radius: 23,
-                                                                    backgroundColor:
-                                                                    Colors.red,
-                                                                    child: ToggleButton(onIcon: Icon(Icons.favorite, color: Colors.black),
-                                                                        offIcon: Icon(Icons.favorite_outline, color: Colors.black),
-                                                                        initialValue: CartsForOneCategoryVal[index]["isFavorite"], onChanged: (_isFavorite) async {
-                                                                          if (_isFavorite) {
-                                                                            try {
-                                                                              setState(() {
-                                                                                CartsForOneCategoryVal[index]["isFavorite"] = _isFavorite;
-                                                                              });
-
-                                                                              http.Response
-                                                                              userFuture =
-                                                                              await http.post(
-                                                                                Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/customer-add-to-favorite-list/${customerEmailVal}"),
-                                                                                headers: {
-                                                                                  "Content-Type": "application/json",
-                                                                                  "Authorization": "Bearer ${customerTokenVal}"
-                                                                                },
-                                                                                body: jsonEncode(
-                                                                                  {
-                                                                                    "favouriteList": CartsForOneCategoryVal[index],
-                                                                                  },
-                                                                                ),
-                                                                                encoding: Encoding.getByName("utf-8"),
-                                                                              );
-
-                                                                              print(userFuture.body);
-                                                                              getCustomerFavoriteList();
-                                                                              print("0000000000000000000000000");
-                                                                              print(CartsForOneCategoryVal[index]["cartCategory"]);
-                                                                              getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
-
-                                                                            } catch (error) {}
-                                                                          } else {
-                                                                            try {
-
-                                                                              CartsForOneCategoryVal[index]["isFavorite"] = !_isFavorite;
-                                                                              http.Response
-                                                                              userFuture =
-                                                                              await http.delete(
-                                                                                Uri.parse("https://graduate-project-backend-1.onrender.com/matjarcom/api/v1/delete-product-from-favorite-list-from-different-stores/${customerEmailVal}"),
-                                                                                headers: {
-                                                                                  "Content-Type": "application/json",
-                                                                                  "Authorization": "Bearer ${customerTokenVal}"
-                                                                                },
-                                                                                body: jsonEncode(
-                                                                                  {
-                                                                                    "cartName": CartsForOneCategoryVal[index]["cartName"],
-                                                                                    "merchant": CartsForOneCategoryVal[index]["merchant"],
-                                                                                  },
-                                                                                ),
-                                                                                encoding: Encoding.getByName("utf-8"),
-                                                                              );
-
-                                                                              print(userFuture.body);
-                                                                              getCustomerFavoriteList();
-                                                                              print(CartsForOneCategoryVal[index]["cartCategory"]);
-                                                                              getCartsForOneCategory(emailVal, CartsForOneCategoryVal[index]["cartCategory"]);
-
-                                                                            } catch (error) {}
-                                                                          }
-                                                                          print(
-                                                                              'Is Favorite $_isFavorite');
-                                                                        }),
-                                                                  )),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
                                                             ),
+                                                            
                                                           ],
                                                         ),
                                                       ),

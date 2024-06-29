@@ -275,130 +275,133 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
       },
       child: Scaffold(
         backgroundColor: backgroundColor,
+        appBar: AppBar(
+          backgroundColor: boxesColor,
+          leading: Container(
+
+            child: IconButton(
+              onPressed: () {
+                if(getStoreDataVal[storeIndexVal].design == "Option 1"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                    [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                    {}, customerTokenVal, customerEmailVal,
+                    getStoreDataVal[storeIndexVal].backgroundColor,
+                    getStoreDataVal[storeIndexVal].boxesColor,
+                    getStoreDataVal[storeIndexVal].primaryTextColor,
+                    getStoreDataVal[storeIndexVal].secondaryTextColor,
+                    getStoreDataVal[storeIndexVal].clippingColor,
+                    getStoreDataVal[storeIndexVal].smoothy,
+                    getStoreDataVal[storeIndexVal].design,
+                  )));
+                  print(storeIndexVal);
+                }
+
+                if(getStoreDataVal[storeIndexVal].design == "Option 2"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage2(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                    [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                    {}, customerTokenVal, customerEmailVal,
+                    getStoreDataVal[storeIndexVal].backgroundColor,
+                    getStoreDataVal[storeIndexVal].boxesColor,
+                    getStoreDataVal[storeIndexVal].primaryTextColor,
+                    getStoreDataVal[storeIndexVal].secondaryTextColor,
+                    getStoreDataVal[storeIndexVal].clippingColor,
+                    getStoreDataVal[storeIndexVal].smoothy,
+                    getStoreDataVal[storeIndexVal].design,
+                  )));
+                  print(storeIndexVal);
+                }
+
+                if(getStoreDataVal[storeIndexVal].design == "Option 3"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage3(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+                    [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+                    {}, customerTokenVal, customerEmailVal,
+                    getStoreDataVal[storeIndexVal].backgroundColor,
+                    getStoreDataVal[storeIndexVal].boxesColor,
+                    getStoreDataVal[storeIndexVal].primaryTextColor,
+                    getStoreDataVal[storeIndexVal].secondaryTextColor,
+                    getStoreDataVal[storeIndexVal].clippingColor,
+                    getStoreDataVal[storeIndexVal].smoothy,
+                    getStoreDataVal[storeIndexVal].design,
+                  )));
+                  print(storeIndexVal);
+                }
+                // getStoreIndex();
+              },
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: secondaryTextColor,
+                size: 30,
+              ),
+            ),
+          ),
+          title: Container(
+            child: Center(
+              child: _isSearching
+                  ? Container(
+                width: 200, // Example width
+                height: 50, // Example height
+                child: TextField(
+                  controller: _searchController,
+                  style: TextStyle(color: secondaryTextColor),
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: secondaryTextColor),
+                  ),
+                  onChanged: (value) {
+                    filterProducts(value);
+                    print(filteredProducts);
+                  },
+                ),
+              )
+                  : Container(
+                width: MediaQuery.of(context).size.width/2,
+                child: Text(
+                  "${getLang(context, 'favorite_products')}",
+                  style: GoogleFonts.roboto(textStyle: TextStyle(
+                      color: secondaryTextColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isSearching = !_isSearching;
+                    if (!_isSearching) {
+                      _searchController.clear();
+                      // filterProducts('');
+                    }
+                  });
+                },
+                icon: Icon(
+                  _isSearching ? Icons.close : Icons.search,
+                  size: 30,
+                  color: secondaryTextColor,
+                ),
+              ),
+            )
+          ],
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(15),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    20, MediaQuery.of(context).size.height / 20, 20, 0),
-                decoration: BoxDecoration(
-                  color: boxesColor,
-                  borderRadius: BorderRadius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
 
-                      child: IconButton(
-                        onPressed: () {
-                          if(getStoreDataVal[storeIndexVal].design == "Option 1"){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
-                              [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-                              {}, customerTokenVal, customerEmailVal,
-                              getStoreDataVal[storeIndexVal].backgroundColor,
-                              getStoreDataVal[storeIndexVal].boxesColor,
-                              getStoreDataVal[storeIndexVal].primaryTextColor,
-                              getStoreDataVal[storeIndexVal].secondaryTextColor,
-                              getStoreDataVal[storeIndexVal].clippingColor,
-                              getStoreDataVal[storeIndexVal].smoothy,
-                              getStoreDataVal[storeIndexVal].design,
-                            )));
-                            print(storeIndexVal);
-                          }
-
-                          if(getStoreDataVal[storeIndexVal].design == "Option 2"){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage2(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
-                              [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-                              {}, customerTokenVal, customerEmailVal,
-                              getStoreDataVal[storeIndexVal].backgroundColor,
-                              getStoreDataVal[storeIndexVal].boxesColor,
-                              getStoreDataVal[storeIndexVal].primaryTextColor,
-                              getStoreDataVal[storeIndexVal].secondaryTextColor,
-                              getStoreDataVal[storeIndexVal].clippingColor,
-                              getStoreDataVal[storeIndexVal].smoothy,
-                              getStoreDataVal[storeIndexVal].design,
-                            )));
-                            print(storeIndexVal);
-                          }
-
-                          if(getStoreDataVal[storeIndexVal].design == "Option 3"){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage3(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
-                              [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-                              {}, customerTokenVal, customerEmailVal,
-                              getStoreDataVal[storeIndexVal].backgroundColor,
-                              getStoreDataVal[storeIndexVal].boxesColor,
-                              getStoreDataVal[storeIndexVal].primaryTextColor,
-                              getStoreDataVal[storeIndexVal].secondaryTextColor,
-                              getStoreDataVal[storeIndexVal].clippingColor,
-                              getStoreDataVal[storeIndexVal].smoothy,
-                              getStoreDataVal[storeIndexVal].design,
-                            )));
-                            print(storeIndexVal);
-                          }
-                          // getStoreIndex();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: secondaryTextColor,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: _isSearching
-                          ? Container(
-                        width: 200, // Example width
-                        height: 50, // Example height
-                        child: TextField(
-                          controller: _searchController,
-                          style: TextStyle(color: secondaryTextColor),
-                          decoration: InputDecoration(
-                            hintText: 'Search...',
-                            hintStyle: TextStyle(color: secondaryTextColor),
-                          ),
-                          onChanged: (value) {
-                            filterProducts(value);
-                            print(filteredProducts);
-                          },
-                        ),
-                      )
-                          : Container(
-                        width: MediaQuery.of(context).size.width/2,
-                            child: Text(
-                               "${getLang(context, 'favorite_products')}",
-                               style: GoogleFonts.roboto(textStyle: TextStyle(
-                              color: secondaryTextColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30),
-                                                  ),
-                                                maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                          ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                      child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isSearching = !_isSearching;
-                            if (!_isSearching) {
-                              _searchController.clear();
-                              // filterProducts('');
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          _isSearching ? Icons.close : Icons.search,
-                          size: 30,
-                          color: secondaryTextColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
               Visibility(
                 visible: true,
                 child: Container(
@@ -447,7 +450,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                                child: Stack(
+                                child: Column(
                                   children: [
                                     Stack(
                                       children: [
@@ -564,38 +567,36 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                           ),) : Container()
                                       ],
                                     ),
-                                    Positioned(
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          height: 77,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                              bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                            ),
-                                            color: boxesColor,
+                                    Expanded(
+                                      child: Container(
+                                        height: 77,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                            bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                           ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 8, 10, 0),
-                                                child: Text(
-                                                  "${filteredProducts[index]["cartName"].toString()}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: secondaryTextColor,
-                                                  )),),
-                                              ),
-
-                                              Row(
+                                          color: boxesColor,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  10, 8, 10, 0),
+                                              child: Text(
+                                                "${filteredProducts[index]["cartName"].toString()}",
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: secondaryTextColor,
+                                                )),),
+                                            ),
+                                      
+                                            Expanded(
+                                              child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                                 crossAxisAlignment:
@@ -648,9 +649,11 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                        )),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -685,7 +688,7 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                               child: Container(
                                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                                child: Stack(
+                                child: Column(
                                   children: [
                                     Stack(
                                       children: [
@@ -802,38 +805,36 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                           ),) : Container()
                                       ],
                                     ),
-                                    Positioned(
-                                        bottom: 0,
-                                        left: 0,
-                                        right: 0,
-                                        child: Container(
-                                          height: 77,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                              bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                            ),
-                                            color: boxesColor,
+                                    Expanded(
+                                      child: Container(
+                                        height: 77,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                            bottomLeft: Radius.circular(smoothy == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                           ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    10, 8, 10, 0),
-                                                child: Text(
-                                                  "${storeCartsVal[index]["cartName"].toString()}",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.roboto(textStyle: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: secondaryTextColor,
-                                                  )),),
-                                              ),
-
-                                              Row(
+                                          color: boxesColor,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  10, 8, 10, 0),
+                                              child: Text(
+                                                "${storeCartsVal[index]["cartName"].toString()}",
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: GoogleFonts.roboto(textStyle: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: secondaryTextColor,
+                                                )),),
+                                            ),
+                                      
+                                            Expanded(
+                                              child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                                 crossAxisAlignment:
@@ -886,36 +887,38 @@ class _CustomerFavoriteProductsState extends State<CustomerFavoriteProducts> {
                                                   ),
                                                 ],
                                               ),
-                                              Visibility(
-                                                visible: false,
-                                                child: Container(
-                                                  padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                  child: RatingBar.builder(
-                                                    initialRating: 3,
-                                                    minRating: 1,
-                                                    direction: Axis.horizontal,
-                                                    allowHalfRating: true,
-                                                    itemCount: 5,
-                                                    itemSize: 20,
-                                                    unratedColor: secondaryColor,
-                                                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                    itemBuilder: (context, _) => Icon(
-                                                      Icons.favorite,
-                                                      color: Colors.yellow,
-                                                    ),
-                                                    onRatingUpdate: (rating) {
-                                                      setState(() {
-                                                        rateVal = rating;
-                                                      });
-
-                                                      print(rating);
-                                                    },
+                                            ),
+                                            Visibility(
+                                              visible: false,
+                                              child: Container(
+                                                padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                child: RatingBar.builder(
+                                                  initialRating: 3,
+                                                  minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  itemCount: 5,
+                                                  itemSize: 20,
+                                                  unratedColor: secondaryColor,
+                                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                  itemBuilder: (context, _) => Icon(
+                                                    Icons.favorite,
+                                                    color: Colors.yellow,
                                                   ),
+                                                  onRatingUpdate: (rating) {
+                                                    setState(() {
+                                                      rateVal = rating;
+                                                    });
+                                      
+                                                    print(rating);
+                                                  },
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        )),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
