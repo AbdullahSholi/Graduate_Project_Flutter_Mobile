@@ -343,17 +343,51 @@ class _CustomerDisplayAllProductsState extends State<CustomerDisplayAllProducts>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+      onWillPop: () async {
+        if(getStoreDataVal[storeIndexVal].design == "Option 1"){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage1(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
             [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
-            {}, customerTokenVal, customerEmailVal, getStoreDataVal[storeIndexVal].backgroundColor,
-          getStoreDataVal[storeIndexVal].boxesColor,
-          getStoreDataVal[storeIndexVal].primaryTextColor,
-          getStoreDataVal[storeIndexVal].secondaryTextColor,
-          getStoreDataVal[storeIndexVal].clippingColor,
-          getStoreDataVal[storeIndexVal].smoothy,
-          getStoreDataVal[storeIndexVal].design,)));
-        print(storeIndexVal);
+            {}, customerTokenVal, customerEmailVal,
+            getStoreDataVal[storeIndexVal].backgroundColor,
+            getStoreDataVal[storeIndexVal].boxesColor,
+            getStoreDataVal[storeIndexVal].primaryTextColor,
+            getStoreDataVal[storeIndexVal].secondaryTextColor,
+            getStoreDataVal[storeIndexVal].clippingColor,
+            getStoreDataVal[storeIndexVal].smoothy,
+            getStoreDataVal[storeIndexVal].design,
+          )));
+          print(storeIndexVal);
+        }
+
+        if(getStoreDataVal[storeIndexVal].design == "Option 2"){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage2(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+            [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+            {}, customerTokenVal, customerEmailVal,
+            getStoreDataVal[storeIndexVal].backgroundColor,
+            getStoreDataVal[storeIndexVal].boxesColor,
+            getStoreDataVal[storeIndexVal].primaryTextColor,
+            getStoreDataVal[storeIndexVal].secondaryTextColor,
+            getStoreDataVal[storeIndexVal].clippingColor,
+            getStoreDataVal[storeIndexVal].smoothy,
+            getStoreDataVal[storeIndexVal].design,
+          )));
+          print(storeIndexVal);
+        }
+
+        if(getStoreDataVal[storeIndexVal].design == "Option 3"){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerSpecificStoreMainPage3(tokenVal,emailVal,[] ,getStoreDataVal[storeIndexVal].storeName,
+            [],getStoreDataVal[storeIndexVal].activateSlider,getStoreDataVal[storeIndexVal].activateCategory,getStoreDataVal[storeIndexVal].activateCarts,
+            {}, customerTokenVal, customerEmailVal,
+            getStoreDataVal[storeIndexVal].backgroundColor,
+            getStoreDataVal[storeIndexVal].boxesColor,
+            getStoreDataVal[storeIndexVal].primaryTextColor,
+            getStoreDataVal[storeIndexVal].secondaryTextColor,
+            getStoreDataVal[storeIndexVal].clippingColor,
+            getStoreDataVal[storeIndexVal].smoothy,
+            getStoreDataVal[storeIndexVal].design,
+          )));
+          print(storeIndexVal);
+        }
         return Future.value(true);
       },
       child: Scaffold(
