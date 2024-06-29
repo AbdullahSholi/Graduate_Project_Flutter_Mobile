@@ -1073,7 +1073,7 @@ class _Design3State extends State<Design3> {
                                                     padding:
                                                     EdgeInsets.fromLTRB(
                                                         5, 0, 5, 10),
-                                                    child: Stack(
+                                                    child: Column(
                                                       children: [
                                                         Stack(
                                                           children: [
@@ -1220,80 +1220,78 @@ class _Design3State extends State<Design3> {
                                                               ),) : Container()
                                                           ],
                                                         ),
-                                                        Positioned(
-                                                            bottom: 0,
-                                                            left: 0,
-                                                            right: 0,
-                                                            child: InkWell(
-                                                              onTap: () {
-
-                                                              },
-                                                              child: Container(
-                                                                height: 71,
-                                                                decoration:
-                                                                BoxDecoration(
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .only(
-                                                                    bottomRight:
-                                                                    Radius.circular(_selectedOptionsVal == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                    bottomLeft:
-                                                                    Radius.circular(_selectedOptionsVal == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
-                                                                  ),
-                                                                  color: specificStoreProductsColorVal,
+                                                        Expanded(
+                                                          child: InkWell(
+                                                            onTap: () {
+                                                          
+                                                            },
+                                                            child: Container(
+                                                              height: 71,
+                                                              decoration:
+                                                              BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                                  bottomRight:
+                                                                  Radius.circular(_selectedOptionsVal == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
+                                                                  bottomLeft:
+                                                                  Radius.circular(_selectedOptionsVal == "Smooth" ? smoothDesignBorderRadius : solidDesignBorderRadius),
                                                                 ),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                                  children: [
-                                                                    Container(
-                                                                      padding: EdgeInsets
-                                                                          .fromLTRB(
-                                                                          10,
-                                                                          8,
-                                                                          10,
-                                                                          0),
-                                                                      child: Text(
-                                                                          "${storeCartsVal[index]["cartName"].toString()}",
-                                                                          overflow: TextOverflow
-                                                                              .ellipsis,
-                                                                          maxLines:
-                                                                          1,
-                                                                          style:
-                                                                          TextStyle(
-                                                                            fontSize:
-                                                                            22,
-                                                                            fontWeight:
-                                                                            FontWeight.bold,
-                                                                            color:
-                                                                            secondaryTextColorVal,
-                                                                          )),
-                                                                    ),
-                                                                    // Container(
-                                                                    //   padding: EdgeInsets
-                                                                    //       .fromLTRB(
-                                                                    //           10,
-                                                                    //           8,
-                                                                    //           10,
-                                                                    //           3),
-                                                                    //   child: Text(
-                                                                    //       "${storeCartsVal[index]["cartDescription"].toString()}",
-                                                                    //       overflow: TextOverflow
-                                                                    //           .ellipsis,
-                                                                    //       maxLines:
-                                                                    //           2,
-                                                                    //       style:
-                                                                    //           TextStyle(
-                                                                    //         fontSize:
-                                                                    //             14,
-                                                                    //         fontWeight:
-                                                                    //             FontWeight.bold,
-                                                                    //         color:
-                                                                    //             Colors.white,
-                                                                    //       )),
-                                                                    // ),
-                                                                    Row(
+                                                                color: specificStoreProductsColorVal,
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: EdgeInsets
+                                                                        .fromLTRB(
+                                                                        10,
+                                                                        8,
+                                                                        10,
+                                                                        0),
+                                                                    child: Text(
+                                                                        "${storeCartsVal[index]["cartName"].toString()}",
+                                                                        overflow: TextOverflow
+                                                                            .ellipsis,
+                                                                        maxLines:
+                                                                        1,
+                                                                        style:
+                                                                        TextStyle(
+                                                                          fontSize:
+                                                                          22,
+                                                                          fontWeight:
+                                                                          FontWeight.bold,
+                                                                          color:
+                                                                          secondaryTextColorVal,
+                                                                        )),
+                                                                  ),
+                                                                  // Container(
+                                                                  //   padding: EdgeInsets
+                                                                  //       .fromLTRB(
+                                                                  //           10,
+                                                                  //           8,
+                                                                  //           10,
+                                                                  //           3),
+                                                                  //   child: Text(
+                                                                  //       "${storeCartsVal[index]["cartDescription"].toString()}",
+                                                                  //       overflow: TextOverflow
+                                                                  //           .ellipsis,
+                                                                  //       maxLines:
+                                                                  //           2,
+                                                                  //       style:
+                                                                  //           TextStyle(
+                                                                  //         fontSize:
+                                                                  //             14,
+                                                                  //         fontWeight:
+                                                                  //             FontWeight.bold,
+                                                                  //         color:
+                                                                  //             Colors.white,
+                                                                  //       )),
+                                                                  // ),
+                                                                  Expanded(
+                                                                    child: Row(
                                                                       mainAxisAlignment:
                                                                       MainAxisAlignment
                                                                           .start,
@@ -1352,40 +1350,42 @@ class _Design3State extends State<Design3> {
                                                                             ),
                                                                           ),
                                                                         ),
-
+                                                                                                                              
                                                                       ],
                                                                     ),
-                                                                    Visibility(
-                                                                      visible: false,
-                                                                      child: Container(
-                                                                        padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
-                                                                        child: RatingBar.builder(
-                                                                          initialRating: 3,
-                                                                          minRating: 1,
-                                                                          direction: Axis.horizontal,
-                                                                          allowHalfRating: true,
-                                                                          itemCount: 5,
-                                                                          itemSize: 20,
-                                                                          unratedColor: Colors.white,
-                                                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                                                          itemBuilder: (context, _) => Icon(
-                                                                            Icons.favorite,
-                                                                            color: Colors.yellow,
-                                                                          ),
-                                                                          onRatingUpdate: (rating) {
-                                                                            setState(() {
-                                                                              rateVal = rating;
-                                                                            });
-
-                                                                            print(rating);
-                                                                          },
+                                                                  ),
+                                                                  Visibility(
+                                                                    visible: false,
+                                                                    child: Container(
+                                                                      padding: EdgeInsets.fromLTRB(7, 2, 0, 0),
+                                                                      child: RatingBar.builder(
+                                                                        initialRating: 3,
+                                                                        minRating: 1,
+                                                                        direction: Axis.horizontal,
+                                                                        allowHalfRating: true,
+                                                                        itemCount: 5,
+                                                                        itemSize: 20,
+                                                                        unratedColor: Colors.white,
+                                                                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                        itemBuilder: (context, _) => Icon(
+                                                                          Icons.favorite,
+                                                                          color: Colors.yellow,
                                                                         ),
+                                                                        onRatingUpdate: (rating) {
+                                                                          setState(() {
+                                                                            rateVal = rating;
+                                                                          });
+                                                          
+                                                                          print(rating);
+                                                                        },
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            )),
+                                                            ),
+                                                          ),
+                                                        ),
 
 
                                                       ],

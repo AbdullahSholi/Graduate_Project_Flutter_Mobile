@@ -1051,7 +1051,7 @@ class _Design1State extends State<Design1> {
                                     itemBuilder: (context, index) => Container(
                                       margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                       padding: EdgeInsets.fromLTRB(5, 0, 5, 10),
-                                      child: Stack(
+                                      child: Column(
                                         children: [
                                           Stack(
                                             children: [
@@ -1151,10 +1151,7 @@ class _Design1State extends State<Design1> {
                                                 ),) : Container()
                                             ],
                                           ),
-                                          Positioned(
-                                            bottom: 0,
-                                            left: 0,
-                                            right: 0,
+                                          Expanded(
                                             child: InkWell(
                                               onTap: () {},
                                               child: Container(
@@ -1182,57 +1179,59 @@ class _Design1State extends State<Design1> {
                                                         ),
                                                       ),
                                                     ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                                                      textBaseline: TextBaseline.alphabetic,
-                                                      children: [
-                                                        Container(
-                                                          padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
-                                                          child: Text(
-                                                            "${storeCartsVal[index]["cartPrice"].toString()}",
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                              fontSize: 13,
-                                                              fontWeight: FontWeight.bold,
-                                                              color: secondaryTextColorVal,
+                                                    Expanded(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                                                        textBaseline: TextBaseline.alphabetic,
+                                                        children: [
+                                                          Container(
+                                                            padding: EdgeInsets.fromLTRB(10, 0, 2, 0),
+                                                            child: Text(
+                                                              "${storeCartsVal[index]["cartPrice"].toString()}",
+                                                              overflow: TextOverflow.ellipsis,
+                                                              maxLines: 1,
+                                                              style: TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: secondaryTextColorVal,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Visibility(
-                                                          visible: storeCartsVal[index]["cartDiscount"],
-                                                          child: Container(
-                                                            // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                                            child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
-                                                                "null"
-                                                                ? Text("")
-                                                                : Text(
-                                                              "${storeCartsVal[index]["cartPriceAfterDiscount"]}",
-                                                              overflow:
-                                                              TextOverflow.ellipsis,
-                                                              maxLines:
-                                                              1,
-                                                              style: GoogleFonts.roboto(
-                                                                  textStyle: TextStyle(
-                                                                    fontSize:
-                                                                    11,
-                                                                    fontWeight:
-                                                                    FontWeight.bold,
-                                                                    decoration:
-                                                                    TextDecoration.lineThrough,
-                                                                    decorationThickness:
-                                                                    3,
-                                                                    color:secondaryTextColorVal,
-                                                                  )),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Visibility(
+                                                            visible: storeCartsVal[index]["cartDiscount"],
+                                                            child: Container(
+                                                              // padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                                              child: "${storeCartsVal[index]["cartPriceAfterDiscount"].toString()}" ==
+                                                                  "null"
+                                                                  ? Text("")
+                                                                  : Text(
+                                                                "${storeCartsVal[index]["cartPriceAfterDiscount"]}",
+                                                                overflow:
+                                                                TextOverflow.ellipsis,
+                                                                maxLines:
+                                                                1,
+                                                                style: GoogleFonts.roboto(
+                                                                    textStyle: TextStyle(
+                                                                      fontSize:
+                                                                      11,
+                                                                      fontWeight:
+                                                                      FontWeight.bold,
+                                                                      decoration:
+                                                                      TextDecoration.lineThrough,
+                                                                      decorationThickness:
+                                                                      3,
+                                                                      color:secondaryTextColorVal,
+                                                                    )),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-
-                                                      ],
+                                                                                                  
+                                                        ],
+                                                      ),
                                                     ),
                                                     Visibility(
                                                       visible: false,
