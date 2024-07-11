@@ -1,4 +1,7 @@
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image1.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image1.png" height="500" alt="Image">
+</p>
+
 
 Computer Engineering Department
 
@@ -888,12 +891,16 @@ nature.
 
 > Our database schemas:
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image2.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image2.png" height="500" alt="Image">
+</p>
 
 
 > Our firebase for chatting system:
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image3.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image3.png" height="500" alt="Image">
+</p>
 
 
 **5.1.5** **API Testing & Documentation ( Postman )**
@@ -902,7 +909,9 @@ REST APIs Are introduced in the system, using different CRUD operations
 and methods of HTTP LIKE (PUT,POST,Patch \...)\
 Postman
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image4.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image4.png" height="500" alt="Image">
+</p>
 
 
 
@@ -930,23 +939,38 @@ vulnerabilities.
 
 **6.1** **Splash Screen**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image5.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image5.png" height="500" alt="Image">
+</p>
 
 Figure 1: splash screen is an introductory screen that appears when an
 application is launched.
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image6.png)
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image7.png)
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image8.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image6.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image7.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image8.png" height="500" alt="Image">
+</p>
 
 
 Figure 2: onboarding page (or series of pages) is designed to introduce
 new users to an app or service. The goal is to guide users through
 initial setup and demonstrate core features and benefits.
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image12.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image13.png)
-    ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image14.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image12.png" height="500" alt="Image">
+</p>
+
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image13.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image14.png" height="500" alt="Image">
+</p>
 
 
 
@@ -964,9 +988,15 @@ message in dialog when merchant try to login with large number with
 wrong data this protect our system from dDOS attack which could hult
 server.
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image15.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image16.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image17.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image15.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image16.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image17.png" height="500" alt="Image">
+</p>
 
 
 Figure 5: Robust merchant login page
@@ -979,9 +1009,15 @@ contain at least 8 characters , at least 1 number, at least 1 small
 letter, at least 1 capital letter , at least 1 special character .
 
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image18.png) 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image19.png)  
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image20.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image18.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image19.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image20.png" height="500" alt="Image">
+</p>
 
 
 Figure 6: Robust merchant login page
@@ -992,9 +1028,15 @@ Figure 6: Robust merchant login page
 after that merchant could display & update his information, Enter to
 store management and add payments information.
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image21.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image22.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image23.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image21.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image22.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image23.png" height="500" alt="Image">
+</p>
 
 
 Figure 7: Merchant main page & Merchant display & update information
@@ -1006,9 +1048,15 @@ data
 
 \* Add payment information & Enter to store management page.
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image24.png) 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image25.png)  
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image26.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image24.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image25.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image26.png" height="500" alt="Image">
+</p>
 
 
 Figure 8: Payment Information & Store Management
@@ -1023,35 +1071,58 @@ the product in specific category, put quantities & price, update product
 data also allow merchant to add images to product, allow merchant to
 activate & de-activate slider, categories & products
 
-  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image27.png) 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image28.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image29.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image27.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image28.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image29.png" height="500" alt="Image">
+</p>
 
 
 Figure 9: Edit store design, add image to slider, delete image from
 slider, add, update and delete category
 
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image30.png)
-    ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image31.png)
-       ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image32.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image30.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image31.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image32.png" height="500" alt="Image">
+</p>
 
 
 Figure 10: Create new Product
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image33.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image34.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image35.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image33.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image34.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image35.png" height="500" alt="Image">
+</p>
   
 
 
 Figure 11: Product added successfully, upload image for product,
 activate store components
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image36.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image37.png)
-    ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image34.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image36.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image37.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image38.png" height="500" alt="Image">
+</p>
   
 
 
@@ -1068,9 +1139,15 @@ store will published & user could interact with it.
 
  
  
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image38.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image39.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image40.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image38.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image39.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image40.png" height="500" alt="Image">
+</p>
   
 
 
@@ -1080,10 +1157,15 @@ Figure 13: Select & customize your store design
 
 > \* view all design options
 
-  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image41.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image42.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image43.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image41.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image42.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image43.png" height="500" alt="Image">
+</p>
   
 
 
@@ -1092,7 +1174,9 @@ Figure 14: view all design options\
 \* We note that error message displayed , it indicate that merchant
 doesn't insert his payment information
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image44.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image44.png" height="500" alt="Image">
+</p>
 
 
 > Figure 15: Error message related to payment information \* We go to
@@ -1100,10 +1184,13 @@ doesn't insert his payment information
 
 
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image45.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image45.png" height="500" alt="Image">
+</p>
 
-
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image46.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image46.png" height="500" alt="Image">
+</p>
 
 Figure 16: add the keys for Trial version
 
@@ -1113,9 +1200,15 @@ Figure 16: add the keys for Trial version
 
 informations
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image47.png)
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image48.png)
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image49.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image47.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image48.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image49.png" height="500" alt="Image">
+</p>
 
 
 Figure 17: publish store successfully & display store information
@@ -1125,9 +1218,15 @@ Figure 17: publish store successfully & display store information
 \* merchant doesn't add social media account link, display & edit store
 information
 
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image50.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image51.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image52.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image50.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image51.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image52.png" height="500" alt="Image">
+</p>
   
 
 
@@ -1143,10 +1242,16 @@ edit store information
 > chat with his customer , another part allow merchant to chat with
 > admin.
 
-  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image53.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image54.png)
-  ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image55.png)
+
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image53.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image54.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image55.png" height="500" alt="Image">
+</p>
   
 
 
@@ -1159,12 +1264,17 @@ also allow merchant to create
 
 custom notification
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image56.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image56.png" height="500" alt="Image">
+</p>
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image57.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image57.png" height="500" alt="Image">
+</p>
 
->
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image58.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image58.png" height="500" alt="Image">
+</p>
 
 
 Figure 20: add social media account & chat system
@@ -1174,9 +1284,15 @@ Figure 20: add social media account & chat system
 **6.4.9** **FAQ Page, delete store & Logout**\
 \* FAQ ( Frequently Asked Questions ) page , delete store & logout
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image59.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image60.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image61.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image59.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image60.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image61.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1185,9 +1301,15 @@ Figure 21: FAQ page , delete store & logout
 **6.4.10** **Store Statistics Page**\
 \* Store Statistics page
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image62.png)
- ![Image 2](verto_pal_9b7a60fcace04364a/media/image63.png)
- ![Image 3](verto_pal_9b7a60fcace04364a/media/image64.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image62.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image63.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image64.png" height="500" alt="Image">
+</p>
  
 
 
@@ -1204,9 +1326,15 @@ stores depend on
 
 their categories.
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image65.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image66.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image67.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image65.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image66.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image67.png" height="500" alt="Image">
+</p>
 
 
 Figure 23: Customer Register Page, Main Page & Drawer
@@ -1221,10 +1349,15 @@ inside cart allow user but products from different stores & the money
 will redirect into each merchant card independently, also Favourite
 products page allow customers put products inside favorite list from
 different stores
-
-![Image 1](verto_pal_9b7a60fcace04364a/media/image68.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image69.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image70.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image68.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image69.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image70.png" height="500" alt="Image">
+</p>
 
 
 Figure 24: Display & Edit Customer Profile, Enter to Shopping cart and
@@ -1236,9 +1369,15 @@ favorite products
 \* Help & Support allow customers to send email to admin, also enter to
 specific store .
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image71.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image72.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image73.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image71.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image72.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image73.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1253,9 +1392,15 @@ products & search box allow customer to search about specific product,
 with modern search bar which filtered each inserted character, another
 page for display product & enter quantity of product to buy
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image74.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image75.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image76.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image74.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image75.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image76.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1267,9 +1412,15 @@ cart successfully!
 \* Now enter to shopping cart, for checkout the product add payment
 informations & buy the product.
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image77.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image78.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image79.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image77.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image78.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image79.png" height="500" alt="Image">
+</p>
 
 
 Figure 27: Shopping Cart
@@ -1279,9 +1430,15 @@ Figure 27: Shopping Cart
 \* Allow customer to review the product rate , & allow customer to rate
 specific product & add his comment
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image80.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image81.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image82.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image80.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image81.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image82.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1293,9 +1450,15 @@ Figure 28: Rating & Reviews
 \* Allow customer to turn on or turn off notification, when turn off the
 customer doesn't receive any notification from this store merchant.
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image83.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image84.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image85.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image83.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image84.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image85.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1305,9 +1468,15 @@ Figure 29: Notifications
 
 \* allow customers to send his questions to the merchant
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image86.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image87.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image88.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image86.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image87.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image88.png" height="500" alt="Image">
+</p>
 
 
 Figure 30: Help & Support
@@ -1317,9 +1486,15 @@ Figure 30: Help & Support
 
 \* allow customers to send his questions to the merchant
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image89.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image90.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image91.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image89.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image90.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image91.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1331,9 +1506,13 @@ Figure 31: Help & Support
 
 \* allow customers chat with merchant
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image92.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image92.png" height="500" alt="Image">
+</p>
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image93.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image93.png" height="500" alt="Image">
+</p>
 
 
 Figure 32: Chatting Page
@@ -1343,9 +1522,15 @@ Figure 32: Chatting Page
 
 \* allow customers to create & send notification to his customers
 
-![Image 1](verto_pal_9b7a60fcace04364a/media/image94.png)
-![Image 2](verto_pal_9b7a60fcace04364a/media/image95.png)
-![Image 3](verto_pal_9b7a60fcace04364a/media/image96.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image94.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image95.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image96.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1355,17 +1540,31 @@ Figure 33: Create a Custom Notification
 
 **6.5.12** **Forgot & Reset Password**
 
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image97.png)
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image98.png)
-> ![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image99.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image97.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image98.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image99.png" height="500" alt="Image">
+</p>
 
 
 Figure 34: Forgot & Reset Password
 
-![Image 1](verto_pal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image100.png)
-![Image 2](verto_pal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image101.png)
-![Image 3](verto_pal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image102.png)
-![Image 4](verto_pal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image103.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image100.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image101.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image102.png" height="500" alt="Image">
+</p>
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image103.png" height="500" alt="Image">
+</p>
 
 
 
@@ -1377,7 +1576,9 @@ Figure 35: Forgot & Reset Password
 
 **6.6.1** **Login Page**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image104.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image104.png" height="500" alt="Image">
+</p>
 
 
 Figure 36: Forgot & Reset Password
@@ -1385,14 +1586,18 @@ Figure 36: Forgot & Reset Password
 
 **6.6.2** **Login Page**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image104.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image104.png" height="500" alt="Image">
+</p>
 
 
 Figure 37: Login Page
 
 **6.6.3** **Register Page**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image105.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image105.png" height="500" alt="Image">
+</p>
 
 
 Figure 38: Register Page
@@ -1401,14 +1606,18 @@ Figure 38: Register Page
 
 **6.6.4** **Forgot & Reset Password Page**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image106.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image106.png" height="500" alt="Image">
+</p>
 
 
 Figure 39: Forgot & Reset Password Page
 
 **6.6.5** **Admin Dashboard**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image107.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image107.png" height="500" alt="Image">
+</p>
 
 
 Figure 40: Admin Dashboard
@@ -1417,10 +1626,14 @@ Figure 40: Admin Dashboard
 
 **6.6.6** **Add & Delete Category**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image108.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image108.png" height="500" alt="Image">
+</p>
 
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image109.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image109.png" height="500" alt="Image">
+</p>
 
 
 Figure 41: Add & Delete Category
@@ -1429,13 +1642,17 @@ Figure 41: Add & Delete Category
 
 **6.6.7** **Store & merchants Tables**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image110.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image110.png" height="500" alt="Image">
+</p>
 
 Figure 42: Store & merchants Tables
 
 **6.6.8** **Tasks & Messages**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image111.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image111.png" height="500" alt="Image">
+</p>
 
 Figure 43: Tasks & Messages
 
@@ -1443,46 +1660,60 @@ Figure 43: Tasks & Messages
 
 **6.6.9** **Create new task**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image112.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image112.png" height="500" alt="Image">
+</p>
 
 Figure 44: Create new task
 
 **6.6.10** **Delete Task**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image113.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image113.png" height="500" alt="Image">
+</p>
 
 Figure 45: Delete Task
 
 
 **6.6.11** **Enter to chat with specific merchant**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image114.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image114.png" height="500" alt="Image">
+</p>
 
 Figure 46: Enter to chat with specific merchant
 
 **6.6.12** **Delete Merchant or Store**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image115.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image115.png" height="500" alt="Image">
+</p>
 
 Figure 47: Delete Merchant or Store
 
 
 **6.6.13** **Admin account**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image116.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image116.png" height="500" alt="Image">
+</p>
 
 Figure 48: Admin Account
 
 **6.6.14** **Billing Information**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image117.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image117.png" height="500" alt="Image">
+</p>
 
 Figure 49: Billing Information
 
 
 **6.6.15** **Admin account**
 
-![](vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image118.png)
+<p align="center">
+    <img src="vertopal_9b7a60fcace04364a74e1bfbe9b7e53f/media/image118.png" height="500" alt="Image">
+</p>
 
 Figure 50: Admin Account
 
