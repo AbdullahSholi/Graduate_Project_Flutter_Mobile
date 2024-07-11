@@ -24,4 +24,4 @@
 
 
 
-Copyright © 2024 Bazar.com: A Multi-tier Online Book Store. All rights reserved.
+Copyright © 2024 MatjarCom. All rights reserved.
